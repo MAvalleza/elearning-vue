@@ -14,7 +14,6 @@ v-app-bar(color="primary")
 v-navigation-drawer(
   v-model="drawer"
   location="left"
-  temporary
 )
 </template>
 
