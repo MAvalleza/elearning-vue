@@ -3,6 +3,7 @@
 import { createServer } from 'miragejs';
 import models from './models';
 import factories from './factories';
+import createRoutes from './routes';
 
 const createMockServer = () => {
   let server = createServer({
@@ -16,13 +17,7 @@ const createMockServer = () => {
     routes() {
       this.namespace = '/api';
 
-      this.get('/users');
-
-      this.get('/users/:id', (schema, request) => {
-        let id = request.params.id;
-
-        return schema.users.find(id);
-      })
+      createRoutes(this);
     }
 
   });
