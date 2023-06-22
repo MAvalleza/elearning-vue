@@ -1,4 +1,4 @@
-const createUserRoutes = (routeInstance) => {
+const createUserRoutes = routeInstance => {
   routeInstance.get('/users');
 
   routeInstance.get('/users/:id', (schema, request) => {

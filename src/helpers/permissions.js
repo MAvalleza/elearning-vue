@@ -2,7 +2,7 @@ import mappings from '@/constants/permissions';
 
 /**
  * Checks if the role can perform the specificied action
- * @param {String} role 
+ * @param {String} role
  * @param {String} action
  * @returns {Boolean}
  */

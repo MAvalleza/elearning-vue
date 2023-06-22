@@ -18,10 +18,9 @@ const createMockServer = () => {
       this.namespace = '/api';
 
       createRoutes(this);
-    }
-
+    },
   });
   return server;
-}
+};
 
 export default createMockServer;

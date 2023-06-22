@@ -1,8 +1,4 @@
-import {
-  Model,
-  belongsTo,
-  hasMany,
-} from 'miragejs';
+import { Model, belongsTo, hasMany } from 'miragejs';
 
 // Define model relationships
 export default {
@@ -17,7 +13,7 @@ export default {
   enrollment: Model.extend({
     user: belongsTo('user'),
     course: belongsTo('course'),
-    enrollment_modules: hasMany('enrollment_module')
+    enrollment_modules: hasMany('enrollment_module'),
   }),
 
   subject: Model.extend({
@@ -29,7 +25,7 @@ export default {
     author: belongsTo('user'),
     subject: belongsTo('subject'),
     modules: hasMany('module'),
-    enrollments: hasMany('enrollment')
+    enrollments: hasMany('enrollment'),
   }),
 
   module: Model.extend({
@@ -48,4 +44,4 @@ export default {
     module: belongsTo('module'),
     enrollment: belongsTo('enrollment'),
   }),
-}
+};

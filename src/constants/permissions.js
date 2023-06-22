@@ -4,14 +4,8 @@ const mappings = new Map();
 
 const { ADMIN, INSTRUCTOR, STUDENT } = roles;
 
-const {
-  USERS,
-  SUBJECTS,
-  COURSES,
-  MODULES,
-  MODULE_CONTENTS,
-  ENROLLMENTS,
-} = actions;
+const { USERS, SUBJECTS, COURSES, MODULES, MODULE_CONTENTS, ENROLLMENTS } =
+  actions;
 
 // Users
 mappings.set(USERS.VIEW_ANY, [ADMIN]);

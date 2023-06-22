@@ -5,7 +5,7 @@ import layouts from './constants/layouts';
 
 const layout = shallowRef('div');
 
-router.afterEach((to) => {
+router.afterEach(to => {
   layout.value = layouts[to.meta.layout] || 'div';
 });
 

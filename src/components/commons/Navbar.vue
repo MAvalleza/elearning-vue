@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 
 const drawer = ref(true);
-
 </script>
 
 <template lang="pug">
