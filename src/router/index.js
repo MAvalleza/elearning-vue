@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomePage from '../pages/HomePage.vue';
 import SubjectsPage from '../pages/SubjectsPage.vue';
+import RegistrationPage from '../pages/RegistrationPage.vue';
 
 const routes = [
   {
@@ -8,6 +9,12 @@ const routes = [
     name: 'index',
     meta: { layout: 'BlankLayout' },
     component: HomePage,
+  },
+  {
+    path: '/register',
+    name: 'registration',
+    meta: { layout: 'BlankLayout' },
+    component: RegistrationPage,
   },
   {
     path: '/subjects',
