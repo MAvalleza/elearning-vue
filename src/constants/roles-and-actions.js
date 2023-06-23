@@ -4,6 +4,10 @@ const ROLES = {
   INSTRUCTOR: 'instructor',
 };
 
+const ROLES_LIST = Object.keys(ROLES).map(attr => {
+  return ROLES[attr];
+});
+
 const ACTIONS = {
   USERS: {
     VIEW_ANY: 'users.view_any',
@@ -42,4 +46,4 @@ const ACTIONS = {
   },
 };
 
-export { ROLES, ACTIONS };
+export { ROLES, ROLES_LIST, ACTIONS };
