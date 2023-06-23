@@ -1,11 +1,11 @@
-import { actions, roles } from './roles-and-actions';
+import { ACTIONS, ROLES } from './roles-and-actions';
 
 const mappings = new Map();
 
-const { ADMIN, INSTRUCTOR, STUDENT } = roles;
+const { ADMIN, INSTRUCTOR, STUDENT } = ROLES;
 
 const { USERS, SUBJECTS, COURSES, MODULES, MODULE_CONTENTS, ENROLLMENTS } =
-  actions;
+  ACTIONS;
 
 // Users
 mappings.set(USERS.VIEW_ANY, [ADMIN]);

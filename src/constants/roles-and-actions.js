@@ -1,10 +1,10 @@
-const roles = {
+const ROLES = {
   ADMIN: 'admin',
   STUDENT: 'student',
   INSTRUCTOR: 'instructor',
 };
 
-const actions = {
+const ACTIONS = {
   USERS: {
     VIEW_ANY: 'users.view_any',
     VIEW_ANY_STUDENT: 'users.view_any_student',
@@ -42,4 +42,4 @@ const actions = {
   },
 };
 
-export { roles, actions };
+export { ROLES, ACTIONS };
