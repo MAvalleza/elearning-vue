@@ -5,15 +5,18 @@ const REGISTRATION_FORM = {
   title: 'CREATE AN ACCOUNT',
   fields: [
     {
+      value: 'role',
       component: 'v-select',
       componentOpts: {
         label: 'Role',
         variant: 'outlined',
         items: ROLES_LIST,
+        rules: [REQUIRED_RULE],
         validateOn: 'blur',
       }
     },
     {
+      value: 'email',
       component: 'v-text-field',
       componentOpts: {
         label: 'Email',
@@ -23,6 +26,7 @@ const REGISTRATION_FORM = {
       }
     },
     {
+      value: 'firstName',
       component: 'v-text-field',
       componentOpts: {
         label: 'First Name',
@@ -32,6 +36,7 @@ const REGISTRATION_FORM = {
       }
     },
     {
+      value: 'lastName',
       component: 'v-text-field',
       componentOpts: {
         label: 'Last Name',
@@ -41,6 +46,7 @@ const REGISTRATION_FORM = {
       }
     },
     {
+      value: 'password', 
       component: 'v-text-field',
       componentOpts: {
         label: 'Password',
@@ -51,12 +57,24 @@ const REGISTRATION_FORM = {
       }
     },
     {
+      value: 'confirmPassword',
       component: 'v-text-field',
       componentOpts: {
         label: 'Confirm Password',
         variant: 'outlined',
-        type: 'password'
+        type: 'password',
+        validateOn: 'blur'
       },
+      ruleConfigs: [
+        {
+          type: 'match',
+          opts: {
+            key: 'confirmPassword',
+            compareKey: 'password',
+            message: 'Passwords must match.'
+          },
+        }
+      ]
     },
   ],
   buttonOpts: {
