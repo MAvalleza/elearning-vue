@@ -21,17 +21,23 @@ const props = defineProps({
 
 const emit = defineEmits(['submit']);
 
+const authForm = ref(null);
+
 const formData = ref(objectifyArray(
   props.fields.map(f => f.value)
 ));
 
-function onSubmit() {
-  emit('submit', formData.value);
+async function onSubmit() {
+  const { valid } = await authForm.value.validate();
+  if (valid) {
+    emit('submit', formData.value);
+    await authForm.value.reset();
+  }
 }
 </script>
 
 <template lang="pug">
-v-form(@submit.prevent="onSubmit")
+v-form(ref="authForm" @submit.prevent="onSubmit")
   v-card.text-center.pa-3
     v-card-item
       v-card-title eLearning Portal

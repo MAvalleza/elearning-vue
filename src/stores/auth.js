@@ -9,9 +9,8 @@ export const useAuth = defineStore('auth', {
   actions: {
     async registerUser(data) {
       const userData = pick(data, ['email', 'password', 'role', 'firstName', 'lastName']) 
-      const created = await signUpUser(userData);
 
-      console.log('created data', created);
+      return await signUpUser(userData);
     }
   }
 });
