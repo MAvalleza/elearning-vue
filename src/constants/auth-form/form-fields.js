@@ -1,5 +1,5 @@
 import { ROLES_LIST } from '@/constants/roles-and-actions';
-import { REQUIRED_RULE } from '@/constants/validation-rules';
+import { EMAIL_FORMAT_RULE, REQUIRED_RULE } from '@/constants/validation-rules';
 
 const REGISTRATION_FORM = {
   title: 'CREATE AN ACCOUNT',
@@ -23,8 +23,8 @@ const REGISTRATION_FORM = {
       componentOpts: {
         label: 'Email',
         variant: 'outlined',
-        rules: [REQUIRED_RULE],
-        validateOn: 'blur',
+        rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
+        validateOn: 'input',
       }
     },
     {
@@ -66,7 +66,7 @@ const REGISTRATION_FORM = {
         variant: 'outlined',
         type: 'password',
         rules: [REQUIRED_RULE],
-        validateOn: 'blur'
+        validateOn: 'input'
       },
       ruleConfigs: [
         {

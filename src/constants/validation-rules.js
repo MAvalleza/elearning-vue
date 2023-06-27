@@ -4,6 +4,10 @@ const REQUIRED_RULE = (value) => {
   return 'This field is required.';
 };
 
+const EMAIL_FORMAT_RULE = (value) => {
+  return /^[^\s@]+@[^\s@]+$/.test(value) || 'Invalid email address';
+};
+
 const CUSTOM_RULES = {
   /**
    * 
@@ -21,5 +25,6 @@ const CUSTOM_RULES = {
 
 export {
   CUSTOM_RULES,
+  EMAIL_FORMAT_RULE,
   REQUIRED_RULE,
 };
