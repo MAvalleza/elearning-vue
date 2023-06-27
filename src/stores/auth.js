@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { signUpUser } from '@/webservices/usersWebservice';
+import { signUpUser } from '@/webservices/authWebservice';
 import pick from 'lodash-es/pick'
 
 export const useAuth = defineStore('auth', {

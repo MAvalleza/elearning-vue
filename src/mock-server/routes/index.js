@@ -1,7 +1,7 @@
-import createUserRoutes from './userRoutes';
+import createAuthRoutes from './authRoutes';
 
 const createRoutes = routeInstance => {
-  createUserRoutes(routeInstance);
+  createAuthRoutes(routeInstance);
 };
 
 export default createRoutes;

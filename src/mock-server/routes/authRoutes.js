@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-const createUserRoutes = routeInstance => {
+const createAuthRoutes = routeInstance => {
   routeInstance.get('/users');
 
   routeInstance.get('/users/:id', (schema, request) => {
@@ -26,4 +26,4 @@ const createUserRoutes = routeInstance => {
   });
 };
 
-export default createUserRoutes;
+export default createAuthRoutes;

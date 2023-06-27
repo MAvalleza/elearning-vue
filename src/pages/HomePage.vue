@@ -1,5 +1,5 @@
 <script setup>
-import { getUsers } from '@/webservices/usersWebservice';
+import { getUsers } from '@/webservices/authWebservice';
 
 async function fetchUsers() {
   const data = await getUsers();
