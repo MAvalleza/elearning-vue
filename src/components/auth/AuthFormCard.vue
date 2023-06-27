@@ -38,7 +38,7 @@ async function onSubmit() {
 
 <template lang="pug">
 v-form(ref="authForm" @submit.prevent="onSubmit")
-  v-card.text-center.pa-3
+  v-card.text-center.pa-6
     v-card-item
       v-card-title eLearning Portal
       v-card-subtitle {{ props.title }}
@@ -51,6 +51,8 @@ v-form(ref="authForm" @submit.prevent="onSubmit")
         v-model="formData[field.value]"
         :rules="createRules(field, formData)"
       )
+      slot(name="append-form")
     v-card-actions.justify-center
       v-btn(v-bind="buttonOpts" type="submit")
+    slot(name="append-form-actions")
 </template>

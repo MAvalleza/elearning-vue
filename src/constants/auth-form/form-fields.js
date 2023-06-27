@@ -89,6 +89,41 @@ const REGISTRATION_FORM = {
   },
 }
 
+const LOGIN_FORM = {
+  title: 'LOGIN TO YOUR ACCOUNT',
+  fields: [
+    {
+      value: 'email',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Email',
+        variant: 'outlined',
+        rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
+        validateOn: 'input',
+      },
+    },
+    {
+      value: 'password', 
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Password',
+        variant: 'outlined',
+        type: 'password',
+        rules: [REQUIRED_RULE],
+        validateOn: 'blur',
+      }
+    },
+  ],
+  buttonOpts: {
+    text: 'LOGIN',
+    variant: 'elevated',
+    color: 'primary',
+    size: 'x-large',
+    minWidth: '200',
+  },
+}
+
 export {
   REGISTRATION_FORM,
+  LOGIN_FORM,
 }
