@@ -19,13 +19,19 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['submit']);
+
 const formData = ref(objectifyArray(
   props.fields.map(f => f.value)
 ));
+
+function onSubmit() {
+  emit('submit', formData.value);
+}
 </script>
 
 <template lang="pug">
-v-form(@submit.prevent)
+v-form(@submit.prevent="onSubmit")
   v-card.text-center.pa-3
     v-card-item
       v-card-title eLearning Portal
@@ -41,5 +47,5 @@ v-form(@submit.prevent)
         :rules="createRules(field, formData)"
       )
     v-card-actions.justify-center
-      v-btn(v-bind="buttonOpts")
+      v-btn(v-bind="buttonOpts" type="submit")
 </template>
