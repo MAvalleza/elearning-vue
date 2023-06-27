@@ -1,12 +1,15 @@
+import capitalize from 'lodash-es/capitalize';
+
 const ROLES = {
   ADMIN: 'admin',
   STUDENT: 'student',
   INSTRUCTOR: 'instructor',
 };
 
-const ROLES_LIST = Object.keys(ROLES).map(attr => {
-  return ROLES[attr];
-});
+const ROLES_LIST = Object.keys(ROLES).map(attr => ({
+  text: capitalize(ROLES[attr]),
+  value: ROLES[attr],
+}));
 
 const ACTIONS = {
   USERS: {

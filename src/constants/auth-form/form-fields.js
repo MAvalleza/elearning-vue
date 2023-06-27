@@ -11,6 +11,8 @@ const REGISTRATION_FORM = {
         label: 'Role',
         variant: 'outlined',
         items: ROLES_LIST,
+        itemValue: 'value',
+        itemTitle: 'text',
         rules: [REQUIRED_RULE],
         validateOn: 'blur',
       }
@@ -63,6 +65,7 @@ const REGISTRATION_FORM = {
         label: 'Confirm Password',
         variant: 'outlined',
         type: 'password',
+        rules: [REQUIRED_RULE],
         validateOn: 'blur'
       },
       ruleConfigs: [
