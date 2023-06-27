@@ -5,15 +5,15 @@ export const getUsers = async () => {
   return await response.json();
 };
 
-export const signUpUser = async (data) => {
+export const signUpUser = async data => {
   const response = await fetch(`${API_URL}/signup`, {
     method: 'POST',
     headers: requestHeaders,
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 
   return await response.json();
-}
+};
 
 const requestHeaders = {
   'Content-Type': 'application/json',

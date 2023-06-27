@@ -15,7 +15,7 @@ const REGISTRATION_FORM = {
         itemTitle: 'text',
         rules: [REQUIRED_RULE],
         validateOn: 'blur',
-      }
+      },
     },
     {
       value: 'email',
@@ -25,7 +25,7 @@ const REGISTRATION_FORM = {
         variant: 'outlined',
         rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
         validateOn: 'input',
-      }
+      },
     },
     {
       value: 'firstName',
@@ -35,7 +35,7 @@ const REGISTRATION_FORM = {
         variant: 'outlined',
         rules: [REQUIRED_RULE],
         validateOn: 'blur',
-      }
+      },
     },
     {
       value: 'lastName',
@@ -45,10 +45,10 @@ const REGISTRATION_FORM = {
         variant: 'outlined',
         rules: [REQUIRED_RULE],
         validateOn: 'blur',
-      }
+      },
     },
     {
-      value: 'password', 
+      value: 'password',
       component: 'v-text-field',
       componentOpts: {
         label: 'Password',
@@ -56,7 +56,7 @@ const REGISTRATION_FORM = {
         type: 'password',
         rules: [REQUIRED_RULE],
         validateOn: 'blur',
-      }
+      },
     },
     {
       value: 'confirmPassword',
@@ -66,7 +66,7 @@ const REGISTRATION_FORM = {
         variant: 'outlined',
         type: 'password',
         rules: [REQUIRED_RULE],
-        validateOn: 'input'
+        validateOn: 'input',
       },
       ruleConfigs: [
         {
@@ -74,10 +74,10 @@ const REGISTRATION_FORM = {
           opts: {
             key: 'confirmPassword',
             compareKey: 'password',
-            message: 'Passwords must match.'
+            message: 'Passwords must match.',
           },
-        }
-      ]
+        },
+      ],
     },
   ],
   buttonOpts: {
@@ -87,7 +87,7 @@ const REGISTRATION_FORM = {
     size: 'x-large',
     minWidth: '200',
   },
-}
+};
 
 const LOGIN_FORM = {
   title: 'LOGIN TO YOUR ACCOUNT',
@@ -103,7 +103,7 @@ const LOGIN_FORM = {
       },
     },
     {
-      value: 'password', 
+      value: 'password',
       component: 'v-text-field',
       componentOpts: {
         label: 'Password',
@@ -111,7 +111,7 @@ const LOGIN_FORM = {
         type: 'password',
         rules: [REQUIRED_RULE],
         validateOn: 'blur',
-      }
+      },
     },
   ],
   buttonOpts: {
@@ -121,9 +121,6 @@ const LOGIN_FORM = {
     size: 'x-large',
     minWidth: '200',
   },
-}
+};
 
-export {
-  REGISTRATION_FORM,
-  LOGIN_FORM,
-}
+export { REGISTRATION_FORM, LOGIN_FORM };

@@ -2,10 +2,10 @@ import isEmpty from 'lodash-es/isEmpty';
 import { CUSTOM_RULES } from '@/constants/validation-rules';
 
 /**
- * 
+ *
  * @param {Object} field - the form field that we are creating rules for
  * @param {Object} data - form data
- * @returns 
+ * @returns
  */
 
 const createRules = (field, data) => {
@@ -19,10 +19,8 @@ const createRules = (field, data) => {
     return propRules;
   }
 
-  return propRules.concat(
-    createCustomRules(ruleConfigs, { data })
-  );
-}
+  return propRules.concat(createCustomRules(ruleConfigs, { data }));
+};
 
 /**
  * Shapes and creates the rules based on the configs
@@ -39,7 +37,4 @@ const createCustomRules = (configs, { data }) => {
   return rules;
 };
 
-export {
-  createRules,
-}
-
+export { createRules };

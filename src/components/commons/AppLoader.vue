@@ -3,8 +3,8 @@ const props = defineProps({
   isVisible: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 </script>
 
 <template lang="pug">

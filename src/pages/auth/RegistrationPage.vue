@@ -1,5 +1,5 @@
 <script setup>
-import AppLoader from '@/components/commons/AppLoader.vue'
+import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 import VerificationModal from '@/components/auth/VerificationModal.vue';
 import { REGISTRATION_FORM } from '@/constants/auth-form/form-fields';

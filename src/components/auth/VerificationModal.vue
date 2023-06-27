@@ -8,7 +8,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const dialog = computed({
   get() {
@@ -17,11 +17,11 @@ const dialog = computed({
   set(val) {
     emit('update:modelValue', val);
   },
-})
+});
 
 // Resend email
 const MAX_TIME_IN_SECONDS = 30;
-const isResendTimerRunning = ref(false)
+const isResendTimerRunning = ref(false);
 const timerCount = ref(MAX_TIME_IN_SECONDS);
 
 function resend() {
@@ -34,13 +34,12 @@ function resend() {
       clearInterval(interval);
       isResendTimerRunning.value = false;
     }
-  }, 1000)
+  }, 1000);
 }
 
 function close() {
   emit('update:modelValue', false);
 }
-
 </script>
 
 <template lang="pug">

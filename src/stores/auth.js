@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { signUpUser } from '@/webservices/authWebservice';
-import pick from 'lodash-es/pick'
+import pick from 'lodash-es/pick';
 
 export const useAuth = defineStore('auth', {
   state: () => ({
@@ -8,9 +8,15 @@ export const useAuth = defineStore('auth', {
   }),
   actions: {
     async registerUser(data) {
-      const userData = pick(data, ['email', 'password', 'role', 'firstName', 'lastName']) 
+      const userData = pick(data, [
+        'email',
+        'password',
+        'role',
+        'firstName',
+        'lastName',
+      ]);
 
       return await signUpUser(userData);
-    }
-  }
+    },
+  },
 });

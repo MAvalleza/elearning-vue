@@ -10,7 +10,7 @@ const props = defineProps({
   },
   fields: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   // Props for v-btn
   buttonOpts: {
@@ -23,9 +23,7 @@ const emit = defineEmits(['submit']);
 
 const authForm = ref(null);
 
-const formData = ref(objectifyArray(
-  props.fields.map(f => f.value)
-));
+const formData = ref(objectifyArray(props.fields.map(f => f.value)));
 
 async function onSubmit() {
   const { valid } = await authForm.value.validate();
