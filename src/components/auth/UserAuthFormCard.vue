@@ -36,7 +36,6 @@ v-form(@submit.prevent="onSubmit")
     v-card-item
       v-card-title eLearning Portal
       v-card-subtitle {{ props.title }}
-      pre {{ formData }}
     v-card-text.ma-5
       component(
         :is="field.component"

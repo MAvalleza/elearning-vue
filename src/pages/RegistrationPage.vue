@@ -3,12 +3,16 @@ import AppLoader from '@/components/commons/AppLoader.vue'
 import UserAuthFormCard from '@/components/auth/UserAuthFormCard.vue';
 import { REGISTRATION_FORM } from '@/constants/auth-form/form-fields';
 import { ref } from 'vue';
+import { useAuth } from '@/stores/auth';
+
+const authStore = useAuth();
 
 const loading = ref(false);
 
-function registerUser(data) {
+async function registerUser(data) {
   loading.value = true;
-  console.log('user register', data);
+  await authStore.registerUser(data);
+  loading.value = false;
 }
 </script>
 
