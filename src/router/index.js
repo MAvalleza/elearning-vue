@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { useAuth as authStore } from '@/stores/auth';
 import HomePage from '../pages/HomePage.vue';
 import SubjectsPage from '../pages/SubjectsPage.vue';
 import RegistrationPage from '../pages/auth/RegistrationPage.vue';
@@ -8,13 +9,16 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    meta: { layout: 'BlankLayout' },
+    meta: {
+      auth: true,
+      layout: 'BlankLayout'
+    },
     component: HomePage,
   },
   {
     path: '/register',
     name: 'registration',
-    meta: { layout: 'BlankLayout' },
+    meta: {layout: 'BlankLayout' },
     component: RegistrationPage,
   },
   {
@@ -26,7 +30,10 @@ const routes = [
   {
     path: '/subjects',
     name: 'subjects',
-    meta: { layout: 'AppLayout' },
+    meta: {
+      auth: true,
+      layout: 'AppLayout'
+    },
     component: SubjectsPage,
   },
 ];
@@ -34,6 +41,17 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+});
+
+// Global navigation guard
+router.beforeResolve((to, from, next) => {
+  const isAuthenticated = authStore().isAuthenticated;
+
+  if(to.meta.auth && !isAuthenticated) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
 });
 
 export default router;

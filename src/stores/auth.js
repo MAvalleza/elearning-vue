@@ -6,6 +6,11 @@ export const useAuth = defineStore('auth', {
   state: () => ({
     currentUser: null,
   }),
+  getters: {
+    isAuthenticated(state) {
+      return !!state.currentUser;
+    },
+  },
   actions: {
     async registerUser(data) {
       const userData = pick(data, [
@@ -18,5 +23,11 @@ export const useAuth = defineStore('auth', {
 
       return await signUpUser(userData);
     },
+    // async loginUser(data) {
+    //   this.currentUser = await loginUser(data);
+    // },
+    // async logoutUser() {
+    //   this.currentUser = null;
+    // }
   },
 });
