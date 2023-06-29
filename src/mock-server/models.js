@@ -2,6 +2,7 @@ import { Model, belongsTo, hasMany } from 'miragejs';
 
 // Define model relationships
 export default {
+  session: Model,
   user: Model.extend({
     subjects: hasMany('subject'),
     courses: hasMany('course'),
