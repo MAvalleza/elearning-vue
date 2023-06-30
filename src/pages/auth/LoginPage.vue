@@ -14,13 +14,22 @@ const authStore = useAuth();
 const router = useRouter();
 
 async function login(data) {
-  uiStore.setLoading(true);
+  try {
+    uiStore.setLoading(true);
 
-  await authStore.loginUser(data)
+    await authStore.loginUser(data);
 
-  uiStore.setLoading(false);
+    router.push({ name: 'index' });
+  } catch (e) {
+    console.error(e);
 
-  router.push({ name: 'index' });
+    uiStore.showSnackbar({
+      color: 'error',
+      message: e.message,
+    })
+  } finally {
+    uiStore.setLoading(false);
+  }
 }
 </script>
 

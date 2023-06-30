@@ -6,8 +6,8 @@ const USER_ID = faker.string.uuid();
 export default {
   user: Factory.extend({
     id: USER_ID,
-    email: 'teacher@test.com',
-    password: 'password',
+    email: '1@test',
+    password: '123',
     firstName: 'Teacher',
     lastName: 'Test',
     role: 'instructor',

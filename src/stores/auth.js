@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { signUpUser, loginUser } from '@/webservices/authWebservice';
 import pick from 'lodash-es/pick';
+import isEmpty from 'lodash-es/isEmpty';
 
 export const useAuth = defineStore('auth', {
   state: () => ({
@@ -24,7 +25,13 @@ export const useAuth = defineStore('auth', {
       return await signUpUser(userData);
     },
     async loginUser(data) {
-      this.currentUser = await loginUser(data);
+      const response = await loginUser(data);
+  
+      if (isEmpty(response.errors)) {
+        return this.currentUser = response;
+      }
+
+      throw new Error(response.errors[0]);
     },
     async logoutUser() {
       this.currentUser = null;
