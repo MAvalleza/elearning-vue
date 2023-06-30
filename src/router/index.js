@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuth as authStore } from '@/stores/auth';
-import HomePage from '../pages/HomePage.vue';
 import SubjectsPage from '../pages/SubjectsPage.vue';
 import RegistrationPage from '../pages/auth/RegistrationPage.vue';
 import LoginPage from '../pages/auth/LoginPage.vue';
@@ -9,11 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    meta: {
-      auth: true,
-      layout: 'BlankLayout'
-    },
-    component: HomePage,
+    redirect: '/subjects',
   },
   {
     path: '/register',
