@@ -23,14 +23,14 @@ export const loginUser = async data => {
   });
 
   return await response.json();
-}
+};
 
 export const logoutUser = async () => {
   await fetch(`${API_URL}/logout`, {
     method: 'DELETE',
     headers: requestHeaders,
   });
-}
+};
 
 const requestHeaders = {
   'Content-Type': 'application/json',

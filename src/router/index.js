@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/register',
     name: 'registration',
-    meta: {layout: 'BlankLayout' },
+    meta: { layout: 'BlankLayout' },
     component: RegistrationPage,
   },
   {
@@ -27,7 +27,7 @@ const routes = [
     name: 'subjects',
     meta: {
       auth: true,
-      layout: 'AppLayout'
+      layout: 'AppLayout',
     },
     component: SubjectsPage,
   },
@@ -42,7 +42,7 @@ const router = createRouter({
 router.beforeResolve((to, from, next) => {
   const isAuthenticated = authStore().isAuthenticated;
 
-  if(to.meta.auth && !isAuthenticated) {
+  if (to.meta.auth && !isAuthenticated) {
     next({ name: 'login' });
   } else {
     next();

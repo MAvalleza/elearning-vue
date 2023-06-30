@@ -1,5 +1,5 @@
 <script setup>
-import AppLoader from '@/components/commons/AppLoader.vue'
+import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 import { LOGIN_FORM } from '@/constants/auth-form/form-fields';
 import { useUI } from '@/stores/ui';
@@ -27,7 +27,7 @@ async function login(data) {
     uiStore.showSnackbar({
       color: 'error',
       message: e.message,
-    })
+    });
   } finally {
     uiStore.setLoading(false);
   }
@@ -35,7 +35,7 @@ async function login(data) {
 
 onMounted(() => {
   authStore.$reset();
-})
+});
 </script>
 
 <template lang="pug">

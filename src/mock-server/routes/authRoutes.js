@@ -34,14 +34,15 @@ const createAuthRoutes = routeInstance => {
     const userData = schema.users.findBy({ email });
 
     if (userData?.password !== password) {
-      return new Response(400,
+      return new Response(
+        400,
         { some: 'header' },
-        { errors: ['Email or password is incorrect.']},
-      )
+        { errors: ['Email or password is incorrect.'] }
+      );
     }
 
-    const accessToken = faker.database.mongodbObjectId()
-  
+    const accessToken = faker.database.mongodbObjectId();
+
     localStorage.setItem('accessToken', accessToken);
 
     return schema.sessions.create({
@@ -54,7 +55,7 @@ const createAuthRoutes = routeInstance => {
     }).attrs;
   });
 
-  routeInstance.delete('/logout', (schema) => {
+  routeInstance.delete('/logout', schema => {
     const accessToken = JSON.parse(localStorage.getItem('accessToken'));
 
     localStorage.removeItem('accessToken');
