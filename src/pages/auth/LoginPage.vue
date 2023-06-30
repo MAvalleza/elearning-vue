@@ -6,6 +6,7 @@ import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
@@ -31,6 +32,10 @@ async function login(data) {
     uiStore.setLoading(false);
   }
 }
+
+onMounted(() => {
+  authStore.$reset();
+})
 </script>
 
 <template lang="pug">
