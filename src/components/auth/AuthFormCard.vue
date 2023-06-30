@@ -38,8 +38,9 @@ async function onSubmit() {
 v-form(ref="authForm" @submit.prevent="onSubmit")
   v-card.text-center.pa-6
     v-card-item
-      v-card-title eLearning Portal
-      v-card-subtitle {{ props.title }}
+      div
+        router-link(to="/login").text-lg-h3 eLearning Portal
+      div.text-lg-h5.my-5 {{ props.title }}
     v-card-text.ma-5
       component(
         :is="field.component"

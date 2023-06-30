@@ -110,7 +110,7 @@ const LOGIN_FORM = {
         variant: 'outlined',
         type: 'password',
         rules: [REQUIRED_RULE],
-        validateOn: 'blur',
+        validateOn: 'input',
       },
     },
   ],
