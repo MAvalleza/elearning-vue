@@ -123,4 +123,77 @@ const LOGIN_FORM = {
   },
 };
 
-export { REGISTRATION_FORM, LOGIN_FORM };
+const FORGOT_PASSWORD_FORM = {
+  title: 'RECOVER YOUR PASSWORD',
+  fields: [
+    {
+      value: 'email',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Email',
+        variant: 'outlined',
+        rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
+        validateOn: 'blur',
+      },
+    },
+  ],
+  buttonOpts: {
+    text: 'SEND RESET LINK',
+    variant: 'elevated',
+    color: 'primary',
+    size: 'x-large',
+    minWidth: '200',
+  },
+};
+
+const CHANGE_PASSWORD_FORM = {
+  title: 'SET PASSWORD',
+  fields: [
+    {
+      value: 'password',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Password',
+        variant: 'outlined',
+        type: 'password',
+        rules: [REQUIRED_RULE],
+        validateOn: 'blur',
+      },
+    },
+    {
+      value: 'confirmPassword',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Confirm Password',
+        variant: 'outlined',
+        type: 'password',
+        rules: [REQUIRED_RULE],
+        validateOn: 'input',
+      },
+      ruleConfigs: [
+        {
+          type: 'match',
+          opts: {
+            key: 'confirmPassword',
+            compareKey: 'password',
+            message: 'Passwords must match.',
+          },
+        },
+      ],
+    },
+  ],
+  buttonOpts: {
+    text: 'SAVE CHANGES',
+    variant: 'elevated',
+    color: 'primary',
+    size: 'x-large',
+    minWidth: '200',
+  },
+};
+
+export {
+  REGISTRATION_FORM,
+  LOGIN_FORM,
+  FORGOT_PASSWORD_FORM,
+  CHANGE_PASSWORD_FORM,
+};

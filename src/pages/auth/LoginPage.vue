@@ -30,7 +30,7 @@ v-container
       auth-form-card(v-bind="LOGIN_FORM" @submit="login")
         template(#append-form)
           div.text-right
-            v-btn(variant="text" size="x-small") Forgot Password
+            v-btn(variant="text" size="x-small" :to="{ name: 'forgot-password' }") Forgot Password
         template(#append-form-actions)
           v-col
             span OR

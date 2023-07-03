@@ -40,7 +40,7 @@ v-form(ref="authForm" @submit.prevent="onSubmit")
     v-card-item
       div
         router-link(:to="{ name: 'login'}").text-lg-h3 eLearning Portal
-      div.text-lg-h5.my-5 {{ props.title }}
+      div.text-md-h5.my-5 {{ props.title }}
     v-card-text.ma-5
       component(
         :is="field.component"

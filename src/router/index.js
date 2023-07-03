@@ -3,6 +3,8 @@ import { useAuth as authStore } from '@/stores/auth';
 import SubjectsPage from '../pages/SubjectsPage.vue';
 import RegistrationPage from '../pages/auth/RegistrationPage.vue';
 import LoginPage from '../pages/auth/LoginPage.vue';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage.vue';
+import ChangePasswordPage from '../pages/auth/ChangePasswordPage.vue';
 import activityWatcher from '../plugins/activity-watcher';
 
 const routes = [
@@ -24,6 +26,16 @@ const routes = [
         path: '/auth/login',
         name: 'login',
         component: LoginPage,
+      },
+      {
+        path: '/auth/forgot-password',
+        name: 'forgot-password',
+        component: ForgotPasswordPage,
+      },
+      {
+        path: '/auth/change-password',
+        name: 'change-password',
+        component: ChangePasswordPage,
       },
     ],
   },
