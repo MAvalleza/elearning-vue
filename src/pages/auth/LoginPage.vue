@@ -51,5 +51,5 @@ v-container
         template(#append-form-actions)
           v-col
             span OR
-          router-link(to="/register") Create an account
+          router-link(:to="{ name: 'registration' }") Create an account
 </template>

@@ -12,16 +12,20 @@ const routes = [
     redirect: '/subjects',
   },
   {
-    path: '/register',
-    name: 'registration',
+    path: '/auth',
     meta: { layout: 'BlankLayout' },
-    component: RegistrationPage,
-  },
-  {
-    path: '/login',
-    name: 'login',
-    meta: { layout: 'BlankLayout' },
-    component: LoginPage,
+    children: [
+      {
+        path: '/auth/register',
+        name: 'registration',
+        component: RegistrationPage,
+      },
+      {
+        path: '/auth/login',
+        name: 'login',
+        component: LoginPage,
+      },
+    ],
   },
   {
     path: '/subjects',
