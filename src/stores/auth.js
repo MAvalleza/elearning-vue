@@ -39,6 +39,8 @@ export const useAuth = defineStore('auth', {
     },
     async logoutUser() {
       await logoutUser();
+
+      this.$router.push({ name: 'login' });
     },
   },
 });

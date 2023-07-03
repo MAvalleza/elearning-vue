@@ -2,29 +2,24 @@
 import { ref } from 'vue';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
 
 const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
 
 const drawer = ref(true);
 
-const router = useRouter();
-
 async function logout() {
   await authStore.logoutUser();
-
-  router.push({ name: 'login' });
 }
 
 const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
-    onClick: () => {},
+    onClick: () => { },
   },
   {
     title: 'Change Password',
-    onClick: () => {},
+    onClick: () => { },
   },
   {
     title: 'Logout',

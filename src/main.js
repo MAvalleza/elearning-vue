@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, markRaw } from 'vue';
 import { createPinia } from 'pinia';
 import './style.css';
 import router from './router';
@@ -7,6 +7,10 @@ import App from './App.vue';
 
 // Pinia
 const pinia = createPinia();
+
+pinia.use(({ store }) => {
+  store.$router = markRaw(router);
+});
 
 // MirageJS Mock server
 const mockServer = createMockServer();
