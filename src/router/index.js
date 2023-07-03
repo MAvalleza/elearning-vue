@@ -3,6 +3,7 @@ import { useAuth as authStore } from '@/stores/auth';
 import SubjectsPage from '../pages/SubjectsPage.vue';
 import RegistrationPage from '../pages/auth/RegistrationPage.vue';
 import LoginPage from '../pages/auth/LoginPage.vue';
+import activityWatcher from '../plugins/activity-watcher';
 
 const routes = [
   {
@@ -46,6 +47,12 @@ router.beforeResolve((to, from, next) => {
     next({ name: 'login' });
   } else {
     next();
+  }
+});
+
+router.afterEach((to) => {
+  if (to.meta.auth) {
+    activityWatcher();
   }
 });
 
