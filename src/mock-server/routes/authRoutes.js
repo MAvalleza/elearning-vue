@@ -10,6 +10,7 @@ const createAuthRoutes = routeInstance => {
     return schema.users.find(id);
   });
 
+  // TODO: Mock duplicate error handling
   routeInstance.post('/signup', (schema, request) => {
     let attrs = JSON.parse(request.requestBody);
 

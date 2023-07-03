@@ -4,18 +4,19 @@ import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 import VerificationModal from '@/components/auth/VerificationModal.vue';
 import { REGISTRATION_FORM } from '@/constants/auth-form/form-fields';
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useAuth } from '@/stores/auth';
+import { useUI } from '@/stores/ui';
 
 const authStore = useAuth();
 
 // UI states
-const loading = ref(false);
+const uiStore = useUI();
+const { loading } = storeToRefs(uiStore);
 const isVerificationModalVisible = ref(false);
 
 async function registerUser(data) {
-  loading.value = true;
   await authStore.registerUser(data);
-  loading.value = false;
 
   // Show verification modal
   isVerificationModalVisible.value = true;

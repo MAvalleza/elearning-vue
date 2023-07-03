@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
 } from '@/webservices/authWebservice';
+import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
 
@@ -18,6 +19,8 @@ export const useAuth = defineStore('auth', {
   },
   actions: {
     async registerUser(data) {
+      uiStore().setLoading(true);
+
       const userData = pick(data, [
         'email',
         'password',
@@ -26,16 +29,36 @@ export const useAuth = defineStore('auth', {
         'lastName',
       ]);
 
-      return await signUpUser(userData);
+      await signUpUser(userData);
+
+      uiStore().setLoading(false);
     },
     async loginUser(data) {
-      const response = await loginUser(data);
+      try {
+        uiStore().setLoading(true);
 
-      if (isEmpty(response.errors)) {
-        return (this.currentUser = response);
+        const response = await loginUser(data);
+  
+        if (isEmpty(response.errors)) {
+          this.currentUser = response;
+          uiStore().setLoading(false);
+
+          this.$router.push({ name: 'index' });
+
+          return;
+        }
+  
+        throw new Error(response.errors[0]);
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: e.message,
+        });
+
+        uiStore().setLoading(false);
       }
-
-      throw new Error(response.errors[0]);
     },
     async logoutUser() {
       await logoutUser();

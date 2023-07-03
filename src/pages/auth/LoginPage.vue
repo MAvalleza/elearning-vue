@@ -5,32 +5,15 @@ import { LOGIN_FORM } from '@/constants/auth-form/form-fields';
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const authStore = useAuth();
-const router = useRouter();
 
 async function login(data) {
-  try {
-    uiStore.setLoading(true);
-
-    await authStore.loginUser(data);
-
-    router.push({ name: 'index' });
-  } catch (e) {
-    console.error(e);
-
-    uiStore.showSnackbar({
-      color: 'error',
-      message: e.message,
-    });
-  } finally {
-    uiStore.setLoading(false);
-  }
+  await authStore.loginUser(data);
 }
 
 onMounted(() => {
