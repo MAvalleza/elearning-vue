@@ -91,6 +91,11 @@ export const useAuth = defineStore('auth', {
         if (!isEmpty(response.errors)) {
           throw new Error(response.errors[0]);
         }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'A reset password link was sent to your email.',
+        });
       } catch (e) {
         console.error(e);
 
