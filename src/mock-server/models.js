@@ -44,4 +44,6 @@ export default {
     module: belongsTo('module'),
     enrollment: belongsTo('enrollment'),
   }),
+
+  resetPasswordRequest: Model,
 };

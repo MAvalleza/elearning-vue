@@ -3,6 +3,7 @@ import {
   signUpUser,
   loginUser,
   logoutUser,
+  requestResetPassword,
 } from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
@@ -80,5 +81,26 @@ export const useAuth = defineStore('auth', {
 
       this.$router.push({ name: 'login' });
     },
+
+    async requestResetPassword(data) {
+      try {
+        uiStore().setLoading(true);
+
+        const response = await requestResetPassword(data);
+
+        if (!isEmpty(response.errors)) {
+          throw new Error(response.errors[0]);
+        }
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: e.message,
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    }
   },
 });

@@ -67,6 +67,30 @@ const createAuthRoutes = routeInstance => {
   routeInstance.delete('/logout', () => {
     localStorage.removeItem('accessToken');
   });
+
+  routeInstance.get('/password', (schema, request) => {
+    const email = request.queryParams.email;
+
+    if (!schema.users.findBy({ email })) {
+      return new Response(
+        404,
+        { some: 'header' },
+        { errors: ['User does not exist'] },
+      );
+    }
+
+    const requestToken = faker.database.mongodbObjectId();
+
+    const link = `${window.location.origin}/#/auth/change-password/?token=${requestToken}`;
+
+    console.log('Mock email sent');
+    console.log(link);
+
+    schema.resetPasswordRequests.create({
+      token: requestToken,
+      email
+    });
+  });
 };
 
 export default createAuthRoutes;

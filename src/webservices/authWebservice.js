@@ -32,6 +32,11 @@ export const logoutUser = async () => {
   });
 };
 
+export const requestResetPassword = async (data) => {
+  const response = await fetch(`${API_URL}/password/?email=${data.email}`);
+  return await response.json();
+};
+
 const requestHeaders = {
   'Content-Type': 'application/json',
 };
