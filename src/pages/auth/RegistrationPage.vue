@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuth } from '@/stores/auth';
 import { useUI } from '@/stores/ui';
+import isEmpty from 'lodash-es/isEmpty';
 
 const authStore = useAuth();
 
@@ -16,10 +17,12 @@ const { loading } = storeToRefs(uiStore);
 const isVerificationModalVisible = ref(false);
 
 async function registerUser(data) {
-  await authStore.registerUser(data);
+  const response = await authStore.registerUser(data);
 
-  // Show verification modal
-  isVerificationModalVisible.value = true;
+  if (isEmpty(response.errors)) {
+    // Show verification modal
+    isVerificationModalVisible.value = true;
+  }
 }
 </script>
 

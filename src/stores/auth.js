@@ -19,19 +19,34 @@ export const useAuth = defineStore('auth', {
   },
   actions: {
     async registerUser(data) {
-      uiStore().setLoading(true);
+      try {
+        uiStore().setLoading(true);
+  
+        const userData = pick(data, [
+          'email',
+          'password',
+          'role',
+          'firstName',
+          'lastName',
+        ]);
+  
+        const response = await signUpUser(userData);
+  
+        if (!isEmpty(response.errors)) {
+          throw new Error(response.errors[0]);
+        }
 
-      const userData = pick(data, [
-        'email',
-        'password',
-        'role',
-        'firstName',
-        'lastName',
-      ]);
+        return response;
+      } catch (e) {
+        console.error(e);
 
-      await signUpUser(userData);
-
-      uiStore().setLoading(false);
+        uiStore().showSnackbar({
+          color: 'error',
+          message: e.message,
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
     },
     async loginUser(data) {
       try {

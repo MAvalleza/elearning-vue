@@ -14,6 +14,16 @@ const createAuthRoutes = routeInstance => {
   routeInstance.post('/signup', (schema, request) => {
     let attrs = JSON.parse(request.requestBody);
 
+    const { email } = attrs;
+
+    if (schema.users.findBy({ email })) {
+      return new Response(
+        403,
+        { some: 'header' },
+        { errors: ['User already exists'] },
+      );
+    }
+
     const USER_ID = faker.string.uuid();
 
     const data = {
