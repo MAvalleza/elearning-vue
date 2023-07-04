@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
   requestResetPassword,
+  resetPassword,
 } from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
@@ -96,6 +97,8 @@ export const useAuth = defineStore('auth', {
           color: 'success',
           message: 'A reset password link was sent to your email.',
         });
+
+        return response;
       } catch (e) {
         console.error(e);
 
@@ -105,6 +108,34 @@ export const useAuth = defineStore('auth', {
         });
       } finally {
         uiStore().setLoading(false);
+      }
+    },
+    async resetPassword(token, { password }) {
+      try {
+        uiStore().setLoading(true);
+
+        const response = await resetPassword(token, { password });
+
+        if (!isEmpty(response.errors)) {
+          throw new Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Password reset successful.',
+        });
+
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: e.message,
+        });
+      } finally {
+        uiStore().setLoading(false);
+
+        this.$router.push({ name: 'login' });
       }
     }
   },

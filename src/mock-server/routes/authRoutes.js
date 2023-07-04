@@ -90,6 +90,31 @@ const createAuthRoutes = routeInstance => {
       token: requestToken,
       email
     });
+
+    // TODO: Temporary (to remove).
+    // Since we are only mocking, we return the link since we do not send an actual email.
+    return { token: requestToken };
+  });
+
+  routeInstance.post('/password', (schema, request) => {
+    const token = request.requestHeaders['Authorization'];
+    const { password } = JSON.parse(request.requestBody);
+
+    const resetRequest = schema.resetPasswordRequests.findBy({ token });
+
+    if (!resetRequest) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authenticated to fulfill this request.']},
+      );
+    }
+
+    const user = schema.users.findBy({ email: resetRequest.email});
+
+    schema.db.users.update(user.id, { password });
+
+    schema.db.resetPasswordRequests.remove({ email: resetRequest.email });
   });
 };
 

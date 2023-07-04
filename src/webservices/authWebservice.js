@@ -33,7 +33,23 @@ export const logoutUser = async () => {
 };
 
 export const requestResetPassword = async (data) => {
-  const response = await fetch(`${API_URL}/password/?email=${data.email}`);
+  const response = await fetch(`${API_URL}/password/?email=${data.email}`, {
+    method: 'GET',
+    headers: requestHeaders,
+  });
+  return await response.json();
+};
+
+export const resetPassword = async (token, data) => {
+  const response = await fetch(`${API_URL}/password`, {
+    method: 'POST',
+    headers: {
+      ...requestHeaders,
+      'Authorization': token
+    },
+    body: JSON.stringify(data),
+  });
+
   return await response.json();
 };
 
