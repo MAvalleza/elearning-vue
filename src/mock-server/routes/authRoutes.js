@@ -10,7 +10,6 @@ const createAuthRoutes = routeInstance => {
     return schema.users.find(id);
   });
 
-  // TODO: Mock duplicate error handling
   routeInstance.post('/signup', (schema, request) => {
     let attrs = JSON.parse(request.requestBody);
 
@@ -56,22 +55,17 @@ const createAuthRoutes = routeInstance => {
 
     localStorage.setItem('accessToken', accessToken);
 
-    return schema.sessions.create({
+    return {
       accessToken,
-      id: faker.string.uuid(),
       email: userData.email,
       role: userData.role,
       firstName: userData.firstName,
       lastName: userData.lastName,
-    }).attrs;
+    };
   });
 
-  routeInstance.delete('/logout', schema => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-
+  routeInstance.delete('/logout', () => {
     localStorage.removeItem('accessToken');
-
-    return schema.sessions.remove({ accessToken });
   });
 };
 
