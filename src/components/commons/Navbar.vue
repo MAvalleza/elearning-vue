@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import { NAV_ITEMS } from '@/constants/nav-items'
 
 const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
@@ -28,27 +29,39 @@ const USER_MENU_ITEMS = [
     },
   },
 ];
+
+const navItems = ref(NAV_ITEMS.filter(item => item.roles.includes(currentUser.value.role)));
 </script>
 
 <template lang="pug">
 v-navigation-drawer(
   v-model="drawer"
   location="left"
-  color="grey"
+  color="#18223b"
   width="350"
+  theme="dark"
 )
   template(#prepend)
     div.drawer-header.white--text.d-flex.pt-2
       h5.text-h5.pt-2.pl-3 eLearning Portal
       v-spacer
       v-app-bar-nav-icon(color="white" variant="text" @click.stop="drawer = !drawer")
-v-app-bar(color="primary")
+  v-list(density="compact")
+    v-list-subheader MANAGEMENT
+    v-list-item(
+      v-for="(item, key) in navItems"
+      :key="key"
+      :title="item.title"
+      :prepend-icon="item.icon"
+      :to="{ name: item.route }"
+    )
+v-app-bar(color="#f0f0f0" theme="light")
   template(v-if="!drawer")
-    v-app-bar-nav-icon(color="white" variant="text" @click.stop="drawer = !drawer")
+    v-app-bar-nav-icon(variant="text" @click.stop="drawer = !drawer")
     v-app-bar-title.text-h5
       router-link(:to="{ name: 'index' }").app-bar-title.font-weight-bold eLearning Portal
   template(#append)
-    v-list(bg-color="primary")#user-menu-activator
+    v-list(bg-color="#f0f0f0")#user-menu-activator
       v-list-item(
         :title="currentUser.email"
         append-icon="mdi-chevron-down"
@@ -65,7 +78,7 @@ v-app-bar(color="primary")
 
 <style scoped>
 .app-bar-title {
-  color: white !important;
+  color: black;
 }
 
 .drawer-header {
