@@ -45,6 +45,7 @@ const routes = [
     meta: {
       auth: true,
       layout: 'AppLayout',
+      title: 'Subjects',
     },
     component: SubjectsPage,
   },
