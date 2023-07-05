@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { NAV_ITEMS } from '@/constants/nav-items'
+import { NAV_ITEMS } from '@/constants/nav-items';
 
 const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
@@ -16,11 +16,11 @@ async function logout() {
 const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
-    onClick: () => { },
+    onClick: () => {},
   },
   {
     title: 'Change Password',
-    onClick: () => { },
+    onClick: () => {},
   },
   {
     title: 'Logout',
@@ -30,7 +30,9 @@ const USER_MENU_ITEMS = [
   },
 ];
 
-const navItems = ref(NAV_ITEMS.filter(item => item.roles.includes(currentUser.value.role)));
+const navItems = ref(
+  NAV_ITEMS.filter(item => item.roles.includes(currentUser.value.role))
+);
 </script>
 
 <template lang="pug">

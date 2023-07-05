@@ -67,7 +67,7 @@ router.beforeResolve((to, from, next) => {
   }
 });
 
-router.afterEach((to) => {
+router.afterEach(to => {
   if (to.meta.auth) {
     activityWatcher();
   }

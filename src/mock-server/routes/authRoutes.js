@@ -19,7 +19,7 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         403,
         { some: 'header' },
-        { errors: ['User already exists'] },
+        { errors: ['User already exists'] }
       );
     }
 
@@ -75,7 +75,7 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         404,
         { some: 'header' },
-        { errors: ['User does not exist'] },
+        { errors: ['User does not exist'] }
       );
     }
 
@@ -88,7 +88,7 @@ const createAuthRoutes = routeInstance => {
 
     schema.resetPasswordRequests.create({
       token: requestToken,
-      email
+      email,
     });
 
     // TODO: Temporary (to remove).
@@ -106,11 +106,11 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authenticated to fulfill this request.']},
+        { errors: ['You are not authenticated to fulfill this request.'] }
       );
     }
 
-    const user = schema.users.findBy({ email: resetRequest.email});
+    const user = schema.users.findBy({ email: resetRequest.email });
 
     schema.db.users.update(user.id, { password });
 

@@ -23,7 +23,7 @@ export const useAuth = defineStore('auth', {
     async registerUser(data) {
       try {
         uiStore().setLoading(true);
-  
+
         const userData = pick(data, [
           'email',
           'password',
@@ -31,9 +31,9 @@ export const useAuth = defineStore('auth', {
           'firstName',
           'lastName',
         ]);
-  
+
         const response = await signUpUser(userData);
-  
+
         if (!isEmpty(response.errors)) {
           throw new Error(response.errors[0]);
         }
@@ -55,7 +55,7 @@ export const useAuth = defineStore('auth', {
         uiStore().setLoading(true);
 
         const response = await loginUser(data);
-  
+
         if (isEmpty(response.errors)) {
           this.currentUser = response;
           uiStore().setLoading(false);
@@ -64,7 +64,7 @@ export const useAuth = defineStore('auth', {
 
           return;
         }
-  
+
         throw new Error(response.errors[0]);
       } catch (e) {
         console.error(e);
@@ -124,7 +124,6 @@ export const useAuth = defineStore('auth', {
           color: 'success',
           message: 'Password reset successful.',
         });
-
       } catch (e) {
         console.error(e);
 
@@ -137,6 +136,6 @@ export const useAuth = defineStore('auth', {
 
         this.$router.push({ name: 'login' });
       }
-    }
+    },
   },
 });

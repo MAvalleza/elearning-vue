@@ -6,7 +6,7 @@ const emit = defineEmits(['update:options']);
 const props = defineProps({
   headers: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   totalItems: {
     type: [String, Number],
@@ -14,7 +14,7 @@ const props = defineProps({
   },
   items: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   itemValue: {
     type: String,
@@ -24,9 +24,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
-const itemsPerPage = ref(10)
+const itemsPerPage = ref(10);
 
 function onUpdateOptions(event) {
   emit('update:options', event);

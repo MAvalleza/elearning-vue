@@ -3,7 +3,7 @@ const NAV_ITEMS = [
     title: 'Subjects',
     icon: 'mdi-bookshelf',
     route: 'subjects',
-    roles: ['admin', 'instructor']
+    roles: ['admin', 'instructor'],
   },
   // {
   //   title: 'Courses',
@@ -13,6 +13,4 @@ const NAV_ITEMS = [
   // }
 ];
 
-export {
-  NAV_ITEMS,
-}
+export { NAV_ITEMS };

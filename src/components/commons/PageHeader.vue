@@ -24,7 +24,7 @@ const props = defineProps({
   // Props for v-btn
   buttonOpts: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
 });
 
