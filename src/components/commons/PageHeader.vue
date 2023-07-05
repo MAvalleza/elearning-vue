@@ -38,7 +38,7 @@ const HEADER_STYLES = {
 <template lang="pug">
 div(:style="HEADER_STYLES").pt-8
   slot(name="content")
-    v-container
+    v-container(fluid)
       v-row(align="center")
         v-col.d-flex
           slot(name="title")
