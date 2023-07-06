@@ -25,10 +25,13 @@ export const loginUser = async data => {
   return await response.json();
 };
 
-export const logoutUser = async () => {
+export const logoutUser = async (token) => {
   await fetch(`${API_URL}/logout`, {
     method: 'DELETE',
-    headers: requestHeaders,
+    headers: {
+      ...requestHeaders,
+      Authorization: token,
+    },
   });
 };
 

@@ -58,6 +58,8 @@ export const useAuth = defineStore('auth', {
 
         if (isEmpty(response.errors)) {
           this.currentUser = response;
+          localStorage.setItem('accessToken', response.accessToken);
+
           uiStore().setLoading(false);
 
           this.$router.push({ name: 'index' });
@@ -78,7 +80,11 @@ export const useAuth = defineStore('auth', {
       }
     },
     async logoutUser() {
-      await logoutUser();
+      const token = this.currentUser.accessToken;
+
+      await logoutUser(token);
+
+      localStorage.removeItem('accessToken');
 
       this.$router.push({ name: 'login' });
     },

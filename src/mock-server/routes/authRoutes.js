@@ -23,10 +23,7 @@ const createAuthRoutes = routeInstance => {
       );
     }
 
-    const USER_ID = faker.string.uuid();
-
     const data = {
-      id: USER_ID,
       ...attrs,
       isActive: true,
       createdAt: Date.now(),
@@ -53,19 +50,19 @@ const createAuthRoutes = routeInstance => {
 
     const accessToken = faker.database.mongodbObjectId();
 
-    localStorage.setItem('accessToken', accessToken);
-
-    return {
+    return schema.sessions.create({
       accessToken,
       email: userData.email,
       role: userData.role,
       firstName: userData.firstName,
       lastName: userData.lastName,
-    };
+    });
   });
 
-  routeInstance.delete('/logout', () => {
-    localStorage.removeItem('accessToken');
+  routeInstance.delete('/logout', (schema, request) => {
+    const token = request.requestHeaders['Authorization'];
+
+    schema.db.sessions.remove({ accessToken: token});
   });
 
   routeInstance.get('/password', (schema, request) => {
