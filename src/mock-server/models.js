@@ -46,4 +46,5 @@ export default {
   }),
 
   resetPasswordRequest: Model,
+  session: Model,
 };
