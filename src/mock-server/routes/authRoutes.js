@@ -56,7 +56,7 @@ const createAuthRoutes = routeInstance => {
       role: userData.role,
       firstName: userData.firstName,
       lastName: userData.lastName,
-    });
+    }).attrs;
   });
 
   routeInstance.delete('/logout', (schema, request) => {
