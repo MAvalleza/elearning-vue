@@ -25,7 +25,16 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    return schema.subjects.where({ ownerId: user.id }).models;
+    const subjects = schema.subjects.where({ ownerId: user.id }).models;
+
+    return new Response(
+      200,
+      { some: 'header' },
+      {
+        count: subjects.length,
+        results: subjects,
+      }
+    );
   });
 };
 

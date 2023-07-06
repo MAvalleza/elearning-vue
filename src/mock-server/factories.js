@@ -11,9 +11,20 @@ export default {
     createdAt: 1687316226,
     updatedAt: null,
     afterCreate(user, server) {
-      server.create('subject', {
+      const subject = server.create('subject', {
         owner: user,
         title: 'Mathematics',
+        isPublished: true,
+        createdAt: 1687316226,
+        updatedAt: null,
+      });
+
+      server.create('course', {
+        author: user,
+        subject,
+        title: 'Math Course',
+        description: 'A basic course',
+        icon: 'some-icon',
         isPublished: true,
         createdAt: 1687316226,
         updatedAt: null,

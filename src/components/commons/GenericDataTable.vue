@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { VDataTableServer } from 'vuetify/lib/labs/components';
 
 const emit = defineEmits(['update:options']);
 
