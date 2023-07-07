@@ -52,7 +52,7 @@ const createSubjectRoutes = routeInstance => {
 
       if (courses) {
         conditions.push(
-          isEmpty(data.courseIds)
+          !isEmpty(data.courseIds)
         )
       }
 
