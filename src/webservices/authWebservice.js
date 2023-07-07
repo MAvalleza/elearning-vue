@@ -1,61 +1,59 @@
-const API_URL = '/api';
+import Webservice from "./base";
 
-export const getUsers = async () => {
-  const response = await fetch(`${API_URL}/users`);
-  return await response.json();
-};
-
-export const signUpUser = async data => {
-  const response = await fetch(`${API_URL}/signup`, {
-    method: 'POST',
-    headers: requestHeaders,
-    body: JSON.stringify(data),
-  });
-
-  return await response.json();
-};
-
-export const loginUser = async data => {
-  const response = await fetch(`${API_URL}/login`, {
-    method: 'POST',
-    headers: requestHeaders,
-    body: JSON.stringify(data),
-  });
-
-  return await response.json();
-};
-
-export const logoutUser = async (token) => {
-  await fetch(`${API_URL}/logout`, {
-    method: 'DELETE',
-    headers: {
-      ...requestHeaders,
-      Authorization: token,
-    },
-  });
-};
-
-export const requestResetPassword = async data => {
-  const response = await fetch(`${API_URL}/password/?email=${data.email}`, {
-    method: 'GET',
-    headers: requestHeaders,
-  });
-  return await response.json();
-};
-
-export const resetPassword = async (token, data) => {
-  const response = await fetch(`${API_URL}/password`, {
-    method: 'POST',
-    headers: {
-      ...requestHeaders,
-      Authorization: token,
-    },
-    body: JSON.stringify(data),
-  });
-
-  return await response.json();
-};
-
-const requestHeaders = {
-  'Content-Type': 'application/json',
-};
+export default class AuthWebservice extends Webservice {
+  async getUsers() {
+    const response = await fetch(`${this.apiNamespace()}/users`);
+    return await response.json();
+  };
+  
+  async signUpUser(data) {
+    const response = await fetch(`${this.apiNamespace()}/signup`, {
+      method: 'POST',
+      headers: this.requestHeaders(),
+      body: JSON.stringify(data),
+    });
+  
+    return await response.json();
+  };
+  
+  async loginUser(data) {
+    const response = await fetch(`${this.apiNamespace()}/login`, {
+      method: 'POST',
+      headers: this.requestHeaders(),
+      body: JSON.stringify(data),
+    });
+  
+    return await response.json();
+  };
+  
+  async logoutUser(token) {
+    await fetch(`${this.apiNamespace()}/logout`, {
+      method: 'DELETE',
+      headers: {
+        ...this.requestHeaders(),
+        Authorization: token,
+      },
+    });
+  };
+  
+  async requestResetPassword(data) {
+    const response = await fetch(`${this.apiNamespace()}/password/?email=${data.email}`, {
+      method: 'GET',
+      headers: this.requestHeaders(),
+    });
+    return await response.json();
+  };
+  
+  async resetPassword(token, data) {
+    const response = await fetch(`${this.apiNamespace()}/password`, {
+      method: 'POST',
+      headers: {
+        ...this.requestHeaders(),
+        Authorization: token,
+      },
+      body: JSON.stringify(data),
+    });
+  
+    return await response.json();
+  };
+}

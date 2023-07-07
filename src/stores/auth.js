@@ -1,14 +1,10 @@
 import { defineStore } from 'pinia';
-import {
-  signUpUser,
-  loginUser,
-  logoutUser,
-  requestResetPassword,
-  resetPassword,
-} from '@/webservices/authWebservice';
+import AuthWebservice from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
+
+const webservice = new AuthWebservice();
 
 export const useAuth = defineStore('auth', {
   state: () => ({
@@ -32,7 +28,7 @@ export const useAuth = defineStore('auth', {
           'lastName',
         ]);
 
-        const response = await signUpUser(userData);
+        const response = await webservice.signUpUser(userData);
 
         if (!isEmpty(response.errors)) {
           throw new Error(response.errors[0]);
@@ -54,7 +50,7 @@ export const useAuth = defineStore('auth', {
       try {
         uiStore().setLoading(true);
 
-        const response = await loginUser(data);
+        const response = await webservice.loginUser(data);
 
         if (isEmpty(response.errors)) {
           this.currentUser = response;
@@ -82,7 +78,7 @@ export const useAuth = defineStore('auth', {
     async logoutUser() {
       const token = this.currentUser.accessToken;
 
-      await logoutUser(token);
+      await webservice.logoutUser(token);
 
       localStorage.removeItem('accessToken');
 
@@ -93,7 +89,7 @@ export const useAuth = defineStore('auth', {
       try {
         uiStore().setLoading(true);
 
-        const response = await requestResetPassword(data);
+        const response = await webservice.requestResetPassword(data);
 
         if (!isEmpty(response.errors)) {
           throw new Error(response.errors[0]);
@@ -120,7 +116,7 @@ export const useAuth = defineStore('auth', {
       try {
         uiStore().setLoading(true);
 
-        const response = await resetPassword(token, { password });
+        const response = await webservice.resetPassword(token, { password });
 
         if (!isEmpty(response.errors)) {
           throw new Error(response.errors[0]);
