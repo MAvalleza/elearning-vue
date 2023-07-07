@@ -9,17 +9,23 @@ export default class Webservice {
   }
 
   parseParams(params = {}) {
-    return queryString.stringify(
+    const stringified = queryString.stringify(
       params,
       {
         skipNull: true,
         skipEmptyString: true,
       },
     );
+
+    if (stringified) {
+      return `?${stringified}`;
+    } else {
+      return '';
+    }
   }
 
   parseURL({ path, params }) {
-    const url = `${this.apiNamespace}/${path}?${this.parseParams(params)}`;
+    const url = `${this.apiNamespace}/${path}${this.parseParams(params)}`;
 
     return url;
   }

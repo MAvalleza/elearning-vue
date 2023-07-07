@@ -3,6 +3,7 @@ import SubjectsWebservice from '@/webservices/subjectsWebservice';
 import { useUI as uiStore } from './ui';
 import { useAuth as authStore } from './auth'
 import isEmpty from 'lodash-es/isEmpty';
+import size from 'lodash-es/size';
 
 const webservice = new SubjectsWebservice();
 
@@ -13,13 +14,16 @@ export const useSubjects = defineStore('subjects', {
   }),
   actions: {
     // TODO: Filters
-    async fetchSubjects() {
+    async fetchSubjects(params) {
       try {
         uiStore().setLoading(true);
 
         const currentUser = authStore().currentUser;
 
-        const response = await webservice.getSubjects(currentUser.accessToken);
+        const response = await webservice.getSubjects(
+          currentUser.accessToken,
+          params,
+        );
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -28,7 +32,7 @@ export const useSubjects = defineStore('subjects', {
         const mappedSubjects = response.results.map(subject => ({
           ...subject,
           status: subject.isPublished ? 'Published' : 'Draft',
-          coursesLength: subject.courseIds.length,
+          coursesLength: size(subject.courseIds),
         }));
 
         this.subjects = mappedSubjects;

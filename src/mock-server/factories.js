@@ -11,7 +11,7 @@ export default {
     createdAt: 1687316226,
     updatedAt: null,
     afterCreate(user, server) {
-      const subject = server.create('subject', {
+      const firstSubject = server.create('subject', {
         owner: user,
         title: 'Mathematics',
         isPublished: true,
@@ -19,9 +19,17 @@ export default {
         updatedAt: null,
       });
 
+      server.create('subject', {
+        owner: user,
+        title: 'Science',
+        isPublished: true,
+        createdAt: 1687316226,
+        updatedAt: null,
+      });
+
       server.create('course', {
         author: user,
-        subject,
+        subject: firstSubject,
         title: 'Math Course',
         description: 'A basic course',
         icon: 'some-icon',
