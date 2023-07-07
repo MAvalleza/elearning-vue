@@ -15,7 +15,7 @@ const createMockServer = () => {
       server.create('user');
     },
     routes() {
-      this.namespace = '/api';
+      this.namespace = import.meta.env.VITE_API_NAMESPACE;
 
       createRoutes(this);
     },
