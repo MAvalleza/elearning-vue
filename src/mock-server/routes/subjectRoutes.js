@@ -1,9 +1,8 @@
 import { Response } from 'miragejs';
-import { PaginationParams, Sorter } from '../helpers/paramsHelper';
+import { PaginationParams, Filter, Sorter } from '../helpers/paramsHelper';
 import isEmpty from 'lodash-es/isEmpty';
 
 const createSubjectRoutes = routeInstance => {
-  // TODO: Param checkers
   routeInstance.get('/subjects', (schema, request) => {
     const token = request.requestHeaders['Authorization'];
 
@@ -27,55 +26,22 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    const {
-      // join, // TODO: Handle join
-      keyword,
-      published,
-      courses
-    } = request.queryParams;
+    // TODO: Handle join
 
-    // TODO: Possibly reuse or optimize this for other endpoints
-    // Filter
-    const subjectFilter = (data) => {
-      // Put all conditions in an array then evaluate at the end
-      let conditions = [];
-
-      if (keyword) {
-        conditions.push(
-          data.title.includes(keyword)
-        );
-      }
-
-      if (published) {
-        conditions.push(data.isPublished);
-      }
-
-      if (courses) {
-        conditions.push(
-          !isEmpty(data.courseIds)
-        )
-      }
-
-      return conditions.reduce(
-        (acc, curr) => acc && curr,
-        true
-      );
-    };
-
-    // Appy filters
     let collection = schema.subjects
       .where({ ownerId: user.id })
-      .filter(subjectFilter);
-    
-    console.log('coll', collection);
 
-    // Sorting Params
-    const sorter = new Sorter(request.queryParams);
+    // Appy filters and sorting
+    const subjectFilter = new Filter(request.queryParams);
+    if (!isEmpty(subjectFilter.filterParams)) {
+      collection = collection.filter((data) => {
+        return subjectFilter.filter(data);
+      });
+    }
 
-    // Check if sort parameter exists then apply sorting
-    if (sorter.sortKey) {
-      console.log('here');
-      collection = collection.sort(sorter.sort);
+    const subjectSorter = new Sorter(request.queryParams);
+    if (subjectSorter.sortKey) {
+      collection = collection.sort(subjectSorter.sort)
     }
 
     // Pagination Params

@@ -7,7 +7,6 @@ import { useUI } from '@/stores/ui';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import GenericDataTable from '@/components/commons/GenericDataTable.vue';
-import { SUBJECTS_DATA_TABLE } from '@/constants/data-table-opts';
 
 const route = useRoute();
 
@@ -16,8 +15,24 @@ const HEADER_BUTTON_OPTS = {
   flat: true,
 };
 
+// UI states
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
+
+// Subjects data
+const SUBJECTS_DATA_TABLE = {
+  headers: [
+    {
+      title: 'Title',
+      align: 'start',
+      sortable: true,
+      key: 'title',
+    },
+    { title: 'Courses', align: 'end', key: 'coursesLength' },
+    { title: 'Status', align: 'end', key: 'status' },
+  ],
+  itemValue: 'title',
+}
 
 const subjectsStore = useSubjects();
 const { subjects, subjectsTotal } = storeToRefs(subjectsStore);
