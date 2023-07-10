@@ -1,17 +1,40 @@
 <script setup>
-import AppLoader from '@/components/commons/AppLoader.vue';
-import AuthFormCard from '@/components/auth/AuthFormCard.vue';
-import { FORGOT_PASSWORD_FORM } from '@/constants/auth-form/form-fields';
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import { EMAIL_FORMAT_RULE, REQUIRED_RULE } from '@/constants/validation-rules';
+import AppLoader from '@/components/commons/AppLoader.vue';
+import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const authStore = useAuth();
+
+const FORGOT_PASSWORD_FORM = {
+  title: 'RECOVER YOUR PASSWORD',
+  fields: [
+    {
+      value: 'email',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Email',
+        variant: 'outlined',
+        rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
+        validateOn: 'blur',
+      },
+    },
+  ],
+  buttonOpts: {
+    text: 'SEND RESET LINK',
+    variant: 'elevated',
+    color: 'primary',
+    size: 'x-large',
+    minWidth: '200',
+  },
+};
 
 async function requestReset(data) {
   const response = await authStore.requestResetPassword(data);

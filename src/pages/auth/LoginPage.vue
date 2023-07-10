@@ -1,16 +1,50 @@
 <script setup>
-import AppLoader from '@/components/commons/AppLoader.vue';
-import AuthFormCard from '@/components/auth/AuthFormCard.vue';
-import { LOGIN_FORM } from '@/constants/auth-form/form-fields';
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+import { EMAIL_FORMAT_RULE, REQUIRED_RULE } from '@/constants/validation-rules';
+import AppLoader from '@/components/commons/AppLoader.vue';
+import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const authStore = useAuth();
+
+const LOGIN_FORM = {
+  title: 'LOGIN TO YOUR ACCOUNT',
+  fields: [
+    {
+      value: 'email',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Email',
+        variant: 'outlined',
+        rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
+        validateOn: 'input',
+      },
+    },
+    {
+      value: 'password',
+      component: 'v-text-field',
+      componentOpts: {
+        label: 'Password',
+        variant: 'outlined',
+        type: 'password',
+        rules: [REQUIRED_RULE],
+        validateOn: 'input',
+      },
+    },
+  ],
+  buttonOpts: {
+    text: 'LOGIN',
+    variant: 'elevated',
+    color: 'primary',
+    size: 'x-large',
+    minWidth: '200',
+  },
+};
 
 async function login(data) {
   await authStore.loginUser(data);

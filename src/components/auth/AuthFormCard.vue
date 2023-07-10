@@ -8,11 +8,19 @@ const props = defineProps({
     type: String,
     default: 'Form',
   },
+  /**
+   * @param {Object[]} fields - The form fields
+   * @param {String} fields[].value - For v-model usage
+   * @param {String} fields[].component - The component to be used for the form field
+   * @param {Object} fields[].componentOpts - The props for the component
+   */
   fields: {
     type: Array,
     default: () => [],
   },
-  // Props for v-btn
+  /**
+   * Props for the v-btn
+   */
   buttonOpts: {
     type: Object,
     default: () => ({}),
