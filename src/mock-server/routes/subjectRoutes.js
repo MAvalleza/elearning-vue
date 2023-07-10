@@ -41,7 +41,9 @@ const createSubjectRoutes = routeInstance => {
 
     const subjectSorter = new Sorter(request.queryParams);
     if (subjectSorter.sortKey) {
-      collection = collection.sort(subjectSorter.sort)
+      collection = collection.sort((a, b) => {
+        return subjectSorter.sort(a,b);
+      })
     }
 
     // Pagination Params

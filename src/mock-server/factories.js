@@ -11,7 +11,7 @@ export default {
     createdAt: 1687316226,
     updatedAt: null,
     afterCreate(user, server) {
-      const firstSubject = server.create('subject', {
+      const math = server.create('subject', {
         owner: user,
         title: 'Mathematics',
         isPublished: true,
@@ -19,7 +19,29 @@ export default {
         updatedAt: null,
       });
 
-      server.create('subject', {
+      server.create('course', {
+        author: user,
+        subject: math,
+        title: 'Math Course',
+        description: 'A basic course',
+        icon: 'some-icon',
+        isPublished: true,
+        createdAt: 1687316226,
+        updatedAt: null,
+      });
+
+      server.create('course', {
+        author: user,
+        subject: math,
+        title: 'Algebra',
+        description: 'A basic algebra course',
+        icon: 'some-icon',
+        isPublished: true,
+        createdAt: 1687316226,
+        updatedAt: null,
+      });
+
+      const science = server.create('subject', {
         owner: user,
         title: 'Science',
         isPublished: true,
@@ -29,11 +51,19 @@ export default {
 
       server.create('course', {
         author: user,
-        subject: firstSubject,
-        title: 'Math Course',
-        description: 'A basic course',
+        subject: science,
+        title: 'Biology',
+        description: 'A biological course',
         icon: 'some-icon',
         isPublished: true,
+        createdAt: 1687316226,
+        updatedAt: null,
+      });
+
+      server.create('subject', {
+        owner: user,
+        title: 'History',
+        isPublished: false,
         createdAt: 1687316226,
         updatedAt: null,
       });

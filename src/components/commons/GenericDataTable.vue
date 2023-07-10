@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { VDataTableServer } from 'vuetify/lib/labs/components';
 
-const emit = defineEmits(['update:options']);
+const emit = defineEmits(['update:options', 'update:items-per-page']);
 
 const props = defineProps({
   headers: {
@@ -17,6 +17,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  itemsPerPage: {
+    type: [String, Number],
+    default: 25,
+  },
   itemValue: {
     type: String,
     default: null,
@@ -27,10 +31,11 @@ const props = defineProps({
   },
 });
 
-const itemsPerPage = ref(10);
+const itemsPerPage = ref(props.itemsPerPage);
 
 function onUpdateOptions(event) {
   emit('update:options', event);
+  emit('update:items-per-page', event.itemsPerPage);
 }
 </script>
 

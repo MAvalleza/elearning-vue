@@ -1,9 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
+import { mapOptionsToParams } from '@/helpers/tableHelper';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import GenericDataTable from '@/components/commons/GenericDataTable.vue';
@@ -13,6 +14,7 @@ const route = useRoute();
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW SUBJECT',
   flat: true,
+  style: { color: 'black' },
 };
 
 // UI states
@@ -37,12 +39,49 @@ const SUBJECTS_DATA_TABLE = {
 const subjectsStore = useSubjects();
 const { subjects, subjectsTotal } = storeToRefs(subjectsStore);
 
+// Fetch params
+const initial = {
+  params: {
+    page: 1,
+    limit: 25,
+    sort: null,
+    sortDirection: null,
+    keyword: null,
+    published: null,
+  },
+  total: {
+    current: 0,
+    overall: 0,
+  }
+}
+
+let fetchParams = reactive({ ...initial.params });
+
+function initialize() {
+  fetchParams = reactive({ ...initial.params });
+
+  // Fetch the data
+  fetchSubjects();
+}
 async function fetchSubjects() {
-  await subjectsStore.fetchSubjects();
+  await subjectsStore.fetchSubjects(fetchParams);
+}
+
+function onUpdateTableOptions(event) {
+  console.log('event', event);
+
+  const updatedParams = mapOptionsToParams(event);
+
+  fetchParams = reactive({
+    ...initial.params,
+    ...updatedParams
+  });
+
+  fetchSubjects();
 }
 
 onMounted(() => {
-  fetchSubjects();
+  initialize();
 })
 </script>
 
@@ -55,9 +94,11 @@ page-header(
 page-content
   // TODO: Put courses word in courses column
   generic-data-table( 
+    v-model:items-per-page="fetchParams.limit"
     v-bind="SUBJECTS_DATA_TABLE"
     :items="subjects"
     :total-items="subjectsTotal"
     :loading="loading"
+    @update:options="onUpdateTableOptions"
   )
 </template>

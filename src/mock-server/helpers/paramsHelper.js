@@ -1,5 +1,6 @@
 import isEmpty from 'lodash-es/isEmpty';
 import pick from 'lodash-es/pick';
+import get from 'lodash-es/get';
 
 class PaginationParams {
   constructor(params) {
@@ -50,16 +51,29 @@ class Filter {
 }
 
 class Sorter {
+  #SORT_METHODS = {
+    asc: 1,
+    desc: -1
+  }
+
+  #CUSTOM_SORT_KEYS = {
+    coursesLength: 'courseIds.length',
+  }
+
   constructor(params) {
-    this.sortKey = params.sort;
-    this.order = params.sortDirection
+    this.sortKey = this.#CUSTOM_SORT_KEYS[params.sort] || params.sort;
+    this.order = params.sortDirection;
   }
 
   sort(a, b) {
-    if (this.order === 'ASC') {
-      return b[this.sortKey] > a[this.sortKey];
+    const sortMethod = this.#SORT_METHODS[this.order];
+
+    if (get(a, this.sortKey) > get(b, this.sortKey)) {
+      return 1 * sortMethod;
+    } else if (get(a, this.sortKey) < get(b, this.sortKey)) {
+      return -1 * sortMethod;
     } else {
-      return a[this.sortKey] > b[this.sortKey]; 
+      return 0;
     }
   }
 }
