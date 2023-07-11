@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import debounce from 'lodash-es/debounce';
+import STATUSES from '@/constants/statuses';
 
 const props = defineProps({
   searchText: {
@@ -21,11 +22,6 @@ const emit = defineEmits([
 ]);
 
 const searchText = ref(props.searchText);
-
-const FILTER_OPTIONS = [
-  { label: 'Published', value: true },
-  { label: 'Draft', value: false },
-];
 
 const menu = ref(false);
 const published = ref(props.statusFilter);
@@ -70,7 +66,7 @@ v-text-field(
           v-card-item
             v-radio-group(v-model="published" column)
               v-radio(
-                v-for="(option, key) in FILTER_OPTIONS"
+                v-for="(option, key) in STATUSES"
                 :key="key"
                 v-bind="option"
               )
