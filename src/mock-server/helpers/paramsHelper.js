@@ -15,7 +15,10 @@ class Filter {
   #FILTER_OPTS = {
     keyword: {
       filter: (data, params) => {
-        return data.title.includes(params.keyword)
+        const title = data.title.toLowerCase();
+        const keyword = params.keyword.toLowerCase();
+
+        return title.includes(keyword);
       },
     },
     published: {

@@ -91,7 +91,10 @@ page-header(
   has-center-section
 )
   template(#center-section)
-    search-and-filter
+    search-and-filter(
+      v-model="fetchParams.keyword"
+      @search="fetchSubjects"
+    )
 page-content
   // TODO: Put courses word in courses column
   generic-data-table( 

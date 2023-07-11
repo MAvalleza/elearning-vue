@@ -9,14 +9,15 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'search']);
 
 const { modelValue } = toRefs(props);
 const searchText = ref(modelValue.value);
 
 const onUpdate = debounce(e => {
   emit('update:modelValue', e);
-})
+  emit('search', e);
+}, 1000)
 </script>
 
 <template lang="pug">
@@ -30,6 +31,7 @@ v-text-field(
   prepend-inner-icon="mdi-magnify"
   @update:model-value="onUpdate"
 )
+  // TODO: Filter menu for (e.g. status)
   template(#append)
     v-btn(
       icon="mdi-filter-variant"

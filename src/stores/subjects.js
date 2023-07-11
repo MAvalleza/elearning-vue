@@ -13,7 +13,6 @@ export const useSubjects = defineStore('subjects', {
     subjectsTotal: 0,
   }),
   actions: {
-    // TODO: Filters
     async fetchSubjects(params) {
       try {
         uiStore().setLoading(true);
