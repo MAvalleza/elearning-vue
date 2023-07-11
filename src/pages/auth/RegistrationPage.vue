@@ -104,7 +104,7 @@ const REGISTRATION_FORM = {
     size: 'x-large',
     minWidth: '200',
   },
-}
+};
 
 async function registerUser(data) {
   const response = await authStore.registerUser(data);

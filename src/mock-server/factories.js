@@ -67,6 +67,6 @@ export default {
         createdAt: 1687316226,
         updatedAt: null,
       });
-    }
+    },
   }),
 };

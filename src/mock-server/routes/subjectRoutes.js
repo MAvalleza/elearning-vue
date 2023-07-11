@@ -22,19 +22,18 @@ const createSubjectRoutes = routeInstance => {
       return new Response(
         404,
         { some: 'header' },
-        { errors: ['User does not exist.'] },
+        { errors: ['User does not exist.'] }
       );
     }
 
     // TODO: Handle join
 
-    let collection = schema.subjects
-      .where({ ownerId: user.id })
+    let collection = schema.subjects.where({ ownerId: user.id });
 
     // Appy filters and sorting
     const subjectFilter = new Filter(request.queryParams);
     if (!isEmpty(subjectFilter.filterParams)) {
-      collection = collection.filter((data) => {
+      collection = collection.filter(data => {
         return subjectFilter.filter(data);
       });
     }
@@ -42,13 +41,13 @@ const createSubjectRoutes = routeInstance => {
     const subjectSorter = new Sorter(request.queryParams);
     if (subjectSorter.sortKey) {
       collection = collection.sort((a, b) => {
-        return subjectSorter.sort(a,b);
-      })
+        return subjectSorter.sort(a, b);
+      });
     }
 
     // Pagination Params
     const { start, end } = new PaginationParams(request.queryParams);
-      
+
     collection = collection.slice(start, end);
 
     return new Response(

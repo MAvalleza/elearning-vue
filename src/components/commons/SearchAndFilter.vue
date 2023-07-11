@@ -11,13 +11,13 @@ const props = defineProps({
     type: Boolean,
     default: null,
   },
-})
+});
 
 const emit = defineEmits([
   'filter',
   'search',
   'update:searchText',
-  'update:statusFilter'
+  'update:statusFilter',
 ]);
 
 const searchText = ref(props.searchText);
@@ -27,23 +27,23 @@ const FILTER_OPTIONS = [
   { label: 'Draft', value: false },
 ];
 
-const menu = ref(false)
+const menu = ref(false);
 const published = ref(props.statusFilter);
 
 const applyFilter = debounce(() => {
   emit('update:statusFilter', published.value);
   emit('filter');
-}, 500)
+}, 500);
 
 const onClear = () => {
   published.value = null;
   applyFilter();
-}
+};
 
 const onUpdate = debounce(e => {
   emit('update:searchText', e);
   emit('search', e);
-}, 1000)
+}, 1000);
 </script>
 
 <template lang="pug">

@@ -1,11 +1,13 @@
 # Mvalleza E-learning Vue
 
 ## Overview
+
 IN PROGRESS
 
 Front-end training project for viewing subjects and courses.
 
 ### Mock Implementation
+
 Due to absence of a backend, the endpoints have been mocked using [MirageJS](https://miragejs.com/docs/getting-started/introduction/)
 
 Note that whatever data you created will be lost once you refresh the app since they are saved within the front-end instance only.
@@ -13,6 +15,7 @@ Note that whatever data you created will be lost once you refresh the app since 
 These mock implementation will be removed once an actual backend has been developed for this app.
 
 ## Installation
+
 ### Installing dependencies
 
 ```
@@ -36,7 +39,9 @@ yarn dev
 ```
 
 ## Users
+
 There are 3 users:
+
 1. Admin
 2. Instructor
 3. Student
@@ -49,6 +54,7 @@ password: 123
 ```
 
 ### Creating your own account
+
 Creating an account is still possible even without the backend.
 
 Simply go through the registration process as normal.

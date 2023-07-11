@@ -35,7 +35,7 @@ const SUBJECTS_DATA_TABLE = {
     { title: 'Status', align: 'end', key: 'status' },
   ],
   itemValue: 'title',
-}
+};
 
 const subjectsStore = useSubjects();
 const { subjects, subjectsTotal } = storeToRefs(subjectsStore);
@@ -53,8 +53,8 @@ const initial = {
   total: {
     current: 0,
     overall: 0,
-  }
-}
+  },
+};
 
 let fetchParams = reactive({ ...initial.params });
 
@@ -73,7 +73,7 @@ function onUpdateTableOptions(event) {
 
   fetchParams = reactive({
     ...initial.params,
-    ...updatedParams
+    ...updatedParams,
   });
 
   fetchSubjects();
@@ -81,7 +81,7 @@ function onUpdateTableOptions(event) {
 
 onMounted(() => {
   initialize();
-})
+});
 </script>
 
 <template lang="pug">

@@ -1,7 +1,7 @@
-import queryString from "query-string";
+import queryString from 'query-string';
 
 export default class Webservice {
-  constructor () {
+  constructor() {
     this.apiNamespace = import.meta.env.VITE_API_NAMESPACE;
     this.requestHeaders = {
       'Content-Type': 'application/json',
@@ -9,14 +9,11 @@ export default class Webservice {
   }
 
   parseParams(params = {}) {
-    const stringified = queryString.stringify(
-      params,
-      {
-        parseBooleans: true,
-        skipNull: true,
-        skipEmptyString: true,
-      },
-    );
+    const stringified = queryString.stringify(params, {
+      parseBooleans: true,
+      skipNull: true,
+      skipEmptyString: true,
+    });
 
     return stringified ? `?${stringified}` : '';
   }

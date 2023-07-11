@@ -62,7 +62,7 @@ const createAuthRoutes = routeInstance => {
   routeInstance.delete('/logout', (schema, request) => {
     const token = request.requestHeaders['Authorization'];
 
-    schema.db.sessions.remove({ accessToken: token});
+    schema.db.sessions.remove({ accessToken: token });
   });
 
   routeInstance.get('/password', (schema, request) => {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import SubjectsWebservice from '@/webservices/subjectsWebservice';
 import { useUI as uiStore } from './ui';
-import { useAuth as authStore } from './auth'
+import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
 
@@ -21,7 +21,7 @@ export const useSubjects = defineStore('subjects', {
 
         const response = await webservice.getSubjects(
           currentUser.accessToken,
-          params,
+          params
         );
 
         if (!isEmpty(response.errors)) {
@@ -48,6 +48,6 @@ export const useSubjects = defineStore('subjects', {
       } finally {
         uiStore().setLoading(false);
       }
-    }
+    },
   },
 });

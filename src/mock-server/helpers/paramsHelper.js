@@ -4,7 +4,7 @@ import get from 'lodash-es/get';
 
 class PaginationParams {
   constructor(params) {
-    const { limit = 10 , page = 1} = params;
+    const { limit = 10, page = 1 } = params;
 
     this.start = (page - 1) * limit;
     this.end = this.start + limit;
@@ -24,19 +24,16 @@ class Filter {
     published: {
       filter: (data, params) => {
         // We parse the parse to handle boolean values that are strings
-        return data.isPublished === JSON.parse(params.published)
-      }
+        return data.isPublished === JSON.parse(params.published);
+      },
     },
     courses: {
-      filter: (data) => !isEmpty(data.courseIds),
+      filter: data => !isEmpty(data.courseIds),
     },
-  }
+  };
 
   constructor(params = {}) {
-    this.filterParams = pick(
-      params,
-      Object.keys(this.#FILTER_OPTS),
-    );
+    this.filterParams = pick(params, Object.keys(this.#FILTER_OPTS));
   }
 
   filter(data) {
@@ -45,26 +42,23 @@ class Filter {
     // Evaluate the parameters based on the filter methods for those parameters
     // Push the result to an array.
     Object.keys(this.filterParams).forEach(key => {
-      conditions.push(this.#FILTER_OPTS[key].filter(data, this.filterParams))
+      conditions.push(this.#FILTER_OPTS[key].filter(data, this.filterParams));
     });
 
     // Return the reduced result
-    return conditions.reduce(
-      (acc, curr) => acc && curr,
-      true
-    );
+    return conditions.reduce((acc, curr) => acc && curr, true);
   }
 }
 
 class Sorter {
   #SORT_METHODS = {
     asc: 1,
-    desc: -1
-  }
+    desc: -1,
+  };
 
   #CUSTOM_SORT_KEYS = {
     coursesLength: 'courseIds.length',
-  }
+  };
 
   constructor(params) {
     this.sortKey = this.#CUSTOM_SORT_KEYS[params.sort] || params.sort;
@@ -84,8 +78,4 @@ class Sorter {
   }
 }
 
-export {
-  PaginationParams,
-  Filter,
-  Sorter,
-};
+export { PaginationParams, Filter, Sorter };

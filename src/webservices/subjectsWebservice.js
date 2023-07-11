@@ -1,9 +1,9 @@
-import Webservice from "./base";
+import Webservice from './base';
 export default class SubjectsWebservice extends Webservice {
   async getSubjects(token, params) {
     const url = this.parseURL({
       path: 'subjects',
-      params
+      params,
     });
 
     const response = await fetch(url, {
@@ -13,7 +13,7 @@ export default class SubjectsWebservice extends Webservice {
         Authorization: token,
       },
     });
-  
+
     return await response.json();
   }
 }

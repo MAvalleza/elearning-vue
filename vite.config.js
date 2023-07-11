@@ -11,9 +11,9 @@ export default defineConfig({
       baseConfig: {
         parserOptions: {
           ecmaVersion: 'latest',
-        }
-      }
-    })
+        },
+      },
+    }),
   ],
   test: {
     globals: true,
