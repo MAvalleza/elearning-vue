@@ -16,6 +16,7 @@ const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW SUBJECT',
   flat: true,
   style: { color: 'black' },
+  to: { name: 'create-subject' }
 };
 
 // UI states

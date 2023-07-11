@@ -1,11 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuth as authStore } from '@/stores/auth';
-import SubjectsPage from '../pages/SubjectsPage.vue';
-import RegistrationPage from '../pages/auth/RegistrationPage.vue';
-import LoginPage from '../pages/auth/LoginPage.vue';
-import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage.vue';
-import ChangePasswordPage from '../pages/auth/ChangePasswordPage.vue';
-import activityWatcher from '../plugins/activity-watcher';
+import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
+import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
+import RegistrationPage from '@/pages/auth/RegistrationPage.vue';
+import LoginPage from '@/pages/auth/LoginPage.vue';
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage.vue';
+import ChangePasswordPage from '@/pages/auth/ChangePasswordPage.vue';
+import activityWatcher from '@/plugins/activity-watcher';
 
 const routes = [
   {
@@ -18,22 +19,22 @@ const routes = [
     meta: { layout: 'BlankLayout' },
     children: [
       {
-        path: '/auth/register',
+        path: 'register',
         name: 'registration',
         component: RegistrationPage,
       },
       {
-        path: '/auth/login',
+        path: 'login',
         name: 'login',
         component: LoginPage,
       },
       {
-        path: '/auth/forgot-password',
+        path: 'forgot-password',
         name: 'forgot-password',
         component: ForgotPasswordPage,
       },
       {
-        path: '/auth/change-password',
+        path: 'change-password',
         name: 'change-password',
         component: ChangePasswordPage,
       },
@@ -45,9 +46,20 @@ const routes = [
     meta: {
       auth: true,
       layout: 'AppLayout',
-      title: 'Subjects',
     },
-    component: SubjectsPage,
+    children: [
+      {
+        path: '',
+        meta: { title: 'Subjects' },
+        component: SubjectsListPage
+      },
+      {
+        path: 'create',
+        name: 'create-subject',
+        meta: { title: 'Add Subject' },
+        component: CreateSubjectPage
+      }
+    ]
   },
 ];
 
