@@ -57,7 +57,7 @@ class Sorter {
   };
 
   #CUSTOM_SORT_KEYS = {
-    coursesLength: 'courseIds.length',
+    totalCourses: 'courseIds.length',
     status: 'isPublished',
   };
 
