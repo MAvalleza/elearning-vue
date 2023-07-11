@@ -12,7 +12,7 @@ Due to absence of a backend, the endpoints have been mocked using [MirageJS](htt
 
 Note that whatever data you created will be lost once you refresh the app since they are saved within the front-end instance only.
 
-These mock implementation will be removed once an actual backend has been developed for this app.
+These mock implementations will be removed once an actual backend has been developed for this app.
 
 ## Installation
 
@@ -61,4 +61,4 @@ Simply go through the registration process as normal.
 
 No email verification has been set yet since actual sending of email is not present in the mocks.
 
-Note that this account will also be lost once the app is refresed.
+Note that this account will also be lost once the app is refreshed.
