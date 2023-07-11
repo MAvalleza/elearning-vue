@@ -50,6 +50,7 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'subjects-list',
         meta: { title: 'Subjects' },
         component: SubjectsListPage
       },
