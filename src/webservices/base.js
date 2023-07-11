@@ -12,16 +12,13 @@ export default class Webservice {
     const stringified = queryString.stringify(
       params,
       {
+        parseBooleans: true,
         skipNull: true,
         skipEmptyString: true,
       },
     );
 
-    if (stringified) {
-      return `?${stringified}`;
-    } else {
-      return '';
-    }
+    return stringified ? `?${stringified}` : '';
   }
 
   parseURL({ path, params }) {

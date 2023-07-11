@@ -92,8 +92,10 @@ page-header(
 )
   template(#center-section)
     search-and-filter(
-      v-model="fetchParams.keyword"
+      v-model:search-text="fetchParams.keyword"
+      v-model:status-filter="fetchParams.published"
       @search="fetchSubjects"
+      @filter="fetchSubjects"
     )
 page-content
   // TODO: Put courses word in courses column

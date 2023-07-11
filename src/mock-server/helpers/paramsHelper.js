@@ -22,7 +22,10 @@ class Filter {
       },
     },
     published: {
-      filter: (data) => data.isPublished,
+      filter: (data, params) => {
+        // We parse the parse to handle boolean values that are strings
+        return data.isPublished === JSON.parse(params.published)
+      }
     },
     courses: {
       filter: (data) => !isEmpty(data.courseIds),
