@@ -26,12 +26,16 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  // Set to true if you want to utilize the center section
+  hasCenterSection: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const HEADER_STYLES = {
   height: `${props.height}px`,
   backgroundColor: props.bgColor,
-  color: props.fontColor,
 };
 </script>
 
@@ -40,11 +44,15 @@ div(:style="HEADER_STYLES").pt-8
   slot(name="content")
     v-container(fluid)
       v-row(align="center")
-        v-col.d-flex
+        v-col(:style="{ color: props.fontColor }").d-flex
           slot(name="title")
             v-icon(:icon="props.titleIcon" size="x-large").pt-4
             h1.pl-3 {{ props.title }}
         v-spacer
+        template(v-if="hasCenterSection")
+          v-col(cols="5").pt-4
+            slot(name="center-section")
+          v-spacer
         v-col(style="{ background-color: 'red'}").text-right
           slot(name="action-btn")
             v-btn(v-bind="buttonOpts")

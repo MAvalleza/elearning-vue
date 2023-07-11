@@ -8,6 +8,7 @@ import { mapOptionsToParams } from '@/helpers/tableHelper';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import GenericDataTable from '@/components/commons/GenericDataTable.vue';
+import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 
 const route = useRoute();
 
@@ -68,8 +69,6 @@ async function fetchSubjects() {
 }
 
 function onUpdateTableOptions(event) {
-  console.log('event', event);
-
   const updatedParams = mapOptionsToParams(event);
 
   fetchParams = reactive({
@@ -89,8 +88,10 @@ onMounted(() => {
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
+  has-center-section
 )
-
+  template(#center-section)
+    search-and-filter
 page-content
   // TODO: Put courses word in courses column
   generic-data-table( 
