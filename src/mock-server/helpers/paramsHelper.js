@@ -58,6 +58,7 @@ class Sorter {
 
   #CUSTOM_SORT_KEYS = {
     coursesLength: 'courseIds.length',
+    status: 'isPublished',
   };
 
   constructor(params) {
