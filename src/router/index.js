@@ -47,6 +47,7 @@ const routes = [
       auth: true,
       layout: 'AppLayout',
     },
+    redirect: { name: 'subjects-list' },
     children: [
       {
         path: '',
