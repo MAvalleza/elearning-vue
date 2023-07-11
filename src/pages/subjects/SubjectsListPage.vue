@@ -5,9 +5,10 @@ import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
+import { VDataTableServer } from 'vuetify/lib/labs/components';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
-import GenericDataTable from '@/components/commons/GenericDataTable.vue';
+// import GenericDataTable from '@/components/commons/GenericDataTable.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 
 const route = useRoute();
@@ -32,7 +33,7 @@ const SUBJECTS_DATA_TABLE = {
       sortable: true,
       key: 'title',
     },
-    { title: 'Courses', align: 'end', key: 'coursesLength' },
+    { title: 'Courses', align: 'end', key: 'totalCourses' },
     { title: 'Status', align: 'end', key: 'status' },
   ],
   itemValue: 'title',
@@ -99,13 +100,16 @@ page-header(
       @filter="fetchSubjects"
     )
 page-content
-  // TODO: Put courses word in courses column
-  generic-data-table( 
+  v-data-table-server(
     v-model:items-per-page="fetchParams.limit"
     v-bind="SUBJECTS_DATA_TABLE"
     :items="subjects"
-    :total-items="subjectsTotal"
+    :items-length="subjectsTotal"
     :loading="loading"
     @update:options="onUpdateTableOptions"
   )
+    template(#[`item.totalCourses`]="{ item }")
+      span(v-if="!item.columns.totalCourses") No
+      span(v-else) {{ item.columns.totalCourses }}
+      span &nbsp;{{ `course${item.columns.totalCourses !== 1 ? 's' : ''}` }}
 </template>
