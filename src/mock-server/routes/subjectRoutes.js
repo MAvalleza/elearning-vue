@@ -17,19 +17,20 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    let collection = schema.subjects.where({ ownerId: authSession.user().id });
+    const collection = schema.subjects.where({ ownerId: authSession.user().id });
 
-    collection = evaluateParams(collection, request.queryParams);
-
-    // TODO: Handle join
+    const { count, results } = evaluateParams(
+      schema,
+      {
+        collection,
+        params: request.queryParams
+      }
+    );
 
     return new Response(
       200,
       { some: 'header' },
-      {
-        count: collection.length,
-        results: collection.models,
-      }
+      { count, results }
     );
   });
 

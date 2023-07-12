@@ -10,6 +10,7 @@ export default class Webservice {
 
   parseParams(params = {}) {
     const stringified = queryString.stringify(params, {
+      arrayFormat: 'bracket',
       parseBooleans: true,
       skipNull: true,
       skipEmptyString: true,

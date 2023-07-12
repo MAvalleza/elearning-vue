@@ -51,6 +51,7 @@ const initial = {
     sortDirection: null,
     keyword: null,
     published: null,
+    join: ['courses'],
   },
   total: {
     current: 0,
