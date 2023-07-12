@@ -2,12 +2,41 @@ import isEmpty from 'lodash-es/isEmpty';
 import pick from 'lodash-es/pick';
 import get from 'lodash-es/get';
 
+function evaluateParams (collection, params) {
+  let data = collection;
+
+  const filter = new Filter(params);
+  const sorter = new Sorter(params);
+  const pagination = new PaginationParams(params);
+
+  // Apply filters
+  if (!isEmpty(filter.filterParams)) {
+    data = data.filter(data => {
+      return filter.filter(data);
+    });
+  }
+
+  // Apply sorting
+  if (sorter.sortKey) {
+    data = data.sort((a, b) => {
+      return sorter.sort(a, b);
+    });
+  }
+
+  // Apply pagination and return
+  return pagination.paginate(data);
+} 
+
 class PaginationParams {
   constructor(params) {
-    const { limit = 10, page = 1 } = params;
+    const { limit = 25, page = 1 } = params;
 
     this.start = (page - 1) * limit;
     this.end = this.start + limit;
+  }
+
+  paginate(data) {
+    return data.slice(this.start, this.end);
   }
 }
 
@@ -79,4 +108,4 @@ class Sorter {
   }
 }
 
-export { PaginationParams, Filter, Sorter };
+export { evaluateParams };

@@ -62,10 +62,8 @@ let fetchParams = reactive({ ...initial.params });
 
 function initialize() {
   fetchParams = reactive({ ...initial.params });
-
-  // Fetch the data
-  fetchSubjects();
 }
+
 async function fetchSubjects() {
   await subjectsStore.fetchSubjects(fetchParams);
 }
