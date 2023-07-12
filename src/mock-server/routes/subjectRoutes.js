@@ -35,11 +35,29 @@ const createSubjectRoutes = routeInstance => {
   });
 
 
-  // routeInstance.post('/subjects', (schema, request) => {
-  //   let attrs = JSON.parse(request.requestBody);
+  routeInstance.post('/subjects', (schema, request) => {
+    let attrs = JSON.parse(request.requestBody);
+    const token = request.requestHeaders['Authorization'];
 
+    const authSession = new AuthSession(schema, token);
+  
+    if (!authSession.isAuthorized()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authenticated to fulfill this request']},
+      );
+    }
 
-  // });
+    const data = {
+      ...attrs,
+      owner: authSession.user(),
+      createdAt: Date.now(),
+      updatedAt: null,
+    };
+
+    return schema.subjects.create(data);
+  });
 };
 
 export default createSubjectRoutes;

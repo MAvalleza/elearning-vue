@@ -16,4 +16,21 @@ export default class SubjectsWebservice extends Webservice {
 
     return await response.json();
   }
+
+  async createSubject(token, params) {
+    const url = this.parseURL({ path: 'subjects' });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+      body: JSON.stringify(params)
+    });
+
+    console.log('response', response);
+
+    return await response.json();
+  }
 }

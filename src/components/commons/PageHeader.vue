@@ -37,6 +37,12 @@ const HEADER_STYLES = {
   height: `${props.height}px`,
   backgroundColor: props.bgColor,
 };
+
+const emit = defineEmits(['click'])
+
+function onButtonClick() {
+  emit('click');
+}
 </script>
 
 <template lang="pug">
@@ -55,5 +61,5 @@ div(:style="HEADER_STYLES").pt-8
           v-spacer
         v-col(style="{ background-color: 'red'}").text-right
           slot(name="action-btn")
-            v-btn(v-bind="buttonOpts")
+            v-btn(v-bind="buttonOpts" @click="onButtonClick")
 </template>

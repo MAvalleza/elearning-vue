@@ -49,5 +49,35 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
+    async createSubject(params) {
+      try {
+        uiStore().setLoading(true);
+  
+        const currentUser = authStore().currentUser;
+  
+        const response = await webservice.createSubject(
+          currentUser.accessToken,
+          params
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+  
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully created a subject.'
+        });
+      } catch (e) {
+        console.error(e);
+  
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in creating your subject.',
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    }
   },
 });
