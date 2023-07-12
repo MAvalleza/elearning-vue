@@ -14,8 +14,19 @@ class AuthSession {
     return this.schema.users.findBy({ email: this.session.email });
   }
 
-  isAuthorized() {
-    return this.session && this.user();
+  isAuthorized({ resource, resourceId } = {}) {
+    if (resourceId && !resource) {
+      return false;
+    }
+
+    if (!resourceId) {
+      return this.session && this.user();
+    }
+
+    // Checks if user has access to the resource
+    return !!this.user()[resource]
+      .models
+      .find(model => model.id === resourceId);
   }
 }
 

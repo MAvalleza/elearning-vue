@@ -17,7 +17,7 @@ export default class SubjectsWebservice extends Webservice {
     return await response.json();
   }
 
-  async createSubject(token, params) {
+  async createSubject(params, token) {
     const url = this.parseURL({ path: 'subjects' });
 
     const response = await fetch(url, {
@@ -29,8 +29,35 @@ export default class SubjectsWebservice extends Webservice {
       body: JSON.stringify(params)
     });
 
-    console.log('response', response);
+    return await response.json();
+  }
+
+  async getSubject(id, token) {
+    const url = this.parseURL({ path: `subjects/${id}` });
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+    });
 
     return await response.json();
   }
+
+  // async updateSubject(id, data, token) {
+  //   const url = this.parseURL({ path: `subjects/${id}` });
+
+  //   const response = await fetch(url, {
+  //     method: 'PUT',
+  //     headers: {
+  //       ...this.requestHeaders,
+  //       Authorization: token,
+  //     },
+  //     body: JSON.stringify(params)
+  //   });
+
+  //   return await response.json();
+  // }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
@@ -8,9 +8,9 @@ import { mapOptionsToParams } from '@/helpers/tableHelper';
 import { VDataTableServer } from 'vuetify/lib/labs/components';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
-// import GenericDataTable from '@/components/commons/GenericDataTable.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 
+const router = useRouter();
 const route = useRoute();
 
 const HEADER_BUTTON_OPTS = {
@@ -69,6 +69,13 @@ async function fetchSubjects() {
   await subjectsStore.fetchSubjects(fetchParams);
 }
 
+function editSubject(event, { item }) {
+  router.push({
+    name: 'edit-subject',
+    params: { id: item.raw.id },
+  });
+}
+
 function onUpdateTableOptions(event) {
   const updatedParams = mapOptionsToParams(event);
 
@@ -105,6 +112,7 @@ page-content
     :items="subjects"
     :items-length="subjectsTotal"
     :loading="loading"
+    @click:row="editSubject"
     @update:options="onUpdateTableOptions"
   )
     template(#[`item.totalCourses`]="{ item }")

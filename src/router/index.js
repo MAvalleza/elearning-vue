@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuth as authStore } from '@/stores/auth';
 import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
+import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
 import RegistrationPage from '@/pages/auth/RegistrationPage.vue';
 import LoginPage from '@/pages/auth/LoginPage.vue';
 import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage.vue';
@@ -60,6 +61,12 @@ const routes = [
         name: 'create-subject',
         meta: { title: 'Add Subject' },
         component: CreateSubjectPage
+      },
+      {
+        path: '/subjects/:id',
+        name: 'edit-subject',
+        meta: { title: 'Edit Subject' },
+        component: EditSubjectPage
       }
     ]
   },

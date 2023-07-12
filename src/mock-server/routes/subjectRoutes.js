@@ -13,7 +13,7 @@ const createSubjectRoutes = routeInstance => {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authenticated to fulfill this request']},
+        { errors: ['You are not authorized to fulfill this request']},
       );
     }
 
@@ -45,7 +45,7 @@ const createSubjectRoutes = routeInstance => {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authenticated to fulfill this request']},
+        { errors: ['You are not authorized to fulfill this request']},
       );
     }
 
@@ -57,6 +57,24 @@ const createSubjectRoutes = routeInstance => {
     };
 
     return schema.subjects.create(data);
+  });
+
+  routeInstance.get('/subjects/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'subjects', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request']},
+      );
+    }
+
+    return schema.subjects.find(id).attrs;
   });
 };
 

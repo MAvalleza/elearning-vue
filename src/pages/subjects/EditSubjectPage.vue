@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
@@ -8,6 +8,7 @@ import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
 
+// const router = useRouter();
 const route = useRoute();
 
 const uiStore = useUI();
@@ -18,11 +19,23 @@ const HEADER_BUTTON_OPTS = {
 }
 
 const subjectsStore = useSubjects();
-const newSubject = ref({ title: null, isPublished: null })
+const subject = ref({});
 
-function createSubject() {
-  subjectsStore.createSubject(newSubject.value);
+async function fetchSubject() {
+  const id = route.params.id;
+
+  subject.value = await subjectsStore.fetchSubject(id);
 }
+
+// function updateSubject() {
+//   subjectsStore.createSubject(newSubject.value);
+
+//   router.push({ name: 'subjects-list' });
+// }
+
+onMounted(() => {
+  fetchSubject();
+})
 </script>
 
 <template lang="pug">
@@ -31,9 +44,8 @@ app-loader(:is-visible="loading")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
-  @click="createSubject"
 )
 
 page-content
-  subject-form(v-model="newSubject")
+  subject-form(:key="subject.id" v-model="subject")
 </template>

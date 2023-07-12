@@ -56,8 +56,8 @@ export const useSubjects = defineStore('subjects', {
         const currentUser = authStore().currentUser;
   
         const response = await webservice.createSubject(
+          params,
           currentUser.accessToken,
-          params
         );
 
         if (!isEmpty(response.errors)) {
@@ -68,6 +68,8 @@ export const useSubjects = defineStore('subjects', {
           color: 'success',
           message: 'Successfully created a subject.'
         });
+
+        this.$router.push({ name: 'subjects-list' });
       } catch (e) {
         console.error(e);
   
@@ -78,6 +80,65 @@ export const useSubjects = defineStore('subjects', {
       } finally {
         uiStore().setLoading(false);
       }
-    }
+    },
+    async fetchSubject(id) {
+      try {
+        uiStore().setLoading(true);
+  
+        const currentUser = authStore().currentUser;
+  
+        const response = await webservice.getSubject(
+          id,
+          currentUser.accessToken,
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        return response;
+      } catch (e) {
+        console.error(e);
+  
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in fetching the subject.',
+        });
+
+        this.$router.push({ name: 'subjects-list' });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
+    // async updateSubject(id, params) {
+    //   try {
+    //     uiStore().setLoading(true);
+  
+    //     const currentUser = authStore().currentUser;
+  
+    //     const response = await webservice.getSubject(
+    //       id,
+    //       params,
+    //       currentUser.accessToken,
+    //     );
+
+    //     if (!isEmpty(response.errors)) {
+    //       throw Error(response.errors[0]);
+    //     }
+
+    //     return response;
+    //   } catch (e) {
+    //     console.error(e);
+  
+    //     uiStore().showSnackbar({
+    //       color: 'error',
+    //       message: 'There was an error in updating the subject.',
+    //     });
+
+    //     this.$router.push({ name: 'subjects-list' });
+    //   } finally {
+    //     uiStore().setLoading(false);
+    //   }
+    // }
   },
 });
