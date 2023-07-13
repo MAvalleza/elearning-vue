@@ -1,12 +1,13 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuth as authStore } from '@/stores/auth';
-import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
-import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
-import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
 import RegistrationPage from '@/pages/auth/RegistrationPage.vue';
 import LoginPage from '@/pages/auth/LoginPage.vue';
 import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage.vue';
 import ChangePasswordPage from '@/pages/auth/ChangePasswordPage.vue';
+import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
+import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
+import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
+import CoursesListPage from '@/pages/courses/CoursesListPage.vue';
 import activityWatcher from '@/plugins/activity-watcher';
 
 const routes = [
@@ -68,6 +69,23 @@ const routes = [
         meta: { title: 'Edit Subject' },
         component: EditSubjectPage
       }
+    ]
+  },
+  {
+    path: '/courses',
+    name: 'courses',
+    meta: {
+      auth: true,
+      layout: 'AppLayout',
+    },
+    redirect: { name: 'courses-list' },
+    children: [
+      {
+        path: '',
+        name: 'courses-list',
+        meta: { title: 'Courses' },
+        component: CoursesListPage,
+      },
     ]
   },
 ];
