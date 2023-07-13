@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import debounce from 'lodash-es/debounce';
-import STATUSES from '@/constants/statuses';
+import { STATUS_LABELS } from '@/constants/statuses';
 
 const props = defineProps({
   searchText: {
@@ -66,7 +66,7 @@ v-text-field(
           v-card-item
             v-radio-group(v-model="published" column)
               v-radio(
-                v-for="(option, key) in STATUSES"
+                v-for="(option, key) in STATUS_LABELS"
                 :key="key"
                 v-bind="option"
               )

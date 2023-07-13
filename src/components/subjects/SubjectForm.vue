@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import STATUSES from '@/constants/statuses';
+import { STATUS_LABELS } from '@/constants/statuses';
 
 const props = defineProps({
   modelValue: {
@@ -36,7 +36,7 @@ v-form
             v-model="subject.isPublished"
             label="Status"
             variant="outlined"
-            :items="STATUSES"
+            :items="STATUS_LABELS"
             item-title="label"
             item-value="value"
             @update:model-value="onUpdate"
