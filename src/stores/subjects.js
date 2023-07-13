@@ -142,6 +142,36 @@ export const useSubjects = defineStore('subjects', {
       } finally {
         uiStore().setLoading(false);
       }
+    },
+    async deleteSubject(id) {
+      try {
+        uiStore().setLoading(true);
+  
+        const currentUser = authStore().currentUser;
+  
+        const response = await webservice.deleteSubject(
+          id,
+          currentUser.accessToken,
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully deleted the subject.',
+        });
+      } catch (e) {
+        console.error(e);
+  
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in deleting the subject.',
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
     }
   },
 });

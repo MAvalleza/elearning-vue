@@ -111,20 +111,20 @@ async function onAction(action, item) {
 
   switch (action) {
     case 'delete':
-      console.log('delete');
-      // deleteSubject
+      await subjectsStore.deleteSubject(id);
       break;
     case 'publish':
       await subjectsStore.updateSubject(id, { isPublished: true });
-      fetchSubjects();
       break;
     case 'draft':
       await subjectsStore.updateSubject(id, { isPublished: false });
-      fetchSubjects();
       break;
     default:
       break;
   }
+
+  // Re-fetch subjects
+  fetchSubjects();
 }
 
 onMounted(() => {

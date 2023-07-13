@@ -97,6 +97,37 @@ const createSubjectRoutes = routeInstance => {
 
     return subject.update(attrs);
   });
+
+  routeInstance.del('/subjects/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'subjects', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request']},
+      );
+    }
+
+    let subject = schema.subjects.find(id);
+
+    // Delete associated courses
+    subject.courses.destroy();
+
+    // Delete the actual subject
+    subject.destroy();
+
+    return new Response(
+      200,
+      { some: 'header' },
+      { deleted: id, resource: 'subjects' },
+    );
+  });
+
 };
 
 export default createSubjectRoutes;

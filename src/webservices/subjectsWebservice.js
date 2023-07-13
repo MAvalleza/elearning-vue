@@ -60,4 +60,18 @@ export default class SubjectsWebservice extends Webservice {
 
     return await response.json();
   }
+
+  async deleteSubject(id, token) {
+    const url = this.parseURL({ path: `subjects/${id}` });
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+    });
+
+    return await response.json();
+  }
 }
