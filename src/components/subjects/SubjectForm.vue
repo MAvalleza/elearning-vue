@@ -21,7 +21,7 @@ function onUpdate() {
 <template lang="pug">
 v-form
   v-card
-    v-container
+    v-container(fluid)
       v-row
         v-col
           v-text-field(
