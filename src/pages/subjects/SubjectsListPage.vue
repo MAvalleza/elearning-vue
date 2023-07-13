@@ -4,11 +4,12 @@ import { onMounted, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
-import { mapOptionsToParams } from '@/helpers/tableHelper';
+import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper';
 import { VDataTableServer } from 'vuetify/lib/labs/components';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
+import TableActions from '@/components/commons/TableActions.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -35,6 +36,7 @@ const SUBJECTS_DATA_TABLE = {
     },
     { title: 'Courses', align: 'end', key: 'totalCourses' },
     { title: 'Status', align: 'end', key: 'status' },
+    { title: '', align: 'end', key: 'actions', sortable: false },
   ],
   itemValue: 'title',
 };
@@ -88,6 +90,43 @@ function onUpdateTableOptions(event) {
   fetchSubjects();
 }
 
+function getTableActions(item) {
+  const DELETE_ACTION = {
+    icon: {
+      icon: 'mdi-delete',
+      color: 'error',
+    },
+    title: 'Delete',
+    action: 'delete'
+  };
+
+  return [
+    getTableStatusAction(item.raw.isPublished),
+    DELETE_ACTION,
+  ];
+}
+
+async function onAction(action, item) {
+  const id = item.raw.id;
+
+  switch (action) {
+    case 'delete':
+      console.log('delete');
+      // deleteSubject
+      break;
+    case 'publish':
+      await subjectsStore.updateSubject(id, { isPublished: true });
+      fetchSubjects();
+      break;
+    case 'draft':
+      await subjectsStore.updateSubject(id, { isPublished: false });
+      fetchSubjects();
+      break;
+    default:
+      break;
+  }
+}
+
 onMounted(() => {
   initialize();
 });
@@ -120,4 +159,10 @@ page-content
       span(v-if="!item.columns.totalCourses") No
       span(v-else) {{ item.columns.totalCourses }}
       span &nbsp;{{ `course${item.columns.totalCourses !== 1 ? 's' : ''}` }}
+
+    template(#[`item.actions`]="{ item }")
+      table-actions(
+        :actions="getTableActions(item)"
+        @action="onAction($event, item)"
+      )
 </template>

@@ -130,8 +130,6 @@ export const useSubjects = defineStore('subjects', {
           color: 'success',
           message: 'Successfully updated the subject.',
         });
-
-        this.$router.push({ name: 'subjects-list' });
       } catch (e) {
         console.error(e);
   

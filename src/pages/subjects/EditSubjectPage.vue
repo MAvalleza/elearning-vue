@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
@@ -8,6 +8,7 @@ import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
 
+const router = useRouter();
 const route = useRoute();
 
 const uiStore = useUI();
@@ -30,6 +31,8 @@ async function updateSubject() {
     subjectId.value,
     subject.value
   );
+
+  router.push({ name: 'subjects-list' })
 }
 
 onMounted(() => {
