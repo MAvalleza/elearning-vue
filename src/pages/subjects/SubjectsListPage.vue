@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
@@ -8,6 +8,7 @@ import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper'
 import { VDataTableServer } from 'vuetify/lib/labs/components';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
+import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import TableActions from '@/components/commons/TableActions.vue';
 
@@ -24,6 +25,7 @@ const HEADER_BUTTON_OPTS = {
 // UI states
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
+const confirmDialog = ref(null);
 
 // Subjects data
 const SUBJECTS_DATA_TABLE = {
@@ -79,6 +81,19 @@ function editSubject(event, { item }) {
   });
 }
 
+async function deleteSubject(id) {
+  const confirm = await confirmDialog.value.open({
+    title: 'Delete Subject',
+    message: 'Deleting a subject will also delete its courses, are you sure you want to delete this subject?',
+    primaryAction: 'DELETE',
+    primaryColor: 'error',
+  });
+
+  if (confirm) {
+    await subjectsStore.deleteSubject(id);
+  }
+}
+
 function onUpdateTableOptions(event) {
   const updatedParams = mapOptionsToParams(event);
 
@@ -111,7 +126,7 @@ async function onAction(action, item) {
 
   switch (action) {
     case 'delete':
-      await subjectsStore.deleteSubject(id);
+      await deleteSubject(id);
       break;
     case 'publish':
       await subjectsStore.updateSubject(id, { isPublished: true });
@@ -133,6 +148,8 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
+page-confirm-dialog(ref="confirmDialog")
+
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
