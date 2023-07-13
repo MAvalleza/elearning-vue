@@ -76,6 +76,27 @@ const createSubjectRoutes = routeInstance => {
 
     return schema.subjects.find(id).attrs;
   });
+
+  routeInstance.put('/subjects/:id', (schema, request) => {
+    let id = request.params.id;
+    let attrs = JSON.parse(request.requestBody);
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'subjects', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request']},
+      );
+    }
+
+    let subject = schema.subjects.find(id);
+
+    return subject.update(attrs);
+  });
 };
 
 export default createSubjectRoutes;

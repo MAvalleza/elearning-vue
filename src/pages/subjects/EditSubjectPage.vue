@@ -8,7 +8,6 @@ import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
 
-// const router = useRouter();
 const route = useRoute();
 
 const uiStore = useUI();
@@ -19,19 +18,19 @@ const HEADER_BUTTON_OPTS = {
 }
 
 const subjectsStore = useSubjects();
+const subjectId = ref(route.params.id);
 const subject = ref({});
 
 async function fetchSubject() {
-  const id = route.params.id;
-
-  subject.value = await subjectsStore.fetchSubject(id);
+  subject.value = await subjectsStore.fetchSubject(subjectId.value);
 }
 
-// function updateSubject() {
-//   subjectsStore.createSubject(newSubject.value);
-
-//   router.push({ name: 'subjects-list' });
-// }
+async function updateSubject() {
+  await subjectsStore.updateSubject(
+    subjectId.value,
+    subject.value
+  );
+}
 
 onMounted(() => {
   fetchSubject();
@@ -44,6 +43,7 @@ app-loader(:is-visible="loading")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
+  @click="updateSubject"
 )
 
 page-content

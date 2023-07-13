@@ -46,18 +46,18 @@ export default class SubjectsWebservice extends Webservice {
     return await response.json();
   }
 
-  // async updateSubject(id, data, token) {
-  //   const url = this.parseURL({ path: `subjects/${id}` });
+  async updateSubject(id, data, token) {
+    const url = this.parseURL({ path: `subjects/${id}` });
 
-  //   const response = await fetch(url, {
-  //     method: 'PUT',
-  //     headers: {
-  //       ...this.requestHeaders,
-  //       Authorization: token,
-  //     },
-  //     body: JSON.stringify(params)
-  //   });
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+      body: JSON.stringify(data)
+    });
 
-  //   return await response.json();
-  // }
+    return await response.json();
+  }
 }

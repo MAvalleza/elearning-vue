@@ -110,35 +110,40 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
-    // async updateSubject(id, params) {
-    //   try {
-    //     uiStore().setLoading(true);
+    async updateSubject(id, params) {
+      try {
+        uiStore().setLoading(true);
   
-    //     const currentUser = authStore().currentUser;
+        const currentUser = authStore().currentUser;
   
-    //     const response = await webservice.getSubject(
-    //       id,
-    //       params,
-    //       currentUser.accessToken,
-    //     );
+        const response = await webservice.updateSubject(
+          id,
+          params,
+          currentUser.accessToken,
+        );
 
-    //     if (!isEmpty(response.errors)) {
-    //       throw Error(response.errors[0]);
-    //     }
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
 
-    //     return response;
-    //   } catch (e) {
-    //     console.error(e);
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully updated the subject.',
+        });
+
+        this.$router.push({ name: 'subjects-list' });
+      } catch (e) {
+        console.error(e);
   
-    //     uiStore().showSnackbar({
-    //       color: 'error',
-    //       message: 'There was an error in updating the subject.',
-    //     });
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in updating the subject.',
+        });
 
-    //     this.$router.push({ name: 'subjects-list' });
-    //   } finally {
-    //     uiStore().setLoading(false);
-    //   }
-    // }
+        this.$router.push({ name: 'subjects-list' });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    }
   },
 });
