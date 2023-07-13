@@ -62,6 +62,7 @@ const initial = {
 let fetchParams = reactive({ ...initial.params });
 
 function initialize() {
+  subjectsStore.$reset();
   fetchParams = reactive({ ...initial.params });
 }
 
