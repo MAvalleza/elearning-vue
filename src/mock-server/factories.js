@@ -13,7 +13,6 @@ export default {
     updatedAt: null,
     afterCreate(user, server) {
       SUBJECT_FIXTURES.forEach(subject => {
-        console.log('subject', subject);
         const createdSubject = server.create('subject', {
           owner: user,
           title: subject.title,

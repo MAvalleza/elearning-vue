@@ -6,7 +6,7 @@ export const SUBJECT_FIXTURES = [
     updatedAt: null,
     courses: [
       {
-        title: 'Math Course',
+        title: 'Elementary Math',
         description: 'A basic course',
         // icon: 'mdi-bookshelf',
         isPublished: true,

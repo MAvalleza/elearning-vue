@@ -132,9 +132,6 @@ class Sorter {
 }
 
 class CollectionJoin {
-  #JOIN_COLLECTION_KEYS = {
-    courses: 'courseIds'
-  }
   constructor(schema, params) {
     this.schema = schema;
     this.joinParams = params.join
@@ -163,7 +160,12 @@ class CollectionJoin {
       this.joinParams.forEach(param => {
         const foreignCollection = model[param];
         
-        foreignAttrs[param] = foreignCollection.models;
+        // We check if it is an array of models or just a single model
+        if (!isEmpty(foreignCollection?.models)) {
+          foreignAttrs[param] = foreignCollection.models;
+        } else {
+          foreignAttrs[param] = foreignCollection;
+        }
       });
 
       return {

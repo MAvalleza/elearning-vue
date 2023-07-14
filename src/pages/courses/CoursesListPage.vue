@@ -58,7 +58,7 @@ const initial = {
     sortDirection: null,
     keyword: null,
     published: null,
-    join: ['modules'],
+    join: ['modules', 'subject', 'author'],
   },
   total: {
     current: 0,
