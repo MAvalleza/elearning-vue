@@ -4,13 +4,12 @@ import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
-import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper';
-import { VDataTableServer } from 'vuetify/lib/labs/components';
+import { mapOptionsToParams } from '@/helpers/tableHelper';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
-import TableActions from '@/components/commons/TableActions.vue';
+import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
 // const router = useRouter();
 const route = useRoute();
@@ -26,24 +25,6 @@ const HEADER_BUTTON_OPTS = {
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 const confirmDialog = ref(null);
-
-// Courses data
-const COURSES_DATA_TABLE = {
-  headers: [
-    {
-      title: 'Title',
-      align: 'start',
-      sortable: true,
-      key: 'title',
-    },
-    { title: 'Subject', align: 'end', key: 'subjectTitle' },
-    { title: 'Author', align: 'end', key: 'authorName' },
-    { title: 'Modules', align: 'end', key: 'totalModules' },
-    { title: 'Status', align: 'end', key: 'status' },
-    { title: '', align: 'end', key: 'actions', sortable: false },
-  ],
-  itemValue: 'title',
-};
 
 const coursesStore = useCourses();
 const { courses, coursesTotal } = storeToRefs(coursesStore);
@@ -107,23 +88,7 @@ function onUpdateTableOptions(event) {
   fetchCourses();
 }
 
-function getTableActions(item) {
-  const DELETE_ACTION = {
-    icon: {
-      icon: 'mdi-delete',
-      color: 'error',
-    },
-    title: 'Delete',
-    action: 'delete'
-  };
-
-  return [
-    getTableStatusAction(item.raw.isPublished),
-    DELETE_ACTION,
-  ];
-}
-
-async function onAction(action, item) {
+async function onAction({ action, item }) {
   const id = item.raw.id;
 
   switch (action) {
@@ -165,22 +130,12 @@ page-header(
       @filter="fetchCourses"
     )
 page-content
-  v-data-table-server(
+  courses-list-table(
     v-model:items-per-page="fetchParams.limit"
-    v-bind="COURSES_DATA_TABLE"
     :items="courses"
     :items-length="coursesTotal"
     :loading="loading"
     @update:options="onUpdateTableOptions"
+    @action="onAction"
   )
-    template(#[`item.totalModules`]="{ item }")
-      span(v-if="!item.columns.totalModules") No
-      span(v-else) {{ item.columns.totalModules }}
-      span &nbsp;{{ `module${item.columns.totalModules !== 1 ? 's' : ''}` }}
-
-    template(#[`item.actions`]="{ item }")
-      table-actions(
-        :actions="getTableActions(item)"
-        @action="onAction($event, item  )"
-      )
 </template>
