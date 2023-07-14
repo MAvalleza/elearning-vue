@@ -7,8 +7,8 @@ import createRoutes from './routes';
 
 const createMockServer = () => {
   let server = createServer({
-    models,
-    factories,
+    models, // entities and their relationships
+    factories, // fixtures for creating custom data
 
     // Seed initial data
     seeds(server) {

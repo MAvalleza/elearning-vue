@@ -10,6 +10,8 @@ Front-end training project for viewing subjects and courses.
 
 Due to absence of a backend, the endpoints have been mocked using [MirageJS](https://miragejs.com/docs/getting-started/introduction/)
 
+The MirageJS configs can be found in `src/mock-server`
+
 Note that whatever data you created will be lost once you refresh the app since they are saved within the front-end instance only.
 
 These mock implementations will be removed once an actual backend has been developed for this app.

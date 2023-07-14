@@ -1,3 +1,5 @@
+// These are the route/endpoint handlers
+
 import createAuthRoutes from './authRoutes';
 import createSubjectRoutes from './subjectRoutes';
 import createCourseRoutes from './courseRoutes';
