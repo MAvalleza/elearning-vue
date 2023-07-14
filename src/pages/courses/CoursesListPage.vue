@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
@@ -8,7 +8,7 @@ import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper'
 import { VDataTableServer } from 'vuetify/lib/labs/components';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
-// import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
+import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import TableActions from '@/components/commons/TableActions.vue';
 
@@ -25,7 +25,7 @@ const HEADER_BUTTON_OPTS = {
 // UI states
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-// const confirmDialog = ref(null);
+const confirmDialog = ref(null);
 
 // Courses data
 const COURSES_DATA_TABLE = {
@@ -83,18 +83,18 @@ async function fetchCourses() {
 //   });
 // }
 
-// async function deleteSubject(id) {
-//   const confirm = await confirmDialog.value.open({
-//     title: 'Delete Subject',
-//     message: 'Deleting a subject will also delete its courses, are you sure you want to delete this subject?',
-//     primaryAction: 'DELETE',
-//     primaryColor: 'error',
-//   });
+async function deleteCourse(id) {
+  const confirm = await confirmDialog.value.open({
+    title: 'Delete Course',
+    message: 'Deleting a course will also delete its modules, are you sure you want to delete this course?',
+    primaryAction: 'DELETE',
+    primaryColor: 'error',
+  });
 
-//   if (confirm) {
-//     await subjectsStore.deleteSubject(id);
-//   }
-// }
+  if (confirm) {
+    await coursesStore.deleteCourse(id);
+  }
+}
 
 function onUpdateTableOptions(event) {
   const updatedParams = mapOptionsToParams(event);
@@ -123,26 +123,26 @@ function getTableActions(item) {
   ];
 }
 
-// async function onAction(action, item) {
-//   const id = item.raw.id;
+async function onAction(action, item) {
+  const id = item.raw.id;
 
-//   switch (action) {
-//     case 'delete':
-//       await deleteSubject(id);
-//       break;
-//     case 'publish':
-//       await subjectsStore.updateSubject(id, { isPublished: true });
-//       break;
-//     case 'draft':
-//       await subjectsStore.updateSubject(id, { isPublished: false });
-//       break;
-//     default:
-//       break;
-//   }
+  switch (action) {
+    case 'delete':
+      await deleteCourse(id);
+      break;
+    case 'publish':
+      await coursesStore.updateCourse(id, { isPublished: true });
+      break;
+    case 'draft':
+      await coursesStore.updateCourse(id, { isPublished: false });
+      break;
+    default:
+      break;
+  }
 
-//   // Re-fetch subjects
-//   fetchSubjects();
-// }
+  // Re-fetch courses
+  fetchCourses();
+}
 
 onMounted(() => {
   initialize();
@@ -150,7 +150,7 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-//- page-confirm-dialog(ref="confirmDialog")
+page-confirm-dialog(ref="confirmDialog")
 
 page-header(
   :title="route.meta.title"
@@ -181,5 +181,6 @@ page-content
     template(#[`item.actions`]="{ item }")
       table-actions(
         :actions="getTableActions(item)"
+        @action="onAction($event, item  )"
       )
 </template>

@@ -32,6 +32,57 @@ const createCourseRoutes = routeInstance => {
       { count, results }
     );
   });
+
+  routeInstance.put('/courses/:id', (schema, request) => {
+    let id = request.params.id;
+    let attrs = JSON.parse(request.requestBody);
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'courses', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request']},
+      );
+    }
+
+    let course = schema.courses.find(id);
+
+    return course.update(attrs);
+  });
+
+  routeInstance.del('/courses/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'courses', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request']},
+      );
+    }
+
+    let course = schema.courses.find(id);
+
+    // Delete associated modules
+    course.modules.destroy();
+
+    // Delete the actual course
+    course.destroy();
+
+    return new Response(
+      200,
+      { some: 'header' },
+      { deleted: id, resource: 'courses' },
+    );
+  });
 };
 
 export default createCourseRoutes;
