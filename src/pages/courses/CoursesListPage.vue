@@ -10,7 +10,7 @@ import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 // import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
-// import TableActions from '@/components/commons/TableActions.vue';
+import TableActions from '@/components/commons/TableActions.vue';
 
 // const router = useRouter();
 const route = useRoute();
@@ -36,10 +36,9 @@ const COURSES_DATA_TABLE = {
       sortable: true,
       key: 'title',
     },
-    { title: 'Subject', align: 'end', key: 'subject' },
-    { title: 'Author', align: 'end', key: 'author' },
-    { title: 'Modules', align: 'end', key: 'modules' },
-    { title: 'Duration', align: 'end', key: 'duration' },
+    { title: 'Subject', align: 'end', key: 'subjectTitle' },
+    { title: 'Author', align: 'end', key: 'authorName' },
+    { title: 'Modules', align: 'end', key: 'totalModules' },
     { title: 'Status', align: 'end', key: 'status' },
     { title: '', align: 'end', key: 'actions', sortable: false },
   ],
@@ -174,10 +173,10 @@ page-content
     :loading="loading"
     @update:options="onUpdateTableOptions"
   )
-    //- template(#[`item.totalCourses`]="{ item }")
-    //-   span(v-if="!item.columns.totalCourses") No
-    //-   span(v-else) {{ item.columns.totalCourses }}
-    //-   span &nbsp;{{ `course${item.columns.totalCourses !== 1 ? 's' : ''}` }}
+    template(#[`item.totalModules`]="{ item }")
+      span(v-if="!item.columns.totalModules") No
+      span(v-else) {{ item.columns.totalModules }}
+      span &nbsp;{{ `module${item.columns.totalModules !== 1 ? 's' : ''}` }}
 
     template(#[`item.actions`]="{ item }")
       table-actions(
