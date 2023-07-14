@@ -1,4 +1,5 @@
 import { Factory } from 'miragejs';
+import { SUBJECT_FIXTURES } from './fixtures';
 
 export default {
   user: Factory.extend({
@@ -11,61 +12,36 @@ export default {
     createdAt: 1687316226,
     updatedAt: null,
     afterCreate(user, server) {
-      const math = server.create('subject', {
-        owner: user,
-        title: 'Mathematics',
-        isPublished: true,
-        createdAt: 1687316226,
-        updatedAt: null,
-      });
+      SUBJECT_FIXTURES.forEach(subject => {
+        console.log('subject', subject);
+        const createdSubject = server.create('subject', {
+          owner: user,
+          title: subject.title,
+          isPublished: subject.isPublished,
+          createdAt: subject.createdAt,
+          updatedAt: subject.updatedAt,
+        });
 
-      server.create('course', {
-        author: user,
-        subject: math,
-        title: 'Math Course',
-        description: 'A basic course',
-        icon: 'some-icon',
-        isPublished: true,
-        createdAt: 1687316226,
-        updatedAt: null,
-      });
+        subject.courses?.forEach(course => {
+          const createdCourse = server.create('course', {
+            author: user,
+            subject: createdSubject,
+            title: course.title,
+            description: course.description,
+            isPublished: course.isPublished,
+            createdAt: course.createdAt,
+            updatedAt: course.updatedAt,
+          });
 
-      server.create('course', {
-        author: user,
-        subject: math,
-        title: 'Algebra',
-        description: 'A basic algebra course',
-        icon: 'some-icon',
-        isPublished: true,
-        createdAt: 1687316226,
-        updatedAt: null,
-      });
-
-      const science = server.create('subject', {
-        owner: user,
-        title: 'Science',
-        isPublished: true,
-        createdAt: 1687316226,
-        updatedAt: null,
-      });
-
-      server.create('course', {
-        author: user,
-        subject: science,
-        title: 'Biology',
-        description: 'A biological course',
-        icon: 'some-icon',
-        isPublished: true,
-        createdAt: 1687316226,
-        updatedAt: null,
-      });
-
-      server.create('subject', {
-        owner: user,
-        title: 'History',
-        isPublished: false,
-        createdAt: 1687316226,
-        updatedAt: null,
+          course.modules.forEach(module => {
+            server.create('module', {
+              author: user,
+              course: createdCourse,
+              title: module.title,
+              isPublished: module.isPublished,
+            })
+          });
+        });
       });
     },
   }),

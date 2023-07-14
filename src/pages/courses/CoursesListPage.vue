@@ -2,14 +2,14 @@
 import { useRoute } from 'vue-router';
 import { onMounted, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
-// import { useSubjects } from '@/stores/subjects';
+import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
-// import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper';
+import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper';
 import { VDataTableServer } from 'vuetify/lib/labs/components';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 // import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
-// import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
+import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 // import TableActions from '@/components/commons/TableActions.vue';
 
 // const router = useRouter();
@@ -19,7 +19,7 @@ const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW COURSE',
   flat: true,
   style: { color: 'black' },
-  to: { name: 'create-subject' }
+  // to: { name: 'create-subject' }
 };
 
 // UI states
@@ -27,7 +27,7 @@ const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 // const confirmDialog = ref(null);
 
-// Subjects data
+// Courses data
 const COURSES_DATA_TABLE = {
   headers: [
     {
@@ -46,8 +46,8 @@ const COURSES_DATA_TABLE = {
   itemValue: 'title',
 };
 
-// const subjectsStore = useSubjects();
-// const { subjects, subjectsTotal } = storeToRefs(subjectsStore);
+const coursesStore = useCourses();
+const { courses, coursesTotal } = storeToRefs(coursesStore);
 
 // Fetch params
 const initial = {
@@ -58,7 +58,7 @@ const initial = {
     sortDirection: null,
     keyword: null,
     published: null,
-    join: ['courses'],
+    join: ['modules'],
   },
   total: {
     current: 0,
@@ -69,13 +69,13 @@ const initial = {
 let fetchParams = reactive({ ...initial.params });
 
 function initialize() {
-  // subjectsStore.$reset();
+  coursesStore.$reset();
   fetchParams = reactive({ ...initial.params });
 }
 
-// async function fetchSubjects() {
-//   await subjectsStore.fetchSubjects(fetchParams);
-// }
+async function fetchCourses() {
+  await coursesStore.fetchCourses(fetchParams);
+}
 
 // function editCourse(event, { item }) {
 //   router.push({
@@ -97,32 +97,32 @@ function initialize() {
 //   }
 // }
 
-// function onUpdateTableOptions(event) {
-//   const updatedParams = mapOptionsToParams(event);
+function onUpdateTableOptions(event) {
+  const updatedParams = mapOptionsToParams(event);
 
-//   fetchParams = reactive({
-//     ...initial.params,
-//     ...updatedParams,
-//   });
+  fetchParams = reactive({
+    ...initial.params,
+    ...updatedParams,
+  });
 
-//   fetchSubjects();
-// }
+  fetchCourses();
+}
 
-// function getTableActions(item) {
-//   const DELETE_ACTION = {
-//     icon: {
-//       icon: 'mdi-delete',
-//       color: 'error',
-//     },
-//     title: 'Delete',
-//     action: 'delete'
-//   };
+function getTableActions(item) {
+  const DELETE_ACTION = {
+    icon: {
+      icon: 'mdi-delete',
+      color: 'error',
+    },
+    title: 'Delete',
+    action: 'delete'
+  };
 
-//   return [
-//     getTableStatusAction(item.raw.isPublished),
-//     DELETE_ACTION,
-//   ];
-// }
+  return [
+    getTableStatusAction(item.raw.isPublished),
+    DELETE_ACTION,
+  ];
+}
 
 // async function onAction(action, item) {
 //   const id = item.raw.id;
@@ -158,27 +158,29 @@ page-header(
   :button-opts="HEADER_BUTTON_OPTS"
   has-center-section
 )
-  //- template(#center-section)
-  //-   search-and-filter(
-  //-     v-model:search-text="fetchParams.keyword"
-  //-     v-model:status-filter="fetchParams.published"
-  //-     @search="fetchSubjects"
-  //-     @filter="fetchSubjects"
-  //-   )
+  template(#center-section)
+    search-and-filter(
+      v-model:search-text="fetchParams.keyword"
+      v-model:status-filter="fetchParams.published"
+      @search="fetchCourses"
+      @filter="fetchCourses"
+    )
 page-content
   v-data-table-server(
     v-model:items-per-page="fetchParams.limit"
     v-bind="COURSES_DATA_TABLE"
+    :items="courses"
+    :items-length="coursesTotal"
     :loading="loading"
+    @update:options="onUpdateTableOptions"
   )
-  //-   template(#[`item.totalCourses`]="{ item }")
-  //-     span(v-if="!item.columns.totalCourses") No
-  //-     span(v-else) {{ item.columns.totalCourses }}
-  //-     span &nbsp;{{ `course${item.columns.totalCourses !== 1 ? 's' : ''}` }}
+    //- template(#[`item.totalCourses`]="{ item }")
+    //-   span(v-if="!item.columns.totalCourses") No
+    //-   span(v-else) {{ item.columns.totalCourses }}
+    //-   span &nbsp;{{ `course${item.columns.totalCourses !== 1 ? 's' : ''}` }}
 
-  //-   template(#[`item.actions`]="{ item }")
-  //-     table-actions(
-  //-       :actions="getTableActions(item)"
-  //-       @action="onAction($event, item)"
-  //-     )
+    template(#[`item.actions`]="{ item }")
+      table-actions(
+        :actions="getTableActions(item)"
+      )
 </template>
