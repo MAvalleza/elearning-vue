@@ -161,6 +161,7 @@ page-header(
       v-model:status-filter="fetchParams.published"
       @search="fetchSubjects"
       @filter="fetchSubjects"
+      @clear:filter="fetchSubjects"
     )
 page-content
   v-data-table-server(

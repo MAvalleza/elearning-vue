@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import uniqBy from 'lodash-es/uniqBy';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
@@ -38,6 +39,7 @@ const initial = {
     sortDirection: null,
     keyword: null,
     published: null,
+    subjectId: null,
     join: ['modules', 'subject', 'author'],
   },
   total: {
@@ -55,6 +57,25 @@ function initialize() {
 
 async function fetchCourses() {
   await coursesStore.fetchCourses(fetchParams);
+
+  updateSubjectFilterOptions();
+}
+
+
+// Filter operations
+const subjectFilterOptions = ref([])
+
+function updateSubjectFilterOptions() {
+  subjectFilterOptions.value = uniqBy(
+    courses.value.map(course => course.subject),
+    'id'
+  );
+}
+
+function onClearFilter() {
+  fetchParams.subjectId = null;
+
+  fetchCourses();
 }
 
 // function editCourse(event, { item }) {
@@ -128,7 +149,16 @@ page-header(
       v-model:status-filter="fetchParams.published"
       @search="fetchCourses"
       @filter="fetchCourses"
+      @clear:filter="onClearFilter"
     )
+      template(#custom-filter)
+        v-select(
+          v-model="fetchParams.subjectId"
+          label="Subject"
+          variant="outlined"
+          :items="subjectFilterOptions"
+          item-value="id"
+        )
 page-content
   courses-list-table(
     v-model:items-per-page="fetchParams.limit"

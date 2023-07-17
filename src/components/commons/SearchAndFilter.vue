@@ -12,9 +12,14 @@ const props = defineProps({
     type: Boolean,
     default: null,
   },
+  filterMenuWidth: {
+    type: [String, Number],
+    default: '300',
+  }
 });
 
 const emit = defineEmits([
+  'clear:filter',
   'filter',
   'search',
   'update:searchText',
@@ -33,7 +38,8 @@ const applyFilter = debounce(() => {
 
 const onClear = () => {
   published.value = null;
-  applyFilter();
+  emit('update:statusFilter', published.value);
+  emit('clear:filter');
 };
 
 const onUpdate = debounce(e => {
@@ -62,17 +68,18 @@ v-text-field(
         :close-on-content-click="false"
         location="end"
       )
-        v-card(min-width="300")
+        v-card(:min-width="props.filterMenuWidth")
           v-card-item
-            v-radio-group(v-model="published" column)
-              v-radio(
-                v-for="(option, key) in STATUS_LABELS"
-                :key="key"
-                v-bind="option"
-              )
+            v-select(
+              v-model="published"
+              variant="outlined"
+              label="Status"
+              :items="STATUS_LABELS"
+              item-title="label"
+            )
+            slot(name="custom-filter")
           v-card-actions
             v-spacer
             v-btn(variant="text" @click="onClear") Clear
             v-btn(color="primary" variant="text" @click="applyFilter") Save
-
 </template>
