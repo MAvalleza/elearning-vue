@@ -1,5 +1,5 @@
 import { Response } from 'miragejs';
-import { evaluateParams } from '../helpers/paramsHelper';
+import { evaluateParams } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
 
 

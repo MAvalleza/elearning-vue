@@ -1,5 +1,5 @@
 import { Response } from 'miragejs';
-import { evaluateParams } from '../helpers/paramsHelper';
+import { evaluateParams, RelationshipFilter } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
 
 const createCourseRoutes = routeInstance => {
@@ -16,7 +16,10 @@ const createCourseRoutes = routeInstance => {
       );
     }
 
-    const collection = schema.courses.where({ authorId: authSession.user().id });
+    const collection = schema.courses.where({
+      authorId: authSession.user().id, // TODO: Conditionally assign this according to permissions
+      ...new RelationshipFilter(request.queryParams).params,
+    });
 
     const { count, results } = evaluateParams(
       schema,

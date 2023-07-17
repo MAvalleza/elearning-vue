@@ -176,4 +176,18 @@ class CollectionJoin {
   }
 }
 
-export { evaluateParams };
+// Params for usage in MirageJS Collection `where` method
+class RelationshipFilter {
+  #RELATIONSHIP_KEYS = [
+    'ownerId',
+    'authorId',
+    'courseId',
+    'subjectId',
+  ];
+
+  constructor(params) {
+    this.params = pick(params, this.#RELATIONSHIP_KEYS);
+  }
+}
+
+export { evaluateParams, RelationshipFilter };
