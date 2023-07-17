@@ -19,7 +19,7 @@ const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW COURSE',
   flat: true,
   style: { color: 'black' },
-  // to: { name: 'create-subject' }
+  to: { name: 'create-course' }
 };
 
 // UI states

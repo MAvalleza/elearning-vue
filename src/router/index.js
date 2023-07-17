@@ -8,6 +8,7 @@ import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
 import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
 import CoursesListPage from '@/pages/courses/CoursesListPage.vue';
+import CreateCoursePage from '@/pages/courses/CreateCoursePage.vue';
 import activityWatcher from '@/plugins/activity-watcher';
 
 const routes = [
@@ -86,6 +87,12 @@ const routes = [
         meta: { title: 'Courses' },
         component: CoursesListPage,
       },
+      {
+        path: 'create',
+        name: 'create-course',
+        meta: { title: 'Add Course' },
+        component: CreateCoursePage,
+      }
     ]
   },
 ];
