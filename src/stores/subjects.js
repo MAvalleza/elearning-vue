@@ -81,7 +81,7 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
-    async fetchSubject(id) {
+    async fetchSubject(id, params) {
       try {
         uiStore().setLoading(true);
   
@@ -90,7 +90,7 @@ export const useSubjects = defineStore('subjects', {
         const response = await webservice.getSubject(
           {
             id,
-            params: { join: ['courses'] }
+            params,
           },
           currentUser.accessToken,
         );

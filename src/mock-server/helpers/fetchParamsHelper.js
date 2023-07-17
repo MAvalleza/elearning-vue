@@ -173,8 +173,10 @@ class CollectionJoin {
       // We check if it is an array of models or just a single model
       if (!isEmpty(foreignCollection?.models)) {
         foreignAttrs[param] = foreignCollection.models;
+      } else if (isArray(foreignCollection?.models)){
+        foreignAttrs[param] = foreignCollection.models;
       } else {
-        foreignAttrs[param] = foreignCollection;
+        foreignAttrs[param] = foreignCollection
       }
     });
 

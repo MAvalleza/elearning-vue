@@ -67,7 +67,7 @@ const routes = [
         path: '/subjects/:id',
         name: 'edit-subject',
         meta: { title: 'Edit Subject' },
-        component: EditSubjectPage
+        component: EditSubjectPage,
       }
     ]
   },
