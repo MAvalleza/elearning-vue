@@ -1,6 +1,4 @@
-import isEmpty from 'lodash-es/isEmpty';
-import pick from 'lodash-es/pick';
-import get from 'lodash-es/get';
+import { isArray, isEmpty, pick, get } from 'lodash-es';
 
 function evaluateParams (
   schema, 
@@ -150,29 +148,40 @@ class CollectionJoin {
    * We store all foreign values in a new object, and return both the attributes of
    * the model and that object.
    * 
-   * @param {Object[]} models - MirageJs <Model>
+   * @param {Object[] | Object} data - MirageJs <Model>
    * @return {Object[]} Normalized object array
    */
-  join(models) {
-    return models.map(model => {
-      let foreignAttrs = {};
-
-      this.joinParams.forEach(param => {
-        const foreignCollection = model[param];
-        
-        // We check if it is an array of models or just a single model
-        if (!isEmpty(foreignCollection?.models)) {
-          foreignAttrs[param] = foreignCollection.models;
-        } else {
-          foreignAttrs[param] = foreignCollection;
-        }
-      });
-
-      return {
-        ...model.attrs,
-        ...foreignAttrs,
-      };
+  join(data) {
+    if (!isArray(data)) {
+      return this.#evaluateJoin(data);
+    }
+    return data.map(model => {
+      return this.#evaluateJoin(model);
     });
+  }
+
+  #evaluateJoin(model) {
+    let foreignAttrs = {};
+
+    if (!this.joinParams) {
+      return model.attrs;
+    }
+
+    this.joinParams.forEach(param => {
+      const foreignCollection = model[param];
+      
+      // We check if it is an array of models or just a single model
+      if (!isEmpty(foreignCollection?.models)) {
+        foreignAttrs[param] = foreignCollection.models;
+      } else {
+        foreignAttrs[param] = foreignCollection;
+      }
+    });
+
+    return {
+      ...model.attrs,
+      ...foreignAttrs,
+    };
   }
 }
 
@@ -190,4 +199,8 @@ class RelationshipFilter {
   }
 }
 
-export { evaluateParams, RelationshipFilter };
+export {
+  evaluateParams,
+  CollectionJoin,
+  RelationshipFilter
+};

@@ -1,5 +1,5 @@
 import { Response } from 'miragejs';
-import { evaluateParams } from '../helpers/fetchParamsHelper';
+import { CollectionJoin, evaluateParams } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
 
 
@@ -74,7 +74,21 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    return schema.subjects.find(id).attrs;
+    const subject = schema.subjects.find(id);
+
+    if(!subject) {
+      return new Response(
+        404,
+        { some: 'header' },
+        { errors: ['Subject does not exist'] },
+      );
+    }
+
+    // Apply join param
+    return new CollectionJoin(
+      schema,
+      request.queryParams
+    ).join(subject)
   });
 
   routeInstance.put('/subjects/:id', (schema, request) => {

@@ -88,7 +88,10 @@ export const useSubjects = defineStore('subjects', {
         const currentUser = authStore().currentUser;
   
         const response = await webservice.getSubject(
-          id,
+          {
+            id,
+            params: { join: ['courses'] }
+          },
           currentUser.accessToken,
         );
 

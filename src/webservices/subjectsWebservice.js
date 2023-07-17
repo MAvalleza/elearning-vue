@@ -32,8 +32,8 @@ export default class SubjectsWebservice extends Webservice {
     return await response.json();
   }
 
-  async getSubject(id, token) {
-    const url = this.parseURL({ path: `subjects/${id}` });
+  async getSubject({ id, params }, token) {
+    const url = this.parseURL({ path: `subjects/${id}`, params });
 
     const response = await fetch(url, {
       method: 'GET',
