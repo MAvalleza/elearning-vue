@@ -1,6 +1,7 @@
 import { Response } from 'miragejs';
 import { CollectionJoin, evaluateParams } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
+import isEmpty from 'lodash-es/isEmpty';
 
 
 const createSubjectRoutes = routeInstance => {
@@ -84,11 +85,23 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    // Apply join param
-    return new CollectionJoin(
+    // Apply join param to join courses
+    const dataJoined = new CollectionJoin(
       schema,
       request.queryParams
     ).join(subject)
+
+    if (isEmpty(dataJoined.courses)) { return dataJoined; }
+
+    // Join authors of courses
+    const coursesWithPopulatedAuthors = new CollectionJoin(
+      schema, 
+      { join: ['author'] }
+    ).join(dataJoined.courses);
+
+
+    dataJoined.courses = coursesWithPopulatedAuthors;
+    return dataJoined;
   });
 
   routeInstance.put('/subjects/:id', (schema, request) => {

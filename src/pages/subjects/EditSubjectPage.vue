@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
-import SubjectCoursesListTable from '@/components/subjects/SubjectCoursesListTable.vue';
+import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -66,5 +66,10 @@ page-content
         subject-form(:key="subject.id" v-model="subject")
       v-window-item(value="courses")
         v-card
-          subject-courses-list-table(:items="subject.courses || []")
+          courses-list-table(
+            component="v-data-table"
+            :loading="loading"
+            :items="subject.courses || []"
+            hide-subject-column
+          )
 </template>
