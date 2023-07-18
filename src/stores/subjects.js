@@ -69,7 +69,8 @@ export const useSubjects = defineStore('subjects', {
           message: 'Successfully created a subject.'
         });
 
-        this.$router.push({ name: 'subjects-list' });
+        // Redirect to edit subject details
+        this.$router.push({ name: 'edit-subject', params: { id: response.id } });
       } catch (e) {
         console.error(e);
   

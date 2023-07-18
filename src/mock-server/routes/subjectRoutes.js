@@ -56,7 +56,7 @@ const createSubjectRoutes = routeInstance => {
       updatedAt: null,
     };
 
-    return schema.subjects.create(data);
+    return schema.subjects.create(data).attrs;
   });
 
   routeInstance.get('/subjects/:id', (schema, request) => {

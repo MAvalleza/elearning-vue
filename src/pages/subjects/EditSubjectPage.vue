@@ -50,7 +50,7 @@ onMounted(() => {
 app-loader(:is-visible="loading")
 
 page-header(
-  :title="route.meta.title"
+  :title="subject.title || route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
   @click="updateSubject"
 )
