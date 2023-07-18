@@ -50,13 +50,20 @@ const createAuthRoutes = routeInstance => {
 
     const accessToken = faker.database.mongodbObjectId();
 
-    return schema.sessions.create({
+    const sessionUser = schema.sessions.create({
       accessToken,
       email: userData.email,
       role: userData.role,
       firstName: userData.firstName,
       lastName: userData.lastName,
     }).attrs;
+
+    // Add id and normalized name then return
+    return {
+      ...sessionUser,
+      id: userData.id,
+      normalizedName: `${userData.firstName || ''} ${userData.lastName || ''}`,
+    };
   });
 
   routeInstance.delete('/logout', (schema, request) => {

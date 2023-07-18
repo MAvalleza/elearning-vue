@@ -51,6 +51,38 @@ export const useCourses = defineStore('courses', {
         uiStore().setLoading(false);
       }
     },
+    async createCourse(data) {
+      try {
+        uiStore().setLoading(true);
+  
+        const currentUser = authStore().currentUser;
+  
+        const response = await webservice.createCourse(
+          data,
+          currentUser.accessToken,
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully created the course.',
+        });
+      } catch (e) {
+        console.error(e);
+  
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in creating the course.',
+        });
+        // this.$router.push({ name: 'courses-list' });
+      } finally {
+        uiStore().setLoading(false);
+        this.$router.push({ name: 'courses-list' });
+      }
+    },
 
     async updateCourse(id, params) {
       try {

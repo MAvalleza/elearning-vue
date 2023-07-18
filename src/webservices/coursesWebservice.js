@@ -17,6 +17,21 @@ export default class CoursesWebservice extends Webservice {
     return await response.json();
   }
 
+  async createCourse(params, token) {
+    const url = this.parseURL({ path: 'courses' });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+      body: JSON.stringify(params)
+    });
+
+    return await response.json();
+  }
+
   async updateCourse(id, data, token) {
     const url = this.parseURL({ path: `courses/${id}` });
 

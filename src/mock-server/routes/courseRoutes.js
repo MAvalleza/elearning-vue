@@ -36,6 +36,34 @@ const createCourseRoutes = routeInstance => {
     );
   });
 
+  routeInstance.post('/courses', (schema, request) => {
+    let attrs = JSON.parse(request.requestBody);
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+  
+    if (!authSession.isAuthorized()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request']},
+      );
+    }
+
+    const subject = schema.subjects.find(attrs.subject);
+    const author = schema.users.find(attrs.author);
+
+    const data = {
+      ...attrs,
+      subject,
+      author,
+      createdAt: Date.now(),
+      updatedAt: null,
+    };
+
+    return schema.courses.create(data).attrs;
+  });
+
   routeInstance.put('/courses/:id', (schema, request) => {
     let id = request.params.id;
     let attrs = JSON.parse(request.requestBody);

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
+import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
@@ -13,15 +14,28 @@ const route = useRoute();
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
-const HEADER_BUTTON_OPTS = {
-  text: 'Save'
-}
+const authStore = useAuth();
+const { currentUser } = storeToRefs(authStore);
 
 const coursesStore = useCourses();
-const newCourse = ref({ title: null, isPublished: null })
+const newCourse = ref({
+  title: null,
+  isPublished: null,
+  subject: null,
+  description: null
+})
 
 function createCourse() {
-  coursesStore.createCourse(newCourse.value);
+  const data = {
+    ...newCourse.value,
+    author: currentUser.value.id,
+  };
+
+  coursesStore.createCourse(data);
+}
+
+const HEADER_BUTTON_OPTS = {
+  text: 'Save'
 }
 </script>
 
@@ -35,5 +49,5 @@ page-header(
 )
 
 page-content
-  course-form
+  course-form(v-model="newCourse")
 </template>
