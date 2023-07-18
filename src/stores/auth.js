@@ -76,6 +76,8 @@ export const useAuth = defineStore('auth', {
       }
     },
     async logoutUser() {
+      if (!this.currentUser) return;
+    
       const token = this.currentUser.accessToken;
 
       await webservice.logoutUser(token);
