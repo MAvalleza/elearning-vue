@@ -7,6 +7,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -29,6 +33,7 @@ v-form
             variant="outlined"
             placeholder="Mathematics"
             label="Title"
+            :disabled="props.loading"
             @update:model-value="onUpdate"
           )
         v-col
@@ -36,9 +41,10 @@ v-form
             v-model="subject.isPublished"
             label="Status"
             variant="outlined"
-            :items="STATUS_LABELS"
             item-title="label"
             item-value="value"
+            :disabled="props.loading"
+            :items="STATUS_LABELS"
             @update:model-value="onUpdate"
           )
 </template>

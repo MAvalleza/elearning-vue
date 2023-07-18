@@ -16,7 +16,7 @@ const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const HEADER_BUTTON_OPTS = {
-  text: 'Save'
+  text: 'Save',
 }
 
 const subjectsStore = useSubjects();
@@ -63,7 +63,11 @@ page-content
 
     v-window(v-model="tab").pt-10
       v-window-item(value="form")
-        subject-form(:key="subject.id" v-model="subject")
+        subject-form(
+          :key="subject.id"
+          v-model="subject"
+          :loading="loading"
+        )
       v-window-item(value="courses")
         v-card
           courses-list-table(
