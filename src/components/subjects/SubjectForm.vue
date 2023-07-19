@@ -28,7 +28,6 @@ async function submit() {
   const { valid } = await form.value.validate();
 
   if (valid) {
-    console.log('valid');
     emit('submit', subject.value);
   }
 }
