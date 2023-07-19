@@ -20,13 +20,16 @@ const HEADER_BUTTON_OPTS = {
 };
 
 const subjectsStore = useSubjects();
-const subjectId = ref(route.params.id);
+const { currentSubject } = storeToRefs(subjectsStore);
 const subject = ref({});
+const subjectId = ref(route.params.id);
 
 async function fetchSubject() {
-  subject.value = await subjectsStore.fetchSubject(subjectId.value, {
+  await subjectsStore.fetchSubject(subjectId.value, {
     join: ['courses'],
   });
+
+  subject.value = { ...currentSubject.value };
 }
 
 const form = ref(null);
@@ -73,6 +76,14 @@ page-content
         )
       v-window-item(value="courses")
         v-card
+          v-card-actions.mb-10
+            v-spacer
+            v-btn(
+              color="#34bdeb"
+              variant="flat"
+              theme="dark"
+              :to="{ name: 'subject-create-course', params: { id: subjectId }}"
+            ).text-none Add a course
           courses-list-table(
             component="v-data-table"
             :loading="loading"

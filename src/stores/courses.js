@@ -80,7 +80,6 @@ export const useCourses = defineStore('courses', {
         // this.$router.push({ name: 'courses-list' });
       } finally {
         uiStore().setLoading(false);
-        this.$router.push({ name: 'courses-list' });
       }
     },
 

@@ -11,6 +11,7 @@ export const useSubjects = defineStore('subjects', {
   state: () => ({
     subjects: [],
     subjectsTotal: 0,
+    currentSubject: {},
   }),
   actions: {
     async fetchSubjects(params) {
@@ -103,7 +104,7 @@ export const useSubjects = defineStore('subjects', {
           throw Error(response.errors[0]);
         }
 
-        return response;
+        this.currentSubject = response;
       } catch (e) {
         console.error(e);
 

@@ -76,6 +76,12 @@ const routes = [
         meta: { title: 'Edit Subject' },
         component: EditSubjectPage,
       },
+      {
+        path: '/subjects/:id/create-course',
+        name: 'subject-create-course',
+        meta: { title: 'Add a course' },
+        component: CreateCoursePage,
+      }
     ],
   },
   {
