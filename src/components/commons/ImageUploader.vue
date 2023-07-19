@@ -35,7 +35,6 @@ function uploadImage(e) {
   if (isEmpty(e.target.files)) {
     throw new Error('No file selected');
   }
-  console.log('changed');
   const file = e.target.files[0];
   const reader = new FileReader();
   reader.readAsDataURL(file);

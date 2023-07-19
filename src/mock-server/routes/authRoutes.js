@@ -142,7 +142,6 @@ const createAuthRoutes = routeInstance => {
       );
     }
 
-    console.log('tokenData', tokenData);
     // Activate user
     schema.db.users.update({ email: tokenData.email }, { isActive: true });
     // Set token to expired since it is used
