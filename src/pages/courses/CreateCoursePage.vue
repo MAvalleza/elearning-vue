@@ -22,8 +22,14 @@ const newCourse = ref({
   title: null,
   isPublished: null,
   subject: null,
-  description: null
+  description: null,
+  icon: null,
 })
+
+const form = ref(null);
+function submitForm() {
+  form.value.submit();
+}
 
 function createCourse() {
   const data = {
@@ -45,9 +51,13 @@ app-loader(:is-visible="loading")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
-  @click="createCourse"
+  @click="submitForm"
 )
 
 page-content
-  course-form(v-model="newCourse")
+  course-form(
+    ref="form"
+    v-model="newCourse"
+    @submit="createCourse"
+  )
 </template>

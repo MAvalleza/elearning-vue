@@ -1,10 +1,12 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import debounce from 'lodash-es/debounce';
+import { storeToRefs } from 'pinia';
 import { STATUS_LABELS } from '@/constants/statuses';
+import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { useSubjects } from '@/stores/subjects';
 import { useAuth } from '@/stores/auth';
-import { storeToRefs } from 'pinia';
-import debounce from 'lodash-es/debounce';
+import ImageUploader from '@/components/commons/ImageUploader.vue';
 
 // -- PROP AND EMITS --
 const props = defineProps({
@@ -23,18 +25,38 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'submit']);
 
 // -------
 
-const course = ref(props.modelValue);
+const course = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(val) {
+    emit('update:modelValue', val);
+  }
+});
 
 // Current user
 const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
 
-// Subject search handlers
 
+// Form handler
+const form = ref(null);
+async function submit() {
+  const { valid } = await form.value.validate();
+
+  if (valid) {
+    console.log('valid');
+    emit('submit', course.value);
+  }
+}
+
+defineExpose({ submit });
+
+// Subject search handlers
 const subjectSearch = ref(null);
 
 watch(
@@ -52,16 +74,10 @@ async function fetchSubjects(keyword) {
 }
 
 const searchSubject = debounce(keyword => fetchSubjects(keyword), 500);
-// --------
-
-function onUpdate() {
-  emit('update:modelValue', course.value);
-}
-
 </script>
 
 <template lang="pug">
-v-form
+v-form(ref="form")
   v-card
     v-container(fluid)
       v-row
@@ -71,7 +87,7 @@ v-form
             variant="outlined"
             placeholder="Mathematics"
             label="Title"
-            @update:model-value="onUpdate"
+            :rules="[REQUIRED_RULE]"
           )
         // Do not show when course is created thru subject
         template(v-if="!subject")
@@ -85,6 +101,7 @@ v-form
               item-title="title"
               item-value="id"
               hide-no-data
+              :rules="[REQUIRED_RULE]"
             )
           v-col(cols="12" lg="6")
             v-text-field(
@@ -109,4 +126,6 @@ v-form
             label="Course Description"
             placeholder="e.g. A basic course"
           )
+        v-col(cols="12")
+          image-uploader(v-model="course.icon" label="Upload a course icon")
 </template>
