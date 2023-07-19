@@ -20,6 +20,11 @@ const HEADER_BUTTON_OPTS = {
 const subjectsStore = useSubjects();
 const newSubject = ref({ title: null, isPublished: null })
 
+const createForm = ref(null);
+function submitForm() {
+  createForm.value.submit();
+}
+
 function createSubject() {
   subjectsStore.createSubject(newSubject.value);
 }
@@ -31,9 +36,13 @@ app-loader(:is-visible="loading")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
-  @click="createSubject"
+  @click="submitForm"
 )
 
 page-content
-  subject-form(v-model="newSubject")
+  subject-form(
+    ref="createForm"
+    v-model="newSubject"
+    @submit="createSubject"
+  )
 </template>

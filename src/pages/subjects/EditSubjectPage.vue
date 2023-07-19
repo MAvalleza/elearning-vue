@@ -30,6 +30,11 @@ async function fetchSubject() {
   );
 }
 
+const form = ref(null);
+function submitForm() {
+  form.value.submit();
+}
+
 async function updateSubject() {
   await subjectsStore.updateSubject(
     subjectId.value,
@@ -52,7 +57,7 @@ app-loader(:is-visible="loading")
 page-header(
   :title="subject.title || route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
-  @click="updateSubject"
+  @click="submitForm"
 )
 
 page-content
@@ -64,9 +69,11 @@ page-content
     v-window(v-model="tab").pt-10
       v-window-item(value="form")
         subject-form(
+          ref="form"
           :key="subject.id"
           v-model="subject"
           :loading="loading"
+          @submit="updateSubject"
         )
       v-window-item(value="courses")
         v-card

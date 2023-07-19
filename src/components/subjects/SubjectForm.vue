@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { STATUS_LABELS } from '@/constants/statuses';
+import { REQUIRED_RULE } from '@/constants/validation-rules';
 
 const props = defineProps({
   modelValue: {
@@ -13,17 +14,31 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'submit']);
 
 const subject = ref(props.modelValue);
 
 function onUpdate() {
   emit('update:modelValue', subject.value);
 }
+
+const form = ref(null);
+
+async function submit() {
+  const { valid } = await form.value.validate();
+
+  if (valid) {
+    console.log('valid');
+    emit('submit', subject.value);
+  }
+}
+
+defineExpose({ submit });
+
 </script>
 
 <template lang="pug">
-v-form
+v-form(ref="form" @submit.prevent="submit")
   v-card
     v-container(fluid)
       v-row
@@ -34,6 +49,7 @@ v-form
             placeholder="Mathematics"
             label="Title"
             :disabled="props.loading"
+            :rules="[REQUIRED_RULE]"
             @update:model-value="onUpdate"
           )
         v-col
