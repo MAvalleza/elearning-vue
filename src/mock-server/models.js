@@ -45,6 +45,7 @@ export default {
     enrollment: belongsTo('enrollment'),
   }),
 
+  activationToken: Model,
   resetPasswordRequest: Model,
   session: Model,
 };
