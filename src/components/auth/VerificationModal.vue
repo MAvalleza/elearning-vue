@@ -21,7 +21,14 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'update:token']);
 
-const token = ref(props.token)
+const token = computed({
+  get() {
+    return props.token;
+  },
+  set(val) {
+    emit('update:token', val);
+  }
+})
 
 const dialog = computed({
   get() {
