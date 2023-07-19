@@ -30,7 +30,7 @@ async function activateAccount() {
 }
 
 const message = ref('');
-const email = ref(null);
+// const email = ref(null);
 
 onMounted(() => {
   activateAccount();
@@ -60,11 +60,11 @@ v-container.fill-height.align-center
           //-     density="compact"
           //-   ) Resend
 
-        v-card-actions(v-if="isTokenActivated")
+        v-card-actions
           v-spacer
             v-btn(
               color="primary"
               :to="{ name: 'login' }"
-            ) Proceed to Login
+            ) Login
           v-spacer
 </template>
