@@ -56,7 +56,7 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-v-container
+v-container.fill-height.align-center
   app-loader(:is-visible="loading")
 
   v-row(justify="center")

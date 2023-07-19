@@ -60,4 +60,18 @@ export default class AuthWebservice extends Webservice {
 
     return await response.json();
   }
+
+  async activateAccount(params) {
+    const url = this.parseURL({
+      path: 'signup/verification',
+      params,
+    });
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: this.requestHeaders,
+    });
+
+    return await response.json();
+  }
 }

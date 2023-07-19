@@ -37,20 +37,51 @@ const createAuthRoutes = routeInstance => {
     };
 
     // Create non-activated user
-    const user = schema.users.create(data);
+    schema.users.create(data);
 
-    // Create activation token
+    // Create activation token\
+    const token = faker.database.mongodbObjectId();
     const tokenData = {
-      token: faker.database.mongodbObjectId(),
-      user: user.attrs.id,
+      token,
+      email,
       createdAt: Date.now(),
-      expiresAt: getTime(addDays(Date(Date.now()), 1)),
+      expiresAt: getTime(addDays(Date.now(), 1)),
       isExpired: false,
     }
 
     schema.activationTokens.create(tokenData);
 
-    return user.attrs;
+    // Temporarily return activation token since we cannot send email yet
+    return { token };
+  });
+
+  routeInstance.post('/signup/verification', (schema, request) => {
+    const { email } = JSON.parse(request.requestBody).attrs;
+
+    const user = schema.users.findBy({ email });
+
+    if (!user) return;
+
+    // Expire previous token if applicable
+    const previousToken = schema.activationTokens.findBy({ email, isExpired: false });
+    if (previousToken) {
+      schema.db.activationTokens.update({ email, isExpired: false }, { isExpired: true });
+    }
+
+    // Create activation token
+    const token = faker.database.mongodbObjectId();
+    const tokenData = {
+      token,
+      email,
+      createdAt: Date.now(),
+      expiresAt: getTime(addDays(Date.now(), 1)),
+      isExpired: false,
+    };
+
+    schema.activationTokens.create(tokenData);
+
+    // Temporary to return token since we are mocking
+    return { token };
   });
 
   routeInstance.get('/signup/verification', (schema, request) => {
@@ -100,8 +131,9 @@ const createAuthRoutes = routeInstance => {
       )
     }
 
+    console.log('tokenData', tokenData);
     // Activate user
-    schema.db.users.update({ email: tokenData.email }, { isActive: true });
+    schema.db.users.update({ email: tokenData.email } , { isActive: true });
     // Set token to expired since it is used
     schema.db.activationTokens.update({ token }, { isExpired: true });
   })
@@ -123,6 +155,20 @@ const createAuthRoutes = routeInstance => {
             message: 'Email or password is incorrect.'
           }
         }
+      );
+    }
+
+  
+    if (!userData.isActive) {
+      return new Response(
+        403,
+        { some: 'header' },
+        {
+          errors: {
+            name: 'unactivated-account',
+            message: 'Your account is not activated.',
+          },
+        },
       );
     }
 

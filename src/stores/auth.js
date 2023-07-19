@@ -141,5 +141,24 @@ export const useAuth = defineStore('auth', {
         this.$router.push({ name: 'login' });
       }
     },
+    async activateAccount(token) {
+      try {
+        uiStore().setLoading(true);
+        
+        const response = await webservice.activateAccount({ token });
+
+        if (!isEmpty(response.errors)) {
+          throw new Error(response.errors.message);
+        }
+
+        return true;
+      } catch (e) {
+        console.error(e);
+
+        return false;
+      } finally {
+        uiStore().setLoading(false);
+      }
+    }
   },
 });

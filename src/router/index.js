@@ -4,6 +4,7 @@ import RegistrationPage from '@/pages/auth/RegistrationPage.vue';
 import LoginPage from '@/pages/auth/LoginPage.vue';
 import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage.vue';
 import ChangePasswordPage from '@/pages/auth/ChangePasswordPage.vue';
+import AccountActivationPage from '@/pages/auth/AccountActivationPage.vue';
 import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
 import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
@@ -40,6 +41,11 @@ const routes = [
         path: 'change-password',
         name: 'change-password',
         component: ChangePasswordPage,
+      },
+      {
+        path: 'activate-account',
+        name: 'activate-account',
+        component: AccountActivationPage,
       },
     ],
   },

@@ -106,11 +106,15 @@ const REGISTRATION_FORM = {
   },
 };
 
+// TODO: Temporary token constant
+const activationToken = ref(null);
+
 async function registerUser(data) {
   const response = await authStore.registerUser(data);
 
   if (isEmpty(response.errors)) {
     // Show verification modal
+    activationToken.value = response.token;
     isVerificationModalVisible.value = true;
   }
 }
@@ -120,7 +124,10 @@ async function registerUser(data) {
 v-container
   app-loader(:is-visible="loading")
 
-  verification-modal(v-model="isVerificationModalVisible")
+  verification-modal(
+    v-model="isVerificationModalVisible"
+    :token="activationToken"
+  )
 
   v-row(justify="center")
     v-col(cols="12" lg="6" xl="4")

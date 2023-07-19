@@ -1,11 +1,17 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false,
   },
+  // Temporary prop for mocking purposes so we can redirect to activation page
+  token: {
+    type: String,
+    default: '',
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -37,6 +43,16 @@ function resend() {
   }, 1000);
 }
 
+// TODO: Temporary
+const router = useRouter();
+
+function redirectToActivation() {
+  router.push({
+    name: 'activate-account',
+    query: { token: props.token }
+  });
+}
+
 function close() {
   emit('update:modelValue', false);
 }
@@ -51,10 +67,15 @@ v-dialog(v-model="dialog" width="auto" persistent)
     v-card-text
       | A verification email has been sent.
     v-card-actions
+      v-spacer
+      // TODO: Temporary redirect button
       v-btn(
         color="primary"
+        @click="redirectToActivation"
+      ) Activate
+      v-btn(
+        color="secondary"
         :disabled="isResendTimerRunning"
-        block
         @click="resend"
       ).text-none
         | Resend
