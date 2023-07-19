@@ -8,18 +8,18 @@ const dialogMessage = ref('');
 const buttonText = ref('');
 const color = ref(null);
 
-const resolveResponse = ref(() => { })
-const rejectResponse = ref(() => { })
+const resolveResponse = ref(() => {});
+const rejectResponse = ref(() => {});
 
 defineExpose({
-  open
+  open,
 });
 
 async function open({
   title = 'Confirm',
   message = 'Do you want to continue with this action?',
   primaryAction = 'Confirm',
-  primaryColor
+  primaryColor,
 }) {
   dialogTitle.value = title;
   dialogMessage.value = message;
@@ -31,7 +31,7 @@ async function open({
   return new Promise((resolve, reject) => {
     resolveResponse.value = resolve;
     rejectResponse.value = reject;
-  })
+  });
 }
 
 function confirm() {

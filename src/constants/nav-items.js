@@ -10,7 +10,7 @@ const NAV_ITEMS = [
     icon: 'mdi-bookshelf',
     route: 'courses',
     roles: ['admin', 'instructor'],
-  }
+  },
 ];
 
 export { NAV_ITEMS };

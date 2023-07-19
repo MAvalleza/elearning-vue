@@ -38,7 +38,7 @@ export default {
               course: createdCourse,
               title: module.title,
               isPublished: module.isPublished,
-            })
+            });
           });
         });
       });

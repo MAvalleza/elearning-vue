@@ -21,7 +21,7 @@ export const useCourses = defineStore('courses', {
 
         const response = await webservice.getCourses(
           params,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -54,12 +54,12 @@ export const useCourses = defineStore('courses', {
     async createCourse(data) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.createCourse(
           data,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -72,7 +72,7 @@ export const useCourses = defineStore('courses', {
         });
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in creating the course.',
@@ -87,13 +87,13 @@ export const useCourses = defineStore('courses', {
     async updateCourse(id, params) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.updateCourse(
           id,
           params,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -106,7 +106,7 @@ export const useCourses = defineStore('courses', {
         });
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in updating the course.',
@@ -120,12 +120,12 @@ export const useCourses = defineStore('courses', {
     async deleteCourse(id) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.deleteCourse(
           id,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -138,7 +138,7 @@ export const useCourses = defineStore('courses', {
         });
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in deleting the course.',
@@ -146,6 +146,6 @@ export const useCourses = defineStore('courses', {
       } finally {
         uiStore().setLoading(false);
       }
-    }
+    },
   },
 });

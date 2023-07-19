@@ -24,7 +24,7 @@ const newCourse = ref({
   subject: null,
   description: null,
   icon: null,
-})
+});
 
 const form = ref(null);
 function submitForm() {
@@ -41,8 +41,8 @@ function createCourse() {
 }
 
 const HEADER_BUTTON_OPTS = {
-  text: 'Save'
-}
+  text: 'Save',
+};
 </script>
 
 <template lang="pug">

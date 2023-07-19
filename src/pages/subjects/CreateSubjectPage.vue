@@ -14,11 +14,11 @@ const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const HEADER_BUTTON_OPTS = {
-  text: 'Save'
-}
+  text: 'Save',
+};
 
 const subjectsStore = useSubjects();
-const newSubject = ref({ title: null, isPublished: null })
+const newSubject = ref({ title: null, isPublished: null });
 
 const createForm = ref(null);
 function submitForm() {

@@ -16,13 +16,13 @@ const props = defineProps({
   },
   /**
    * Flag if this form is consumed in the subject form
-   * 
+   *
    * This will hide the subject and author fields
-  **/
+   **/
   subject: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
@@ -35,13 +35,12 @@ const course = computed({
   },
   set(val) {
     emit('update:modelValue', val);
-  }
+  },
 });
 
 // Current user
 const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
-
 
 // Form handler
 const form = ref(null);
@@ -59,15 +58,12 @@ defineExpose({ submit });
 // Subject search handlers
 const subjectSearch = ref(null);
 
-watch(
-  subjectSearch,
-  (val) => {
-    val !== course.value.subject && searchSubject(val);
-  }
-)
+watch(subjectSearch, val => {
+  val !== course.value.subject && searchSubject(val);
+});
 
 const subjectsStore = useSubjects();
-const { subjects } = storeToRefs(subjectsStore)
+const { subjects } = storeToRefs(subjectsStore);
 
 async function fetchSubjects(keyword) {
   await subjectsStore.fetchSubjects({ keyword });

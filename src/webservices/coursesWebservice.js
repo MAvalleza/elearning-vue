@@ -26,7 +26,7 @@ export default class CoursesWebservice extends Webservice {
         ...this.requestHeaders,
         Authorization: token,
       },
-      body: JSON.stringify(params)
+      body: JSON.stringify(params),
     });
 
     return await response.json();
@@ -41,7 +41,7 @@ export default class CoursesWebservice extends Webservice {
         ...this.requestHeaders,
         Authorization: token,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
 
     return await response.json();

@@ -77,7 +77,7 @@ export const useAuth = defineStore('auth', {
     },
     async logoutUser() {
       if (!this.currentUser) return;
-    
+
       const token = this.currentUser.accessToken;
 
       await webservice.logoutUser(token);
@@ -144,7 +144,7 @@ export const useAuth = defineStore('auth', {
     async activateAccount(token) {
       try {
         uiStore().setLoading(true);
-        
+
         const response = await webservice.activateAccount({ token });
 
         if (!isEmpty(response.errors)) {
@@ -162,12 +162,12 @@ export const useAuth = defineStore('auth', {
     },
     async resendVerification(data) {
       uiStore().setLoading(true);
-      
+
       const response = await webservice.createVerification(data);
 
       uiStore().setLoading(false);
 
       return response;
-    }
+    },
   },
 });

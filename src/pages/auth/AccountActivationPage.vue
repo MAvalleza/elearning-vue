@@ -21,7 +21,7 @@ async function activateAccount() {
   isTokenActivated.value = await authStore.activateAccount(token);
 
   if (isTokenActivated.value) {
-    message.value = 'Your account has been activated successfully'
+    message.value = 'Your account has been activated successfully';
   } else {
     message.value = 'Your link is invalid or expired';
   }
@@ -34,7 +34,7 @@ const message = ref('');
 
 onMounted(() => {
   activateAccount();
-})
+});
 </script>
 
 <template lang="pug">

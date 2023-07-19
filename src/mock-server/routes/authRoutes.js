@@ -20,11 +20,11 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         403,
         { some: 'header' },
-        { 
+        {
           errors: {
             name: 'existing-email',
-            message: 'User already exists'
-          }
+            message: 'User already exists',
+          },
         }
       );
     }
@@ -47,14 +47,14 @@ const createAuthRoutes = routeInstance => {
       createdAt: Date.now(),
       expiresAt: getTime(addDays(Date.now(), 1)),
       isExpired: false,
-    }
+    };
 
     schema.activationTokens.create(tokenData);
 
     // Temporarily return activation token since we cannot send email yet
     return {
       email,
-      token
+      token,
     };
   });
 
@@ -68,9 +68,15 @@ const createAuthRoutes = routeInstance => {
     if (!user) return;
 
     // Expire previous token if applicable
-    const previousToken = schema.activationTokens.findBy({ email, isExpired: false });
+    const previousToken = schema.activationTokens.findBy({
+      email,
+      isExpired: false,
+    });
     if (previousToken) {
-      schema.db.activationTokens.update({ email, isExpired: false }, { isExpired: true });
+      schema.db.activationTokens.update(
+        { email, isExpired: false },
+        { isExpired: true }
+      );
     }
 
     // Create activation token
@@ -101,47 +107,47 @@ const createAuthRoutes = routeInstance => {
         {
           errors: {
             name: 'invalid-token',
-            message: 'Invalid token'
-          }
-        },
+            message: 'Invalid token',
+          },
+        }
       );
     }
 
-    if(tokenData.isExpired) {
+    if (tokenData.isExpired) {
       return new Response(
         403,
         { some: 'header' },
-        { 
+        {
           errors: {
             name: 'expired-token',
-            message: 'Token has expired'
-          }
+            message: 'Token has expired',
+          },
         }
-      )
+      );
     }
 
-    if(tokenData.expiresAt < Date.now()) {
+    if (tokenData.expiresAt < Date.now()) {
       // Set expired status
       schema.db.activationTokens.update({ token }, { isExpired: true });
-      
+
       return new Response(
         403,
         { some: 'header' },
-        { 
+        {
           errors: {
             name: 'expired-token',
-            message: 'Token has expired'
-          }
+            message: 'Token has expired',
+          },
         }
-      )
+      );
     }
 
     console.log('tokenData', tokenData);
     // Activate user
-    schema.db.users.update({ email: tokenData.email } , { isActive: true });
+    schema.db.users.update({ email: tokenData.email }, { isActive: true });
     // Set token to expired since it is used
     schema.db.activationTokens.update({ token }, { isExpired: true });
-  })
+  });
 
   routeInstance.post('/login', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
@@ -157,13 +163,12 @@ const createAuthRoutes = routeInstance => {
         {
           errors: {
             name: 'invalid-credentials',
-            message: 'Email or password is incorrect.'
-          }
+            message: 'Email or password is incorrect.',
+          },
         }
       );
     }
 
-  
     if (!userData.isActive) {
       return new Response(
         403,
@@ -173,7 +178,7 @@ const createAuthRoutes = routeInstance => {
             name: 'unactivated-account',
             message: 'Your account is not activated.',
           },
-        },
+        }
       );
     }
 
@@ -208,11 +213,11 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         404,
         { some: 'header' },
-        { 
+        {
           errors: {
             name: 'not-found-user',
-            message: 'User does not exist.'
-          }
+            message: 'User does not exist.',
+          },
         }
       );
     }
@@ -248,7 +253,7 @@ const createAuthRoutes = routeInstance => {
           errors: {
             name: 'unauthorized',
             message: 'You are not authorized to fulfill this request',
-          }
+          },
         }
       );
     }

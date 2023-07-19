@@ -10,22 +10,22 @@ const props = defineProps({
   label: {
     type: String,
     default: 'Upload',
-  }
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const image = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(val) {
     emit('update:modelValue', val);
-  }
-})
+  },
+});
 
 const uploader = ref(null);
-const uploading = ref(false)
+const uploading = ref(false);
 
 function changeFile() {
   uploader.value.click();

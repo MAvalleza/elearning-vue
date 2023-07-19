@@ -4,7 +4,10 @@ import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
-import { mapOptionsToParams, getTableStatusAction } from '@/helpers/tableHelper';
+import {
+  mapOptionsToParams,
+  getTableStatusAction,
+} from '@/helpers/tableHelper';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -18,7 +21,7 @@ const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW SUBJECT',
   flat: true,
   style: { color: 'black' },
-  to: { name: 'create-subject' }
+  to: { name: 'create-subject' },
 };
 
 // UI states
@@ -83,7 +86,8 @@ function editSubject(event, { item }) {
 async function deleteSubject(id) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Subject',
-    message: 'Deleting a subject will also delete its courses, are you sure you want to delete this subject?',
+    message:
+      'Deleting a subject will also delete its courses, are you sure you want to delete this subject?',
     primaryAction: 'DELETE',
     primaryColor: 'error',
   });
@@ -111,13 +115,10 @@ function getTableActions(item) {
       color: 'error',
     },
     title: 'Delete',
-    action: 'delete'
+    action: 'delete',
   };
 
-  return [
-    getTableStatusAction(item.raw.isPublished),
-    DELETE_ACTION,
-  ];
+  return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
 async function onAction(action, item) {

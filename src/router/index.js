@@ -62,21 +62,21 @@ const routes = [
         path: '',
         name: 'subjects-list',
         meta: { title: 'Subjects' },
-        component: SubjectsListPage
+        component: SubjectsListPage,
       },
       {
         path: 'create',
         name: 'create-subject',
         meta: { title: 'Add Subject' },
-        component: CreateSubjectPage
+        component: CreateSubjectPage,
       },
       {
         path: '/subjects/:id',
         name: 'edit-subject',
         meta: { title: 'Edit Subject' },
         component: EditSubjectPage,
-      }
-    ]
+      },
+    ],
   },
   {
     path: '/courses',
@@ -98,8 +98,8 @@ const routes = [
         name: 'create-course',
         meta: { title: 'Add Course' },
         component: CreateCoursePage,
-      }
-    ]
+      },
+    ],
   },
 ];
 

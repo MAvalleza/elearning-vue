@@ -15,7 +15,7 @@ const props = defineProps({
   filterMenuWidth: {
     type: [String, Number],
     default: '300',
-  }
+  },
 });
 
 const emit = defineEmits([

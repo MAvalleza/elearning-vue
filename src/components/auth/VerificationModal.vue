@@ -16,7 +16,7 @@ const props = defineProps({
   email: {
     type: String,
     default: '',
-  }
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'update:token']);
@@ -27,8 +27,8 @@ const token = computed({
   },
   set(val) {
     emit('update:token', val);
-  }
-})
+  },
+});
 
 const dialog = computed({
   get() {
@@ -68,7 +68,7 @@ const router = useRouter();
 function redirectToActivation() {
   router.push({
     name: 'activate-account',
-    query: { token: token.value }
+    query: { token: token.value },
   });
 }
 

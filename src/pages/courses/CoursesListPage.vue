@@ -19,7 +19,7 @@ const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW COURSE',
   flat: true,
   style: { color: 'black' },
-  to: { name: 'create-course' }
+  to: { name: 'create-course' },
 };
 
 // UI states
@@ -61,9 +61,8 @@ async function fetchCourses() {
   updateSubjectFilterOptions();
 }
 
-
 // Filter operations
-const subjectFilterOptions = ref([])
+const subjectFilterOptions = ref([]);
 
 function updateSubjectFilterOptions() {
   subjectFilterOptions.value = uniqBy(
@@ -88,7 +87,8 @@ function onClearFilter() {
 async function deleteCourse(id) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Course',
-    message: 'Deleting a course will also delete its modules, are you sure you want to delete this course?',
+    message:
+      'Deleting a course will also delete its modules, are you sure you want to delete this course?',
     primaryAction: 'DELETE',
     primaryColor: 'error',
   });

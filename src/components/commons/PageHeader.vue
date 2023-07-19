@@ -38,7 +38,7 @@ const HEADER_STYLES = {
   backgroundColor: props.bgColor,
 };
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(['click']);
 
 function onButtonClick() {
   emit('click');

@@ -17,17 +17,16 @@ const { loading } = storeToRefs(uiStore);
 
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
-}
+};
 
 const subjectsStore = useSubjects();
 const subjectId = ref(route.params.id);
 const subject = ref({});
 
 async function fetchSubject() {
-  subject.value = await subjectsStore.fetchSubject(
-    subjectId.value,
-    { join: ['courses'] }
-  );
+  subject.value = await subjectsStore.fetchSubject(subjectId.value, {
+    join: ['courses'],
+  });
 }
 
 const form = ref(null);
@@ -36,19 +35,16 @@ function submitForm() {
 }
 
 async function updateSubject() {
-  await subjectsStore.updateSubject(
-    subjectId.value,
-    subject.value
-  );
+  await subjectsStore.updateSubject(subjectId.value, subject.value);
 
-  router.push({ name: 'subjects-list' })
+  router.push({ name: 'subjects-list' });
 }
 
-const tab = ref('form')
+const tab = ref('form');
 
 onMounted(() => {
   fetchSubject();
-})
+});
 </script>
 
 <template lang="pug">

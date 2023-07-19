@@ -52,28 +52,31 @@ export const useSubjects = defineStore('subjects', {
     async createSubject(params) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.createSubject(
           params,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
         }
-  
+
         uiStore().showSnackbar({
           color: 'success',
-          message: 'Successfully created a subject.'
+          message: 'Successfully created a subject.',
         });
 
         // Redirect to edit subject details
-        this.$router.push({ name: 'edit-subject', params: { id: response.id } });
+        this.$router.push({
+          name: 'edit-subject',
+          params: { id: response.id },
+        });
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in creating your subject.',
@@ -85,15 +88,15 @@ export const useSubjects = defineStore('subjects', {
     async fetchSubject(id, params) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.getSubject(
           {
             id,
             params,
           },
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -103,7 +106,7 @@ export const useSubjects = defineStore('subjects', {
         return response;
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in fetching the subject.',
@@ -117,13 +120,13 @@ export const useSubjects = defineStore('subjects', {
     async updateSubject(id, params) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.updateSubject(
           id,
           params,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -136,7 +139,7 @@ export const useSubjects = defineStore('subjects', {
         });
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in updating the subject.',
@@ -150,12 +153,12 @@ export const useSubjects = defineStore('subjects', {
     async deleteSubject(id) {
       try {
         uiStore().setLoading(true);
-  
+
         const currentUser = authStore().currentUser;
-  
+
         const response = await webservice.deleteSubject(
           id,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -168,7 +171,7 @@ export const useSubjects = defineStore('subjects', {
         });
       } catch (e) {
         console.error(e);
-  
+
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in deleting the subject.',
@@ -176,6 +179,6 @@ export const useSubjects = defineStore('subjects', {
       } finally {
         uiStore().setLoading(false);
       }
-    }
+    },
   },
 });

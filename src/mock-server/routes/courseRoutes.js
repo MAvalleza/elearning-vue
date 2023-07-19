@@ -1,5 +1,8 @@
 import { Response } from 'miragejs';
-import { evaluateParams, RelationshipFilter } from '../helpers/fetchParamsHelper';
+import {
+  evaluateParams,
+  RelationshipFilter,
+} from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
 
 const createCourseRoutes = routeInstance => {
@@ -7,12 +10,12 @@ const createCourseRoutes = routeInstance => {
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
-  
+
     if (!authSession.isAuthorized()) {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authorized to fulfill this request']},
+        { errors: ['You are not authorized to fulfill this request'] }
       );
     }
 
@@ -21,19 +24,12 @@ const createCourseRoutes = routeInstance => {
       ...new RelationshipFilter(request.queryParams).params,
     });
 
-    const { count, results } = evaluateParams(
-      schema,
-      {
-        collection,
-        params: request.queryParams
-      }
-    );
+    const { count, results } = evaluateParams(schema, {
+      collection,
+      params: request.queryParams,
+    });
 
-    return new Response(
-      200,
-      { some: 'header' },
-      { count, results }
-    );
+    return new Response(200, { some: 'header' }, { count, results });
   });
 
   routeInstance.post('/courses', (schema, request) => {
@@ -41,12 +37,12 @@ const createCourseRoutes = routeInstance => {
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
-  
+
     if (!authSession.isAuthorized()) {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authorized to fulfill this request']},
+        { errors: ['You are not authorized to fulfill this request'] }
       );
     }
 
@@ -76,7 +72,7 @@ const createCourseRoutes = routeInstance => {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authorized to fulfill this request']},
+        { errors: ['You are not authorized to fulfill this request'] }
       );
     }
 
@@ -96,7 +92,7 @@ const createCourseRoutes = routeInstance => {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authorized to fulfill this request']},
+        { errors: ['You are not authorized to fulfill this request'] }
       );
     }
 
@@ -111,7 +107,7 @@ const createCourseRoutes = routeInstance => {
     return new Response(
       200,
       { some: 'header' },
-      { deleted: id, resource: 'courses' },
+      { deleted: id, resource: 'courses' }
     );
   });
 };

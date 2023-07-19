@@ -34,7 +34,6 @@ async function submit() {
 }
 
 defineExpose({ submit });
-
 </script>
 
 <template lang="pug">

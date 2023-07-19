@@ -1,12 +1,12 @@
 class AuthSession {
-  constructor (schema, token) {
+  constructor(schema, token) {
     this.schema = schema;
     this.token = token;
 
     this.session = schema.sessions.findBy({ accessToken: token });
   }
 
-  user () {
+  user() {
     if (!this.session) {
       return;
     }
@@ -24,10 +24,10 @@ class AuthSession {
     }
 
     // Checks if user has access to the resource
-    return !!this.user()[resource]
-      .models
-      .find(model => model.id === resourceId);
+    return !!this.user()[resource].models.find(
+      model => model.id === resourceId
+    );
   }
 }
 
-export { AuthSession }
+export { AuthSession };

@@ -8,11 +8,11 @@ const props = defineProps({
    */
   actions: {
     type: Array,
-    default: () => ([]),
-  }
+    default: () => [],
+  },
 });
 
-const emit = defineEmits(['action'])
+const emit = defineEmits(['action']);
 
 function onClick(item) {
   emit('action', item.action);
@@ -36,4 +36,3 @@ v-btn(
           v-icon(v-bind="item.icon")
         v-list-item-title {{ item.title }}
 </template>
- 

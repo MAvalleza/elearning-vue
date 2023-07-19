@@ -7,11 +7,11 @@ import TableActions from '@/components/commons/TableActions.vue';
 const props = defineProps({
   component: {
     type: String,
-    default: 'v-data-table-server'
+    default: 'v-data-table-server',
   },
   items: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   itemsPerPage: {
     type: [String, Number],
@@ -28,8 +28,8 @@ const props = defineProps({
   hideSubjectColumn: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 
 const emit = defineEmits(['update:options', 'action']);
 
@@ -64,29 +64,26 @@ function getTableActions(item) {
       color: 'error',
     },
     title: 'Delete',
-    action: 'delete'
+    action: 'delete',
   };
 
-  return [
-    getTableStatusAction(item.raw.isPublished),
-    DELETE_ACTION,
-  ];
+  return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
 function getItemAuthor(item) {
-  const { authorName, author } = item.raw
+  const { authorName, author } = item.raw;
 
   return authorName || `${author.firstName} ${author.lastName}`;
 }
 
 function getItemStatus(item) {
-  const { status, isPublished } = item.raw
+  const { status, isPublished } = item.raw;
 
   return status || (isPublished ? 'Published' : 'Draft');
 }
 
 function getItemTotalModules(item) {
-  const { totalModules, moduleIds } = item.raw
+  const { totalModules, moduleIds } = item.raw;
 
   return totalModules || size(moduleIds);
 }

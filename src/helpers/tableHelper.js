@@ -19,14 +19,14 @@ const mapOptionsToParams = opts => {
 };
 
 // Determines the table action for a published/draft resource
-const getTableStatusAction = (isPublished) => {
+const getTableStatusAction = isPublished => {
   const STATUS_ACTION = {
     published: {
       icon: {
-        icon: 'mdi-pencil'
+        icon: 'mdi-pencil',
       },
       title: 'Draft',
-      action: 'draft'
+      action: 'draft',
     },
     draft: {
       icon: {
@@ -43,6 +43,6 @@ const getTableStatusAction = (isPublished) => {
   } else {
     return STATUS_ACTION.draft;
   }
-}
+};
 
 export { mapOptionsToParams, getTableStatusAction };

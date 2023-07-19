@@ -1,12 +1,6 @@
 import { isArray, isEmpty, pick, get } from 'lodash-es';
 
-function evaluateParams (
-  schema, 
-  {
-    collection,
-    params
-  }
-) {
+function evaluateParams(schema, { collection, params }) {
   let data = collection;
 
   const filter = new Filter(params);
@@ -35,18 +29,18 @@ function evaluateParams (
   data = pagination.paginate(data);
 
   // Join foreign collections
-  if(!isEmpty(collectionJoin.joinParams)) {
+  if (!isEmpty(collectionJoin.joinParams)) {
     return {
       count,
-      results: collectionJoin.join(data.models)
+      results: collectionJoin.join(data.models),
     };
   }
 
   return {
     count,
-    results: data.models
+    results: data.models,
   };
-} 
+}
 
 class PaginationParams {
   constructor(params) {
@@ -132,22 +126,22 @@ class Sorter {
 class CollectionJoin {
   constructor(schema, params) {
     this.schema = schema;
-    this.joinParams = params.join
+    this.joinParams = params.join;
   }
 
   /**
    * Mirage Models are schemaless in their attributes, but their relationship schema is known.
    * (e.g. `subject.courses` will return the foreign Courses Collection)
-   * 
+   *
    * However, since Mirage normalizes the models upon response,
    * the relationship feature is not included along with the model's attributes
-   * 
+   *
    * To work around that, we do the normalization ourselves to include the
    * relationship values.
-   * 
+   *
    * We store all foreign values in a new object, and return both the attributes of
    * the model and that object.
-   * 
+   *
    * @param {Object[] | Object} data - MirageJs <Model>
    * @return {Object[]} Normalized object array
    */
@@ -169,14 +163,14 @@ class CollectionJoin {
 
     this.joinParams.forEach(param => {
       const foreignCollection = model[param];
-      
+
       // We check if it is an array of models or just a single model
       if (!isEmpty(foreignCollection?.models)) {
         foreignAttrs[param] = foreignCollection.models;
-      } else if (isArray(foreignCollection?.models)){
+      } else if (isArray(foreignCollection?.models)) {
         foreignAttrs[param] = foreignCollection.models;
       } else {
-        foreignAttrs[param] = foreignCollection
+        foreignAttrs[param] = foreignCollection;
       }
     });
 
@@ -189,20 +183,11 @@ class CollectionJoin {
 
 // Params for usage in MirageJS Collection `where` method
 class RelationshipFilter {
-  #RELATIONSHIP_KEYS = [
-    'ownerId',
-    'authorId',
-    'courseId',
-    'subjectId',
-  ];
+  #RELATIONSHIP_KEYS = ['ownerId', 'authorId', 'courseId', 'subjectId'];
 
   constructor(params) {
     this.params = pick(params, this.#RELATIONSHIP_KEYS);
   }
 }
 
-export {
-  evaluateParams,
-  CollectionJoin,
-  RelationshipFilter
-};
+export { evaluateParams, CollectionJoin, RelationshipFilter };

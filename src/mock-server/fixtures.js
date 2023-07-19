@@ -26,8 +26,8 @@ export const SUBJECT_FIXTURES = [
             isPublished: false,
             createdAt: Date.now(),
             updatedAt: null,
-          }
-        ]
+          },
+        ],
       },
       {
         title: 'Algebra',
@@ -43,10 +43,10 @@ export const SUBJECT_FIXTURES = [
             isPublished: true,
             createdAt: Date.now(),
             updatedAt: null,
-          }
-        ]
-      }
-    ]
+          },
+        ],
+      },
+    ],
   },
   {
     title: 'Science',
@@ -61,9 +61,9 @@ export const SUBJECT_FIXTURES = [
         isPublished: true,
         createdAt: Date.now(),
         updatedAt: null,
-        modules: []
-      }
-    ]
+        modules: [],
+      },
+    ],
   },
   {
     title: 'History',
@@ -71,4 +71,4 @@ export const SUBJECT_FIXTURES = [
     createdAt: Date.now(),
     updatedAt: null,
   },
-]
+];

@@ -5,10 +5,7 @@ const STATUS_MAP = {
 
 const STATUS_LABELS = [
   { label: STATUS_MAP.published, value: true },
-  { label: STATUS_MAP.draft, value: false }
+  { label: STATUS_MAP.draft, value: false },
 ];
 
-export {
-  STATUS_MAP,
-  STATUS_LABELS
-}
+export { STATUS_MAP, STATUS_LABELS };
