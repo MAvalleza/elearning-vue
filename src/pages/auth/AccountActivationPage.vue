@@ -48,17 +48,17 @@ v-container.fill-height.align-center
           h3 Account Activation
         v-card-text
           | {{ message }}
-          div(v-if="!isTokenActivated").mt-5
-            v-text-field(
-              v-model="email"
-              variant="outlined"
-              density="compact"
-              label="Email"
-            )
-            v-btn(
-              color="primary"
-              density="compact"
-            ) Resend
+          //- div(v-if="!isTokenActivated").mt-5
+          //-   v-text-field(
+          //-     v-model="email"
+          //-     variant="outlined"
+          //-     density="compact"
+          //-     label="Email"
+          //-   )
+          //-   v-btn(
+          //-     color="primary"
+          //-     density="compact"
+          //-   ) Resend
 
         v-card-actions(v-if="isTokenActivated")
           v-spacer
