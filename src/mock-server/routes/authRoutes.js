@@ -52,11 +52,16 @@ const createAuthRoutes = routeInstance => {
     schema.activationTokens.create(tokenData);
 
     // Temporarily return activation token since we cannot send email yet
-    return { token };
+    return {
+      email,
+      token
+    };
   });
 
   routeInstance.post('/signup/verification', (schema, request) => {
-    const { email } = JSON.parse(request.requestBody).attrs;
+    const attrs = JSON.parse(request.requestBody);
+
+    let { email } = attrs;
 
     const user = schema.users.findBy({ email });
 

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuth } from '@/stores/auth';
 
 const props = defineProps({
   modelValue: {
@@ -11,10 +12,16 @@ const props = defineProps({
   token: {
     type: String,
     default: '',
+  },
+  email: {
+    type: String,
+    default: '',
   }
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'update:token']);
+
+const token = ref(props.token)
 
 const dialog = computed({
   get() {
@@ -30,7 +37,12 @@ const MAX_TIME_IN_SECONDS = 30;
 const isResendTimerRunning = ref(false);
 const timerCount = ref(MAX_TIME_IN_SECONDS);
 
-function resend() {
+const authStore = useAuth();
+
+async function resend() {
+  const response = await authStore.resendVerification({ email: props.email });
+  token.value = response.token;
+
   timerCount.value = MAX_TIME_IN_SECONDS;
   isResendTimerRunning.value = true;
 
@@ -49,7 +61,7 @@ const router = useRouter();
 function redirectToActivation() {
   router.push({
     name: 'activate-account',
-    query: { token: props.token }
+    query: { token: token.value }
   });
 }
 

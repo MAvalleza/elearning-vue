@@ -74,4 +74,18 @@ export default class AuthWebservice extends Webservice {
 
     return await response.json();
   }
+
+  async createVerification(data) {
+    const url = this.parseURL({
+      path: 'signup/verification'
+    })
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: this.requestHeaders,
+      body: JSON.stringify(data)
+    });
+
+    return await response.json();
+  }
 }

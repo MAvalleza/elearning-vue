@@ -106,14 +106,16 @@ const REGISTRATION_FORM = {
   },
 };
 
-// TODO: Temporary token constant
+// TODO: Temporary constant
 const activationToken = ref(null);
+const email = ref(null)
 
 async function registerUser(data) {
   const response = await authStore.registerUser(data);
 
   if (isEmpty(response.errors)) {
     // Show verification modal
+    email.value = response.email
     activationToken.value = response.token;
     isVerificationModalVisible.value = true;
   }
@@ -126,7 +128,8 @@ v-container
 
   verification-modal(
     v-model="isVerificationModalVisible"
-    :token="activationToken"
+    v-model:token="activationToken"
+    :email="email"
   )
 
   v-row(justify="center")

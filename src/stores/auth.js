@@ -159,6 +159,15 @@ export const useAuth = defineStore('auth', {
       } finally {
         uiStore().setLoading(false);
       }
+    },
+    async resendVerification(data) {
+      uiStore().setLoading(true);
+      
+      const response = await webservice.createVerification(data);
+
+      uiStore().setLoading(false);
+
+      return response;
     }
   },
 });
