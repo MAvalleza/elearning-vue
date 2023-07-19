@@ -31,7 +31,7 @@ export const useAuth = defineStore('auth', {
         const response = await webservice.signUpUser(userData);
 
         if (!isEmpty(response.errors)) {
-          throw new Error(response.errors[0]);
+          throw new Error(response.errors.message);
         }
 
         return response;
@@ -63,7 +63,7 @@ export const useAuth = defineStore('auth', {
           return;
         }
 
-        throw new Error(response.errors[0]);
+        throw new Error(response.errors.message);
       } catch (e) {
         console.error(e);
 
@@ -94,7 +94,7 @@ export const useAuth = defineStore('auth', {
         const response = await webservice.requestResetPassword(data);
 
         if (!isEmpty(response.errors)) {
-          throw new Error(response.errors[0]);
+          throw new Error(response.errors.message);
         }
 
         uiStore().showSnackbar({
@@ -121,7 +121,7 @@ export const useAuth = defineStore('auth', {
         const response = await webservice.resetPassword(token, { password });
 
         if (!isEmpty(response.errors)) {
-          throw new Error(response.errors[0]);
+          throw new Error(response.errors.message);
         }
 
         uiStore().showSnackbar({

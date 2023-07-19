@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Response } from 'miragejs';
+import { getTime, addDays } from 'date-fns';
 
 const createAuthRoutes = routeInstance => {
   routeInstance.get('/users');
@@ -19,19 +20,91 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         403,
         { some: 'header' },
-        { errors: ['User already exists'] }
+        { 
+          errors: {
+            name: 'existing-email',
+            message: 'User already exists'
+          }
+        }
       );
     }
 
     const data = {
       ...attrs,
-      isActive: true,
+      isActive: false,
       createdAt: Date.now(),
       updatedAt: null,
     };
 
-    return schema.users.create(data);
+    // Create non-activated user
+    const user = schema.users.create(data);
+
+    // Create activation token
+    const tokenData = {
+      token: faker.database.mongodbObjectId(),
+      user: user.attrs.id,
+      createdAt: Date.now(),
+      expiresAt: getTime(addDays(Date(Date.now()), 1)),
+      isExpired: false,
+    }
+
+    schema.activationTokens.create(tokenData);
+
+    return user.attrs;
   });
+
+  routeInstance.get('/signup/verification', (schema, request) => {
+    const { token } = request.queryParams;
+
+    const tokenData = schema.activationTokens.findBy({ token });
+
+    if (!tokenData) {
+      return new Response(
+        401,
+        { some: 'header' },
+        {
+          errors: {
+            name: 'invalid-token',
+            message: 'Invalid token'
+          }
+        },
+      );
+    }
+
+    if(tokenData.isExpired) {
+      return new Response(
+        403,
+        { some: 'header' },
+        { 
+          errors: {
+            name: 'expired-token',
+            message: 'Token has expired'
+          }
+        }
+      )
+    }
+
+    if(tokenData.expiresAt < Date.now()) {
+      // Set expired status
+      schema.db.activationTokens.update({ token }, { isExpired: true });
+      
+      return new Response(
+        403,
+        { some: 'header' },
+        { 
+          errors: {
+            name: 'expired-token',
+            message: 'Token has expired'
+          }
+        }
+      )
+    }
+
+    // Activate user
+    schema.db.users.update({ email: tokenData.email }, { isActive: true });
+    // Set token to expired since it is used
+    schema.db.activationTokens.update({ token }, { isExpired: true });
+  })
 
   routeInstance.post('/login', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
@@ -44,7 +117,12 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         400,
         { some: 'header' },
-        { errors: ['Email or password is incorrect.'] }
+        {
+          errors: {
+            name: 'invalid-credentials',
+            message: 'Email or password is incorrect.'
+          }
+        }
       );
     }
 
@@ -79,7 +157,12 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         404,
         { some: 'header' },
-        { errors: ['User does not exist'] }
+        { 
+          errors: {
+            name: 'not-found-user',
+            message: 'User does not exist.'
+          }
+        }
       );
     }
 
@@ -110,7 +193,12 @@ const createAuthRoutes = routeInstance => {
       return new Response(
         401,
         { some: 'header' },
-        { errors: ['You are not authenticated to fulfill this request.'] }
+        {
+          errors: {
+            name: 'unauthorized',
+            message: 'You are not authorized to fulfill this request',
+          }
+        }
       );
     }
 
