@@ -23,5 +23,4 @@ v-app
     v-snackbar(v-model="isSnackbarVisible" :color="snackbar.color") {{ snackbar.message }}
 
     component(:is="layout")
-      router-view
 </template>
