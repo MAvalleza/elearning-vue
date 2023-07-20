@@ -31,7 +31,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:options', 'action']);
+const emit = defineEmits(['update:options', 'action', 'click:row']);
 
 const itemsPerPage = ref(props.itemsPerPage);
 
@@ -95,6 +95,10 @@ function onAction(action, item) {
 function onUpdateTableOptions(event) {
   emit('update:options', event);
 }
+
+function onClickRow(event, { item }) {
+  emit('click:row', event, { item });
+}
 </script>
 
 <template lang="pug">
@@ -106,6 +110,7 @@ component(
   :items="props.items"
   :items-length="props.itemsLength"
   :loading="props.loading"
+  @click:row="onClickRow"
   @update:options="onUpdateTableOptions"
 )
   template(#[`item.authorName`]="{ item }")

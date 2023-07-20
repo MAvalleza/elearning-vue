@@ -47,8 +47,8 @@ const createCourseRoutes = routeInstance => {
       );
     }
 
-    const subject = schema.subjects.find(attrs.subject);
-    const author = schema.users.find(attrs.author);
+    const subject = schema.subjects.find(attrs.subjectId);
+    const author = schema.users.find(attrs.authorId);
 
     const data = {
       ...attrs,

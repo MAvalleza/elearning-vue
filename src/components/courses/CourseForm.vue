@@ -88,7 +88,7 @@ v-form(ref="form")
         template(v-if="!subject")
           v-col(cols="12" lg="6")
             v-autocomplete(
-              v-model="course.subject"
+              v-model="course.subjectId"
               v-model:search="subjectSearch"
               label="Subject"
               variant="outlined"

@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import uniqBy from 'lodash-es/uniqBy';
@@ -12,7 +12,7 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
-// const router = useRouter();
+const router = useRouter();
 const route = useRoute();
 
 const HEADER_BUTTON_OPTS = {
@@ -77,12 +77,12 @@ function onClearFilter() {
   fetchCourses();
 }
 
-// function editCourse(event, { item }) {
-//   router.push({
-//     name: 'edit-subject',
-//     params: { id: item.raw.id },
-//   });
-// }
+function editCourse(event, { item }) {
+  router.push({
+    name: 'edit-course',
+    params: { id: item.raw.id },
+  });
+}
 
 async function deleteCourse(id) {
   const confirm = await confirmDialog.value.open({
@@ -165,6 +165,7 @@ page-content
     :items="courses"
     :items-length="coursesTotal"
     :loading="loading"
+    @click:row="editCourse"
     @update:options="onUpdateTableOptions"
     @action="onAction"
   )

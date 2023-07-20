@@ -45,7 +45,6 @@ const coursesStore = useCourses();
 const newCourse = ref({
   title: null,
   isPublished: null,
-  subject: null,
   description: null,
   icon: null,
 });
@@ -53,12 +52,12 @@ const newCourse = ref({
 async function createCourse() {
   const data = {
     ...newCourse.value,
-    author: currentUser.value.id,
+    authorId: currentUser.value.id,
   };
 
   // If created through subject form
   if (route.params.id) {
-    data.subject = route.params.id;
+    data.subjectId = route.params.id;
   }
 
   await coursesStore.createCourse(data);
