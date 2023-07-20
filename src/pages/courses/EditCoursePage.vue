@@ -15,7 +15,7 @@ const HEADER_BUTTON_OPTS = {
 };
 
 function definePageTitle() {
-  if (fromSubject.value) {
+  if (isFromSubject.value) {
     return `${currentSubject.value.title} > ${currentCourse.value.title}`;
   } else {
     return currentCourse.value.title;
@@ -37,7 +37,7 @@ const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
 
 // Flag for knowing if accessed from subject form
-const fromSubject = ref(route.meta.from === 'subject');
+const isFromSubject = ref(route.meta.from === 'subject');
 
 async function fetchCourse() {
   await coursesStore.fetchCourse(courseId.value, {
@@ -56,8 +56,8 @@ async function updateCourse() {
   await coursesStore.updateCourse(courseId.value, course.value);
 
   router.push({
-    name: fromSubject.value ? 'edit-subject' : 'courses-list',
-    ...fromSubject.value && { params: { subjectId: route.params.subjectId } },
+    name: isFromSubject.value ? 'edit-subject' : 'courses-list',
+    ...isFromSubject.value && { params: { subjectId: route.params.subjectId } },
   });
 }
 
@@ -97,7 +97,7 @@ page-content
           :key="course.id"
           v-model="course"
           :loading="loading"
-          :subject="fromSubject"
+          :subject="isFromSubject"
           @submit="updateCourse"
         )
       v-window-item(value="courses")

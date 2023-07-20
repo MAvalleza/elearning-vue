@@ -4,6 +4,7 @@ import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
 import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
 import CreateCoursePage from '@/pages/courses/CreateCoursePage.vue';
+import EditCoursePage from '@/pages/courses/EditCoursePage.vue';
 import BlankLayout from '@/layouts/Blank.vue';
 
 export default [
@@ -51,16 +52,15 @@ export default [
                     name: 'subject-create-course',
                     meta: { title: 'Add a course', from: 'subject' },
                     component: CreateCoursePage,
-                    beforeEnter: (to, from, next) => {
-                      // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
-                      const subject = subjectsStore().currentSubject;
-                      if (to.params.subjectId !== subject.id) {
-                        next({ name: 'edit-subject', params: { subjectId: to.params.id } })
-                      } else {
-                        next();
-                      }
-                    }
+                    beforeEnter: [editSubjectGuard],
                   },
+                  {
+                    path: '/subjects/:subjectId/courses/:courseId',
+                    name: 'subject-edit-course',
+                    meta: { title: 'Edit course', from: 'subject' },
+                    component: EditCoursePage,
+                    beforeEnter: [editSubjectGuard],
+                  }
                 ]
               }
             ]
@@ -69,4 +69,14 @@ export default [
       }
     ],
   },
-]
+];
+
+function editSubjectGuard(to, from, next) {
+  // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
+  const subject = subjectsStore().currentSubject;
+  if (to.params.subjectId !== subject.id) {
+    next({ name: 'edit-subject', params: { subjectId: to.params.id } })
+  } else {
+    next();
+  }
+}

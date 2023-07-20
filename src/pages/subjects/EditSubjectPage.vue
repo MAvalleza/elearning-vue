@@ -46,7 +46,10 @@ async function updateSubject() {
 function editCourse(event, { item }) {
   router.push({
     name: 'subject-edit-course',
-    params: { subjectId: item.raw.id },
+    params: {
+      subjectId: subjectId.value,
+      courseId: item.raw.id
+    },
   });
 }
 
