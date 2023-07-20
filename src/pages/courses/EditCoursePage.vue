@@ -57,7 +57,9 @@ async function updateCourse() {
 
   router.push({
     name: isFromSubject.value ? 'edit-subject' : 'courses-list',
-    ...isFromSubject.value && { params: { subjectId: route.params.subjectId } },
+    ...(isFromSubject.value && {
+      params: { subjectId: route.params.subjectId },
+    }),
   });
 }
 

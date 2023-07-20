@@ -1,4 +1,3 @@
-
 import { useSubjects as subjectsStore } from '@/stores/subjects';
 import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
@@ -60,13 +59,13 @@ export default [
                     meta: { title: 'Edit course', from: 'subject' },
                     component: EditCoursePage,
                     beforeEnter: [editSubjectGuard],
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
@@ -75,7 +74,7 @@ function editSubjectGuard(to, from, next) {
   // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
   const subject = subjectsStore().currentSubject;
   if (to.params.subjectId !== subject.id) {
-    next({ name: 'edit-subject', params: { subjectId: to.params.id } })
+    next({ name: 'edit-subject', params: { subjectId: to.params.id } });
   } else {
     next();
   }

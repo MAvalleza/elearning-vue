@@ -48,7 +48,7 @@ function editCourse(event, { item }) {
     name: 'subject-edit-course',
     params: {
       subjectId: subjectId.value,
-      courseId: item.raw.id
+      courseId: item.raw.id,
     },
   });
 }
@@ -64,7 +64,7 @@ onBeforeRouteUpdate((to, from) => {
     subjectId.value = to.params.id;
     fetchSubject();
   }
-})
+});
 </script>
 
 <template lang="pug">

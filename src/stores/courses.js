@@ -173,7 +173,6 @@ export const useCourses = defineStore('courses', {
           color: 'error',
           message: 'There was an error in fetching the course.',
         });
-
       } finally {
         uiStore().setLoading(false);
       }

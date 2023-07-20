@@ -80,12 +80,7 @@ const createCourseRoutes = routeInstance => {
 
     const course = schema.courses.find(id);
 
-    const updateKeys = [
-      'title',
-      'isPublished',
-      'description',
-      'icon'
-    ];
+    const updateKeys = ['title', 'isPublished', 'description', 'icon'];
 
     // Pick attributes that are actually updated
     const attrsToUpdate = updateKeys.reduce((acc, key) => {
@@ -93,12 +88,14 @@ const createCourseRoutes = routeInstance => {
         acc[key] = attrs[key];
       }
       return acc;
-    }, {})
+    }, {});
 
     // Update subject model if applicable
     return course.update({
       ...attrsToUpdate,
-      ...!!attrs.subjectId && { subject: schema.subjects.find(attrs.subjectId)}
+      ...(!!attrs.subjectId && {
+        subject: schema.subjects.find(attrs.subjectId),
+      }),
     });
   });
 
@@ -158,9 +155,7 @@ const createCourseRoutes = routeInstance => {
     }
 
     // Apply join param to join collections
-    return new CollectionJoin(schema, request.queryParams).join(
-      course
-    );
+    return new CollectionJoin(schema, request.queryParams).join(course);
   });
 };
 

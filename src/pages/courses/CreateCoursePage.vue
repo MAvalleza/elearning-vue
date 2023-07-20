@@ -17,7 +17,6 @@ const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
 
-
 function definePageTitle() {
   const routeMetaTitle = route.meta.title;
 
@@ -67,7 +66,9 @@ async function createCourse() {
 
   router.push({
     name: isFromSubject.value ? 'edit-subject' : 'courses-list',
-    ...isFromSubject.value && { params: { subjectId: route.params.subjectId } },
+    ...(isFromSubject.value && {
+      params: { subjectId: route.params.subjectId },
+    }),
   });
 }
 
