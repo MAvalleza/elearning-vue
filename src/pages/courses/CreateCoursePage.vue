@@ -49,6 +49,9 @@ const newCourse = ref({
   icon: null,
 });
 
+// Flag if redirected from subject form
+const isFromSubject = ref(route.meta.from === 'subject');
+
 async function createCourse() {
   const data = {
     ...newCourse.value,
@@ -56,15 +59,15 @@ async function createCourse() {
   };
 
   // If created through subject form
-  if (route.params.id) {
-    data.subjectId = route.params.id;
+  if (isFromSubject.value) {
+    data.subjectId = route.params.subjectId;
   }
 
   await coursesStore.createCourse(data);
 
   router.push({
-    name: route.params.id ? 'edit-subject' : 'courses-list',
-    ...route.params.id && { params: { id: route.params.id } },
+    name: isFromSubject.value ? 'edit-subject' : 'courses-list',
+    ...isFromSubject.value && { params: { subjectId: route.params.subjectId } },
   });
 }
 
@@ -91,7 +94,7 @@ page-content
   course-form(
     ref="form"
     v-model="newCourse"
-    :subject="!!route.params.id"
+    :subject="isFromSubject"
     @submit="createCourse"
   )
 </template>

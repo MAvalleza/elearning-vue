@@ -25,7 +25,7 @@ export default [
         component: CreateCoursePage,
       },
       {
-        path: '/courses/:id',
+        path: '/courses/:courseId',
         name: 'edit-course',
         meta: { title: 'Edit Course' },
         component: EditCoursePage,

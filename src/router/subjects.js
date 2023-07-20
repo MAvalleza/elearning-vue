@@ -29,7 +29,7 @@ export default [
         component: CreateSubjectPage,
       },
       {
-        path: '/subjects/:id',
+        path: '/subjects/:subjectId',
         component: BlankLayout,
         children: [
           {
@@ -54,13 +54,13 @@ export default [
                     beforeEnter: (to, from, next) => {
                       // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
                       const subject = subjectsStore().currentSubject;
-                      if (to.params.id !== subject.id) {
-                        next({ name: 'edit-subject', params: { id: to.params.id } })
+                      if (to.params.subjectId !== subject.id) {
+                        next({ name: 'edit-subject', params: { subjectId: to.params.id } })
                       } else {
                         next();
                       }
                     }
-                  }
+                  },
                 ]
               }
             ]

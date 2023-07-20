@@ -80,7 +80,7 @@ function onClearFilter() {
 function editCourse(event, { item }) {
   router.push({
     name: 'edit-course',
-    params: { id: item.raw.id },
+    params: { courseId: item.raw.id },
   });
 }
 

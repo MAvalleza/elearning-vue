@@ -22,7 +22,7 @@ const HEADER_BUTTON_OPTS = {
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
 const subject = ref({});
-const subjectId = ref(route.params.id);
+const subjectId = ref(route.params.subjectId);
 
 async function fetchSubject() {
   await subjectsStore.fetchSubject(subjectId.value, {
@@ -41,6 +41,13 @@ async function updateSubject() {
   await subjectsStore.updateSubject(subjectId.value, subject.value);
 
   router.push({ name: 'subjects-list' });
+}
+
+function editCourse(event, { item }) {
+  router.push({
+    name: 'subject-edit-course',
+    params: { subjectId: item.raw.id },
+  });
 }
 
 const tab = ref('form');
@@ -89,12 +96,13 @@ page-content
               color="#34bdeb"
               variant="flat"
               theme="dark"
-              :to="{ name: 'subject-create-course', params: { id: subjectId }}"
+              :to="{ name: 'subject-create-course', params: { subjectId: subjectId }}"
             ).text-none Add a course
           courses-list-table(
             component="v-data-table"
             :loading="loading"
             :items="subject.courses || []"
             hide-subject-column
+            @click:row="editCourse"
           )
 </template>

@@ -31,7 +31,7 @@ const { loading } = storeToRefs(uiStore);
 const coursesStore = useCourses();
 const { currentCourse } = storeToRefs(coursesStore);
 const course = ref({});
-const courseId = ref(route.params.id);
+const courseId = ref(route.params.courseId);
 
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
@@ -57,7 +57,7 @@ async function updateCourse() {
 
   router.push({
     name: fromSubject.value ? 'edit-subject' : 'courses-list',
-    ...fromSubject.value && { params: { id: route.params.subjectId } },
+    ...fromSubject.value && { params: { subjectId: route.params.subjectId } },
   });
 }
 

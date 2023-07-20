@@ -79,7 +79,7 @@ async function fetchSubjects() {
 function editSubject(event, { item }) {
   router.push({
     name: 'edit-subject',
-    params: { id: item.raw.id },
+    params: { subjectId: item.raw.id },
   });
 }
 
