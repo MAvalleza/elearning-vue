@@ -1,3 +1,5 @@
+
+import { useSubjects as subjectsStore } from '@/stores/subjects';
 import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
 import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
@@ -36,6 +38,15 @@ export default [
         name: 'subject-create-course',
         meta: { title: 'Add a course', from: 'subject' },
         component: CreateCoursePage,
+        beforeEnter: (to, from, next) => {
+          // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
+          const subject = subjectsStore().currentSubject;
+          if (to.params.id !== subject.id) {
+            next({ name: 'edit-subject', params: { id: to.params.id } })
+          } else {
+            next();
+          }
+        }
       }
     ],
   },

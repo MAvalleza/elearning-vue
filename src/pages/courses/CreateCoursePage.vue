@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
@@ -77,19 +77,6 @@ function submitForm() {
 // Subject
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
-
-
-onMounted(() => {
-  // This has a value when this page is accessed thru subject form
-  const subjectId = route.params.id;
-
-  // This guard prevents accessing the route directly
-  // without going through the normal process.
-  if (subjectId && currentSubject.value.id !== subjectId) {
-    // We redirect them to edit page of subject instead
-    router.push({ name: 'edit-subject', params: { id: subjectId } });
-  }
-})
 </script>
 
 <template lang="pug">

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
@@ -48,6 +48,13 @@ const tab = ref('form');
 onMounted(() => {
   fetchSubject();
 });
+
+onBeforeRouteUpdate((to, from) => {
+  if (to.params.id !== from.params.id) {
+    subjectId.value = to.params.id;
+    fetchSubject();
+  }
+})
 </script>
 
 <template lang="pug">
