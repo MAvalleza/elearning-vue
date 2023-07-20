@@ -2,6 +2,7 @@ import { Response } from 'miragejs';
 import {
   evaluateParams,
   RelationshipFilter,
+  CollectionJoin,
 } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
 
@@ -108,6 +109,37 @@ const createCourseRoutes = routeInstance => {
       200,
       { some: 'header' },
       { deleted: id, resource: 'courses' }
+    );
+  });
+
+  routeInstance.get('/courses/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'courses', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const course = schema.courses.find(id);
+
+    if (!course) {
+      return new Response(
+        404,
+        { some: 'header' },
+        { errors: ['Course does not exist'] }
+      );
+    }
+
+    // Apply join param to join collections
+    return new CollectionJoin(schema, request.queryParams).join(
+      course
     );
   });
 };

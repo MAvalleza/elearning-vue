@@ -11,6 +11,7 @@ export const useCourses = defineStore('courses', {
   state: () => ({
     courses: [],
     coursesTotal: 0,
+    currentCourse: {},
   }),
   actions: {
     async fetchCourses(params) {
@@ -142,6 +143,37 @@ export const useCourses = defineStore('courses', {
           color: 'error',
           message: 'There was an error in deleting the course.',
         });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
+    async fetchCourse(id, params) {
+      try {
+        uiStore().setLoading(true);
+
+        const currentUser = authStore().currentUser;
+
+        const response = await webservice.getCourse(
+          {
+            id,
+            params,
+          },
+          currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        this.currentCourse = response;
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in fetching the course.',
+        });
+
       } finally {
         uiStore().setLoading(false);
       }

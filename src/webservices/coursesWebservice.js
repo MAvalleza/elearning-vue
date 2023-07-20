@@ -60,4 +60,18 @@ export default class CoursesWebservice extends Webservice {
 
     return await response.json();
   }
+
+  async getCourse({ id, params }, token) {
+    const url = this.parseURL({ path: `courses/${id}`, params });
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+    });
+
+    return await response.json();
+  }
 }
