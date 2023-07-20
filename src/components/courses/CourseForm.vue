@@ -57,8 +57,10 @@ defineExpose({ submit });
 // Subject search handlers
 const subjectSearch = ref(null);
 
+// Proceed with search when current search query is not equal to previous one
+// And if there is no subject selected
 watch(subjectSearch, val => {
-  val !== course.value.subject && searchSubject(val);
+  val !== course.value.subject && !course.value.subjectId && searchSubject(val);
 });
 
 const subjectsStore = useSubjects();

@@ -1,4 +1,5 @@
 import { Response } from 'miragejs';
+import has from 'lodash-es/has';
 import {
   evaluateParams,
   RelationshipFilter,
@@ -77,9 +78,28 @@ const createCourseRoutes = routeInstance => {
       );
     }
 
-    let course = schema.courses.find(id);
+    const course = schema.courses.find(id);
 
-    return course.update(attrs);
+    const updateKeys = [
+      'title',
+      'isPublished',
+      'description',
+      'icon'
+    ];
+
+    // Pick attributes that are actually updated
+    const attrsToUpdate = updateKeys.reduce((acc, key) => {
+      if (has(attrs, key) && course.attrs[key] !== attrs[key]) {
+        acc[key] = attrs[key];
+      }
+      return acc;
+    }, {})
+
+    // Update subject model if applicable
+    return course.update({
+      ...attrsToUpdate,
+      ...!!attrs.subjectId && { subject: schema.subjects.find(attrs.subjectId)}
+    });
   });
 
   routeInstance.del('/courses/:id', (schema, request) => {
