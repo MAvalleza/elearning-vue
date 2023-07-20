@@ -3,6 +3,7 @@ import { useAuth as authStore } from '@/stores/auth';
 import authRoutes from './auth';
 import subjectRoutes from './subjects';
 import courseRoutes from './courses';
+import moduleRoutes from './modules';
 import activityWatcher from '@/plugins/activity-watcher';
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
   ...authRoutes,
   ...subjectRoutes,
   ...courseRoutes,
+  ...moduleRoutes,
 ];
 
 const router = createRouter({
