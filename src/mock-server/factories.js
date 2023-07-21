@@ -38,6 +38,9 @@ export default {
               course: createdCourse,
               title: module.title,
               isPublished: module.isPublished,
+              duration: module.duration,
+              createdAt: module.createdAt,
+              updatedAt: module.updatedAt
             });
           });
         });

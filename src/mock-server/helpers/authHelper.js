@@ -1,3 +1,4 @@
+import { ROLES } from '@/constants/roles-and-actions';
 class AuthSession {
   constructor(schema, token) {
     this.schema = schema;
@@ -15,10 +16,17 @@ class AuthSession {
   }
 
   isAuthorized({ resource, resourceId } = {}) {
+    // If an id is given but unknown resource
     if (resourceId && !resource) {
       return false;
     }
 
+    // Admin can access
+    if (this.isAdmin()) {
+      return true;
+    }
+
+    // Simply checks if user exists
     if (!resourceId) {
       return this.session && this.user();
     }
@@ -27,6 +35,14 @@ class AuthSession {
     return !!this.user()[resource].models.find(
       model => model.id === resourceId
     );
+  }
+
+  isAdmin() {
+    return this.user().role === ROLES.ADMIN;
+  }
+
+  isInstructor() {
+    return this.user().role === ROLES.INSTRUCTOR;
   }
 }
 

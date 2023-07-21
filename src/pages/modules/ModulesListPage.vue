@@ -1,13 +1,15 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
-// import { storeToRefs } from 'pinia';
-// import { useUI } from '@/stores/ui';
-// import { mapOptionsToParams } from '@/helpers/tableHelper';
+import { storeToRefs } from 'pinia';
+import { useUI } from '@/stores/ui';
+import { useModules } from '@/stores/modules';
+import { mapOptionsToParams } from '@/helpers/tableHelper';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
+import ModulesListTable from '@/components/modules/ModulesListTable.vue';
 
 const route = useRoute();
 
@@ -19,12 +21,9 @@ const HEADER_BUTTON_OPTS = {
 };
 
 // UI states
-// const uiStore = useUI();
-// const { loading } = storeToRefs(uiStore);
+const uiStore = useUI();
+const { loading } = storeToRefs(uiStore);
 const confirmDialog = ref(null);
-
-// const coursesStore = useCourses();
-// const { courses, coursesTotal } = storeToRefs(coursesStore);
 
 // Fetch params
 const initial = {
@@ -35,7 +34,7 @@ const initial = {
     sortDirection: null,
     keyword: null,
     published: null,
-    // join: ['modules', 'subject', 'author'],
+    join: ['course'],
   },
   total: {
     current: 0,
@@ -46,22 +45,16 @@ const initial = {
 let fetchParams = reactive({ ...initial.params });
 
 function initialize() {
-  // coursesStore.$reset();
+  modulesStore.$reset();
   fetchParams = reactive({ ...initial.params });
 }
 
-// async function fetchCourses() {
-//   await coursesStore.fetchCourses(fetchParams);
+const modulesStore = useModules();
+const { modules, modulesTotal } = storeToRefs(modulesStore);
 
-//   updateSubjectFilterOptions();
-// }
-
-
-// function onClearFilter() {
-//   fetchParams.subjectId = null;
-
-//   fetchCourses();
-// }
+async function fetchModules() {
+  await modulesStore.fetchModules(fetchParams);
+}
 
 // function editCourse(event, { item }) {
 //   router.push({
@@ -80,20 +73,20 @@ function initialize() {
 //   });
 
 //   if (confirm) {
-//     await coursesStore.deleteCourse(id);
+//     await modulesStore.deleteCourse(id);
 //   }
 // }
 
-// function onUpdateTableOptions(event) {
-//   const updatedParams = mapOptionsToParams(event);
+function onUpdateTableOptions(event) {
+  const updatedParams = mapOptionsToParams(event);
 
-//   fetchParams = reactive({
-//     ...initial.params,
-//     ...updatedParams,
-//   });
+  fetchParams = reactive({
+    ...initial.params,
+    ...updatedParams,
+  });
 
-//   fetchCourses();
-// }
+  fetchModules();
+}
 
 // async function onAction({ action, item }) {
 //   const id = item.raw.id;
@@ -103,10 +96,10 @@ function initialize() {
 //       await deleteCourse(id);
 //       break;
 //     case 'publish':
-//       await coursesStore.updateCourse(id, { isPublished: true });
+//       await modulesStore.updateCourse(id, { isPublished: true });
 //       break;
 //     case 'draft':
-//       await coursesStore.updateCourse(id, { isPublished: false });
+//       await modulesStore.updateCourse(id, { isPublished: false });
 //       break;
 //     default:
 //       break;
@@ -133,6 +126,16 @@ page-header(
     search-and-filter(
       v-model:search-text="fetchParams.keyword"
       v-model:status-filter="fetchParams.published"
+      @search="fetchModules"
+      @filter="fetchModules"
+      @clear:filter="fetchModules"
     )
 page-content
+  modules-list-table(
+    v-model:items-per-page="fetchParams.limit"
+    :items="modules"
+    :items-length="modulesTotal"
+    :loading="loading"
+    @update:options="onUpdateTableOptions"
+  )
 </template>
