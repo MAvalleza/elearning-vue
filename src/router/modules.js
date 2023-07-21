@@ -1,4 +1,5 @@
 import ModulesListPage from '@/pages/modules/ModulesListPage.vue';
+import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
 
 export default [
   {
@@ -16,6 +17,12 @@ export default [
         meta: { title: 'Modules' },
         component: ModulesListPage,
       },
+      {
+        path: 'create',
+        name: 'create-module',
+        meta: { title: 'Add a module' },
+        component: CreateModulePage,
+      }
     ],
   },
 ];

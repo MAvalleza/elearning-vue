@@ -17,7 +17,7 @@ const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW MODULE',
   flat: true,
   style: { color: 'black' },
-  // to: { name: 'create-course' },
+  to: { name: 'create-module' },
 };
 
 // UI states
