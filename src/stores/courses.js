@@ -32,8 +32,10 @@ export const useCourses = defineStore('courses', {
         const mappedCourses = response.results.map(course => ({
           ...course,
           status: course.isPublished ? 'Published' : 'Draft',
-          ...course.subject && { subjectTitle: course.subject.title },
-          ...course.author && { authorName: `${course.author.firstName} ${course.author.lastName}` },
+          ...(course.subject && { subjectTitle: course.subject.title }),
+          ...(course.author && {
+            authorName: `${course.author.firstName} ${course.author.lastName}`,
+          }),
           totalModules: size(course.moduleIds),
         }));
 

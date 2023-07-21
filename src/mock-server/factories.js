@@ -40,7 +40,7 @@ export default {
               isPublished: module.isPublished,
               duration: module.duration,
               createdAt: module.createdAt,
-              updatedAt: module.updatedAt
+              updatedAt: module.updatedAt,
             });
           });
         });

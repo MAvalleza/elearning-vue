@@ -27,7 +27,6 @@ const mod = computed({
   },
 });
 
-
 // Form handler
 const form = ref(null);
 async function submit() {

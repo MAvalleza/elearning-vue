@@ -33,7 +33,7 @@ export const SUBJECT_FIXTURES = [
             isPublished: true,
             createdAt: Date.now(),
             updatedAt: null,
-          }
+          },
         ],
       },
       {
@@ -60,7 +60,7 @@ export const SUBJECT_FIXTURES = [
         createdAt: Date.now(),
         updatedAt: null,
         modules: [],
-      }
+      },
     ],
   },
   {
@@ -98,9 +98,9 @@ export const SUBJECT_FIXTURES = [
             isPublished: false,
             createdAt: Date.now(),
             updatedAt: null,
-          }
-        ]
-      }
+          },
+        ],
+      },
     ],
   },
   {
@@ -128,9 +128,9 @@ export const SUBJECT_FIXTURES = [
             isPublished: false,
             createdAt: Date.now(),
             updatedAt: null,
-          }
-        ]
-      }
-    ]
-  }
+          },
+        ],
+      },
+    ],
+  },
 ];

@@ -20,8 +20,10 @@ const createModuleRoutes = routeInstance => {
     }
 
     const collection = schema.modules.where({
-      ...authSession.isInstructor() && { authorId: authSession.user().id },
-      ...request.queryParams.duration && { duration: request.queryParams.duration },
+      ...(authSession.isInstructor() && { authorId: authSession.user().id }),
+      ...(request.queryParams.duration && {
+        duration: request.queryParams.duration,
+      }),
       ...new RelationshipFilter(request.queryParams).params,
     });
 

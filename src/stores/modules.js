@@ -21,7 +21,7 @@ export const useModules = defineStore('modules', {
 
         const response = await webservice.getModules(
           params,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -31,7 +31,7 @@ export const useModules = defineStore('modules', {
         const mappedModules = response.results.map(mod => ({
           ...mod,
           status: mod.isPublished ? 'Published' : 'Draft',
-          courseTitle: mod.course.title
+          courseTitle: mod.course.title,
         }));
 
         this.modules = mappedModules;
@@ -49,5 +49,5 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
-  }
-})
+  },
+});

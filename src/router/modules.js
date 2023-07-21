@@ -22,7 +22,7 @@ export default [
         name: 'create-module',
         meta: { title: 'Add a module' },
         component: CreateModulePage,
-      }
+      },
     ],
   },
 ];
