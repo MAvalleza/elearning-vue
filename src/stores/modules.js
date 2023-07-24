@@ -49,5 +49,36 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
+    async createModule(data) {
+      try {
+        uiStore().setLoading(true);
+
+        const currentUser = authStore().currentUser;
+
+        const response = await webservice.createModule(
+          data,
+          currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully created the module.',
+        });
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in creating the module.',
+        });
+        // this.$router.push({ name: 'courses-list' });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
   },
 });

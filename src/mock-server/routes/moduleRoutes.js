@@ -34,6 +34,34 @@ const createModuleRoutes = routeInstance => {
 
     return new Response(200, { some: 'header' }, { count, results });
   });
+
+  routeInstance.post('/modules', (schema, request) => {
+    let attrs = JSON.parse(request.requestBody);
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const course = schema.courses.find(attrs.courseId);
+    const author = schema.users.find(attrs.authorId);
+
+    const data = {
+      ...attrs,
+      course,
+      author,
+      createdAt: Date.now(),
+      updatedAt: null,
+    };
+
+    return schema.modules.create(data).attrs;
+  });
 };
 
 export default createModuleRoutes;

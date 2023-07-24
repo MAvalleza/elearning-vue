@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-// import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 // import { useSubjects } from '@/stores/subjects';
 // import { useCourses } from '@/stores/courses';
+import { useModules } from '@/stores/modules';
 import { useUI } from '@/stores/ui';
-// import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 // import isEmpty from 'lodash-es/isEmpty';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -30,18 +31,18 @@ function definePageTitle() {
 
 // Router
 const route = useRoute();
-// const router = useRouter();
+const router = useRouter();
 
 // UI State
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 // Auth
-// const authStore = useAuth();
-// const { currentUser } = storeToRefs(authStore);
+const authStore = useAuth();
+const { currentUser } = storeToRefs(authStore);
 
 // Module
-// const modulesStore = useModules();
+const modulesStore = useModules();
 const newModule = ref({
   title: null,
   isPublished: null,
@@ -51,26 +52,23 @@ const newModule = ref({
 // Flag if redirected from subject form
 // const isFromSubject = ref(route.meta.from === 'subject');
 
-// async function createCourse() {
-//   const data = {
-//     ...newCourse.value,
-//     authorId: currentUser.value.id,
-//   };
+async function createModule() {
+  const data = {
+    ...newModule.value,
+    authorId: currentUser.value.id,
+  };
 
-//   // If created through subject form
-//   if (isFromSubject.value) {
-//     data.subjectId = route.params.subjectId;
-//   }
+  // If created through subject form
+  // if (isFromSubject.value) {
+  //   data.subjectId = route.params.subjectId;
+  // }
 
-//   await coursesStore.createCourse(data);
+  await modulesStore.createModule(data);
 
-//   router.push({
-//     name: isFromSubject.value ? 'edit-subject' : 'courses-list',
-//     ...(isFromSubject.value && {
-//       params: { subjectId: route.params.subjectId },
-//     }),
-//   });
-// }
+  router.push({
+    name: 'modules-list',
+  });
+}
 
 const form = ref(null);
 function submitForm() {
@@ -95,5 +93,6 @@ page-content
   module-form(
     ref="form"
     v-model="newModule"
+    @submit="createModule"
   )
 </template>

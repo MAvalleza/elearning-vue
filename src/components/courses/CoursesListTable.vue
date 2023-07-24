@@ -73,6 +73,8 @@ function getTableActions(item) {
 function getItemAuthor(item) {
   const { authorName, author } = item.raw;
 
+  if (!authorName && !author) return '';
+
   return authorName || `${author.firstName} ${author.lastName}`;
 }
 

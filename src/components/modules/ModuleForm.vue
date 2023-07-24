@@ -86,9 +86,10 @@ v-form(ref="form")
         v-col(cols="12" lg="6")
           v-text-field(
             v-model="mod.duration"
-            label="Author"
+            label="Duration"
             variant="outlined"
             type="number"
+            :rules="[REQUIRED_RULE]"
           )
         v-col(cols="12" lg="6")
           v-select(

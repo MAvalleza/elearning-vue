@@ -17,4 +17,18 @@ export default class ModulesWebservice extends Webservice {
 
     return await response.json();
   }
+  async createModule(params, token) {
+    const url = this.parseURL({ path: 'modules' });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+      body: JSON.stringify(params),
+    });
+
+    return await response.json();
+  }
 }
