@@ -5,9 +5,10 @@ const props = defineProps({
     type: [String, Number],
     default: '200',
   },
+  // Vuetify classes as value. Prefix with `bg-`
   bgColor: {
     type: String,
-    default: '#34bdeb',
+    default: 'bg-light-blue',
   },
   fontColor: {
     type: String,
@@ -33,12 +34,16 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['click']);
+
 const HEADER_STYLES = {
   height: `${props.height}px`,
-  backgroundColor: props.bgColor,
 };
 
-const emit = defineEmits(['click']);
+
+function defineHeaderClasses() {
+  return [props.bgColor]
+}
 
 function onButtonClick() {
   emit('click');
@@ -46,7 +51,7 @@ function onButtonClick() {
 </script>
 
 <template lang="pug">
-div(:style="HEADER_STYLES").pt-8
+div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
   slot(name="content")
     v-container(fluid)
       v-row(align="center")
@@ -59,7 +64,7 @@ div(:style="HEADER_STYLES").pt-8
           v-col(cols="5").pt-4
             slot(name="center-section")
           v-spacer
-        v-col(style="{ background-color: 'red'}").text-right
+        v-col.text-right
           slot(name="action-btn")
             v-btn(v-bind="buttonOpts" @click="onButtonClick")
 </template>

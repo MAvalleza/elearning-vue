@@ -96,7 +96,7 @@ page-content
           v-card-actions.mb-10
             v-spacer
             v-btn(
-              color="#34bdeb"
+              color="light-blue"
               variant="flat"
               theme="dark"
               :to="{ name: 'subject-create-course', params: { subjectId: subjectId }}"

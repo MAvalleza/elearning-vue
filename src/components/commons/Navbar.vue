@@ -16,11 +16,11 @@ async function logout() {
 const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
-    onClick: () => {},
+    onClick: () => { },
   },
   {
     title: 'Change Password',
-    onClick: () => {},
+    onClick: () => { },
   },
   {
     title: 'Logout',
@@ -39,7 +39,7 @@ const navItems = ref(
 v-navigation-drawer(
   v-model="drawer"
   location="left"
-  color="#18223b"
+  color="#2D323E"
   width="350"
   theme="dark"
 )
