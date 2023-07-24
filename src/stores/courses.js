@@ -179,5 +179,19 @@ export const useCourses = defineStore('courses', {
         uiStore().setLoading(false);
       }
     },
+    async onTableAction({ id, action }) {
+      switch (action) {
+        case 'delete':
+          return { id, delete: true };
+        case 'publish':
+          await this.updateCourse(id, { isPublished: true });
+          break;
+        case 'draft':
+          await this.updateCourse(id, { isPublished: false });
+          break;
+        default:
+          break;
+      }
+    }
   },
 });

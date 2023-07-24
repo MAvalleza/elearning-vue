@@ -111,20 +111,9 @@ function onUpdateTableOptions(event) {
 
 async function onAction({ action, item }) {
   const id = item.raw.id;
+  const result = await coursesStore.onTableAction({ id, action });
 
-  switch (action) {
-    case 'delete':
-      await deleteCourse(id);
-      break;
-    case 'publish':
-      await coursesStore.updateCourse(id, { isPublished: true });
-      break;
-    case 'draft':
-      await coursesStore.updateCourse(id, { isPublished: false });
-      break;
-    default:
-      break;
-  }
+  if (result?.delete) await deleteCourse(id);
 
   // Re-fetch courses
   fetchCourses();

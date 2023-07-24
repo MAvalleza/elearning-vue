@@ -2,23 +2,30 @@
 import { ref, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
+import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
+import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
 import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
+// Router
 const router = useRouter();
 const route = useRoute();
 
+// UI States
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
+const confirmDialog = ref(null);
+const tab = ref('form');
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
 
+// Subject operations
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
 const subject = ref({});
@@ -32,16 +39,20 @@ async function fetchSubject() {
   subject.value = { ...currentSubject.value };
 }
 
-const form = ref(null);
-function submitForm() {
-  form.value.submit();
-}
-
 async function updateSubject() {
   await subjectsStore.updateSubject(subjectId.value, subject.value);
 
   router.push({ name: 'subjects-list' });
 }
+
+// Form
+const form = ref(null);
+function submitForm() {
+  form.value.submit();
+}
+
+// Course Operations
+const coursesStore = useCourses();
 
 function editCourse(event, { item }) {
   router.push({
@@ -53,7 +64,30 @@ function editCourse(event, { item }) {
   });
 }
 
-const tab = ref('form');
+async function deleteCourse(id) {
+  const confirm = await confirmDialog.value.open({
+    title: 'Delete Course',
+    message:
+      'Deleting a course will also delete its modules, are you sure you want to delete this course?',
+    primaryAction: 'DELETE',
+    primaryColor: 'error',
+  });
+
+  if (confirm) {
+    await coursesStore.deleteCourse(id);
+  }
+}
+
+// Table operations
+async function onAction({ action, item }) {
+  const id = item.raw.id;
+  const result = await coursesStore.onTableAction({ id, action });
+
+  if (result?.delete) await deleteCourse(id);
+
+  // Re-fetch
+  fetchSubject();
+}
 
 onMounted(() => {
   fetchSubject();
@@ -69,6 +103,8 @@ onBeforeRouteUpdate((to, from) => {
 
 <template lang="pug">
 app-loader(:is-visible="loading")
+
+page-confirm-dialog(ref="confirmDialog")
 
 page-header(
   :title="subject.title || route.meta.title"
@@ -107,5 +143,6 @@ page-content
             :items="subject.courses || []"
             hide-subject-column
             @click:row="editCourse"
+            @action="onAction"
           )
 </template>
