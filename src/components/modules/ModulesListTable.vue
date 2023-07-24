@@ -24,6 +24,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Flag for hiding course column
+  hideCourseColumn: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:options', 'action', 'click:row']);
@@ -43,6 +48,14 @@ const MODULES_TABLE_HEADERS = [
   { title: 'Status', align: 'end', key: 'status' },
   { title: '', align: 'end', key: 'actions', sortable: false },
 ];
+
+
+function defineHeaders() {
+  if (props.hideCourseColumn) {
+    MODULES_TABLE_HEADERS.splice(1, 1);
+  }
+  return MODULES_TABLE_HEADERS;
+}
 
 function getTableActions(item) {
   const DELETE_ACTION = {
@@ -87,7 +100,7 @@ component(
   :is="props.component"
   v-model:items-per-page="itemsPerPage"
   item-value="title"
-  :headers="MODULES_TABLE_HEADERS"
+  :headers="defineHeaders()"
   :items="props.items"
   :items-length="props.itemsLength"
   :loading="props.loading"

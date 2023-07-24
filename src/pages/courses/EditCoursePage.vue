@@ -8,6 +8,7 @@ import { storeToRefs } from 'pinia';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import CourseForm from '@/components/courses/CourseForm.vue';
+import ModulesListTable from '@/components/modules/ModulesListTable.vue';
 
 // Header
 const HEADER_BUTTON_OPTS = {
@@ -90,7 +91,7 @@ page-content
   v-card
     v-tabs(v-model="tab")
       v-tab(value="form") Course
-      v-tab(value="courses") Modules
+      v-tab(value="modules") Modules
 
     v-window(v-model="tab").pt-10
       v-window-item(value="form")
@@ -102,5 +103,19 @@ page-content
           :subject="isFromSubject"
           @submit="updateCourse"
         )
-      v-window-item(value="courses")
+      v-window-item(value="modules")
+        v-card
+          v-card-actions.mb-10
+            v-spacer
+            v-btn(
+              color="light-blue"
+              variant="flat"
+              theme="dark"
+            ).text-none Add a module
+          modules-list-table(
+            component="v-data-table"
+            :loading="loading"
+            :items="course.modules || []"
+            hide-course-column
+          )
 </template>
