@@ -111,6 +111,7 @@ page-content
               color="light-blue"
               variant="flat"
               theme="dark"
+              :to="{ name: 'course-create-module', params: { courseId: courseId }}"
             ).text-none Add a module
           modules-list-table(
             component="v-data-table"

@@ -12,6 +12,15 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  /**
+   * Flag if this form is consumed in the course form
+   *
+   * This will hide the course field
+   **/
+  course: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
@@ -71,7 +80,7 @@ v-form(ref="form")
             label="Title"
             :rules="[REQUIRED_RULE]"
           )
-        v-col(cols="12" lg="6")
+        v-col(v-if="!course" cols="12" lg="6")
           v-autocomplete(
             v-model="mod.courseId"
             v-model:search="courseSearch"

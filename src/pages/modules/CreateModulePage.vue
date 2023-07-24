@@ -2,16 +2,25 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
-// import { useSubjects } from '@/stores/subjects';
-// import { useCourses } from '@/stores/courses';
+import { useCourses } from '@/stores/courses';
 import { useModules } from '@/stores/modules';
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-// import isEmpty from 'lodash-es/isEmpty';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import ModuleForm from '@/components/modules/ModuleForm.vue';
+
+// Router
+const route = useRoute();
+const router = useRouter();
+
+// Flag if redirected from course form
+const isFromCourse = ref(route.meta.from === 'course');
+
+// Course
+const coursesStore = useCourses();
+const { currentCourse } = storeToRefs(coursesStore);
 
 // Header
 const HEADER_BUTTON_OPTS = {
@@ -20,18 +29,12 @@ const HEADER_BUTTON_OPTS = {
 
 function definePageTitle() {
   const routeMetaTitle = route.meta.title;
-
-  return routeMetaTitle;
-  // if (!isEmpty(currentSubject.value)) {
-  //   return `${currentSubject.value.title} > ${routeMetaTitle}`;
-  // } else {
-  //   return routeMetaTitle;
-  // }
+  if (isFromCourse.value) {
+    return `${currentCourse.value.title} > ${routeMetaTitle}`;
+  } else {
+    return routeMetaTitle;
+  }
 }
-
-// Router
-const route = useRoute();
-const router = useRouter();
 
 // UI State
 const uiStore = useUI();
@@ -49,8 +52,6 @@ const newModule = ref({
   duration: null,
 });
 
-// Flag if redirected from subject form
-// const isFromSubject = ref(route.meta.from === 'subject');
 
 async function createModule() {
   const data = {
@@ -58,15 +59,18 @@ async function createModule() {
     authorId: currentUser.value.id,
   };
 
-  // If created through subject form
-  // if (isFromSubject.value) {
-  //   data.subjectId = route.params.subjectId;
-  // }
+  // If created through course form
+  if (isFromCourse.value) {
+    data.courseId = route.params.courseId;
+  }
 
   await modulesStore.createModule(data);
 
   router.push({
-    name: 'modules-list',
+    name: isFromCourse.value ? 'edit-course' : 'modules-list',
+    ...(isFromCourse.value && {
+      params: { courseId: route.params.courseId },
+    }),
   });
 }
 
@@ -74,10 +78,6 @@ const form = ref(null);
 function submitForm() {
   form.value.submit();
 }
-
-// Subject
-// const subjectsStore = useSubjects();
-// const { currentSubject } = storeToRefs(subjectsStore);
 </script>
 
 <template lang="pug">
@@ -93,6 +93,7 @@ page-content
   module-form(
     ref="form"
     v-model="newModule"
+    :course="isFromCourse"
     @submit="createModule"
   )
 </template>
