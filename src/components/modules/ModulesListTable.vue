@@ -49,7 +49,6 @@ const MODULES_TABLE_HEADERS = [
   { title: '', align: 'end', key: 'actions', sortable: false },
 ];
 
-
 function defineHeaders() {
   if (props.hideCourseColumn) {
     MODULES_TABLE_HEADERS.splice(1, 1);

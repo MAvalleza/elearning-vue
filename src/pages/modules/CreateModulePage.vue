@@ -52,7 +52,6 @@ const newModule = ref({
   duration: null,
 });
 
-
 async function createModule() {
   const data = {
     ...newModule.value,

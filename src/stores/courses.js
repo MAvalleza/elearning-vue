@@ -192,6 +192,6 @@ export const useCourses = defineStore('courses', {
         default:
           break;
       }
-    }
+    },
   },
 });

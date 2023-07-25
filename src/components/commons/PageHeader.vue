@@ -40,9 +40,8 @@ const HEADER_STYLES = {
   height: `${props.height}px`,
 };
 
-
 function defineHeaderClasses() {
-  return [props.bgColor]
+  return [props.bgColor];
 }
 
 function onButtonClick() {

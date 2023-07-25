@@ -1,20 +1,20 @@
 interface SortBy {
-  order: string,
-  key: string,
+  order: string;
+  key: string;
 }
 
-interface TableOptions{
-  itemsPerPage: number | string,
-  page: number | string,
-  sortBy: SortBy[],
+interface TableOptions {
+  itemsPerPage: number | string;
+  page: number | string;
+  sortBy: SortBy[];
 }
 
 const mapOptionsToParams = (opts: TableOptions): object => {
   const params: {
-    limit: number | string,
-    page: number | string,
-    sortDirection?: string,
-    sort?: string,
+    limit: number | string;
+    page: number | string;
+    sortDirection?: string;
+    sort?: string;
   } = {
     limit: opts.itemsPerPage,
     page: opts.page,

@@ -16,11 +16,11 @@ async function logout() {
 const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
-    onClick: () => { },
+    onClick: () => {},
   },
   {
     title: 'Change Password',
-    onClick: () => { },
+    onClick: () => {},
   },
   {
     title: 'Logout',
