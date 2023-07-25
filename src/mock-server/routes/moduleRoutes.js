@@ -114,7 +114,7 @@ const createModuleRoutes = routeInstance => {
 
     let module = schema.modules.find(id);
 
-    // Delete the actual course
+    // Delete the module
     module.destroy();
 
     return new Response(
