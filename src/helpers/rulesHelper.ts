@@ -7,8 +7,23 @@ import { CUSTOM_RULES } from '@/constants/validation-rules';
  * @param {Object} data - form data
  * @returns
  */
+interface RuleConfig {
+  type: string;
+  opts: {
+    key: string;
+    compareKey: string;
+    message: string;
+  };
+}
 
-const createRules = (field, data) => {
+interface Field {
+  componentOpts: {
+    rules: object[];
+  };
+  ruleConfigs: RuleConfig[];
+}
+
+const createRules = (field: Field, data: object) => {
   const { componentOpts, ruleConfigs } = field;
 
   // Rules already declared in the component props
@@ -25,13 +40,17 @@ const createRules = (field, data) => {
 /**
  * Shapes and creates the rules based on the configs
  */
-const createCustomRules = (configs, { data }) => {
-  let rules = [];
+
+const createCustomRules = (
+  configs: RuleConfig[],
+  { data }: { data: object }
+) => {
+  const rules: (string | boolean)[] = [];
 
   configs.forEach(config => {
     const { type, opts } = config;
 
-    rules.push(CUSTOM_RULES[type](data, opts));
+    rules.push(CUSTOM_RULES[type as keyof typeof CUSTOM_RULES](data, opts));
   });
 
   return rules;
