@@ -61,6 +61,6 @@ Creating an account is still possible even without the backend.
 
 Simply go through the registration process as normal.
 
-No email verification has been set yet since actual sending of email is not present in the mocks.
+No email verification has been set yet since actual sending of email is not present in the mocks. Instead, a temporary button that will redirect to user to verification will appear in the app.
 
 Note that this account will also be lost once the app is refreshed.
