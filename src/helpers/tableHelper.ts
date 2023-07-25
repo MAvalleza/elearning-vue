@@ -1,25 +1,32 @@
-import pick from 'lodash-es/pick';
+interface SortBy {
+  order: string,
+  key: string,
+}
 
-const TABLE_OPTIONS = ['itemsPerPage', 'sortBy', 'page'];
+interface TableOptions{
+  itemsPerPage: number | string,
+  page: number | string,
+  sortBy: SortBy[],
+}
 
-const mapOptionsToParams = opts => {
-  const validOptions = pick(opts, TABLE_OPTIONS);
-
+const mapOptionsToParams = (opts: TableOptions): object => {
   const params = {
-    limit: validOptions.itemsPerPage,
-    page: validOptions.page,
+    limit: opts.itemsPerPage,
+    page: opts.page,
+    sortDirection: '',
+    sort: '',
   };
 
-  if (validOptions?.sortBy[0]) {
-    params.sortDirection = validOptions.sortBy[0].order;
-    params.sort = validOptions.sortBy[0].key;
+  if (opts?.sortBy[0]) {
+    params.sortDirection = opts.sortBy[0].order;
+    params.sort = opts.sortBy[0].key;
   }
 
   return params;
 };
 
 // Determines the table action for a published/draft resource
-const getTableStatusAction = isPublished => {
+const getTableStatusAction = (isPublished: boolean): object => {
   const STATUS_ACTION = {
     published: {
       icon: {

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --max-warnings=0 src",
     "format": "prettier . --write",
@@ -23,6 +23,9 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@types/lodash-es": "^4.17.8",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/test-utils": "^2.3.2",
     "eslint": "^8.41.0",
@@ -34,6 +37,7 @@
     "prettier": "^2.8.8",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
+    "typescript": "^5.1.6",
     "vite": "^4.3.2",
     "vite-plugin-eslint": "^1.8.1",
     "vitest": "^0.32.0",

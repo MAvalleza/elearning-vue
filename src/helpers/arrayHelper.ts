@@ -5,7 +5,7 @@
  * @param {String[]} arr
  */
 
-const objectifyArray = arr => {
+const objectifyArray = (arr: string[]): object => {
   return arr.reduce(
     (acc, val) => ({
       ...acc,

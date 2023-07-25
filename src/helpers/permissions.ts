@@ -6,7 +6,7 @@ import mappings from '@/constants/permissions';
  * @param {String} action
  * @returns {Boolean}
  */
-export const hasPermission = (role, action) => {
+export const hasPermission = (role: string, action: string): boolean => {
   if (mappings.has(action)) {
     return mappings.get(action).includes(role);
   }
