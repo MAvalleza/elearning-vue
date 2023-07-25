@@ -31,4 +31,33 @@ export default class ModulesWebservice extends Webservice {
 
     return await response.json();
   }
+
+  async updateModule(id, data, token) {
+    const url = this.parseURL({ path: `modules/${id}` });
+
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+      body: JSON.stringify(data),
+    });
+
+    return await response.json();
+  }
+
+  async deleteModule(id, token) {
+    const url = this.parseURL({ path: `modules/${id}` });
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        ...this.requestHeaders,
+        Authorization: token,
+      },
+    });
+
+    return await response.json();
+  }
 }

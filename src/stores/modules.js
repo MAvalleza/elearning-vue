@@ -75,9 +75,85 @@ export const useModules = defineStore('modules', {
           color: 'error',
           message: 'There was an error in creating the module.',
         });
-        // this.$router.push({ name: 'courses-list' });
       } finally {
         uiStore().setLoading(false);
+      }
+    },
+    async updateModule(id, params) {
+      try {
+        uiStore().setLoading(true);
+
+        const currentUser = authStore().currentUser;
+
+        const response = await webservice.updateModule(
+          id,
+          params,
+          currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully updated the module.',
+        });
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in updating the module.',
+        });
+
+        this.$router.push({ name: 'modules-list' });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
+    async deleteModule(id) {
+      try {
+        uiStore().setLoading(true);
+
+        const currentUser = authStore().currentUser;
+
+        const response = await webservice.deleteModule(
+          id,
+          currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully deleted the module.',
+        });
+      } catch (e) {
+        console.error(e);
+
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in deleting the module.',
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
+    async onTableAction({ id, action }) {
+      switch (action) {
+        case 'delete':
+          return { id, delete: true };
+        case 'publish':
+          await this.updateModule(id, { isPublished: true });
+          break;
+        case 'draft':
+          await this.updateModule(id, { isPublished: false });
+          break;
+        default:
+          break;
       }
     },
   },

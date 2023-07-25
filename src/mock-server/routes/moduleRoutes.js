@@ -4,6 +4,7 @@ import {
   RelationshipFilter,
 } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
+import has from 'lodash-es/has';
 
 const createModuleRoutes = routeInstance => {
   routeInstance.get('/modules', (schema, request) => {
@@ -61,6 +62,66 @@ const createModuleRoutes = routeInstance => {
     };
 
     return schema.modules.create(data).attrs;
+  });
+
+  routeInstance.put('/modules/:id', (schema, request) => {
+    let id = request.params.id;
+    let attrs = JSON.parse(request.requestBody);
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'modules', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const module = schema.modules.find(id);
+
+    const updateKeys = ['title', 'isPublished', 'description'];
+
+    // Pick attributes that are actually updated
+    const attrsToUpdate = updateKeys.reduce((acc, key) => {
+      if (has(attrs, key) && module.attrs[key] !== attrs[key]) {
+        acc[key] = attrs[key];
+      }
+      return acc;
+    }, {});
+
+    return module.update({
+      ...attrsToUpdate,
+    });
+  });
+
+  routeInstance.del('/modules/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'modules', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    let module = schema.modules.find(id);
+
+    // Delete the actual course
+    module.destroy();
+
+    return new Response(
+      200,
+      { some: 'header' },
+      { deleted: id, resource: 'modules' }
+    );
   });
 };
 

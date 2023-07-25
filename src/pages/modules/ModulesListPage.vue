@@ -63,19 +63,19 @@ async function fetchModules() {
 //   });
 // }
 
-// async function deleteCourse(id) {
-//   const confirm = await confirmDialog.value.open({
-//     title: 'Delete Course',
-//     message:
-//       'Deleting a course will also delete its modules, are you sure you want to delete this course?',
-//     primaryAction: 'DELETE',
-//     primaryColor: 'error',
-//   });
+async function deleteModule(id) {
+  const confirm = await confirmDialog.value.open({
+    title: 'Delete Module',
+    message:
+      'Are you sure you want to delete this module?',
+    primaryAction: 'DELETE',
+    primaryColor: 'error',
+  });
 
-//   if (confirm) {
-//     await modulesStore.deleteCourse(id);
-//   }
-// }
+  if (confirm) {
+    await modulesStore.deleteModule(id);
+  }
+}
 
 function onUpdateTableOptions(event) {
   const updatedParams = mapOptionsToParams(event);
@@ -88,26 +88,15 @@ function onUpdateTableOptions(event) {
   fetchModules();
 }
 
-// async function onAction({ action, item }) {
-//   const id = item.raw.id;
+async function onAction({ action, item }) {
+  const id = item.raw.id;
+  const result = await modulesStore.onTableAction({ id, action });
 
-//   switch (action) {
-//     case 'delete':
-//       await deleteCourse(id);
-//       break;
-//     case 'publish':
-//       await modulesStore.updateCourse(id, { isPublished: true });
-//       break;
-//     case 'draft':
-//       await modulesStore.updateCourse(id, { isPublished: false });
-//       break;
-//     default:
-//       break;
-//   }
+  if (result?.delete) await deleteModule(id);
 
-//   // Re-fetch courses
-//   fetchCourses();
-// }
+  // Re-fetch modules
+  fetchModules();
+}
 
 onMounted(() => {
   initialize();
@@ -137,5 +126,6 @@ page-content
     :items-length="modulesTotal"
     :loading="loading"
     @update:options="onUpdateTableOptions"
+    @action="onAction"
   )
 </template>
