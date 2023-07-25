@@ -10,11 +10,14 @@ interface TableOptions{
 }
 
 const mapOptionsToParams = (opts: TableOptions): object => {
-  const params = {
+  const params: {
+    limit: number | string,
+    page: number | string,
+    sortDirection?: string,
+    sort?: string,
+  } = {
     limit: opts.itemsPerPage,
     page: opts.page,
-    sortDirection: '',
-    sort: '',
   };
 
   if (opts?.sortBy[0]) {
