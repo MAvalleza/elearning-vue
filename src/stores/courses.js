@@ -44,8 +44,6 @@ export const useCourses = defineStore('courses', {
 
         return mappedCourses;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -74,8 +72,6 @@ export const useCourses = defineStore('courses', {
           message: 'Successfully created the course.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in creating the course.',
@@ -107,8 +103,6 @@ export const useCourses = defineStore('courses', {
           message: 'Successfully updated the course.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in updating the course.',
@@ -139,8 +133,6 @@ export const useCourses = defineStore('courses', {
           message: 'Successfully deleted the course.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in deleting the course.',
@@ -169,8 +161,6 @@ export const useCourses = defineStore('courses', {
 
         this.currentCourse = response;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in fetching the course.',
