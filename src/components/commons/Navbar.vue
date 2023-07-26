@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { NAV_ITEMS } from '@/constants/nav-items';
+
+const router = useRouter();
 
 const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
@@ -16,11 +19,19 @@ async function logout() {
 const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
-    onClick: () => {},
+    onClick: () => { },
   },
   {
     title: 'Change Password',
-    onClick: () => {},
+    onClick: async () => {
+      // TODO: Temporary mock implementation, normally we send email
+      const { token } = await authStore.requestResetPassword({ email: currentUser.value.email });
+
+      router.push({
+        name: 'change-password',
+        query: { token }
+      })
+    },
   },
   {
     title: 'Logout',
