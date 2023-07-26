@@ -56,7 +56,7 @@ const { currentUser } = storeToRefs(authStore);
 const modulesStore = useModules();
 const newModule = ref({
   title: null,
-  isPublished: null,
+  isPublished: false,
   duration: null,
 });
 

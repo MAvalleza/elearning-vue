@@ -43,7 +43,7 @@ const { currentUser } = storeToRefs(authStore);
 const coursesStore = useCourses();
 const newCourse = ref({
   title: null,
-  isPublished: null,
+  isPublished: false,
   description: null,
   icon: null,
 });
