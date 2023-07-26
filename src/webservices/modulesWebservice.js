@@ -2,62 +2,83 @@ import Webservice from './base';
 
 export default class ModulesWebservice extends Webservice {
   async getModules(params, token) {
-    const url = this.parseURL({
-      path: 'modules',
-      params,
-    });
+    try {
+      const url = this.parseURL({
+        path: 'modules',
+        params,
+      });
+  
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+      });
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        ...this.requestHeaders,
-        Authorization: token,
-      },
-    });
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
 
-    return await response.json();
   }
   async createModule(params, token) {
-    const url = this.parseURL({ path: 'modules' });
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        ...this.requestHeaders,
-        Authorization: token,
-      },
-      body: JSON.stringify(params),
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({ path: 'modules' });
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+        body: JSON.stringify(params),
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async updateModule(id, data, token) {
-    const url = this.parseURL({ path: `modules/${id}` });
-
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        ...this.requestHeaders,
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({ path: `modules/${id}` });
+  
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+        body: JSON.stringify(data),
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async deleteModule(id, token) {
-    const url = this.parseURL({ path: `modules/${id}` });
-
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        ...this.requestHeaders,
-        Authorization: token,
-      },
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({ path: `modules/${id}` });
+  
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 }

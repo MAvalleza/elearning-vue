@@ -39,8 +39,6 @@ export const useModules = defineStore('modules', {
 
         return mappedModules;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -69,8 +67,6 @@ export const useModules = defineStore('modules', {
           message: 'Successfully created the module.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in creating the module.',
@@ -100,8 +96,6 @@ export const useModules = defineStore('modules', {
           message: 'Successfully updated the module.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in updating the module.',
@@ -132,8 +126,6 @@ export const useModules = defineStore('modules', {
           message: 'Successfully deleted the module.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in deleting the module.',
