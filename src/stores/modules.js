@@ -134,6 +134,34 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
+    async fetchModule(id, params) {
+      try {
+        uiStore().setLoading(true);
+
+        const currentUser = authStore().currentUser;
+
+        const response = await webservice.getModule(
+          {
+            id,
+            params,
+          },
+          currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        this.currentModule = response;
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in fetching the module.',
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
     async onTableAction({ id, action }) {
       switch (action) {
         case 'delete':

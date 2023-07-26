@@ -82,7 +82,7 @@ const createModuleRoutes = routeInstance => {
 
     const module = schema.modules.find(id);
 
-    const updateKeys = ['title', 'isPublished', 'description'];
+    const updateKeys = ['title', 'isPublished', 'duration'];
 
     // Pick attributes that are actually updated
     const attrsToUpdate = updateKeys.reduce((acc, key) => {
@@ -94,6 +94,9 @@ const createModuleRoutes = routeInstance => {
 
     return module.update({
       ...attrsToUpdate,
+      ...(!!attrs.courseId && {
+        course: schema.courses.find(attrs.courseId),
+      }),
     });
   });
 
@@ -122,6 +125,34 @@ const createModuleRoutes = routeInstance => {
       { some: 'header' },
       { deleted: id, resource: 'modules' }
     );
+  });
+
+  routeInstance.get('/modules/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'modules', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const mod = schema.modules.find(id);
+
+    if (!mod) {
+      return new Response(
+        404,
+        { some: 'header' },
+        { errors: ['Module does not exist'] }
+      );
+    }
+
+    return mod.attrs;
   });
 };
 

@@ -1,6 +1,7 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import debounce from 'lodash-es/debounce';
+import isEmpty from 'lodash-es/isEmpty';
 import { storeToRefs } from 'pinia';
 import { STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
@@ -52,7 +53,7 @@ defineExpose({ submit });
 const courseSearch = ref(null);
 
 // Proceed with search when current search query is not equal to previous one
-// And if there is no subject selected
+// And if there is no course selected
 watch(courseSearch, val => {
   val !== mod.value.course && !mod.value.courseId && searchCourse(val);
 });
@@ -65,6 +66,14 @@ async function fetchCourses(keyword) {
 }
 
 const searchCourse = debounce(keyword => fetchCourses(keyword), 500);
+
+onMounted(() => {
+  // Since we get the data from courses store, it is possible that
+  // data has not yet been fetched yet.
+  if (isEmpty(courses.value)) {
+    fetchCourses();
+  }
+})
 </script>
 
 <template lang="pug">
@@ -93,14 +102,6 @@ v-form(ref="form")
             :rules="[REQUIRED_RULE]"
           )
         v-col(cols="12" lg="6")
-          v-text-field(
-            v-model="mod.duration"
-            label="Duration"
-            variant="outlined"
-            type="number"
-            :rules="[REQUIRED_RULE]"
-          )
-        v-col(cols="12" lg="6")
           v-select(
             v-model="mod.isPublished"
             label="Status"
@@ -109,11 +110,12 @@ v-form(ref="form")
             item-title="label"
             item-value="value"
           )
-        v-col(cols="12")
+        v-col(cols="12" lg="6")
           v-text-field(
-            v-model="mod.description"
+            v-model="mod.duration"
+            label="Duration"
             variant="outlined"
-            label="Course Description"
-            placeholder="e.g. A basic course"
+            type="number"
+            :rules="[REQUIRED_RULE]"
           )
 </template>

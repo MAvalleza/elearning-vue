@@ -81,4 +81,23 @@ export default class ModulesWebservice extends Webservice {
       throw e;
     }
   }
+
+  async getModule({ id, params }, token) {
+    try {
+      const url = this.parseURL({ path: `modules/${id}`, params });
+  
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
+  }
 }

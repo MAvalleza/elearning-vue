@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useUI } from '@/stores/ui';
@@ -12,6 +12,7 @@ import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import ModulesListTable from '@/components/modules/ModulesListTable.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW MODULE',
@@ -56,12 +57,12 @@ async function fetchModules() {
   await modulesStore.fetchModules(fetchParams);
 }
 
-// function editCourse(event, { item }) {
-//   router.push({
-//     name: 'edit-course',
-//     params: { courseId: item.raw.id },
-//   });
-// }
+function editModule(event, { item }) {
+  router.push({
+    name: 'edit-module',
+    params: { moduleId: item.raw.id },
+  });
+}
 
 async function deleteModule(id) {
   const confirm = await confirmDialog.value.open({
@@ -125,6 +126,7 @@ page-content
     :items="modules"
     :items-length="modulesTotal"
     :loading="loading"
+    @click:row="editModule"
     @update:options="onUpdateTableOptions"
     @action="onAction"
   )
