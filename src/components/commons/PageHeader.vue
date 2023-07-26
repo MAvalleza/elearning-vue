@@ -58,11 +58,9 @@ div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
           slot(name="title")
             v-icon(:icon="props.titleIcon" size="x-large").pt-4
             h1.pl-3 {{ props.title }}
-        v-spacer
         template(v-if="hasCenterSection")
           v-col(cols="5").pt-4
             slot(name="center-section")
-          v-spacer
         v-col.text-right
           slot(name="action-btn")
             v-btn(v-bind="buttonOpts" @click="onButtonClick")
