@@ -56,11 +56,11 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-v-container.fill-height.align-center
+v-container(fluid).fill-height.align-center.bg-grey-darken-4
   app-loader(:is-visible="loading")
 
   v-row(justify="center")
-    v-col(cols="12" lg="6" xl="4")
+    v-col(cols="12" lg="4")
       auth-form-card(v-bind="LOGIN_FORM" @submit="login")
         template(#append-form)
           div.text-right

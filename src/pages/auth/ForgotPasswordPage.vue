@@ -60,11 +60,11 @@ function proceed() {
 </script>
 
 <template lang="pug">
-v-container.fill-height
+v-container(fluid).fill-height.bg-grey-darken-4
   app-loader(:is-visible="loading")
 
   v-row(justify="center")
-    v-col(cols="12" lg="6" xl="4")
+    v-col(cols="12" lg="4")
       auth-form-card(v-bind="FORGOT_PASSWORD_FORM" @submit="requestReset")
 
       //- NOTE: Since we are just mocking the backend, we just provide a button here that the user would normally see in an email.

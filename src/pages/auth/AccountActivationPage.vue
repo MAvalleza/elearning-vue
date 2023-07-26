@@ -38,11 +38,11 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-v-container.fill-height.align-center
+v-container(fluid).fill-height.align-center.bg-grey-darken-4
   app-loader(:loading="loading")
 
   v-row(v-if="isProcessDone" justify="center")
-    v-col(cols="12" lg="6" xl="4")
+    v-col(cols="12" lg="6" xl="6")
       v-card
         v-card-item
           h3 Account Activation

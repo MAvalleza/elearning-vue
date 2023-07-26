@@ -123,7 +123,7 @@ async function registerUser(data) {
 </script>
 
 <template lang="pug">
-v-container.fill-height
+v-container(fluid).fill-height.bg-grey-darken-4
   app-loader(:is-visible="loading")
 
   verification-modal(
@@ -133,7 +133,7 @@ v-container.fill-height
   )
 
   v-row(justify="center")
-    v-col(cols="12" lg="6" xl="4")
+    v-col(cols="12" lg="4")
       auth-form-card(
         v-bind="REGISTRATION_FORM"
         @submit="registerUser"
