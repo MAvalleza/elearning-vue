@@ -92,8 +92,8 @@ onMounted(() => {
 });
 
 onBeforeRouteUpdate((to, from) => {
-  if (to.params.id !== from.params.id) {
-    courseId.value = to.params.id;
+  if (to.params.courseId !== from.params.courseId) {
+    courseId.value = to.params.courseId;
     fetchCourse();
   }
 });
