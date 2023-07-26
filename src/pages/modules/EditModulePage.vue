@@ -21,8 +21,8 @@ const HEADER_BUTTON_OPTS = {
 
 function definePageTitle() {
   return [
-    currentSubject.value.title,
-    currentCourse.value.title,
+    !!subjectId.value && currentSubject.value.title,
+    !!courseId.value && currentCourse.value.title,
     currentModule.value.title
   ].filter(Boolean).join(' > ')
 }
