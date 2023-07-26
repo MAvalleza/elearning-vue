@@ -5,6 +5,7 @@ import subjectRoutes from './subjects';
 import courseRoutes from './courses';
 import moduleRoutes from './modules';
 import activityWatcher from '@/plugins/activity-watcher';
+import InProgressPage from '@/pages/temp/InProgressPage.vue';
 
 const routes = [
   {
@@ -16,6 +17,13 @@ const routes = [
   ...subjectRoutes,
   ...courseRoutes,
   ...moduleRoutes,
+  // TODO: Temporary, placeholder route. (TO REMOVE)
+  {
+    path: '/in-progress',
+    meta: { layout: 'BlankLayout' },
+    name: 'in-progress',
+    component: InProgressPage,
+  }
 ];
 
 const router = createRouter({
