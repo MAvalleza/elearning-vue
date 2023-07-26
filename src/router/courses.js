@@ -1,8 +1,9 @@
 import { useCourses as coursesStore } from '@/stores/courses';
 import CoursesListPage from '@/pages/courses/CoursesListPage.vue';
 import CreateCoursePage from '@/pages/courses/CreateCoursePage.vue';
-import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
 import EditCoursePage from '@/pages/courses/EditCoursePage.vue';
+import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
+import EditModulePage from '@/pages/modules/EditModulePage.vue';
 import BlankLayout from '@/layouts/Blank.vue';
 
 export default [
@@ -51,6 +52,13 @@ export default [
                     component: CreateModulePage,
                     beforeEnter: [editCourseGuard],
                   },
+                  {
+                    path: '/courses/:courseId/modules/:moduleId',
+                    name: 'course-edit-module',
+                    meta: { from: 'course' },
+                    component: EditModulePage,
+                    beforeEnter: [editCourseGuard],
+                  }
                 ],
               },
             ],

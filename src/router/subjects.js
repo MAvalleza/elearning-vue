@@ -5,6 +5,7 @@ import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
 import CreateCoursePage from '@/pages/courses/CreateCoursePage.vue';
 import EditCoursePage from '@/pages/courses/EditCoursePage.vue';
 import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
+import EditModulePage from '@/pages/modules/EditModulePage.vue';
 import BlankLayout from '@/layouts/Blank.vue';
 
 export default [
@@ -77,6 +78,13 @@ export default [
                               from: 'subject',
                             },
                             component: CreateModulePage,
+                            beforeEnter: [editSubjectGuard]
+                          },
+                          {
+                            path: '/subjects/:subjectId/courses/:courseId/modules/:moduleId',
+                            name: 'subject-edit-module',
+                            meta: { from: 'subject' },
+                            component: EditModulePage,
                             beforeEnter: [editSubjectGuard]
                           }
                         ]

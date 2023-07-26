@@ -23,17 +23,34 @@ function definePageTitle() {
   }
 }
 
+const tab = ref('form');
+
+// Router
 const router = useRouter();
 const route = useRoute();
 
+// UI
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
+// Course
 const coursesStore = useCourses();
 const { currentCourse } = storeToRefs(coursesStore);
 const course = ref({});
 const courseId = ref(route.params.courseId);
 
+async function updateCourse() {
+  await coursesStore.updateCourse(courseId.value, course.value);
+
+  router.push({
+    name: isFromSubject.value ? 'edit-subject' : 'courses-list',
+    ...(isFromSubject.value && {
+      params: { subjectId: route.params.subjectId },
+    }),
+  });
+}
+
+// Subject
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
 const subjectId = ref(route.params.subjectId);
@@ -49,42 +66,51 @@ async function fetchCourse() {
   course.value = { ...currentCourse.value };
 }
 
+// Form operations
 const form = ref(null);
 function submitForm() {
   form.value.submit();
 }
 
-async function updateCourse() {
-  await coursesStore.updateCourse(courseId.value, course.value);
+// Module
+const SUBJECT_MODULE_ROUTE_MAPPINGS = {
+  createRoute: 'subject-create-module',
+  editRoute: 'subject-edit-module',
+  params: {
+    subjectId: subjectId.value,
+    courseId: courseId.value,
+  }
+};
 
-  router.push({
-    name: isFromSubject.value ? 'edit-subject' : 'courses-list',
-    ...(isFromSubject.value && {
-      params: { subjectId: route.params.subjectId },
-    }),
-  });
+function editModule(event, { item }) {
+  if (isFromSubject.value) {
+    router.push({
+      name: SUBJECT_MODULE_ROUTE_MAPPINGS.editRoute,
+      params: {
+        ...SUBJECT_MODULE_ROUTE_MAPPINGS.params,
+        moduleId: item.raw.id
+      }
+    });
+  } else {
+    router.push({
+      name: 'course-edit-module',
+      params: {
+        courseId: courseId.value,
+        moduleId: item.raw.id,
+      }
+    })
+  }
 }
 
-const tab = ref('form');
-
 function defineCreateModuleRoute() {
-  const sourceRoute = route.meta.from;
-
-  const ROUTE_MAPPINGS = {
-    course: {
-      name: 'course-create-module',
-      params: { courseId: courseId.value },
-    },
-    subject: {
-      name: 'subject-create-module',
-      params: {
-        subjectId: subjectId.value,
-        courseId: courseId.value,
-      }
-    }
+  if (isFromSubject.value) {
+    return {
+      name: SUBJECT_MODULE_ROUTE_MAPPINGS.createRoute,
+      params: SUBJECT_MODULE_ROUTE_MAPPINGS.params
+    };
+  } else {
+    return { name: 'create-module' };
   }
-
-  return ROUTE_MAPPINGS[sourceRoute] || { name: 'create-module' };
 }
 
 onMounted(() => {
@@ -139,5 +165,6 @@ page-content
             :loading="loading"
             :items="course.modules || []"
             hide-course-column
+            @click:row="editModule"
           )
 </template>
