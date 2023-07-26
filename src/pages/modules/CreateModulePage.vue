@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useCourses } from '@/stores/courses';
+import { useSubjects } from '@/stores/subjects';
 import { useModules } from '@/stores/modules';
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
@@ -15,12 +16,16 @@ import ModuleForm from '@/components/modules/ModuleForm.vue';
 const route = useRoute();
 const router = useRouter();
 
-// Flag if redirected from course form
-const isFromCourse = ref(route.meta.from === 'course');
+// Flag if redirected from course form or subject form
+const isCourseProvided = ref(['course', 'subject'].includes(route.meta.from));
 
 // Course
 const coursesStore = useCourses();
 const { currentCourse } = storeToRefs(coursesStore);
+
+// Subject
+const subjectsStore = useSubjects();
+const { currentSubject } = storeToRefs(subjectsStore);
 
 // Header
 const HEADER_BUTTON_OPTS = {
@@ -29,11 +34,14 @@ const HEADER_BUTTON_OPTS = {
 
 function definePageTitle() {
   const routeMetaTitle = route.meta.title;
-  if (isFromCourse.value) {
-    return `${currentCourse.value.title} > ${routeMetaTitle}`;
-  } else {
-    return routeMetaTitle;
-  }
+  const sourceRoute = route.meta.from
+
+  const TITLE_MAPPING = {
+    course: `${currentCourse.value.title} > ${routeMetaTitle}`,
+    subject: `${currentSubject.value.title} > ${currentCourse.value.title} > ${routeMetaTitle}`
+  };
+
+  return TITLE_MAPPING[sourceRoute] || routeMetaTitle;
 }
 
 // UI State
@@ -58,19 +66,33 @@ async function createModule() {
     authorId: currentUser.value.id,
   };
 
-  // If created through course form
-  if (isFromCourse.value) {
+  // If created through course/subject form
+  if (isCourseProvided.value) {
     data.courseId = route.params.courseId;
   }
 
   await modulesStore.createModule(data);
 
-  router.push({
-    name: isFromCourse.value ? 'edit-course' : 'modules-list',
-    ...(isFromCourse.value && {
+  // Redirect
+  redirect()
+}
+
+function redirect() {
+  const ROUTER_DATA = {
+    course: {
+      name: 'edit-course',
       params: { courseId: route.params.courseId },
-    }),
-  });
+    },
+    subject: {
+      name: 'subject-edit-course',
+      params: {
+        subjectId: route.params.subjectId,
+        courseId: route.params.courseId,
+      },
+    }
+  };
+
+  router.push(ROUTER_DATA[route.meta.from] || { name: 'modules-list' });
 }
 
 const form = ref(null);
@@ -92,7 +114,7 @@ page-content
   module-form(
     ref="form"
     v-model="newModule"
-    :course="isFromCourse"
+    :hide-course-field="isCourseProvided"
     @submit="createModule"
   )
 </template>

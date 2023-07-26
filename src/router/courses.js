@@ -37,7 +37,7 @@ export default [
               {
                 path: '',
                 name: 'edit-course',
-                meta: { title: 'Edit Course' },
+                meta: { title: 'Edit Course', from: 'course' },
                 component: EditCoursePage,
               },
               {

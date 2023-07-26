@@ -36,6 +36,7 @@ const courseId = ref(route.params.courseId);
 
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
+const subjectId = ref(route.params.subjectId);
 
 // Flag for knowing if accessed from subject form
 const isFromSubject = ref(route.meta.from === 'subject');
@@ -65,6 +66,26 @@ async function updateCourse() {
 }
 
 const tab = ref('form');
+
+function defineCreateModuleRoute() {
+  const sourceRoute = route.meta.from;
+
+  const ROUTE_MAPPINGS = {
+    course: {
+      name: 'course-create-module',
+      params: { courseId: courseId.value },
+    },
+    subject: {
+      name: 'subject-create-module',
+      params: {
+        subjectId: subjectId.value,
+        courseId: courseId.value,
+      }
+    }
+  }
+
+  return ROUTE_MAPPINGS[sourceRoute] || { name: 'create-module' };
+}
 
 onMounted(() => {
   fetchCourse();
@@ -111,7 +132,7 @@ page-content
               color="light-blue"
               variant="flat"
               theme="dark"
-              :to="{ name: 'course-create-module', params: { courseId: courseId }}"
+              :to="defineCreateModuleRoute()"
             ).text-none Add a module
           modules-list-table(
             component="v-data-table"

@@ -13,11 +13,11 @@ const props = defineProps({
     default: () => ({}),
   },
   /**
-   * Flag if this form is consumed in the course form
-   *
-   * This will hide the course field
+   * This will hide the course field.
+   * 
+   * Usually `true` when component is consumed in course/subject form
    **/
-  course: {
+  hideCourseField: {
     type: Boolean,
     default: false,
   },
@@ -80,7 +80,7 @@ v-form(ref="form")
             label="Title"
             :rules="[REQUIRED_RULE]"
           )
-        v-col(v-if="!course" cols="12" lg="6")
+        v-col(v-if="!hideCourseField" cols="12" lg="6")
           v-autocomplete(
             v-model="mod.courseId"
             v-model:search="courseSearch"
