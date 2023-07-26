@@ -60,14 +60,14 @@ function proceed() {
 </script>
 
 <template lang="pug">
-v-container
+v-container.fill-height
   app-loader(:is-visible="loading")
 
   v-row(justify="center")
     v-col(cols="12" lg="6" xl="4")
       auth-form-card(v-bind="FORGOT_PASSWORD_FORM" @submit="requestReset")
 
-    //- NOTE: Since we are just mocking the backend, we just provide a button here that the user would normally see in an email.
-    div(v-if="showTempLink")
-      v-btn(@click="proceed") Proceed to reset
+      //- NOTE: Since we are just mocking the backend, we just provide a button here that the user would normally see in an email.
+      div(v-if="showTempLink").mt-10.text-center
+        v-btn(@click="proceed") (temp) Proceed to reset
 </template>

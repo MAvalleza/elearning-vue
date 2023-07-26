@@ -123,7 +123,7 @@ async function registerUser(data) {
 </script>
 
 <template lang="pug">
-v-container
+v-container.fill-height
   app-loader(:is-visible="loading")
 
   verification-modal(

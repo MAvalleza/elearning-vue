@@ -91,7 +91,7 @@ v-dialog(v-model="dialog" width="auto" persistent)
       v-btn(
         color="primary"
         @click="redirectToActivation"
-      ) Activate
+      ) (temp) Activate
       v-btn(
         color="secondary"
         :disabled="isResendTimerRunning"

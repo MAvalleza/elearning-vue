@@ -1,91 +1,144 @@
 import Webservice from './base';
 
-// TODO: Utilize `Webservice` methods
 export default class AuthWebservice extends Webservice {
   async getUsers() {
-    const response = await fetch(`${this.apiNamespace}/users`);
-    return await response.json();
+    try {
+      const url = this.parseURL({ path: 'users' });
+      const response = await fetch(url);
+
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async signUpUser(data) {
-    const response = await fetch(`${this.apiNamespace}/signup`, {
-      method: 'POST',
-      headers: this.requestHeaders,
-      body: JSON.stringify(data),
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({ path: 'signup' });
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.requestHeaders,
+        body: JSON.stringify(data),
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async loginUser(data) {
-    const response = await fetch(`${this.apiNamespace}/login`, {
-      method: 'POST',
-      headers: this.requestHeaders,
-      body: JSON.stringify(data),
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({ path: 'login' });
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.requestHeaders,
+        body: JSON.stringify(data),
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async logoutUser(token) {
-    await fetch(`${this.apiNamespace}/logout`, {
-      method: 'DELETE',
-      headers: {
-        ...this.requestHeaders,
-        Authorization: token,
-      },
-    });
+    try {
+      const url = this.parseURL({ path: 'logout' });
+    
+      await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+      });
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async requestResetPassword(data) {
-    const response = await fetch(
-      `${this.apiNamespace}/password/?email=${data.email}`,
-      {
-        method: 'GET',
-        headers: this.requestHeaders,
-      }
-    );
-    return await response.json();
+    try {
+      const url = this.parseURL({
+        path: 'password',
+        params: data,
+      });
+
+      const response = await fetch(
+        url,
+        {
+          method: 'GET',
+          headers: this.requestHeaders,
+        }
+      );
+
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
-  async resetPassword(token, data) {
-    const response = await fetch(`${this.apiNamespace}/password`, {
-      method: 'POST',
-      headers: {
-        ...this.requestHeaders,
-        Authorization: token,
-      },
-      body: JSON.stringify(data),
-    });
+  async resetPassword(data, token) {
+    try {
+      const url = this.parseURL({ path: 'password' });
 
-    return await response.json();
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+        body: JSON.stringify(data),
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async activateAccount(params) {
-    const url = this.parseURL({
-      path: 'signup/verification',
-      params,
-    });
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: this.requestHeaders,
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({
+        path: 'signup/verification',
+        params,
+      });
+  
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: this.requestHeaders,
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async createVerification(data) {
-    const url = this.parseURL({
-      path: 'signup/verification',
-    });
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: this.requestHeaders,
-      body: JSON.stringify(data),
-    });
-
-    return await response.json();
+    try {
+      const url = this.parseURL({
+        path: 'signup/verification',
+      });
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.requestHeaders,
+        body: JSON.stringify(data),
+      });
+  
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 }

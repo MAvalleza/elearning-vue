@@ -61,12 +61,12 @@ const CHANGE_PASSWORD_FORM = {
 async function reset(data) {
   const token = route.query.token;
 
-  await authStore.resetPassword(token, data);
+  await authStore.resetPassword(data, token);
 }
 </script>
 
 <template lang="pug">
-v-container
+v-container.fill-height
   app-loader(:is-visible="loading")
 
   v-row(justify="center")

@@ -36,8 +36,6 @@ export const useAuth = defineStore('auth', {
 
         return response;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -65,8 +63,6 @@ export const useAuth = defineStore('auth', {
 
         throw new Error(response.errors.message);
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -104,8 +100,6 @@ export const useAuth = defineStore('auth', {
 
         return response;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -114,11 +108,11 @@ export const useAuth = defineStore('auth', {
         uiStore().setLoading(false);
       }
     },
-    async resetPassword(token, { password }) {
+    async resetPassword({ password }, token) {
       try {
         uiStore().setLoading(true);
 
-        const response = await webservice.resetPassword(token, { password });
+        const response = await webservice.resetPassword({ password }, token);
 
         if (!isEmpty(response.errors)) {
           throw new Error(response.errors.message);
@@ -129,8 +123,6 @@ export const useAuth = defineStore('auth', {
           message: 'Password reset successful.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -153,8 +145,10 @@ export const useAuth = defineStore('auth', {
 
         return true;
       } catch (e) {
-        console.error(e);
-
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error.',
+        });
         return false;
       } finally {
         uiStore().setLoading(false);
