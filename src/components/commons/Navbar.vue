@@ -17,9 +17,12 @@ async function logout() {
 }
 
 const USER_MENU_ITEMS = [
+  // TODO: My profile page
   {
     title: 'My Profile',
-    onClick: () => { },
+    onClick: () => {
+      router.push({ name: 'in-progress' })
+    },
   },
   {
     title: 'Change Password',
