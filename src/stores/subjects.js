@@ -21,8 +21,8 @@ export const useSubjects = defineStore('subjects', {
         const currentUser = authStore().currentUser;
 
         const response = await webservice.getSubjects(
+          params,
           currentUser.accessToken,
-          params
         );
 
         if (!isEmpty(response.errors)) {
@@ -40,8 +40,6 @@ export const useSubjects = defineStore('subjects', {
 
         return mappedSubjects;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: e.message,
@@ -76,8 +74,6 @@ export const useSubjects = defineStore('subjects', {
           params: { subjectId: response.id },
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in creating your subject.',
@@ -106,8 +102,6 @@ export const useSubjects = defineStore('subjects', {
 
         this.currentSubject = response;
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in fetching the subject.',
@@ -139,8 +133,6 @@ export const useSubjects = defineStore('subjects', {
           message: 'Successfully updated the subject.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in updating the subject.',
@@ -171,8 +163,6 @@ export const useSubjects = defineStore('subjects', {
           message: 'Successfully deleted the subject.',
         });
       } catch (e) {
-        console.error(e);
-
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in deleting the subject.',
