@@ -55,4 +55,4 @@ const getTableStatusAction = (isPublished: boolean): object => {
   }
 };
 
-export { mapOptionsToParams, getTableStatusAction };
+export { mapOptionsToParams, getTableStatusAction, TableOptions };

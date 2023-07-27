@@ -1,5 +1,5 @@
-<script setup>
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, type Ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
@@ -19,7 +19,7 @@ const route = useRoute();
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
-const confirmDialog = ref(null);
+const confirmDialog: Ref = ref(null);
 const tab = ref('form');
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
@@ -46,7 +46,7 @@ async function updateSubject() {
 }
 
 // Form
-const form = ref(null);
+const form: Ref = ref(null);
 function submitForm() {
   form.value.submit();
 }
@@ -54,7 +54,13 @@ function submitForm() {
 // Course Operations
 const coursesStore = useCourses();
 
-function editCourse(event, { item }) {
+interface TableItem {
+  item: {
+    raw: any
+  }
+}
+
+function editCourse(_event: Event, { item }: TableItem) {
   router.push({
     name: 'subject-edit-course',
     params: {
@@ -64,7 +70,7 @@ function editCourse(event, { item }) {
   });
 }
 
-async function deleteCourse(id) {
+async function deleteCourse(id: string) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Course',
     message:
@@ -79,7 +85,13 @@ async function deleteCourse(id) {
 }
 
 // Table operations
-async function onAction({ action, item }) {
+interface ActionOpt {
+  action: string,
+  item: {
+    raw: any
+  }
+}
+async function onAction({ action, item }: ActionOpt) {
   const id = item.raw.id;
   const result = await coursesStore.onTableAction({ id, action });
 

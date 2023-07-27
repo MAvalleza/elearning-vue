@@ -1,12 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
 import {
   mapOptionsToParams,
   getTableStatusAction,
+  TableOptions
 } from '@/helpers/tableHelper';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
@@ -27,7 +28,7 @@ const HEADER_BUTTON_OPTS = {
 // UI states
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-const confirmDialog = ref(null);
+const confirmDialog: Ref = ref(null);
 
 // Subjects data
 const SUBJECTS_DATA_TABLE = {
@@ -76,14 +77,17 @@ async function fetchSubjects() {
   await subjectsStore.fetchSubjects(fetchParams);
 }
 
-function editSubject(event, { item }) {
+interface TableItem {
+  item: { raw: any }
+}
+function editSubject(_event: Event, { item }: TableItem) {
   router.push({
     name: 'edit-subject',
     params: { subjectId: item.raw.id },
   });
 }
 
-async function deleteSubject(id) {
+async function deleteSubject(id: string) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Subject',
     message:
@@ -97,8 +101,8 @@ async function deleteSubject(id) {
   }
 }
 
-function onUpdateTableOptions(event) {
-  const updatedParams = mapOptionsToParams(event);
+function onUpdateTableOptions(options: TableOptions) {
+  const updatedParams = mapOptionsToParams(options);
 
   fetchParams = reactive({
     ...initial.params,
@@ -108,7 +112,7 @@ function onUpdateTableOptions(event) {
   fetchSubjects();
 }
 
-function getTableActions(item) {
+function getTableActions(item: TableItem['item']) {
   const DELETE_ACTION = {
     icon: {
       icon: 'mdi-delete',
@@ -121,22 +125,11 @@ function getTableActions(item) {
   return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
-async function onAction(action, item) {
+async function onAction(action: string, item: TableItem['item']) {
   const id = item.raw.id;
+  const result = await subjectsStore.onTableAction({ id, action });
 
-  switch (action) {
-    case 'delete':
-      await deleteSubject(id);
-      break;
-    case 'publish':
-      await subjectsStore.updateSubject(id, { isPublished: true });
-      break;
-    case 'draft':
-      await subjectsStore.updateSubject(id, { isPublished: false });
-      break;
-    default:
-      break;
-  }
+  if (result?.delete) await deleteSubject(id);
 
   // Re-fetch subjects
   fetchSubjects();

@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
@@ -20,7 +20,7 @@ const HEADER_BUTTON_OPTS = {
 const subjectsStore = useSubjects();
 const newSubject = ref({ title: null, isPublished: false });
 
-const createForm = ref(null);
+const createForm: Ref = ref(null);
 function submitForm() {
   createForm.value.submit();
 }

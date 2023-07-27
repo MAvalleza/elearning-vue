@@ -171,5 +171,19 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
+    async onTableAction({ id, action }) {
+      switch (action) {
+        case 'delete':
+          return { id, delete: true };
+        case 'publish':
+          await this.updateSubject(id, { isPublished: true });
+          break;
+        case 'draft':
+          await this.updateSubject(id, { isPublished: false });
+          break;
+        default:
+          break;
+      }
+    },
   },
 });
