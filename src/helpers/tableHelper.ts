@@ -1,4 +1,4 @@
-import { TableOptions } from '@/types/data-table';
+import { type TableOptions } from '@/types/data-table';
 
 const mapOptionsToParams = (opts: TableOptions): object => {
   const params: {
@@ -11,7 +11,7 @@ const mapOptionsToParams = (opts: TableOptions): object => {
     page: opts.page,
   };
 
-  if (opts?.sortBy[0]) {
+  if (opts.sortBy?.[0]) {
     params.sortDirection = opts.sortBy[0].order;
     params.sort = opts.sortBy[0].key;
   }
@@ -46,4 +46,4 @@ const getTableStatusAction = (isPublished: boolean): object => {
   }
 };
 
-export { mapOptionsToParams, getTableStatusAction, TableOptions };
+export { mapOptionsToParams, getTableStatusAction };

@@ -1,10 +1,11 @@
-<script setup>
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, type Ref } from 'vue';
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
+import { type GenericTableItem } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import CourseForm from '@/components/courses/CourseForm.vue';
@@ -35,7 +36,7 @@ const { loading } = storeToRefs(uiStore);
 
 // Course
 const coursesStore = useCourses();
-const { currentCourse } = storeToRefs(coursesStore);
+const { currentCourse }: { currentCourse: Ref } = storeToRefs(coursesStore);
 const course = ref({});
 const courseId = ref(route.params.courseId);
 
@@ -52,7 +53,7 @@ async function updateCourse() {
 
 // Subject
 const subjectsStore = useSubjects();
-const { currentSubject } = storeToRefs(subjectsStore);
+const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
 const subjectId = ref(route.params.subjectId);
 
 // Flag for knowing if accessed from subject form
@@ -67,7 +68,7 @@ async function fetchCourse() {
 }
 
 // Form operations
-const form = ref(null);
+const form: Ref = ref(null);
 function submitForm() {
   form.value.submit();
 }
@@ -82,7 +83,7 @@ const SUBJECT_MODULE_ROUTE_MAPPINGS = {
   }
 };
 
-function editModule(event, { item }) {
+function editModule(_event: Event, { item }: GenericTableItem) {
   if (isFromSubject.value) {
     router.push({
       name: SUBJECT_MODULE_ROUTE_MAPPINGS.editRoute,

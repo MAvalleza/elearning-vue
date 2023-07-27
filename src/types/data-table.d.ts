@@ -6,7 +6,7 @@ interface SortBy {
 interface TableOptions {
   itemsPerPage: number | string,
   page: number | string,
-  sortBy: SortBy[],
+  sortBy?: SortBy[],
 }
 
 interface TableActionOpt {

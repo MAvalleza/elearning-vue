@@ -7,9 +7,8 @@ import { useUI } from '@/stores/ui';
 import {
   mapOptionsToParams,
   getTableStatusAction,
-  TableOptions
 } from '@/helpers/tableHelper';
-import { type GenericTableItem } from '@/types/data-table';
+import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';

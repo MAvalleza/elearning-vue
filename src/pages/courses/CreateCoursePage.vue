@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
@@ -37,7 +37,7 @@ const { loading } = storeToRefs(uiStore);
 
 // Auth
 const authStore = useAuth();
-const { currentUser } = storeToRefs(authStore);
+const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Course
 const coursesStore = useCourses();
@@ -52,7 +52,7 @@ const newCourse = ref({
 const isFromSubject = ref(route.meta.from === 'subject');
 
 async function createCourse() {
-  const data = {
+  const data: { subjectId?: string } | typeof currentUser.value = {
     ...newCourse.value,
     authorId: currentUser.value.id,
   };
@@ -72,14 +72,14 @@ async function createCourse() {
   });
 }
 
-const form = ref(null);
+const form: Ref = ref(null);
 function submitForm() {
   form.value.submit();
 }
 
 // Subject
 const subjectsStore = useSubjects();
-const { currentSubject } = storeToRefs(subjectsStore);
+const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
 </script>
 
 <template lang="pug">
