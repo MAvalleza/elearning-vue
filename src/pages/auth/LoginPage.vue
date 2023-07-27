@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
@@ -46,7 +46,7 @@ const LOGIN_FORM = {
   },
 };
 
-async function login(data) {
+async function login(data: object) {
   await authStore.loginUser(data);
 }
 

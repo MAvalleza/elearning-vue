@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { useRoute } from 'vue-router';
@@ -58,7 +58,7 @@ const CHANGE_PASSWORD_FORM = {
   },
 };
 
-async function reset(data) {
+async function reset(data: { password: string }) {
   const token = route.query.token;
 
   await authStore.resetPassword(data, token);

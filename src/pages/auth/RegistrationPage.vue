@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuth } from '@/stores/auth';
@@ -110,7 +110,7 @@ const REGISTRATION_FORM = {
 const activationToken = ref(null);
 const email = ref(null);
 
-async function registerUser(data) {
+async function registerUser(data: object) {
   const response = await authStore.registerUser(data);
 
   if (isEmpty(response.errors)) {

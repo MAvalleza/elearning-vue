@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { useRouter } from 'vue-router';
@@ -36,7 +36,7 @@ const FORGOT_PASSWORD_FORM = {
   },
 };
 
-async function requestReset(data) {
+async function requestReset(data: object) {
   const response = await authStore.requestResetPassword(data);
 
   // TODO: Temporary mocks since we do not send an actual email yet.
