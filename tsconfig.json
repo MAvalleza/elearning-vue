@@ -6,6 +6,7 @@
     "strict": true,
     "noImplicitAny": true,
     "noUnusedParameters": true,
+    "skipLibCheck": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
@@ -15,5 +16,6 @@
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src/**/*"]
 }

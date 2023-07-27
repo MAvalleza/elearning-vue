@@ -7,7 +7,10 @@
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "parser": {
+      "ts": "@typescript-eslint/parser"
+    }
   },
   "rules": {
     "vue/multi-word-component-names": "off",
