@@ -1,13 +1,4 @@
-interface SortBy {
-  order: string;
-  key: string;
-}
-
-interface TableOptions {
-  itemsPerPage: number | string;
-  page: number | string;
-  sortBy: SortBy[];
-}
+import { TableOptions } from '@/types/data-table';
 
 const mapOptionsToParams = (opts: TableOptions): object => {
   const params: {

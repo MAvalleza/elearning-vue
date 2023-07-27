@@ -1,11 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import uniqBy from 'lodash-es/uniqBy';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
+import { type GenericTableItem, type TableOptions, type TableActionOpt } from '@/types/data-table';
+import { type Course } from '@/types/course';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -25,10 +27,10 @@ const HEADER_BUTTON_OPTS = {
 // UI states
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-const confirmDialog = ref(null);
+const confirmDialog: Ref = ref(null);
 
 const coursesStore = useCourses();
-const { courses, coursesTotal } = storeToRefs(coursesStore);
+const { courses, coursesTotal }: { courses: Ref, coursesTotal: Ref } = storeToRefs(coursesStore);
 
 // Fetch params
 const initial = {
@@ -62,11 +64,11 @@ async function fetchCourses() {
 }
 
 // Filter operations
-const subjectFilterOptions = ref([]);
+const subjectFilterOptions: Ref = ref([]);
 
 function updateSubjectFilterOptions() {
   subjectFilterOptions.value = uniqBy(
-    courses.value.map(course => course.subject),
+    courses.value.map((course: Course) => course.subject),
     'id'
   );
 }
@@ -77,14 +79,14 @@ function onClearFilter() {
   fetchCourses();
 }
 
-function editCourse(event, { item }) {
+function editCourse(_event: Event, { item }: GenericTableItem) {
   router.push({
     name: 'edit-course',
     params: { courseId: item.raw.id },
   });
 }
 
-async function deleteCourse(id) {
+async function deleteCourse(id: string) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Course',
     message:
@@ -98,8 +100,8 @@ async function deleteCourse(id) {
   }
 }
 
-function onUpdateTableOptions(event) {
-  const updatedParams = mapOptionsToParams(event);
+function onUpdateTableOptions(options: TableOptions) {
+  const updatedParams = mapOptionsToParams(options);
 
   fetchParams = reactive({
     ...initial.params,
@@ -109,7 +111,7 @@ function onUpdateTableOptions(event) {
   fetchCourses();
 }
 
-async function onAction({ action, item }) {
+async function onAction({ action, item }: TableActionOpt) {
   const id = item.raw.id;
   const result = await coursesStore.onTableAction({ id, action });
 

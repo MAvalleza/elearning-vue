@@ -9,6 +9,7 @@ import {
   getTableStatusAction,
   TableOptions
 } from '@/helpers/tableHelper';
+import { type GenericTableItem } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -77,10 +78,7 @@ async function fetchSubjects() {
   await subjectsStore.fetchSubjects(fetchParams);
 }
 
-interface TableItem {
-  item: { raw: any }
-}
-function editSubject(_event: Event, { item }: TableItem) {
+function editSubject(_event: Event, { item }: GenericTableItem) {
   router.push({
     name: 'edit-subject',
     params: { subjectId: item.raw.id },
@@ -112,7 +110,7 @@ function onUpdateTableOptions(options: TableOptions) {
   fetchSubjects();
 }
 
-function getTableActions(item: TableItem['item']) {
+function getTableActions(item: GenericTableItem['item']) {
   const DELETE_ACTION = {
     icon: {
       icon: 'mdi-delete',
@@ -125,7 +123,7 @@ function getTableActions(item: TableItem['item']) {
   return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
-async function onAction(action: string, item: TableItem['item']) {
+async function onAction(action: string, item: GenericTableItem['item']) {
   const id = item.raw.id;
   const result = await subjectsStore.onTableAction({ id, action });
 

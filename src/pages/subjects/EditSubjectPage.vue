@@ -5,6 +5,7 @@ import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
+import { type TableActionOpt, type GenericTableItem } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -54,13 +55,7 @@ function submitForm() {
 // Course Operations
 const coursesStore = useCourses();
 
-interface TableItem {
-  item: {
-    raw: any
-  }
-}
-
-function editCourse(_event: Event, { item }: TableItem) {
+function editCourse(_event: Event, { item }: GenericTableItem) {
   router.push({
     name: 'subject-edit-course',
     params: {
@@ -85,13 +80,7 @@ async function deleteCourse(id: string) {
 }
 
 // Table operations
-interface ActionOpt {
-  action: string,
-  item: {
-    raw: any
-  }
-}
-async function onAction({ action, item }: ActionOpt) {
+async function onAction({ action, item }: TableActionOpt) {
   const id = item.raw.id;
   const result = await coursesStore.onTableAction({ id, action });
 
