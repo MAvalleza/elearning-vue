@@ -1,18 +1,19 @@
-<script setup>
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, type Ref } from 'vue';
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useModules } from '@/stores/modules';
 import { useCourses } from '@/stores/courses';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
+import { type RouteWithCustomProperties } from '@/types/vue-router';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import ModuleForm from '@/components/modules/ModuleForm.vue';
 
 // Router
 const router = useRouter();
-const route = useRoute();
+const route: RouteWithCustomProperties = useRoute();
 
 // Header
 const HEADER_BUTTON_OPTS = {
@@ -33,19 +34,19 @@ const { loading } = storeToRefs(uiStore);
 
 // Module
 const modulesStore = useModules();
-const { currentModule } = storeToRefs(modulesStore);
-const moduleId = ref(route.params.moduleId);
+const { currentModule }: { currentModule: Ref } = storeToRefs(modulesStore);
+const moduleId: Ref = ref(route.params?.moduleId);
 const mod = ref({});
 
 // Course
 const coursesStore = useCourses();
-const { currentCourse } = storeToRefs(coursesStore);
-const courseId = ref(route.params.courseId);
+const { currentCourse }: { currentCourse: Ref } = storeToRefs(coursesStore);
+const courseId = ref(route.params?.courseId);
 
 // Subject
 const subjectsStore = useSubjects();
-const { currentSubject } = storeToRefs(subjectsStore);
-const subjectId = ref(route.params.subjectId);
+const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
+const subjectId = ref(route.params?.subjectId);
 
 async function fetchModule() {
   await modulesStore.fetchModule(moduleId.value);
@@ -53,7 +54,7 @@ async function fetchModule() {
   mod.value = { ...currentModule.value };
 }
 
-const form = ref(null);
+const form: Ref = ref(null);
 function submitForm() {
   form.value.submit();
 }
@@ -66,7 +67,7 @@ async function updateModule() {
 
 function redirect() {
   // Route data mappings according to source route
-  const sourceRoute = ref(route.meta.from);
+  const sourceRoute = route.meta?.from;
 
   const ROUTE_MAPPINGS = {
     course: {
@@ -81,7 +82,12 @@ function redirect() {
       }
     }
   };
-  router.push(ROUTE_MAPPINGS[sourceRoute] || { name: 'modules-list' });
+
+  if (sourceRoute) {
+    router.push(ROUTE_MAPPINGS[sourceRoute as keyof typeof ROUTE_MAPPINGS])
+  } else {
+    router.push({ name: 'modules-list' });
+  }
 }
 
 onMounted(() => {

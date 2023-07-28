@@ -1,10 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useUI } from '@/stores/ui';
 import { useModules } from '@/stores/modules';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
+import { type TableActionOpt, type GenericTableItem, type TableOptions } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -24,7 +25,7 @@ const HEADER_BUTTON_OPTS = {
 // UI states
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-const confirmDialog = ref(null);
+const confirmDialog: Ref = ref(null);
 
 // Fetch params
 const initial = {
@@ -57,14 +58,14 @@ async function fetchModules() {
   await modulesStore.fetchModules(fetchParams);
 }
 
-function editModule(event, { item }) {
+function editModule(_event: Event, { item }: GenericTableItem) {
   router.push({
     name: 'edit-module',
     params: { moduleId: item.raw.id },
   });
 }
 
-async function deleteModule(id) {
+async function deleteModule(id: string) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Module',
     message:
@@ -78,7 +79,7 @@ async function deleteModule(id) {
   }
 }
 
-function onUpdateTableOptions(event) {
+function onUpdateTableOptions(event: TableOptions) {
   const updatedParams = mapOptionsToParams(event);
 
   fetchParams = reactive({
@@ -89,7 +90,7 @@ function onUpdateTableOptions(event) {
   fetchModules();
 }
 
-async function onAction({ action, item }) {
+async function onAction({ action, item }: TableActionOpt) {
   const id = item.raw.id;
   const result = await modulesStore.onTableAction({ id, action });
 

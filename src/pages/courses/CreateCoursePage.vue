@@ -8,6 +8,7 @@ import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import isEmpty from 'lodash-es/isEmpty';
+import { type RouteWithCustomProperties } from '@/types/vue-router';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import CourseForm from '@/components/courses/CourseForm.vue';
@@ -18,7 +19,7 @@ const HEADER_BUTTON_OPTS = {
 };
 
 function definePageTitle() {
-  const routeMetaTitle = route.meta.title;
+  const routeMetaTitle = route.meta?.title || 'Add a course';
 
   if (!isEmpty(currentSubject.value)) {
     return `${currentSubject.value.title} > ${routeMetaTitle}`;
@@ -28,7 +29,7 @@ function definePageTitle() {
 }
 
 // Router
-const route = useRoute();
+const route: RouteWithCustomProperties = useRoute();
 const router = useRouter();
 
 // UI State
@@ -49,17 +50,20 @@ const newCourse = ref({
 });
 
 // Flag if redirected from subject form
-const isFromSubject = ref(route.meta.from === 'subject');
+const isFromSubject = ref(route.meta?.from === 'subject');
 
 async function createCourse() {
-  const data: { subjectId?: string } | typeof currentUser.value = {
+  const data: {
+    authorId: string,
+    subjectId?: string
+  } | typeof newCourse.value = {
     ...newCourse.value,
     authorId: currentUser.value.id,
   };
 
   // If created through subject form
   if (isFromSubject.value) {
-    data.subjectId = route.params.subjectId;
+    data.subjectId = route.params?.subjectId;
   }
 
   await coursesStore.createCourse(data);
@@ -67,7 +71,7 @@ async function createCourse() {
   router.push({
     name: isFromSubject.value ? 'edit-subject' : 'courses-list',
     ...(isFromSubject.value && {
-      params: { subjectId: route.params.subjectId },
+      params: { subjectId: route.params?.subjectId },
     }),
   });
 }

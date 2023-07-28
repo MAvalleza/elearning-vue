@@ -110,7 +110,7 @@ function defineCreateModuleRoute() {
       params: SUBJECT_MODULE_ROUTE_MAPPINGS.params
     };
   } else {
-    return { name: 'create-module' };
+    return { name: 'course-create-module', params: { courseId: courseId.value } };
   }
 }
 
