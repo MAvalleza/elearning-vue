@@ -1,8 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import size from 'lodash-es/size';
 import { getTableStatusAction } from '@/helpers/tableHelper';
 import TableActions from '@/components/commons/TableActions.vue';
+import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 
 const props = defineProps({
   component: {
@@ -57,7 +58,7 @@ function defineHeaders() {
   return COURSES_TABLE_HEADERS;
 }
 
-function getTableActions(item) {
+function getTableActions(item: GenericTableItem['item']) {
   const DELETE_ACTION = {
     icon: {
       icon: 'mdi-delete',
@@ -70,35 +71,35 @@ function getTableActions(item) {
   return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
-function getItemAuthor(item) {
+function getItemAuthor(item: GenericTableItem['item']) {
   const { authorName, author } = item.raw;
 
   if (!authorName && !author) return '';
 
-  return authorName || `${author.firstName} ${author.lastName}`;
+  return authorName || `${author?.firstName || ''} ${author?.lastName || ''}`;
 }
 
-function getItemStatus(item) {
-  const { status, isPublished } = item.raw;
+function getItemStatus(item: GenericTableItem['item']) {
+  const { status, isPublished }: { status?: string, isPublished: boolean } = item.raw;
 
   return status || (isPublished ? 'Published' : 'Draft');
 }
 
-function getItemTotalModules(item) {
+function getItemTotalModules(item: GenericTableItem['item']) {
   const { totalModules, moduleIds } = item.raw;
 
   return totalModules || size(moduleIds);
 }
 
-function onAction(action, item) {
+function onAction(action: string, item: GenericTableItem['item']) {
   emit('action', { action, item });
 }
 
-function onUpdateTableOptions(event) {
-  emit('update:options', event);
+function onUpdateTableOptions(options: TableOptions) {
+  emit('update:options', options);
 }
 
-function onClickRow(event, { item }) {
+function onClickRow(event: Event, { item }: GenericTableItem) {
   emit('click:row', event, { item });
 }
 </script>

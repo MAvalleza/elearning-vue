@@ -1,5 +1,5 @@
-<script setup>
-import { computed, ref, watch } from 'vue';
+<script setup lang="ts">
+import { computed, ref, watch, type Ref } from 'vue';
 import debounce from 'lodash-es/debounce';
 import { storeToRefs } from 'pinia';
 import { STATUS_LABELS } from '@/constants/statuses';
@@ -43,7 +43,7 @@ const authStore = useAuth();
 const { currentUser } = storeToRefs(authStore);
 
 // Form handler
-const form = ref(null);
+const form: Ref = ref(null);
 async function submit() {
   const { valid } = await form.value.validate();
 
@@ -66,7 +66,7 @@ watch(subjectSearch, val => {
 const subjectsStore = useSubjects();
 const { subjects } = storeToRefs(subjectsStore);
 
-async function fetchSubjects(keyword) {
+async function fetchSubjects(keyword: string) {
   await subjectsStore.fetchSubjects({ keyword });
 }
 
