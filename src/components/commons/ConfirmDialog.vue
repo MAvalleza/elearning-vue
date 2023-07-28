@@ -1,26 +1,33 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, type Ref } from 'vue';
 
-const isDialogVisible = ref(false);
+const isDialogVisible: Ref = ref(false);
 
-const dialogTitle = ref('');
-const dialogMessage = ref('');
-const buttonText = ref('');
-const color = ref(null);
+const dialogTitle: Ref = ref('');
+const dialogMessage: Ref = ref('');
+const buttonText: Ref = ref('');
+const color: Ref = ref(null);
 
-const resolveResponse = ref(() => {});
-const rejectResponse = ref(() => {});
+const resolveResponse: Ref = ref(() => { });
+const rejectResponse: Ref = ref(() => { });
 
 defineExpose({
   open,
 });
+
+interface DialogOpts {
+  title: string,
+  message: string,
+  primaryAction: string,
+  primaryColor: string
+}
 
 async function open({
   title = 'Confirm',
   message = 'Do you want to continue with this action?',
   primaryAction = 'Confirm',
   primaryColor,
-}) {
+}: DialogOpts) {
   dialogTitle.value = title;
   dialogMessage.value = message;
   buttonText.value = primaryAction;

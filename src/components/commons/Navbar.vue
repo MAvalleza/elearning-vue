@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
@@ -8,7 +8,7 @@ import { NAV_ITEMS } from '@/constants/nav-items';
 const router = useRouter();
 
 const authStore = useAuth();
-const { currentUser } = storeToRefs(authStore);
+const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 const drawer = ref(true);
 

@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, type Ref } from 'vue';
 import debounce from 'lodash-es/debounce';
 import { STATUS_LABELS } from '@/constants/statuses';
 
@@ -29,7 +29,7 @@ const emit = defineEmits([
 const searchText = ref(props.searchText);
 
 const menu = ref(false);
-const published = ref(props.statusFilter);
+const published: Ref = ref(props.statusFilter);
 
 const applyFilter = debounce(() => {
   emit('update:statusFilter', published.value);
