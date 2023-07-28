@@ -1,35 +1,29 @@
-<script setup>
+<script setup lang="ts">
 import { objectifyArray } from '@/helpers/arrayHelper';
 import { createRules } from '@/helpers/rulesHelper';
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: 'Form',
-  },
-  /**
-   * @param {Object[]} fields - The form fields
-   * @param {String} fields[].value - For v-model usage
-   * @param {String} fields[].component - The component to be used for the form field
-   * @param {Object} fields[].componentOpts - The props for the component
-   */
-  fields: {
-    type: Array,
-    default: () => [],
-  },
-  /**
-   * Props for the v-btn
-   */
-  buttonOpts: {
-    type: Object,
-    default: () => ({}),
-  },
+interface FormField {
+  value: string,
+  component: string,
+  componentOpts: object
+}
+
+interface Props {
+  title?: string,
+  fields?: FormField[],
+  buttonOpts?: object
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: 'Form',
+  fields: () => [],
+  buttonOpts: () => ({})
 });
 
 const emit = defineEmits(['submit']);
 
-const authForm = ref(null);
+const authForm: Ref = ref(null);
 
 const formData = ref(objectifyArray(props.fields.map(f => f.value)));
 
