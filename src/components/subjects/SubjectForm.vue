@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, type Ref } from 'vue';
 import { STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 
@@ -22,7 +22,7 @@ function onUpdate() {
   emit('update:modelValue', subject.value);
 }
 
-const form = ref(null);
+const form: Ref = ref(null);
 
 async function submit() {
   const { valid } = await form.value.validate();
