@@ -1,7 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { getTableStatusAction } from '@/helpers/tableHelper';
 import TableActions from '@/components/commons/TableActions.vue';
+import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 
 const props = defineProps({
   component: {
@@ -56,7 +57,7 @@ function defineHeaders() {
   return MODULES_TABLE_HEADERS;
 }
 
-function getTableActions(item) {
+function getTableActions(item: GenericTableItem['item']) {
   const DELETE_ACTION = {
     icon: {
       icon: 'mdi-delete',
@@ -69,27 +70,27 @@ function getTableActions(item) {
   return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
-function getItemCourse(item) {
+function getItemCourse(item: GenericTableItem['item']) {
   const { courseTitle, course } = item.raw;
 
-  return courseTitle || course.title;
+  return course?.title || courseTitle;
 }
 
-function getItemStatus(item) {
+function getItemStatus(item: GenericTableItem['item']) {
   const { status, isPublished } = item.raw;
 
   return status || (isPublished ? 'Published' : 'Draft');
 }
 
-function onAction(action, item) {
+function onAction(action: string, item: GenericTableItem['item']) {
   emit('action', { action, item });
 }
 
-function onUpdateTableOptions(event) {
-  emit('update:options', event);
+function onUpdateTableOptions(options: TableOptions) {
+  emit('update:options', options);
 }
 
-function onClickRow(event, { item }) {
+function onClickRow(event: Event, { item }: GenericTableItem) {
   emit('click:row', event, { item });
 }
 </script>

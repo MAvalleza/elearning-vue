@@ -1,4 +1,5 @@
 import { type Course } from './course';
+import { type Module } from './module';
 
 interface SortBy {
   order: string,
@@ -19,7 +20,7 @@ interface TableActionOpt {
 // TODO: Declare assertions for the entity types (subject, courses, module)
 interface GenericTableItem {
   item: {
-    raw: Course & {
+    raw: Course & Module & {
       id: string,
       isPublished: boolean,
     }

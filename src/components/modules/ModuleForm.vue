@@ -1,5 +1,5 @@
-<script setup>
-import { computed, ref, watch, onMounted } from 'vue';
+<script setup lang="ts">
+import { computed, ref, watch, onMounted, type Ref } from 'vue';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { storeToRefs } from 'pinia';
@@ -38,7 +38,7 @@ const mod = computed({
 });
 
 // Form handler
-const form = ref(null);
+const form: Ref = ref(null);
 async function submit() {
   const { valid } = await form.value.validate();
 
@@ -61,7 +61,7 @@ watch(courseSearch, val => {
 const coursesStore = useCourses();
 const { courses } = storeToRefs(coursesStore);
 
-async function fetchCourses(keyword) {
+async function fetchCourses(keyword?: string) {
   await coursesStore.fetchCourses({ keyword });
 }
 
