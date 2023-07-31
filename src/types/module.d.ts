@@ -1,4 +1,5 @@
 import { type Course } from './course';
+import { Delta } from '@vueup/vue-quill';
 
 interface Module {
   title: string,
@@ -9,6 +10,9 @@ interface Module {
 
   courseTitle?: string,
   course?: Course,
+  courseId?: string,
 
   status?: string
+
+  content?: Delta | object
 }

@@ -3,25 +3,30 @@ import { computed, ref, watch, onMounted, type Ref } from 'vue';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { storeToRefs } from 'pinia';
+import { useCourses } from '@/stores/courses';
 import { STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
-import { useCourses } from '@/stores/courses';
+import { type Module } from '@/types/module';
+import TextEditor from '@/components/commons/TextEditor.vue';
 
 // -- PROP AND EMITS --
-const props = defineProps({
-  modelValue: {
-    type: Object,
-    default: () => ({}),
-  },
+interface Props {
+  modelValue: Module,
+  hideCourseField?: boolean,
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: () => ({
+    title: '',
+    duration: 0,
+    isPublished: false
+  }),
   /**
    * This will hide the course field.
    * 
    * Usually `true` when component is consumed in course/subject form
    **/
-  hideCourseField: {
-    type: Boolean,
-    default: false,
-  },
+  hideCourseField: false
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
@@ -118,4 +123,7 @@ v-form(ref="form")
             type="number"
             :rules="[REQUIRED_RULE]"
           )
+    // Rich text editor
+    div(style="height: 600px")
+      text-editor(v-model="mod.content")
 </template>
