@@ -72,13 +72,11 @@ const newModule = ref({
 const newContent = ref({ content: null });
 
 async function createModule() {
-  const data:
-    | {
-        authorId: string;
-        courseId?: string;
-        content?: typeof newContent.value.content;
-      }
-    | typeof newModule.value = {
+  const data: {
+    authorId: string;
+    courseId?: string;
+    content?: typeof newContent.value.content;
+  } | typeof newModule.value = {
     ...newModule.value,
     authorId: currentUser.value.id,
     content: newContent.value.content,
