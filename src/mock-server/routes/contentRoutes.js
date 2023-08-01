@@ -1,6 +1,7 @@
 import { Response } from 'miragejs';
 import { AuthSession } from '../helpers/authHelper';
 import { evaluateParams } from '../helpers/fetchParamsHelper';
+import pick from 'lodash-es/pick';
 
 const createContentRoutes = routeInstance => {
   routeInstance.get('/contents', (schema, request) => {
@@ -59,6 +60,28 @@ const createContentRoutes = routeInstance => {
     return schema.contents.create(data).attrs;
   });
 
+  routeInstance.put('/contents/:id', (schema, request) => {
+    let id = request.params.id;
+    let attrs = JSON.parse(request.requestBody);
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'contents', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const content = schema.contents.find(id);
+
+    const updated = pick(attrs, ['content']);
+
+    return content.update(updated);
+  });
 };
 
 export default createContentRoutes;

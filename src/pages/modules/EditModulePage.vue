@@ -2,6 +2,7 @@
 import { ref, onMounted, type Ref } from 'vue';
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useModules } from '@/stores/modules';
+import { useContents } from '@/stores/contents';
 import { useCourses } from '@/stores/courses';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
@@ -34,9 +35,42 @@ const { loading } = storeToRefs(uiStore);
 
 // Module
 const modulesStore = useModules();
-const { currentModule }: { currentModule: Ref } = storeToRefs(modulesStore);
+const { currentModule, currentModuleContent }: { currentModule: Ref, currentModuleContent: Ref } = storeToRefs(modulesStore);
 const moduleId: Ref = ref(route.params?.moduleId);
 const mod = ref({});
+const modContent = ref({ content: {} });
+
+
+async function fetchModule() {
+  await modulesStore.fetchModule(moduleId.value);
+
+  mod.value = { ...currentModule.value };
+  modContent.value = { ...currentModuleContent.value };
+}
+
+// Module Content
+const contentsStore = useContents();
+
+async function updateModule() {
+  await modulesStore.updateModule(moduleId.value, mod.value);
+}
+
+async function updateModuleContent() {
+  const contentId = currentModuleContent.value.id;
+
+  // Create content if does not exist
+  if (!contentId) {
+    await contentsStore.createContent({
+      content: modContent.value.content,
+      type: 'document',
+      moduleId: moduleId.value,
+    });
+  } else {
+    await contentsStore.updateContent(contentId, {
+      content: modContent.value.content
+    });
+  }
+}
 
 // Course
 const coursesStore = useCourses();
@@ -48,19 +82,18 @@ const subjectsStore = useSubjects();
 const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
 const subjectId = ref(route.params?.subjectId);
 
-async function fetchModule() {
-  await modulesStore.fetchModule(moduleId.value);
-
-  mod.value = { ...currentModule.value };
-}
-
+// Form operations
 const form: Ref = ref(null);
 function submitForm() {
   form.value.submit();
 }
 
-async function updateModule() {
-  await modulesStore.updateModule(moduleId.value, mod.value);
+// General operations
+async function update() {
+  await Promise.all([
+    updateModule(),
+    updateModuleContent(),
+  ]);
 
   redirect();
 }
@@ -116,7 +149,9 @@ page-content
     ref="form"
     :key="mod.id"
     v-model="mod"
+    v-model:content="modContent"
     :hide-course-field="isCourseProvided"
-    @submit="updateModule"
+    :loading="loading"
+    @submit="update"
   )
 </template>

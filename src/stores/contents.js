@@ -62,37 +62,30 @@ export const useContents = defineStore('contents', {
         uiStore().setLoading(false);
       }
     },
-    // async updateModule(id, params) {
-    //   try {
-    //     uiStore().setLoading(true);
+    async updateContent(id, params) {
+      try {
+        uiStore().setLoading(true);
 
-    //     const currentUser = authStore().currentUser;
+        const currentUser = authStore().currentUser;
 
-    //     const response = await webservice.updateModule(
-    //       id,
-    //       params,
-    //       currentUser.accessToken
-    //     );
+        const response = await webservice.updateContent(
+          id,
+          params,
+          currentUser.accessToken
+        );
 
-    //     if (!isEmpty(response.errors)) {
-    //       throw Error(response.errors[0]);
-    //     }
-
-    //     uiStore().showSnackbar({
-    //       color: 'success',
-    //       message: 'Successfully updated the module.',
-    //     });
-    //   } catch (e) {
-    //     uiStore().showSnackbar({
-    //       color: 'error',
-    //       message: 'There was an error in updating the module.',
-    //     });
-
-    //     this.$router.push({ name: 'modules-list' });
-    //   } finally {
-    //     uiStore().setLoading(false);
-    //   }
-    // },
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in updating the content.',
+        });
+      } finally {
+        uiStore().setLoading(false);
+      }
+    },
     // async deleteModule(id) {
     //   try {
     //     uiStore().setLoading(true);

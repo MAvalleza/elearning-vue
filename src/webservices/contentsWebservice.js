@@ -43,25 +43,25 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  // async updateModule(id, data, token) {
-  //   try {
-  //     const url = this.parseURL({ path: `modules/${id}` });
+  async updateContent(id, data, token) {
+    try {
+      const url = this.parseURL({ path: `contents/${id}` });
   
-  //     const response = await fetch(url, {
-  //       method: 'PUT',
-  //       headers: {
-  //         ...this.requestHeaders,
-  //         Authorization: token,
-  //       },
-  //       body: JSON.stringify(data),
-  //     });
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+        body: JSON.stringify(data),
+      });
   
-  //     return await response.json();
-  //   } catch(e) {
-  //     console.error(e);
-  //     throw e;
-  //   }
-  // }
+      return await response.json();
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
+  }
 
   // async deleteModule(id, token) {
   //   try {
