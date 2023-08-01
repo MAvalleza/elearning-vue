@@ -53,12 +53,10 @@ const newCourse = ref({
 const isFromSubject = ref(route.meta?.from === 'subject');
 
 async function createCourse() {
-  const data:
-    | {
-        authorId: string;
-        subjectId?: string;
-      }
-    | typeof newCourse.value = {
+  const data: {
+    authorId: string;
+    subjectId?: string;
+  } | typeof newCourse.value = {
     ...newCourse.value,
     authorId: currentUser.value.id,
   };
