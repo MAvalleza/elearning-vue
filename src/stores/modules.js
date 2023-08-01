@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import ModulesWebservice from '@/webservices/modulesWebservice';
+import { useContents as contentsStore } from './contents';
 import { useUI as uiStore } from './ui';
 import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
+import omit from 'lodash-es/omit';
 
 const webservice = new ModulesWebservice();
 
@@ -11,6 +13,7 @@ export const useModules = defineStore('modules', {
     modules: [],
     modulesTotal: 0,
     currentModule: {},
+    currentModuleContent: {}, // content of current module
   }),
   actions: {
     async fetchModules(params) {
@@ -53,14 +56,24 @@ export const useModules = defineStore('modules', {
 
         const currentUser = authStore().currentUser;
 
+        // Create the module
         const response = await webservice.createModule(
-          data,
+          omit(data, 'content'),
           currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
         }
+
+        // Create the module content
+        const moduleId = response.id;
+
+        await contentsStore().createContent({
+          moduleId,
+          content: data.content,
+          type: 'document' // Assigned 'document' when created thru rich text editor
+        });
 
         uiStore().showSnackbar({
           color: 'success',
@@ -140,6 +153,7 @@ export const useModules = defineStore('modules', {
 
         const currentUser = authStore().currentUser;
 
+        // Fetch module
         const response = await webservice.getModule(
           {
             id,
@@ -152,7 +166,15 @@ export const useModules = defineStore('modules', {
           throw Error(response.errors[0]);
         }
 
-        this.currentModule = response;
+        // Fetch content
+        const contentResponse = await contentsStore().fetchContents({
+          module: id
+        });
+
+        this.currentModule = { ...response };
+        
+        // We get first element since we used fetch endpoint which returns array
+        this.currentModuleContent = { ...contentResponse?.[0] }
       } catch (e) {
         uiStore().showSnackbar({
           color: 'error',

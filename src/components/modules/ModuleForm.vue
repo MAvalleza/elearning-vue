@@ -7,11 +7,13 @@ import { useCourses } from '@/stores/courses';
 import { STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { type Module } from '@/types/module';
+import { type Content } from '@/types/content';
 import TextEditor from '@/components/commons/TextEditor.vue';
 
 // -- PROP AND EMITS --
 interface Props {
   modelValue: Module,
+  content: Content | object,
   hideCourseField?: boolean,
 }
 
@@ -21,15 +23,16 @@ const props = withDefaults(defineProps<Props>(), {
     duration: 0,
     isPublished: false
   }),
+  content: () => ({ content: null }),
   /**
    * This will hide the course field.
    * 
    * Usually `true` when component is consumed in course/subject form
    **/
-  hideCourseField: false
+  hideCourseField: false,
 });
 
-const emit = defineEmits(['update:modelValue', 'submit']);
+const emit = defineEmits(['update:modelValue', 'update:content', 'submit']);
 
 // -------
 
@@ -40,6 +43,15 @@ const mod = computed({
   set(val) {
     emit('update:modelValue', val);
   },
+});
+
+const modContent = computed({
+  get() {
+    return props.content;
+  },
+  set(val) {
+    emit('update:content', val);
+  }
 });
 
 // Form handler
@@ -125,5 +137,5 @@ v-form(ref="form")
           )
     // Rich text editor
     div(style="height: 600px")
-      text-editor(v-model="mod.content")
+      text-editor(v-model="modContent.content")
 </template>

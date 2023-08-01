@@ -6,7 +6,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const props = defineProps({
   modelValue: {
-    type: Delta,
+    type: [Delta, Object],
     default: () => ({}),
   },
 })
@@ -15,7 +15,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const content = computed({
   get() {
-    return props.modelValue;
+    return new Delta(props.modelValue?.ops || {});
   },
   set(val) {
     emit('update:modelValue', val);

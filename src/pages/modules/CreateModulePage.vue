@@ -63,15 +63,21 @@ const newModule = ref({
   title: null,
   isPublished: false,
   duration: null,
+  content: null
 });
+
+// Content
+const newContent = ref({ content: null });
 
 async function createModule() {
   const data: {
     authorId: string,
-    courseId?: string
+    courseId?: string,
+    content?: typeof newContent.value.content
   } | typeof newModule.value = {
     ...newModule.value,
     authorId: currentUser.value.id,
+    content: newContent.value.content,
   };
 
   // If created through course/subject form
@@ -82,7 +88,7 @@ async function createModule() {
   await modulesStore.createModule(data);
 
   // Redirect
-  redirect()
+  redirect();
 }
 
 function redirect() {
@@ -126,6 +132,7 @@ page-content
   module-form(
     ref="form"
     v-model="newModule"
+    v-model:content="newContent"
     :hide-course-field="isCourseProvided"
     @submit="createModule"
   )
