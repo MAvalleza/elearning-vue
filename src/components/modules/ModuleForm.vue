@@ -12,21 +12,21 @@ import TextEditor from '@/components/commons/TextEditor.vue';
 
 // -- PROP AND EMITS --
 interface Props {
-  modelValue: Module,
-  content: Content | object,
-  hideCourseField?: boolean,
+  modelValue: Module;
+  content: Content | object;
+  hideCourseField?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: () => ({
     title: '',
     duration: 0,
-    isPublished: false
+    isPublished: false,
   }),
   content: () => ({ content: null }),
   /**
    * This will hide the course field.
-   * 
+   *
    * Usually `true` when component is consumed in course/subject form
    **/
   hideCourseField: false,
@@ -51,7 +51,7 @@ const modContent = computed({
   },
   set(val) {
     emit('update:content', val);
-  }
+  },
 });
 
 // Form handler
@@ -90,7 +90,7 @@ onMounted(() => {
   if (isEmpty(courses.value)) {
     fetchCourses();
   }
-})
+});
 </script>
 
 <template lang="pug">

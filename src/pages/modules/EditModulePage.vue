@@ -25,8 +25,10 @@ function definePageTitle() {
   return [
     !!subjectId.value && currentSubject.value.title,
     !!courseId.value && currentCourse.value.title,
-    currentModule.value.title
-  ].filter(Boolean).join(' > ')
+    currentModule.value.title,
+  ]
+    .filter(Boolean)
+    .join(' > ');
 }
 
 // UI
@@ -35,11 +37,14 @@ const { loading } = storeToRefs(uiStore);
 
 // Module
 const modulesStore = useModules();
-const { currentModule, currentModuleContent }: { currentModule: Ref, currentModuleContent: Ref } = storeToRefs(modulesStore);
+const {
+  currentModule,
+  currentModuleContent,
+}: { currentModule: Ref; currentModuleContent: Ref } =
+  storeToRefs(modulesStore);
 const moduleId: Ref = ref(route.params?.moduleId);
 const mod = ref({});
 const modContent = ref({ content: {} });
-
 
 async function fetchModule() {
   await modulesStore.fetchModule(moduleId.value);
@@ -67,7 +72,7 @@ async function updateModuleContent() {
     });
   } else {
     await contentsStore.updateContent(contentId, {
-      content: modContent.value.content
+      content: modContent.value.content,
     });
   }
 }
@@ -90,10 +95,7 @@ function submitForm() {
 
 // General operations
 async function update() {
-  await Promise.all([
-    updateModule(),
-    updateModuleContent(),
-  ]);
+  await Promise.all([updateModule(), updateModuleContent()]);
 
   redirect();
 }
@@ -112,12 +114,12 @@ function redirect() {
       params: {
         courseId: courseId.value,
         subjectId: subjectId.value,
-      }
-    }
+      },
+    },
   };
 
   if (sourceRoute) {
-    router.push(ROUTE_MAPPINGS[sourceRoute as keyof typeof ROUTE_MAPPINGS])
+    router.push(ROUTE_MAPPINGS[sourceRoute as keyof typeof ROUTE_MAPPINGS]);
   } else {
     router.push({ name: 'modules-list' });
   }

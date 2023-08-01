@@ -17,8 +17,8 @@ const createContentRoutes = routeInstance => {
       );
     }
 
-    const moduleId = request.queryParams.module
-    let collection = schema.contents
+    const moduleId = request.queryParams.module;
+    let collection = schema.contents;
 
     if (moduleId) {
       collection = schema.contents.where({ moduleId });

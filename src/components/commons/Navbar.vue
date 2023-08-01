@@ -21,19 +21,21 @@ const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
     onClick: () => {
-      router.push({ name: 'in-progress' })
+      router.push({ name: 'in-progress' });
     },
   },
   {
     title: 'Change Password',
     onClick: async () => {
       // TODO: Temporary mock implementation, normally we send email
-      const { token } = await authStore.requestResetPassword({ email: currentUser.value.email });
+      const { token } = await authStore.requestResetPassword({
+        email: currentUser.value.email,
+      });
 
       router.push({
         name: 'change-password',
-        query: { token }
-      })
+        query: { token },
+      });
     },
   },
   {

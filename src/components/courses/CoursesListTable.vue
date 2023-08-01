@@ -80,7 +80,8 @@ function getItemAuthor(item: GenericTableItem['item']) {
 }
 
 function getItemStatus(item: GenericTableItem['item']) {
-  const { status, isPublished }: { status?: string, isPublished: boolean } = item.raw;
+  const { status, isPublished }: { status?: string; isPublished: boolean } =
+    item.raw;
 
   return status || (isPublished ? 'Published' : 'Draft');
 }

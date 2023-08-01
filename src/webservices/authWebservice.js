@@ -7,7 +7,7 @@ export default class AuthWebservice extends Webservice {
       const response = await fetch(url);
 
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -21,9 +21,9 @@ export default class AuthWebservice extends Webservice {
         headers: this.requestHeaders,
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -37,9 +37,9 @@ export default class AuthWebservice extends Webservice {
         headers: this.requestHeaders,
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -48,7 +48,7 @@ export default class AuthWebservice extends Webservice {
   async logoutUser(token) {
     try {
       const url = this.parseURL({ path: 'logout' });
-    
+
       await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -56,7 +56,7 @@ export default class AuthWebservice extends Webservice {
           Authorization: token,
         },
       });
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -69,16 +69,13 @@ export default class AuthWebservice extends Webservice {
         params: data,
       });
 
-      const response = await fetch(
-        url,
-        {
-          method: 'GET',
-          headers: this.requestHeaders,
-        }
-      );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: this.requestHeaders,
+      });
 
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -96,9 +93,9 @@ export default class AuthWebservice extends Webservice {
         },
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -110,14 +107,14 @@ export default class AuthWebservice extends Webservice {
         path: 'signup/verification',
         params,
       });
-  
+
       const response = await fetch(url, {
         method: 'GET',
         headers: this.requestHeaders,
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -128,15 +125,15 @@ export default class AuthWebservice extends Webservice {
       const url = this.parseURL({
         path: 'signup/verification',
       });
-  
+
       const response = await fetch(url, {
         method: 'POST',
         headers: this.requestHeaders,
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }

@@ -7,7 +7,7 @@ export default class ContentsWebservice extends Webservice {
         path: 'contents',
         params,
       });
-  
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -17,7 +17,7 @@ export default class ContentsWebservice extends Webservice {
       });
 
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -26,7 +26,7 @@ export default class ContentsWebservice extends Webservice {
   async createContent(params, token) {
     try {
       const url = this.parseURL({ path: 'contents' });
-  
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -35,9 +35,9 @@ export default class ContentsWebservice extends Webservice {
         },
         body: JSON.stringify(params),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -46,7 +46,7 @@ export default class ContentsWebservice extends Webservice {
   async updateContent(id, data, token) {
     try {
       const url = this.parseURL({ path: `contents/${id}` });
-  
+
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -55,9 +55,9 @@ export default class ContentsWebservice extends Webservice {
         },
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -66,7 +66,7 @@ export default class ContentsWebservice extends Webservice {
   // async deleteModule(id, token) {
   //   try {
   //     const url = this.parseURL({ path: `modules/${id}` });
-  
+
   //     const response = await fetch(url, {
   //       method: 'DELETE',
   //       headers: {
@@ -74,7 +74,7 @@ export default class ContentsWebservice extends Webservice {
   //         Authorization: token,
   //       },
   //     });
-  
+
   //     return await response.json();
   //   } catch(e) {
   //     console.error(e);
@@ -85,7 +85,7 @@ export default class ContentsWebservice extends Webservice {
   // async getModule({ id, params }, token) {
   //   try {
   //     const url = this.parseURL({ path: `modules/${id}`, params });
-  
+
   //     const response = await fetch(url, {
   //       method: 'GET',
   //       headers: {
@@ -93,7 +93,7 @@ export default class ContentsWebservice extends Webservice {
   //         Authorization: token,
   //       },
   //     });
-  
+
   //     return await response.json();
   //   } catch(e) {
   //     console.error(e);

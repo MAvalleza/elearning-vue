@@ -34,7 +34,7 @@ function uploadImage(e: Event) {
   const file = (e.target as HTMLInputElement)?.files?.[0];
 
   if (!file) {
-    throw new Error('No file selected')
+    throw new Error('No file selected');
   }
 
   const reader = new FileReader();

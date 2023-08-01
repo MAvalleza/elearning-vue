@@ -8,18 +8,18 @@ const dialogMessage: Ref = ref('');
 const buttonText: Ref = ref('');
 const color: Ref = ref(null);
 
-const resolveResponse: Ref = ref(() => { });
-const rejectResponse: Ref = ref(() => { });
+const resolveResponse: Ref = ref(() => {});
+const rejectResponse: Ref = ref(() => {});
 
 defineExpose({
   open,
 });
 
 interface DialogOpts {
-  title: string,
-  message: string,
-  primaryAction: string,
-  primaryColor: string
+  title: string;
+  message: string;
+  primaryAction: string;
+  primaryColor: string;
 }
 
 async function open({

@@ -6,7 +6,7 @@ export default class CoursesWebservice extends Webservice {
         path: 'courses',
         params,
       });
-  
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -14,9 +14,9 @@ export default class CoursesWebservice extends Webservice {
           Authorization: token,
         },
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -25,7 +25,7 @@ export default class CoursesWebservice extends Webservice {
   async createCourse(params, token) {
     try {
       const url = this.parseURL({ path: 'courses' });
-  
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -34,9 +34,9 @@ export default class CoursesWebservice extends Webservice {
         },
         body: JSON.stringify(params),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -45,7 +45,7 @@ export default class CoursesWebservice extends Webservice {
   async updateCourse(id, data, token) {
     try {
       const url = this.parseURL({ path: `courses/${id}` });
-  
+
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -54,9 +54,9 @@ export default class CoursesWebservice extends Webservice {
         },
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -65,7 +65,7 @@ export default class CoursesWebservice extends Webservice {
   async deleteCourse(id, token) {
     try {
       const url = this.parseURL({ path: `courses/${id}` });
-  
+
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -73,9 +73,9 @@ export default class CoursesWebservice extends Webservice {
           Authorization: token,
         },
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -84,7 +84,7 @@ export default class CoursesWebservice extends Webservice {
   async getCourse({ id, params }, token) {
     try {
       const url = this.parseURL({ path: `courses/${id}`, params });
-  
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -92,9 +92,9 @@ export default class CoursesWebservice extends Webservice {
           Authorization: token,
         },
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }

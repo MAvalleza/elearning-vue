@@ -1,12 +1,12 @@
 <script setup lang="ts">
 interface Action {
-  icon: object,
-  title: string,
-  action: string
+  icon: object;
+  title: string;
+  action: string;
 }
 
 interface Props {
-  actions: Action[]
+  actions: Action[];
 }
 /**
  * @param {Object[]} actions[]
@@ -16,7 +16,7 @@ interface Props {
  */
 const props = withDefaults(defineProps<Props>(), {
   actions: () => [],
-})
+});
 
 const emit = defineEmits(['action']);
 

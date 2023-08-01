@@ -72,7 +72,7 @@ export const useModules = defineStore('modules', {
         await contentsStore().createContent({
           moduleId,
           content: data.content,
-          type: 'document' // Assigned 'document' when created thru rich text editor
+          type: 'document', // Assigned 'document' when created thru rich text editor
         });
 
         uiStore().showSnackbar({
@@ -168,13 +168,13 @@ export const useModules = defineStore('modules', {
 
         // Fetch content
         const contentResponse = await contentsStore().fetchContents({
-          module: id
+          module: id,
         });
 
         this.currentModule = { ...response };
-        
+
         // We get first element since we used fetch endpoint which returns array
-        this.currentModuleContent = { ...contentResponse?.[0] }
+        this.currentModuleContent = { ...contentResponse?.[0] };
       } catch (e) {
         uiStore().showSnackbar({
           color: 'error',

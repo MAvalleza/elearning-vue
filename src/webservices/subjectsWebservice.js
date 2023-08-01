@@ -6,7 +6,7 @@ export default class SubjectsWebservice extends Webservice {
         path: 'subjects',
         params,
       });
-  
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -14,9 +14,9 @@ export default class SubjectsWebservice extends Webservice {
           Authorization: token,
         },
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -25,7 +25,7 @@ export default class SubjectsWebservice extends Webservice {
   async createSubject(params, token) {
     try {
       const url = this.parseURL({ path: 'subjects' });
-  
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -34,9 +34,9 @@ export default class SubjectsWebservice extends Webservice {
         },
         body: JSON.stringify(params),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -45,7 +45,7 @@ export default class SubjectsWebservice extends Webservice {
   async getSubject({ id, params }, token) {
     try {
       const url = this.parseURL({ path: `subjects/${id}`, params });
-  
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -53,9 +53,9 @@ export default class SubjectsWebservice extends Webservice {
           Authorization: token,
         },
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -64,7 +64,7 @@ export default class SubjectsWebservice extends Webservice {
   async updateSubject(id, data, token) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
-  
+
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -73,9 +73,9 @@ export default class SubjectsWebservice extends Webservice {
         },
         body: JSON.stringify(data),
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }
@@ -84,7 +84,7 @@ export default class SubjectsWebservice extends Webservice {
   async deleteSubject(id, token) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
-  
+
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -92,9 +92,9 @@ export default class SubjectsWebservice extends Webservice {
           Authorization: token,
         },
       });
-  
+
       return await response.json();
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       throw e;
     }

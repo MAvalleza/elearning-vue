@@ -58,7 +58,7 @@ export default [
                     meta: { from: 'course' },
                     component: EditModulePage,
                     beforeEnter: [editCourseGuard],
-                  }
+                  },
                 ],
               },
             ],

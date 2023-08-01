@@ -22,7 +22,7 @@ export const useSubjects = defineStore('subjects', {
 
         const response = await webservice.getSubjects(
           params,
-          currentUser.accessToken,
+          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {

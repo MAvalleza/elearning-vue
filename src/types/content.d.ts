@@ -1,7 +1,7 @@
-import { Delta } from "@vueup/vue-quill";
+import { Delta } from '@vueup/vue-quill';
 
 interface Content {
-  moduleId: string,
-  content: string | file | Delta,
-  type: string,
+  moduleId: string;
+  content: string | file | Delta;
+  type: string;
 }

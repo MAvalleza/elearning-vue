@@ -80,7 +80,7 @@ const SUBJECT_MODULE_ROUTE_MAPPINGS = {
   params: {
     subjectId: subjectId.value,
     courseId: courseId.value,
-  }
+  },
 };
 
 function editModule(_event: Event, { item }: GenericTableItem) {
@@ -89,8 +89,8 @@ function editModule(_event: Event, { item }: GenericTableItem) {
       name: SUBJECT_MODULE_ROUTE_MAPPINGS.editRoute,
       params: {
         ...SUBJECT_MODULE_ROUTE_MAPPINGS.params,
-        moduleId: item.raw.id
-      }
+        moduleId: item.raw.id,
+      },
     });
   } else {
     router.push({
@@ -98,8 +98,8 @@ function editModule(_event: Event, { item }: GenericTableItem) {
       params: {
         courseId: courseId.value,
         moduleId: item.raw.id,
-      }
-    })
+      },
+    });
   }
 }
 
@@ -107,10 +107,13 @@ function defineCreateModuleRoute() {
   if (isFromSubject.value) {
     return {
       name: SUBJECT_MODULE_ROUTE_MAPPINGS.createRoute,
-      params: SUBJECT_MODULE_ROUTE_MAPPINGS.params
+      params: SUBJECT_MODULE_ROUTE_MAPPINGS.params,
     };
   } else {
-    return { name: 'course-create-module', params: { courseId: courseId.value } };
+    return {
+      name: 'course-create-module',
+      params: { courseId: courseId.value },
+    };
   }
 }
 

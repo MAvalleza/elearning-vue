@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref, computed } from 'vue';
 import { Delta, QuillEditor } from '@vueup/vue-quill';
-import BlotFormatter from 'quill-blot-formatter'
+import BlotFormatter from 'quill-blot-formatter';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const props = defineProps({
@@ -9,9 +9,9 @@ const props = defineProps({
     type: [Delta, Object],
     default: () => ({}),
   },
-})
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const content = computed({
   get() {
@@ -19,7 +19,7 @@ const content = computed({
   },
   set(val) {
     emit('update:modelValue', val);
-  }
+  },
 });
 
 const modules: Ref = ref({
@@ -28,13 +28,16 @@ const modules: Ref = ref({
 });
 
 const toolbarOptions: Ref = ref([
-  { 'header': [1, 2, 3, 4, 5, 6, false] },
-  'bold', 'italic', 'underline',
-  { 'list': 'ordered' }, { 'list': 'bullet' },
+  { header: [1, 2, 3, 4, 5, 6, false] },
+  'bold',
+  'italic',
+  'underline',
+  { list: 'ordered' },
+  { list: 'bullet' },
   'link',
   'image',
   'video',
-])
+]);
 </script>
 
 <template lang="pug">

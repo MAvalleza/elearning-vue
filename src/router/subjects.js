@@ -78,18 +78,18 @@ export default [
                               from: 'subject',
                             },
                             component: CreateModulePage,
-                            beforeEnter: [editSubjectGuard]
+                            beforeEnter: [editSubjectGuard],
                           },
                           {
                             path: '/subjects/:subjectId/courses/:courseId/modules/:moduleId',
                             name: 'subject-edit-module',
                             meta: { from: 'subject' },
                             component: EditModulePage,
-                            beforeEnter: [editSubjectGuard]
-                          }
-                        ]
-                      }
-                    ]
+                            beforeEnter: [editSubjectGuard],
+                          },
+                        ],
+                      },
+                    ],
                   },
                 ],
               },

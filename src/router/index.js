@@ -23,7 +23,7 @@ const routes = [
     meta: { layout: 'BlankLayout' },
     name: 'in-progress',
     component: InProgressPage,
-  }
+  },
 ];
 
 const router = createRouter({

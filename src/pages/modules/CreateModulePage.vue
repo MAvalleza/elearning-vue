@@ -18,7 +18,9 @@ const router = useRouter();
 
 // Flag if redirected from course form or subject form
 const SOURCE_ROUTES = ['course', 'subject'];
-const isCourseProvided = ref(route.meta?.from && SOURCE_ROUTES.includes(route.meta.from));
+const isCourseProvided = ref(
+  route.meta?.from && SOURCE_ROUTES.includes(route.meta.from)
+);
 
 // Course
 const coursesStore = useCourses();
@@ -35,15 +37,15 @@ const HEADER_BUTTON_OPTS = {
 
 function definePageTitle() {
   const routeMetaTitle = route.meta?.title;
-  const sourceRoute = route.meta?.from
+  const sourceRoute = route.meta?.from;
 
   const TITLE_MAPPING = {
     course: `${currentCourse.value.title} > ${routeMetaTitle}`,
-    subject: `${currentSubject.value.title} > ${currentCourse.value.title} > ${routeMetaTitle}`
+    subject: `${currentSubject.value.title} > ${currentCourse.value.title} > ${routeMetaTitle}`,
   };
 
   if (sourceRoute) {
-    return TITLE_MAPPING[sourceRoute as keyof typeof TITLE_MAPPING]
+    return TITLE_MAPPING[sourceRoute as keyof typeof TITLE_MAPPING];
   }
 
   return routeMetaTitle;
@@ -63,18 +65,20 @@ const newModule = ref({
   title: null,
   isPublished: false,
   duration: null,
-  content: null
+  content: null,
 });
 
 // Content
 const newContent = ref({ content: null });
 
 async function createModule() {
-  const data: {
-    authorId: string,
-    courseId?: string,
-    content?: typeof newContent.value.content
-  } | typeof newModule.value = {
+  const data:
+    | {
+        authorId: string;
+        courseId?: string;
+        content?: typeof newContent.value.content;
+      }
+    | typeof newModule.value = {
     ...newModule.value,
     authorId: currentUser.value.id,
     content: newContent.value.content,
@@ -103,11 +107,11 @@ function redirect() {
         subjectId: route.params?.subjectId,
         courseId: route.params?.courseId,
       },
-    }
+    },
   };
 
   if (route.meta?.from) {
-    router.push(ROUTER_DATA[route.meta.from as keyof typeof ROUTER_DATA])
+    router.push(ROUTER_DATA[route.meta.from as keyof typeof ROUTER_DATA]);
   } else {
     router.push({ name: 'modules-list' });
   }

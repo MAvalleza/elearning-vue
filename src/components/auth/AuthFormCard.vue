@@ -4,21 +4,21 @@ import { createRules } from '@/helpers/rulesHelper';
 import { ref, type Ref } from 'vue';
 
 interface FormField {
-  value: string,
-  component: string,
-  componentOpts: object
+  value: string;
+  component: string;
+  componentOpts: object;
 }
 
 interface Props {
-  title?: string,
-  fields?: FormField[],
-  buttonOpts?: object
+  title?: string;
+  fields?: FormField[];
+  buttonOpts?: object;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'Form',
   fields: () => [],
-  buttonOpts: () => ({})
+  buttonOpts: () => ({}),
 });
 
 const emit = defineEmits(['submit']);

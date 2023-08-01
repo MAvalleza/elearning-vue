@@ -5,7 +5,11 @@ import { storeToRefs } from 'pinia';
 import { useUI } from '@/stores/ui';
 import { useModules } from '@/stores/modules';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
-import { type TableActionOpt, type GenericTableItem, type TableOptions } from '@/types/data-table';
+import {
+  type TableActionOpt,
+  type GenericTableItem,
+  type TableOptions,
+} from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -68,8 +72,7 @@ function editModule(_event: Event, { item }: GenericTableItem) {
 async function deleteModule(id: string) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete Module',
-    message:
-      'Are you sure you want to delete this module?',
+    message: 'Are you sure you want to delete this module?',
     primaryAction: 'DELETE',
     primaryColor: 'error',
   });

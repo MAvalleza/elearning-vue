@@ -6,7 +6,11 @@ import uniqBy from 'lodash-es/uniqBy';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
-import { type GenericTableItem, type TableOptions, type TableActionOpt } from '@/types/data-table';
+import {
+  type GenericTableItem,
+  type TableOptions,
+  type TableActionOpt,
+} from '@/types/data-table';
 import { type Course } from '@/types/course';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
@@ -30,7 +34,8 @@ const { loading } = storeToRefs(uiStore);
 const confirmDialog: Ref = ref(null);
 
 const coursesStore = useCourses();
-const { courses, coursesTotal }: { courses: Ref, coursesTotal: Ref } = storeToRefs(coursesStore);
+const { courses, coursesTotal }: { courses: Ref; coursesTotal: Ref } =
+  storeToRefs(coursesStore);
 
 // Fetch params
 const initial = {
