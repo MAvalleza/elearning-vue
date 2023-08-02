@@ -14,7 +14,8 @@ interface Course {
 
   modules?: object[];
   totalModules?: number;
-  moduleIds: (number | string)[];
+  moduleIds?: (number | string)[];
+  totalDuration?: number;
 }
 
 export { Course };
