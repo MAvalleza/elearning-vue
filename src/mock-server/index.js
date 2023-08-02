@@ -2,17 +2,15 @@
 
 import { createServer } from 'miragejs';
 import models from './models';
-import factories from './factories';
+import seeder from './seeder';
 import createRoutes from './routes';
 
 const createMockServer = () => {
   let server = createServer({
     models, // entities and their relationships
-    factories, // fixtures for creating custom data
-
     // Seed initial data
     seeds(server) {
-      server.create('user');
+      seeder(server);
     },
     routes() {
       this.namespace = import.meta.env.VITE_API_NAMESPACE;

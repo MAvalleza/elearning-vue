@@ -51,7 +51,7 @@ There are 3 users:
 A sample instructor account has been created with these credentials, along with sample data
 
 ```
-email: 1@test
+email: tr@test
 password: 123
 ```
 
