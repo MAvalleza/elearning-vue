@@ -22,7 +22,7 @@ const createCourseRoutes = routeInstance => {
     }
 
     const collection = schema.courses.where({
-      authorId: authSession.user().id, // TODO: Conditionally assign this according to permissions
+      ...authSession.isInstructor() && { authorId: authSession.user().id },
       ...new RelationshipFilter(request.queryParams).params,
     });
 

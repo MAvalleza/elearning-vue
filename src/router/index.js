@@ -5,6 +5,7 @@ import authRoutes from './auth';
 import subjectRoutes from './subjects';
 import courseRoutes from './courses';
 import moduleRoutes from './modules';
+import studentRoutes from './student';
 import activityWatcher from '@/plugins/activity-watcher';
 import { ROLES } from '@/constants/roles-and-actions';
 import InProgressPage from '@/pages/temp/InProgressPage.vue';
@@ -20,6 +21,7 @@ const routes = [
   ...subjectRoutes,
   ...courseRoutes,
   ...moduleRoutes,
+  ...studentRoutes,
   // TODO: Temporary, placeholder route. (TO REMOVE)
   {
     path: '/in-progress',
@@ -63,7 +65,7 @@ function redirect() {
   if ([ROLES.ADMIN, ROLES.INSTRUCTOR].includes(role)) {
     return { name: 'subjects' };
   } else if (role === ROLES.STUDENT) {
-    return { name: 'courses' };
+    return { name: 'available-courses' };
   } else {
     return { name: 'login' };
   }

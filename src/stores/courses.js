@@ -36,6 +36,9 @@ export const useCourses = defineStore('courses', {
           ...(course.author && {
             authorName: `${course.author.firstName} ${course.author.lastName}`,
           }),
+          ...(course.modules && {
+            totalDuration: course.modules.reduce((acc, i) => acc + i.duration, 0)
+          }), 
           totalModules: size(course.moduleIds),
         }));
 

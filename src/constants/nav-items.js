@@ -13,7 +13,13 @@ const NAV_ITEMS = [
     title: 'Courses',
     icon: 'mdi-bookshelf',
     route: 'courses',
-    roles: [ADMIN, INSTRUCTOR, STUDENT],
+    roles: [ADMIN, INSTRUCTOR],
+  },
+  {
+    title: 'Courses',
+    icon: 'mdi-bookshelf',
+    route: 'available-courses',
+    roles: [STUDENT],
   },
   {
     title: 'Modules',
