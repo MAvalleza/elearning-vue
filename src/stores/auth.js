@@ -14,6 +14,9 @@ export const useAuth = defineStore('auth', {
     isAuthenticated(state) {
       return !!state.currentUser;
     },
+    currentUserRole(state) {
+      return state.currentUser?.role;
+    },
   },
   actions: {
     async registerUser(data) {

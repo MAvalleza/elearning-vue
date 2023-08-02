@@ -1,21 +1,25 @@
+import { ROLES } from "./roles-and-actions";
+
+const { ADMIN, INSTRUCTOR, STUDENT } = ROLES;
+
 const NAV_ITEMS = [
   {
     title: 'Subjects',
     icon: 'mdi-bookshelf',
     route: 'subjects',
-    roles: ['admin', 'instructor'],
+    roles: [ADMIN, INSTRUCTOR],
   },
   {
     title: 'Courses',
     icon: 'mdi-bookshelf',
     route: 'courses',
-    roles: ['admin', 'instructor'],
+    roles: [ADMIN, INSTRUCTOR, STUDENT],
   },
   {
     title: 'Modules',
     icon: 'mdi-bookshelf',
     route: 'modules',
-    roles: ['admin', 'instructor'],
+    roles: [ADMIN, INSTRUCTOR],
   },
 ];
 

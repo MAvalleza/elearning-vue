@@ -47,7 +47,7 @@ const USER_MENU_ITEMS = [
 ];
 
 const navItems = ref(
-  NAV_ITEMS.filter(item => item.roles.includes(currentUser.value.role))
+  NAV_ITEMS.filter(item => item.roles.includes(currentUser.value?.role))
 );
 </script>
 

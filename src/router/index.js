@@ -1,17 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import isEmpty from 'lodash-es/isEmpty';
 import { useAuth as authStore } from '@/stores/auth';
 import authRoutes from './auth';
 import subjectRoutes from './subjects';
 import courseRoutes from './courses';
 import moduleRoutes from './modules';
 import activityWatcher from '@/plugins/activity-watcher';
+import { ROLES } from '@/constants/roles-and-actions';
 import InProgressPage from '@/pages/temp/InProgressPage.vue';
 
 const routes = [
   {
     path: '/',
     name: 'index',
-    redirect: '/subjects',
+    // eslint-disable-next-line no-unused-vars
+    redirect: () => redirect(),
   },
   ...authRoutes,
   ...subjectRoutes,
@@ -32,13 +35,19 @@ const router = createRouter({
 });
 
 // Global navigation guard
-router.beforeResolve((to, from, next) => {
-  const isAuthenticated = authStore().isAuthenticated;
+// eslint-disable-next-line no-unused-vars
+router.beforeResolve((to, from) => {
+  // If authorized route and there is no user logged in
+  const isUnauthorized = to.meta.auth && !authStore().isAuthenticated;
 
-  if (to.meta.auth && !isAuthenticated) {
-    next({ name: 'login' });
-  } else {
-    next();
+  const role = authStore().currentUserRole;
+  // If the logged-in user's role is not allowed to access the page
+  const isNotAllowed = !isEmpty(to.meta?.roles) && !to.meta.roles.includes(role);
+
+  if (isUnauthorized) {
+    return { name: 'login' };
+  } else if (isNotAllowed) {
+    return { name: from.name };
   }
 });
 
@@ -47,5 +56,17 @@ router.afterEach(to => {
     activityWatcher();
   }
 });
+
+function redirect() {
+  const role = authStore().currentUser?.role;
+
+  if ([ROLES.ADMIN, ROLES.INSTRUCTOR].includes(role)) {
+    return { name: 'subjects' };
+  } else if (role === ROLES.STUDENT) {
+    return { name: 'courses' };
+  } else {
+    return { name: 'login' };
+  }
+}
 
 export default router;

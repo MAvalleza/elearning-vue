@@ -1,4 +1,5 @@
 import { useSubjects as subjectsStore } from '@/stores/subjects';
+import { ROLES } from '@/constants/roles-and-actions';
 import SubjectsListPage from '@/pages/subjects/SubjectsListPage.vue';
 import CreateSubjectPage from '@/pages/subjects/CreateSubjectPage.vue';
 import EditSubjectPage from '@/pages/subjects/EditSubjectPage.vue';
@@ -15,6 +16,7 @@ export default [
     meta: {
       auth: true,
       layout: 'AppLayout',
+      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR]
     },
     redirect: { name: 'subjects-list' },
     children: [
