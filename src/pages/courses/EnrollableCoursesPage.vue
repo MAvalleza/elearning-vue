@@ -1,27 +1,46 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-// import { useCourses } from '@/stores/c'
+import { reactive, onMounted, type Ref } from 'vue';
+import { useCourses } from '@/stores/courses'
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
+import { storeToRefs } from 'pinia';
 
-// TODO: Supply data
-const courses = ref([
-  {
-    title: 'Sample',
-    isPublished: true,
-    subject: { title: 'Sample subject' }
+// Course
+const coursesStore = useCourses();
+const { courses }: { courses: Ref } = storeToRefs(coursesStore);
+
+async function fetchCourses() {
+  await coursesStore.fetchCourses(fetchParams);
+}
+
+// Fetch params
+const initial = {
+  params: {
+    page: 1,
+    limit: 25,
+    keyword: null,
+    published: true,
+    subjectId: null,
+    join: ['modules', 'subject', 'author'],
   },
-  {
-    title: 'Sample',
-    isPublished: true,
-    subject: { title: 'Sample subject' }
+  total: {
+    current: 0,
+    overall: 0,
   },
-  {
-    title: 'Sample',
-    isPublished: true,
-    subject: { title: 'Sample subject' }
-  },
-])
+};
+
+let fetchParams = reactive({ ...initial.params });
+
+function initialize() {
+  coursesStore.$reset();
+  fetchParams = reactive({ ...initial.params });
+  fetchCourses();
+}
+
+
+onMounted(() => {
+  initialize();
+})
 </script>
 
 <template lang="pug">
