@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { reactive, onMounted, type Ref } from 'vue';
-import { useCourses } from '@/stores/courses'
+import { storeToRefs } from 'pinia';
+import debounce from 'lodash-es/debounce';
+import { useCourses } from '@/stores/courses';
+import { useUI } from '@/stores/ui';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
-import { storeToRefs } from 'pinia';
+
+// UI
+const uiStore = useUI();
+const { loading } = storeToRefs(uiStore);
 
 // Course
 const coursesStore = useCourses();
@@ -37,6 +43,8 @@ function initialize() {
   fetchCourses();
 }
 
+// Search
+const onSearch = debounce(() => fetchCourses(), 1000);
 
 onMounted(() => {
   initialize();
@@ -54,6 +62,35 @@ page-header
 // Content
 v-container(fluid)
   v-row
+    // Search bar
+    v-col
+      v-text-field(
+        v-model="fetchParams.keyword"
+        variant="outlined"
+        label="Search for a course"
+        placeholder="Enter a keyword"
+        @update:model-value="onSearch"
+      )
+    v-spacer
+    // Subject filter
+    v-col
+      v-select(
+        label="Subject"
+        variant="outlined"
+        :items="[]"
+      )
+
+    // Instructor filter
+    v-col
+      v-select(
+        label="Instructor"
+        variant="outlined"
+        :items="[]"
+      )
+  v-row(v-if="loading" justify="center")
+    v-col.text-center
+      v-progress-circular(indeterminate color="light-blue")
+  v-row(v-else)
     // Course cards
     v-col(
       v-for="(course, key) in courses"
