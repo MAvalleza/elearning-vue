@@ -48,10 +48,17 @@ There are 3 users:
 2. Instructor
 3. Student
 
-A sample instructor account has been created with these credentials, along with sample data
+Sample accounts are available:
 
+Instructor (w/ sample subjects, courses, and modules)
 ```
 email: tr@test
+password: 123
+```
+
+Student
+```
+email: s@test
 password: 123
 ```
 
