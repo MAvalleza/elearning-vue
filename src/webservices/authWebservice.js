@@ -1,10 +1,20 @@
 import Webservice from './base';
 
 export default class AuthWebservice extends Webservice {
-  async getUsers() {
+  async getUsers(params, token) {
     try {
-      const url = this.parseURL({ path: 'users' });
-      const response = await fetch(url);
+      const url = this.parseURL({
+        path: 'users',
+        params,
+      });
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+      });
 
       return await response.json();
     } catch (e) {

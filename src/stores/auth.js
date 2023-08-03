@@ -9,6 +9,9 @@ const webservice = new AuthWebservice();
 export const useAuth = defineStore('auth', {
   state: () => ({
     currentUser: null,
+    users: [],
+    usersTotal: 0,
+    loadingUsers: false,
   }),
   getters: {
     isAuthenticated(state) {
@@ -19,6 +22,32 @@ export const useAuth = defineStore('auth', {
     },
   },
   actions: {
+    async fetchUsers(params) {
+      try {
+        this.loadingUsers = true;
+
+        const response = await webservice.getUsers(
+          params,
+          this.currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        this.users = response.results;
+        this.usersTotal = response.count;
+
+        return this.users;
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: e.message,
+        });
+      } finally {
+        this.loadingUsers = false;
+      }
+    },
     async registerUser(data) {
       try {
         uiStore().setLoading(true);

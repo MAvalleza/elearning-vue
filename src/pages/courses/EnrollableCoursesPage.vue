@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { reactive, onMounted, type Ref } from 'vue';
+import { ref, watch, reactive, onMounted, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
+import { useAuth } from '@/stores/auth';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
+import { ROLES } from '@/constants/roles-and-actions';
 
 // UI
 const uiStore = useUI();
@@ -29,6 +31,7 @@ const initial = {
     keyword: null,
     published: true,
     subjectId: null,
+    authorId: null,
     join: ['modules', 'subject', 'author'],
   },
   total: {
@@ -48,6 +51,23 @@ function initialize() {
 
 // Search
 const onSearch = debounce(() => fetchCourses(), 1000);
+
+const instructorSearch = ref(null);
+
+// Proceed with search when current search query is not equal to previous one
+// And if there is no instructor selected
+watch(instructorSearch, val => {
+  val !== fetchParams.authorId && !fetchParams.authorId && searchInstructor(val);
+});
+
+const authStore = useAuth();
+const { users, loadingUsers } = storeToRefs(authStore);
+
+async function fetchUsers(keyword: string) {
+  await authStore.fetchUsers({ keyword, role: ROLES.INSTRUCTOR });
+}
+
+const searchInstructor = debounce(keyword => fetchUsers(keyword), 500);
 
 onMounted(() => {
   initialize();
@@ -81,12 +101,20 @@ v-container(fluid)
         v-model="fetchParams.subjectId"
         @update:model-value="onSearch"
       )
-    // Instructor filter
+    // Instructor search
+    // TODO: DIsplay first and last name
     v-col
-      v-select(
+      v-autocomplete(
+        v-model="fetchParams.authorId"
+        v-model:search="instructorSearch"
         label="Instructor"
         variant="outlined"
-        :items="[]"
+        item-value="id"
+        item-title="firstName"
+        hide-no-data
+        :items="users"
+        :loading="loadingUsers"
+        @update:model-value="onSearch"
       )
   v-row(v-if="loading" justify="center")
     v-col.text-center

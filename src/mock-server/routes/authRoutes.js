@@ -1,9 +1,34 @@
 import { faker } from '@faker-js/faker';
 import { Response } from 'miragejs';
 import { getTime, addDays } from 'date-fns';
+import { evaluateParams } from '../helpers/fetchParamsHelper';
+import { AuthSession } from '../helpers/authHelper';
 
 const createAuthRoutes = routeInstance => {
-  routeInstance.get('/users');
+  routeInstance.get('/users', (schema, request) => {
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const collection = schema.users.where({
+      ...request.queryParams.role && { role: request.queryParams.role }
+    });
+
+    const { count, results } = evaluateParams(schema, {
+      collection,
+      params: request.queryParams,
+    });
+
+    return new Response(200, { some: 'header' }, { count, results });
+  });
 
   routeInstance.get('/users/:id', (schema, request) => {
     let id = request.params.id;
@@ -148,6 +173,8 @@ const createAuthRoutes = routeInstance => {
     schema.db.activationTokens.update({ token }, { isExpired: true });
   });
 
+  // NOTE: Login and logout are not the best implementations
+  // But since this is a mock, we just simulate the process
   routeInstance.post('/login', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
 
