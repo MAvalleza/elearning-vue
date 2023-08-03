@@ -2,10 +2,12 @@
 import { reactive, onMounted, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import debounce from 'lodash-es/debounce';
+import isEmpty from 'lodash-es/isEmpty';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
+import SubjectSearch from '@/components/commons/SubjectSearch.vue';
 
 // UI
 const uiStore = useUI();
@@ -33,6 +35,7 @@ const initial = {
     current: 0,
     overall: 0,
   },
+  subjectParams: { published: true }
 };
 
 let fetchParams = reactive({ ...initial.params });
@@ -72,14 +75,12 @@ v-container(fluid)
         @update:model-value="onSearch"
       )
     v-spacer
-    // Subject filter
+    // Subject search
     v-col
-      v-select(
-        label="Subject"
-        variant="outlined"
-        :items="[]"
+      subject-search(
+        v-model="fetchParams.subjectId"
+        @update:model-value="onSearch"
       )
-
     // Instructor filter
     v-col
       v-select(
@@ -90,6 +91,9 @@ v-container(fluid)
   v-row(v-if="loading" justify="center")
     v-col.text-center
       v-progress-circular(indeterminate color="light-blue")
+  v-row(v-else-if="isEmpty(courses)")
+    v-col.text-center
+      h2 No courses available
   v-row(v-else)
     // Course cards
     v-col(

@@ -12,11 +12,12 @@ export const useSubjects = defineStore('subjects', {
     subjects: [],
     subjectsTotal: 0,
     currentSubject: {},
+    loadingSubjects: false,
   }),
   actions: {
     async fetchSubjects(params) {
       try {
-        uiStore().setLoading(true);
+        this.loadingSubjects = true;
 
         const currentUser = authStore().currentUser;
 
@@ -45,7 +46,7 @@ export const useSubjects = defineStore('subjects', {
           message: e.message,
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingSubjects = false;
       }
     },
     async createSubject(params) {
