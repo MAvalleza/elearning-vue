@@ -17,9 +17,12 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    const collection = schema.subjects.where({
-      ownerId: authSession.user().id,
-    });
+    let collection = schema.subjects;
+    const ownerId = request.queryParams.ownerId;
+
+    if (ownerId) {
+      collection = schema.subjects.where({ ownerId });
+    }
 
     const { count, results } = evaluateParams(schema, {
       collection,

@@ -4,6 +4,7 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
+import { useAuth } from '@/stores/auth';
 import {
   mapOptionsToParams,
   getTableStatusAction,
@@ -24,6 +25,10 @@ const HEADER_BUTTON_OPTS = {
   style: { color: 'black' },
   to: { name: 'create-subject' },
 };
+
+// Auth
+const authStore = useAuth();
+const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // UI states
 const uiStore = useUI();
@@ -59,6 +64,7 @@ const initial = {
     keyword: null,
     published: null,
     join: ['courses'],
+    ownerId: currentUser.value.id,
   },
   total: {
     current: 0,
