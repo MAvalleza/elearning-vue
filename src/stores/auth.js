@@ -35,7 +35,10 @@ export const useAuth = defineStore('auth', {
           throw Error(response.errors[0]);
         }
 
-        this.users = response.results;
+        this.users = response.results.map(res => ({
+          ...res,
+          normalizedName: `${res.firstName} ${res.lastName}`,
+        }));
         this.usersTotal = response.count;
 
         return this.users;
