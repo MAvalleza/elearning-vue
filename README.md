@@ -14,6 +14,8 @@ The MirageJS configs can be found in `src/mock-server`
 
 Note that whatever data you created will be lost once you refresh the app since they are saved within the front-end instance only.
 
+The initial start of the app might run slow since MirageJS is seeding mock data
+
 These mock implementations will be removed once an actual backend has been developed for this app.
 
 ## Installation
@@ -52,7 +54,7 @@ Sample accounts are available:
 
 Instructor (w/ sample subjects, courses, and modules)
 ```
-email: tr@test
+email: tr1@test
 password: 123
 ```
 
