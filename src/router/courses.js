@@ -5,6 +5,7 @@ import EditCoursePage from '@/pages/courses/EditCoursePage.vue';
 import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
 import EditModulePage from '@/pages/modules/EditModulePage.vue';
 import BlankLayout from '@/layouts/Blank.vue';
+import { ROLES } from '@/constants/roles-and-actions';
 
 export default [
   {
@@ -13,6 +14,7 @@ export default [
     meta: {
       auth: true,
       layout: 'AppLayout',
+      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR]
     },
     redirect: { name: 'courses-list' },
     children: [

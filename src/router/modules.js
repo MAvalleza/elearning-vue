@@ -1,6 +1,7 @@
 import ModulesListPage from '@/pages/modules/ModulesListPage.vue';
 import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
 import EditModulePage from '@/pages/modules/EditModulePage.vue';
+import { ROLES } from '@/constants/roles-and-actions';
 
 export default [
   {
@@ -9,6 +10,7 @@ export default [
     meta: {
       auth: true,
       layout: 'AppLayout',
+      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR]
     },
     redirect: { name: 'modules-list' },
     children: [
