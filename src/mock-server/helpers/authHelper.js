@@ -44,6 +44,10 @@ class AuthSession {
   isInstructor() {
     return this.user().role === ROLES.INSTRUCTOR;
   }
+
+  isStudent() {
+    return this.user().role === ROLES.STUDENT;
+  }
 }
 
 export { AuthSession };

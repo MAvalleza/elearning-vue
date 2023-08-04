@@ -5,18 +5,21 @@ import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { type Course } from '@/types/course';
 import { useCourses } from '@/stores/courses';
+import { useEnrollments } from '@/stores/enrollments';
 import { useUI } from '@/stores/ui';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
-import CourseInformationDialog from '@/components/courses/CourseInformationDialog.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
 import InstructorSearch from '@/components/commons/InstructorSearch.vue';
+import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
+import CourseInformationDialog from '@/components/courses/CourseInformationDialog.vue';
 
 // UI
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const infoDialog: Ref = ref(null);
+const confirmDialog: Ref = ref(null);
 
 // Course
 const coursesStore = useCourses();
@@ -49,9 +52,28 @@ let fetchParams = reactive({ ...initial.params });
 // Search
 const onSearch = debounce(() => fetchCourses(), 1000);
 
+// Enrollment
+const enrollmentsStore = useEnrollments();
+async function onEnrollCourse(course: Course) {
+  const confirm = await confirmDialog.value.open({
+    title: `Enroll in ${course.title}`,
+    message: 'Are you sure you want to enroll in this course?',
+    primaryAction: 'ENROLL',
+    primaryColor: 'light-blue',
+  });
+
+  if (confirm) {
+    await enrollmentsStore.createEnrollment({ courseId: course.id });
+  }
+}
+
 // View course
 async function onCourseSelect(selectedCourse: Course) {
-  await infoDialog.value.open(selectedCourse);
+  const isEnrollClicked = await infoDialog.value.open(selectedCourse);
+
+  if (isEnrollClicked) {
+    await enrollmentsStore.createEnrollment({ courseId: selectedCourse.id });
+  }
 }
 
 function initialize() {
@@ -66,6 +88,7 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
+page-confirm-dialog(ref="confirmDialog")
 course-information-dialog(ref="infoDialog")
 
 page-header
@@ -115,5 +138,9 @@ v-container(fluid)
       cols="12"
       lg="4"
     )
-      course-card(:course="course" @click="onCourseSelect(course)")
+      course-card(
+        :course="course"
+        @click="onCourseSelect(course)"
+        @click:enroll="onEnrollCourse(course)"
+      )
 </template>

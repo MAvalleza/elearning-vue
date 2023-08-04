@@ -1,6 +1,7 @@
 import { type User } from './user';
 
 interface Course {
+  id?: string
   title: string;
   description?: string;
   icon?: string;

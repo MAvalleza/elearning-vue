@@ -35,8 +35,17 @@ async function open(selectedCourse: Course) {
   });
 }
 
-function close() {
+function onEnrollClick() {
+  resolveResponse.value(true);
+  close();
+}
+
+function cancel() {
   resolveResponse.value(false);
+  close();
+}
+
+function close() {
   expandModules.value = false;
   isDialogVisible.value = false;
 }
@@ -48,7 +57,7 @@ v-dialog(v-model="isDialogVisible" width="500" persistent)
     v-toolbar(density="compact" color="light-blue")
       v-toolbar-title.text-overline Course Information
       v-spacer
-      v-btn(icon="mdi-close" @click="close")
+      v-btn(icon="mdi-close" @click="cancel")
     v-card-item
       div.text-overline
         | {{ course.subject.title }}
@@ -86,5 +95,6 @@ v-dialog(v-model="isDialogVisible" width="500" persistent)
         block
         variant="text"
         color="light-blue"
+        @click="onEnrollClick"
       ) ENROLL
 </template>

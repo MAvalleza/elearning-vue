@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<Props>(), {
   course: () => ({ title: 'Course', isPublished: false })
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'click:enroll']);
 
 const createdDate = computed(() => {
   if (props.course?.createdAt) {
@@ -20,6 +20,10 @@ const createdDate = computed(() => {
     return 'on unknown date';
   }
 })
+
+function onEnrollClick() {
+  emit('click:enroll');
+}
 </script>
 
 <template lang="pug">
@@ -46,5 +50,5 @@ v-card(
       p.text-caption Created {{ createdDate }}
   v-divider
   v-card-actions
-    v-btn(block color="light-blue" @click.stop="") ENROLL
+    v-btn(block color="light-blue" @click.stop="onEnrollClick") ENROLL
 </template>
