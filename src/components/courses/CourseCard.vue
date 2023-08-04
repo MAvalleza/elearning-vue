@@ -11,6 +11,8 @@ const props = withDefaults(defineProps<Props>(), {
   course: () => ({ title: 'Course', isPublished: false })
 });
 
+const emit = defineEmits(['click']);
+
 const createdDate = computed(() => {
   if (props.course?.createdAt) {
     return format(props.course.createdAt, 'MMM dd, yyyy');
@@ -25,6 +27,7 @@ v-card(
   height="330"
   rounded="lg"
   :elevation="5"
+  @click="emit('click')"
 )
   v-toolbar(color="light-blue").text-white.px-2
     | {{ props.course.subject?.title || 'Subject' }}
@@ -43,5 +46,5 @@ v-card(
       p.text-caption Created {{ createdDate }}
   v-divider
   v-card-actions
-    v-btn(block color="light-blue") ENROLL
+    v-btn(block color="light-blue" @click.stop="") ENROLL
 </template>

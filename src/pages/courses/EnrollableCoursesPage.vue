@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { reactive, onMounted, type Ref } from 'vue';
+import { reactive, onMounted, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
+import { type Course } from '@/types/course';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
+import CourseInformationDialog from '@/components/courses/CourseInformationDialog.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
 import InstructorSearch from '@/components/commons/InstructorSearch.vue';
 
 // UI
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
+
+const infoDialog: Ref = ref(null);
 
 // Course
 const coursesStore = useCourses();
@@ -42,14 +46,19 @@ const initial = {
 
 let fetchParams = reactive({ ...initial.params });
 
+// Search
+const onSearch = debounce(() => fetchCourses(), 1000);
+
+// View course
+async function onCourseSelect(selectedCourse: Course) {
+  await infoDialog.value.open(selectedCourse);
+}
+
 function initialize() {
   coursesStore.$reset();
   fetchParams = reactive({ ...initial.params });
   fetchCourses();
 }
-
-// Search
-const onSearch = debounce(() => fetchCourses(), 1000);
 
 onMounted(() => {
   initialize();
@@ -57,6 +66,8 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
+course-information-dialog(ref="infoDialog")
+
 page-header
   template(#content)
     v-container(fluid)
@@ -65,6 +76,7 @@ page-header
           h1 Welcome to the eLearning portal
           p Our course will step you through the process of building a small application, or adding a new feature to an existing application
 // Content
+// TODO: Create pagination
 v-container(fluid)
   v-row
     // Search bar
@@ -103,5 +115,5 @@ v-container(fluid)
       cols="12"
       lg="4"
     )
-      course-card(:course="course")
+      course-card(:course="course" @click="onCourseSelect(course)")
 </template>
