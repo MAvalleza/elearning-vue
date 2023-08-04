@@ -6,12 +6,11 @@ import debounce from 'lodash-es/debounce';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 
 interface Props {
-  modelValue?: string,
+  modelValue?: string | null,
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
-  showAllOption: true
+  modelValue: null,
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -36,7 +35,7 @@ watch(subjectSearch, val => {
 const subjectsStore = useSubjects();
 const { subjects, loadingSubjects } = storeToRefs(subjectsStore);
 
-async function fetchSubjects(keyword: string) {
+async function fetchSubjects(keyword?: string) {
   await subjectsStore.fetchSubjects({ keyword });
 }
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, ref, watch, type Ref } from 'vue';
-import debounce from 'lodash-es/debounce';
+import { computed, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useAuth } from '@/stores/auth';
+import { ROLES } from '@/constants/roles-and-actions';
 import { STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
-import { useSubjects } from '@/stores/subjects';
-import { useAuth } from '@/stores/auth';
 import ImageUploader from '@/components/commons/ImageUploader.vue';
+import SubjectSearch from '@/components/commons/SubjectSearch.vue';
 
 // -- PROP AND EMITS --
 const props = defineProps({
@@ -53,24 +53,6 @@ async function submit() {
 }
 
 defineExpose({ submit });
-
-// Subject search handlers
-const subjectSearch = ref(null);
-
-// Proceed with search when current search query is not equal to previous one
-// And if there is no subject selected
-watch(subjectSearch, val => {
-  val !== course.value.subject && !course.value.subjectId && searchSubject(val);
-});
-
-const subjectsStore = useSubjects();
-const { subjects } = storeToRefs(subjectsStore);
-
-async function fetchSubjects(keyword: string) {
-  await subjectsStore.fetchSubjects({ keyword });
-}
-
-const searchSubject = debounce(keyword => fetchSubjects(keyword), 500);
 </script>
 
 <template lang="pug">
@@ -89,23 +71,13 @@ v-form(ref="form")
         // Do not show when course is created thru subject
         template(v-if="!subject")
           v-col(cols="12" lg="6")
-            v-autocomplete(
-              v-model="course.subjectId"
-              v-model:search="subjectSearch"
-              label="Subject"
-              variant="outlined"
-              :items="subjects"
-              item-title="title"
-              item-value="id"
-              hide-no-data
-              :rules="[REQUIRED_RULE]"
-            )
+            subject-search(v-model="course.subjectId")
           v-col(cols="12" lg="6")
             v-text-field(
               v-model="currentUser.normalizedName"
               label="Author"
               variant="outlined"
-              disabled
+              :disabled="currentUser.role === ROLES.INSTRUCTOR"
             )
         v-col(cols="12" lg="6")
           v-select(
