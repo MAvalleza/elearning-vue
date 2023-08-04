@@ -13,7 +13,7 @@ export default {
   enrollment: Model.extend({
     user: belongsTo('user'),
     course: belongsTo('course'),
-    enrollment_modules: hasMany('enrollment_module'),
+    enrollmentModules: hasMany('enrollmentModule'),
   }),
 
   subject: Model.extend({
@@ -32,7 +32,7 @@ export default {
     author: belongsTo('user'),
     course: belongsTo('course'),
     contents: hasMany('content'),
-    enrollment_modules: hasMany('enrollment_module'),
+    enrollmentModules: hasMany('enrollmentModule'),
   }),
 
   content: Model.extend({
@@ -40,7 +40,7 @@ export default {
     module: belongsTo('module'),
   }),
 
-  enrollment_module: Model.extend({
+  enrollmentModule: Model.extend({
     module: belongsTo('module'),
     enrollment: belongsTo('enrollment'),
   }),

@@ -21,22 +21,22 @@ export default class EnrollmentsWebservice extends Webservice {
     }
   }
 
-  // async deleteEnrollment(id, token) {
-  //   try {
-  //     const url = this.parseURL({ path: `subjects/${id}` });
+  async deleteEnrollment(id, token) {
+    try {
+      const url = this.parseURL({ path: `enrollments/${id}` });
 
-  //     const response = await fetch(url, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         ...this.requestHeaders,
-  //         Authorization: token,
-  //       },
-  //     });
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          ...this.requestHeaders,
+          Authorization: token,
+        },
+      });
 
-  //     return await response.json();
-  //   } catch (e) {
-  //     console.error(e);
-  //     throw e;
-  //   }
-  // }
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
 }

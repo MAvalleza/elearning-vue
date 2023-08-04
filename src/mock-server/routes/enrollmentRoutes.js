@@ -35,6 +35,36 @@ const createEnrollmentRoutes = routeInstance => {
 
     return schema.enrollments.create(data).attrs;
   });
+
+  routeInstance.del('/enrollments/:id', (schema, request) => {
+    let id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAuthorized({ resource: 'enrollments', resourceId: id })) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    let enrollment = schema.enrollments.find(id);
+
+    // Delete associated enrollment modules
+    enrollment.enrollmentModules.destroy();
+
+    // Delete the actual enrollment
+    enrollment.destroy();
+
+    return new Response(
+      200,
+      { some: 'header' },
+      { deleted: id, resource: 'enrollments' }
+    );
+  });
 };
 
 export default createEnrollmentRoutes;
