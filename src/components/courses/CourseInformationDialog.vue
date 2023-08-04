@@ -88,7 +88,6 @@ v-dialog(v-model="isDialogVisible" width="500" persistent)
         @click="expandModules = !expandModules"
       )
         | {{ !expandModules ? 'Show Modules' : 'Hide Modules' }}
-    // TODO: ENROLL
     v-divider
     v-card-actions
       v-btn(
