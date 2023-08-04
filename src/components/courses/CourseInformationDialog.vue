@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue';
 import format from 'date-fns/format';
+import isEmpty from 'lodash-es/isEmpty';
 import { type Course } from '@/types/course';
 
 const isDialogVisible = ref(false)
@@ -14,6 +15,8 @@ const createdDate = computed(() => {
     return 'on unknown date';
   }
 })
+
+const expandModules = ref(false);
 
 defineExpose({
   open,
@@ -34,6 +37,7 @@ async function open(selectedCourse: Course) {
 
 function close() {
   resolveResponse.value(false);
+  expandModules.value = false;
   isDialogVisible.value = false;
 }
 </script>
@@ -50,7 +54,7 @@ v-dialog(v-model="isDialogVisible" width="500" persistent)
         | {{ course.subject.title }}
       div.text-h5
         strong {{ course.title }}
-    v-card-text.d-flex.flex-column
+    v-card-text
       div {{ course.description }}
       div.mt-3
         span.font-weight-medium Author:
@@ -58,7 +62,23 @@ v-dialog(v-model="isDialogVisible" width="500" persistent)
       div
         span.font-weight-medium Created:
         span &nbsp;{{ createdDate }}
-    // TODO: Modules
+      v-expand-transition
+        div(v-if="expandModules").mt-5
+          v-list(density="compact")
+            v-list-item(
+              v-for="(mod, key) in course.modules"
+              :key="key"
+              :title="mod.title"
+              prepend-icon="mdi-bookshelf"
+            )
+    v-card-actions.ml-2
+      v-btn(
+        variant="text"
+        color="primary"
+        :disabled="isEmpty(course.modules)"
+        @click="expandModules = !expandModules"
+      )
+        | {{ !expandModules ? 'Show Modules' : 'Hide Modules' }}
     // TODO: ENROLL
     v-divider
     v-card-actions
