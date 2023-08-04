@@ -71,7 +71,7 @@ v-form(ref="form")
         // Do not show when course is created thru subject
         template(v-if="!subject")
           v-col(cols="12" lg="6")
-            subject-search(v-model="course.subjectId")
+            subject-search(v-model="course.subjectId" required)
           v-col(cols="12" lg="6")
             v-text-field(
               v-model="currentUser.normalizedName"

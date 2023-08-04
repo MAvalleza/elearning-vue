@@ -7,11 +7,13 @@ import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { ROLES } from '@/constants/roles-and-actions';
 
 interface Props {
-  modelValue?: string,
+  modelValue?: string | null,
+  required?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
+  required: false,
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -49,12 +51,12 @@ v-autocomplete(
   v-model:search="instructorSearch"
   label="Instructor"
   variant="outlined"
-  item-title="firstName"
+  item-title="normalizedName"
   item-value="id"
   hide-no-data
   clearable
   :items="users"
   :loading="loadingUsers"
-  :rules="[REQUIRED_RULE]"
+  :rules="[required && REQUIRED_RULE]"
 )
 </template>

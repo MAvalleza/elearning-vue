@@ -7,10 +7,12 @@ import { REQUIRED_RULE } from '@/constants/validation-rules';
 
 interface Props {
   modelValue?: string | null,
+  required?: boolean,
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: null,
+  required: false,
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -54,6 +56,6 @@ v-autocomplete(
   clearable
   :items="subjects"
   :loading="loadingSubjects"
-  :rules="[REQUIRED_RULE]"
+  :rules="[required && REQUIRED_RULE]"
 )
 </template>
