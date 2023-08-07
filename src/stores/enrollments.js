@@ -13,6 +13,34 @@ export const useEnrollments = defineStore('enrollments', {
     loadingEnrollments: false,
   }),
   actions: {
+    async fetchEnrollments(params) {
+      try {
+        this.loadingEnrollments = true;
+
+        const currentUser = authStore().currentUser;
+
+        const response = await webservice.getEnrollments(
+          params,
+          currentUser.accessToken
+        );
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        this.enrollments = response.data;
+        this.enrollmentsTotal = response.totalCount;
+
+        return this.enrollments;
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: e.message,
+        });
+      } finally {
+        this.loadingEnrollments = false;
+      }
+    },
     async createEnrollment(params) {
       try {
         const currentUser = authStore().currentUser;

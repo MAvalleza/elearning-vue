@@ -1,7 +1,34 @@
 import { Response } from 'miragejs';
 import { AuthSession } from '../helpers/authHelper';
+import { evaluateParams } from '../helpers/fetchParamsHelper';
 
 const createEnrollmentRoutes = routeInstance => {
+  routeInstance.get('/enrollments', (schema, request) => {
+    const token = request.requestHeaders['Authorization'];
+    const params = request.queryParams;
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isStudent() && !authSession.isAdmin()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const collection = schema.enrollments.where({
+      userId: params.studentId,
+    });
+
+
+    const response = evaluateParams(schema, {
+      collection,
+      params,
+    });
+
+    return new Response(200, { some: 'header' }, response);
+  });
   routeInstance.post('/enrollments', (schema, request) => {
     let attrs = JSON.parse(request.requestBody);
     const token = request.requestHeaders['Authorization'];
