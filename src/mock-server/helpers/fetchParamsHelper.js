@@ -37,8 +37,12 @@ function evaluateParams(schema, { collection, params }) {
   }
 
   return {
+    data: data.models,
     count,
     results: data.models,
+    page: params.page ||  1,
+    limit: params.limit || 25,
+    totalCount: count,
   };
 }
 
