@@ -1,5 +1,5 @@
 import { ROLES } from '@/constants/roles-and-actions';
-import EnrollableCoursesPage from '@/pages/courses/EnrollableCoursesPage.vue';
+import EnrollableCoursesPage from '@/pages/student/EnrollableCoursesPage.vue';
 
 export default [
   {
