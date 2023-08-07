@@ -22,6 +22,12 @@ const NAV_ITEMS = [
     roles: [STUDENT],
   },
   {
+    title: 'My Courses',
+    icon: 'mdi-bookshelf',
+    route: 'enrolled-courses',
+    roles: [STUDENT],
+  },
+  {
     title: 'Modules',
     icon: 'mdi-bookshelf',
     route: 'modules',

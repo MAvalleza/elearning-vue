@@ -13,6 +13,26 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['click', 'click:enroll']);
 
+const authorName = computed(() => {
+  if (props.course?.authorName) {
+    return props.course.authorName;
+  } else if (props.course?.author) {
+    return `${props.course.author.firstName} ${props.course.author.lastName}`
+  } else {
+    return '';
+  }
+});
+
+const totalDuration = computed(() => {
+  if (props.course?.totalDuration) {
+    return props.course.totalDuration;
+  } else if (props.course?.modules) {
+    return props.course.modules.reduce((acc, i) => acc + i.duration, 0)
+  } else {
+    return 0;
+  }
+})
+
 const createdDate = computed(() => {
   if (props.course?.createdAt) {
     return format(props.course.createdAt, 'MMM dd, yyyy');
@@ -37,7 +57,7 @@ v-card(
     | {{ props.course.subject?.title || 'Subject' }}
     v-spacer
     v-icon(size="sm").pr-2 mdi-clock-outline
-    | {{ props.course.totalDuration || 0 }} min
+    | {{ totalDuration }} min
   v-card-text.text-center
     // Icon
     .icon
@@ -46,9 +66,10 @@ v-card(
     // Details
     .details.mt-5
       h3 {{ props.course.title }}
-      p.text-caption {{ props.course.authorName }}
+      p.text-caption {{ authorName }}
       p.text-caption Created {{ createdDate }}
   v-divider
   v-card-actions
-    v-btn(block color="light-blue" @click.stop="onEnrollClick") ENROLL
+    slot(name="action-btn")
+      v-btn(block color="light-blue" @click.stop="onEnrollClick") ENROLL
 </template>

@@ -1,4 +1,5 @@
 import { type User } from './user';
+import { type Module } from './module';
 
 interface Course {
   id?: string
@@ -13,7 +14,7 @@ interface Course {
   authorName?: string;
   author?: User;
 
-  modules?: object[];
+  modules?: Module[];
   totalModules?: number;
   moduleIds?: (number | string)[];
   totalDuration?: number;

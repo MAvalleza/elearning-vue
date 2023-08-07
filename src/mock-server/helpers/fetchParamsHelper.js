@@ -1,5 +1,16 @@
 import { isArray, isEmpty, pick, get } from 'lodash-es';
 
+class Response {
+  constructor({ data, count, params}) {
+    this.data = data;
+    this.count = count;
+    this.totalCount = count;
+    this.results = data;
+    this.page = params.page || 1;
+    this.limit = params.limit || 25;
+  }
+}
+
 function evaluateParams(schema, { collection, params }) {
   let data = collection;
 
@@ -30,20 +41,18 @@ function evaluateParams(schema, { collection, params }) {
 
   // Join foreign collections
   if (!isEmpty(collectionJoin.joinParams)) {
-    return {
+    return new Response({
+      data: collectionJoin.join(data.models),
       count,
-      results: collectionJoin.join(data.models),
-    };
+      params
+    });
   }
 
-  return {
+  return new Response({
     data: data.models,
     count,
-    results: data.models,
-    page: params.page ||  1,
-    limit: params.limit || 25,
-    totalCount: count,
-  };
+    params
+  });
 }
 
 class PaginationParams {

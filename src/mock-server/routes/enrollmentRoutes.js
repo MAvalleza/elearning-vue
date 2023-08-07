@@ -1,6 +1,7 @@
 import { Response } from 'miragejs';
 import { AuthSession } from '../helpers/authHelper';
 import { evaluateParams } from '../helpers/fetchParamsHelper';
+import omit from 'lodash-es/omit';
 
 const createEnrollmentRoutes = routeInstance => {
   routeInstance.get('/enrollments', (schema, request) => {
@@ -21,11 +22,26 @@ const createEnrollmentRoutes = routeInstance => {
       userId: params.studentId,
     });
 
-
+    // We evaluate the `join` parameter manually since we need to access multiple levels
+    // The `evaluateParams` helper currently supports one level only.
     const response = evaluateParams(schema, {
       collection,
-      params,
-    });
+      params: omit(params, 'join'),
+    })
+
+    if (params.join?.includes('course')) {
+      response.data = response.data.map(item => {
+        return {
+          ...item.attrs,
+          course: {
+            ...item.course.attrs,
+            ...params.join.includes('subject') && { subject: item.course.subject },
+            ...params.join.includes('author') && { author: item.course.author },
+            ...params.join.includes('modules') && { modules: item.course.modules.models }
+          }
+        }
+      })
+    }
 
     return new Response(200, { some: 'header' }, response);
   });
