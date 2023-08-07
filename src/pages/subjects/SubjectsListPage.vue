@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
+import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import {
   mapOptionsToParams,
   getTableStatusAction,
@@ -165,6 +166,7 @@ page-content
     v-bind="SUBJECTS_DATA_TABLE"
     :items="subjects"
     :items-length="subjectsTotal"
+    :items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
     :loading="loading"
     @click:row="editSubject"
     @update:options="onUpdateTableOptions"

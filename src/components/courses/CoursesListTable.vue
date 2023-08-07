@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import size from 'lodash-es/size';
 import { getTableStatusAction } from '@/helpers/tableHelper';
+import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import TableActions from '@/components/commons/TableActions.vue';
 import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 
@@ -114,6 +115,7 @@ component(
   :items="props.items"
   :items-length="props.itemsLength"
   :loading="props.loading"
+  :items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
   @click:row="onClickRow"
   @update:options="onUpdateTableOptions"
 )

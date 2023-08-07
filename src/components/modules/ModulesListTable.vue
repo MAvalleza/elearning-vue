@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { getTableStatusAction } from '@/helpers/tableHelper';
+import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import TableActions from '@/components/commons/TableActions.vue';
 import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 
@@ -103,6 +104,7 @@ component(
   :headers="defineHeaders()"
   :items="props.items"
   :items-length="props.itemsLength"
+  :items-items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
   :loading="props.loading"
   @click:row="onClickRow"
   @update:options="onUpdateTableOptions"
