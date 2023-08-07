@@ -14,7 +14,7 @@ const createMockServer = () => {
     seeds(server) {
       server.createList('user', 2).forEach((user) => {
         server.createList('subject', 5, { owner: user }).forEach((subject) => {
-          server.createList('course', 5, { author: user, subject }).forEach((course) => {
+          server.createList('course', 6, { author: user, subject }).forEach((course) => {
             server.createList('module', 3, {
               author: user,
               course,
