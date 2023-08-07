@@ -56,6 +56,6 @@ export default function seeder(server) {
     lastName: 'Test',
     role: ROLES.STUDENT,
     isActive: true,
-    createdAt: Date.now()
+    createdAt: Date.now(),
   });
-};
+}

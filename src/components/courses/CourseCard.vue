@@ -4,11 +4,11 @@ import { computed } from 'vue';
 import { type Course } from '@/types/course';
 
 interface Props {
-  course: Course
+  course: Course;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  course: () => ({ title: 'Course', isPublished: false })
+  course: () => ({ title: 'Course', isPublished: false }),
 });
 
 const emit = defineEmits(['click', 'click:enroll']);
@@ -17,7 +17,7 @@ const authorName = computed(() => {
   if (props.course?.authorName) {
     return props.course.authorName;
   } else if (props.course?.author) {
-    return `${props.course.author.firstName} ${props.course.author.lastName}`
+    return `${props.course.author.firstName} ${props.course.author.lastName}`;
   } else {
     return '';
   }
@@ -27,11 +27,11 @@ const totalDuration = computed(() => {
   if (props.course?.totalDuration) {
     return props.course.totalDuration;
   } else if (props.course?.modules) {
-    return props.course.modules.reduce((acc, i) => acc + i.duration, 0)
+    return props.course.modules.reduce((acc, i) => acc + i.duration, 0);
   } else {
     return 0;
   }
-})
+});
 
 const createdDate = computed(() => {
   if (props.course?.createdAt) {
@@ -39,7 +39,7 @@ const createdDate = computed(() => {
   } else {
     return 'on unknown date';
   }
-})
+});
 
 function onEnrollClick() {
   emit('click:enroll');

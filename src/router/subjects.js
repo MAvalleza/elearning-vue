@@ -16,7 +16,7 @@ export default [
     meta: {
       auth: true,
       layout: 'AppLayout',
-      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR]
+      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR],
     },
     redirect: { name: 'subjects-list' },
     children: [

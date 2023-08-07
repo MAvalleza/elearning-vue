@@ -4,9 +4,9 @@ import format from 'date-fns/format';
 import isEmpty from 'lodash-es/isEmpty';
 import { type Course } from '@/types/course';
 
-const isDialogVisible = ref(false)
+const isDialogVisible = ref(false);
 
-const course: Ref = ref({})
+const course: Ref = ref({});
 
 const createdDate = computed(() => {
   if (course.value?.createdAt) {
@@ -14,7 +14,7 @@ const createdDate = computed(() => {
   } else {
     return 'on unknown date';
   }
-})
+});
 
 const expandModules = ref(false);
 
@@ -22,11 +22,11 @@ defineExpose({
   open,
 });
 
-const resolveResponse: Ref = ref(() => { });
-const rejectResponse: Ref = ref(() => { });
+const resolveResponse: Ref = ref(() => {});
+const rejectResponse: Ref = ref(() => {});
 
 async function open(selectedCourse: Course) {
-  course.value = selectedCourse
+  course.value = selectedCourse;
   isDialogVisible.value = true;
 
   return new Promise((resolve, reject) => {

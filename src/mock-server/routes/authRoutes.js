@@ -19,7 +19,7 @@ const createAuthRoutes = routeInstance => {
     }
 
     const collection = schema.users.where({
-      ...request.queryParams.role && { role: request.queryParams.role }
+      ...(request.queryParams.role && { role: request.queryParams.role }),
     });
 
     const { count, results } = evaluateParams(schema, {

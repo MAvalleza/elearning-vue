@@ -44,7 +44,8 @@ router.beforeResolve((to, from) => {
 
   const role = authStore().currentUserRole;
   // If the logged-in user's role is not allowed to access the page
-  const isNotAllowed = !isEmpty(to.meta?.roles) && !to.meta.roles.includes(role);
+  const isNotAllowed =
+    !isEmpty(to.meta?.roles) && !to.meta.roles.includes(role);
 
   if (isUnauthorized) {
     return { name: 'login' };

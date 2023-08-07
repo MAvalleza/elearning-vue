@@ -7,8 +7,8 @@ import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { ROLES } from '@/constants/roles-and-actions';
 
 interface Props {
-  modelValue?: string | null,
-  required?: boolean
+  modelValue?: string | null;
+  required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,7 +24,7 @@ const instructorId = computed({
   },
   set(val) {
     emit('update:modelValue', val);
-  }
+  },
 });
 
 const instructorSearch = ref(null);

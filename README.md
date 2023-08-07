@@ -53,12 +53,14 @@ There are 3 users:
 Sample accounts are available:
 
 Instructor (w/ sample subjects, courses, and modules)
+
 ```
 email: tr1@test
 password: 123
 ```
 
 Student
+
 ```
 email: s@test
 password: 123

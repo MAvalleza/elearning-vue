@@ -2,7 +2,7 @@ import { type User } from './user';
 import { type Module } from './module';
 
 interface Course {
-  id?: string
+  id?: string;
   title: string;
   description?: string;
   icon?: string;

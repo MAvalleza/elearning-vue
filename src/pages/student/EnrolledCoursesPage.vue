@@ -38,7 +38,7 @@ function initialize() {
 
 onMounted(() => {
   initialize();
-})
+});
 </script>
 
 <template lang="pug">

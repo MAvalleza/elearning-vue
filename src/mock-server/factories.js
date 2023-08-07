@@ -1,11 +1,11 @@
-import { Factory } from 'miragejs'
+import { Factory } from 'miragejs';
 import { ROLES } from '@/constants/roles-and-actions';
 import { faker } from '@faker-js/faker';
 
 export default {
   user: Factory.extend({
     email(i) {
-      return `tr${i + 1}@test`
+      return `tr${i + 1}@test`;
     },
     password: '123',
     firstName(i) {
@@ -19,7 +19,7 @@ export default {
   }),
   subject: Factory.extend({
     title() {
-      return `SUB ${faker.word.noun()}` ;
+      return `SUB ${faker.word.noun()}`;
     },
     isPublished() {
       return faker.datatype.boolean();
@@ -52,5 +52,5 @@ export default {
     },
     createdAt: Date.now(),
     updatedAt: null,
-  })
-}
+  }),
+};

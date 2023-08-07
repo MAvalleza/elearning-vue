@@ -12,16 +12,18 @@ const createMockServer = () => {
     factories, // defines how to generate data
     // Seed initial data
     seeds(server) {
-      server.createList('user', 2).forEach((user) => {
-        server.createList('subject', 5, { owner: user }).forEach((subject) => {
-          server.createList('course', 6, { author: user, subject }).forEach((course) => {
-            server.createList('module', 3, {
-              author: user,
-              course,
-            })
-          })
-        })
-      })
+      server.createList('user', 2).forEach(user => {
+        server.createList('subject', 5, { owner: user }).forEach(subject => {
+          server
+            .createList('course', 6, { author: user, subject })
+            .forEach(course => {
+              server.createList('module', 3, {
+                author: user,
+                course,
+              });
+            });
+        });
+      });
 
       // Create student
       server.create('user', {
@@ -31,7 +33,7 @@ const createMockServer = () => {
         lastName: 'Test',
         role: ROLES.STUDENT,
         isActive: true,
-        createdAt: Date.now()
+        createdAt: Date.now(),
       });
     },
     routes() {

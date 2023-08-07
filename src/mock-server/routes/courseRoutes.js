@@ -22,7 +22,7 @@ const createCourseRoutes = routeInstance => {
     }
 
     const collection = schema.courses.where({
-      ...authSession.isInstructor() && { authorId: authSession.user().id },
+      ...(authSession.isInstructor() && { authorId: authSession.user().id }),
       ...new RelationshipFilter(request.queryParams).params,
     });
 

@@ -27,7 +27,7 @@ const createEnrollmentRoutes = routeInstance => {
     const response = evaluateParams(schema, {
       collection,
       params: omit(params, 'join'),
-    })
+    });
 
     if (params.join?.includes('course')) {
       response.data = response.data.map(item => {
@@ -35,12 +35,18 @@ const createEnrollmentRoutes = routeInstance => {
           ...item.attrs,
           course: {
             ...item.course.attrs,
-            ...params.join.includes('subject') && { subject: item.course.subject },
-            ...params.join.includes('author') && { author: item.course.author },
-            ...params.join.includes('modules') && { modules: item.course.modules.models }
-          }
-        }
-      })
+            ...(params.join.includes('subject') && {
+              subject: item.course.subject,
+            }),
+            ...(params.join.includes('author') && {
+              author: item.course.author,
+            }),
+            ...(params.join.includes('modules') && {
+              modules: item.course.modules.models,
+            }),
+          },
+        };
+      });
     }
 
     return new Response(200, { some: 'header' }, response);
@@ -86,7 +92,9 @@ const createEnrollmentRoutes = routeInstance => {
 
     const authSession = new AuthSession(schema, token);
 
-    if (!authSession.isAuthorized({ resource: 'enrollments', resourceId: id })) {
+    if (
+      !authSession.isAuthorized({ resource: 'enrollments', resourceId: id })
+    ) {
       return new Response(
         401,
         { some: 'header' },

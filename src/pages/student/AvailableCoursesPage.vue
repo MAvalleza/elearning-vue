@@ -44,7 +44,7 @@ const initial = {
     current: 0,
     overall: 0,
   },
-  subjectParams: { published: true }
+  subjectParams: { published: true },
 };
 
 let fetchParams = reactive({ ...initial.params });
@@ -84,7 +84,7 @@ function initialize() {
 
 onMounted(() => {
   initialize();
-})
+});
 </script>
 
 <template lang="pug">

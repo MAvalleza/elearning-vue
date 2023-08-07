@@ -14,7 +14,7 @@ export default [
     meta: {
       auth: true,
       layout: 'AppLayout',
-      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR]
+      roles: [ROLES.ADMIN, ROLES.INSTRUCTOR],
     },
     redirect: { name: 'courses-list' },
     children: [
@@ -22,7 +22,7 @@ export default [
         path: '',
         name: 'courses-list',
         meta: { title: 'Courses' },
-        component: CoursesListPage
+        component: CoursesListPage,
       },
       {
         path: 'create',

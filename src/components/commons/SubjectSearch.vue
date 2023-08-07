@@ -6,8 +6,8 @@ import debounce from 'lodash-es/debounce';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 
 interface Props {
-  modelValue?: string | null,
-  required?: boolean,
+  modelValue?: string | null;
+  required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,7 +23,7 @@ const subjectId = computed({
   },
   set(val) {
     emit('update:modelValue', val);
-  }
+  },
 });
 
 const subjectSearch = ref(null);

@@ -8,7 +8,7 @@ export default [
     meta: {
       auth: true,
       layout: 'AppLayout',
-      roles: [ROLES.STUDENT]
+      roles: [ROLES.STUDENT],
     },
     redirect: { name: 'available-courses' },
     children: [
@@ -23,7 +23,7 @@ export default [
         name: 'enrolled-courses',
         meta: { title: 'My Courses' },
         component: EnrolledCoursesPage,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];

@@ -1,4 +1,4 @@
-import { ROLES } from "./roles-and-actions";
+import { ROLES } from './roles-and-actions';
 
 const { ADMIN, INSTRUCTOR, STUDENT } = ROLES;
 

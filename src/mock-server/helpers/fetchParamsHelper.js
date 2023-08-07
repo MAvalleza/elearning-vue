@@ -1,7 +1,7 @@
 import { isArray, isEmpty, pick, get } from 'lodash-es';
 
 class Response {
-  constructor({ data, count, params}) {
+  constructor({ data, count, params }) {
     this.data = data;
     this.count = count;
     this.totalCount = count;
@@ -44,14 +44,14 @@ function evaluateParams(schema, { collection, params }) {
     return new Response({
       data: collectionJoin.join(data.models),
       count,
-      params
+      params,
     });
   }
 
   return new Response({
     data: data.models,
     count,
-    params
+    params,
   });
 }
 

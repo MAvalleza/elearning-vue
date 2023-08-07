@@ -19,7 +19,7 @@ const createSubjectRoutes = routeInstance => {
 
     const ownerId = request.queryParams.ownerId;
     const collection = schema.subjects.where({
-      ...ownerId && { ownerId }
+      ...(ownerId && { ownerId }),
     });
 
     const { count, results } = evaluateParams(schema, {
