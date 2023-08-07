@@ -1,5 +1,6 @@
 import { ROLES } from '@/constants/roles-and-actions';
-import EnrollableCoursesPage from '@/pages/student/EnrollableCoursesPage.vue';
+import AvailableCoursesPage from '@/pages/student/AvailableCoursesPage.vue';
+// import EnrolledCoursesPage from '@/pages/student/EnrolledCoursesPage.vue';
 
 export default [
   {
@@ -15,8 +16,14 @@ export default [
         path: 'courses',
         name: 'available-courses',
         meta: { title: 'Courses' },
-        component: EnrollableCoursesPage,
+        component: AvailableCoursesPage,
       },
+      // {
+      //   path: 'my-courses',
+      //   name: 'enrolled-courses',
+      //   meta: { title: 'My Courses' },
+      //   component: EnrolledCoursesPage,
+      // }
     ]
   }
 ];
