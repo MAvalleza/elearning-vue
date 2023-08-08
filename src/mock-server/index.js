@@ -5,6 +5,7 @@ import models from './models';
 import factories from './factories';
 import createRoutes from './routes';
 import { ROLES } from '@/constants/roles-and-actions';
+import userSerializer from './serializers/user';
 
 const createMockServer = () => {
   let server = createServer({
@@ -35,6 +36,9 @@ const createMockServer = () => {
         isActive: true,
         createdAt: Date.now(),
       });
+    },
+    serializers: {
+      user: userSerializer,
     },
     routes() {
       this.namespace = import.meta.env.VITE_API_NAMESPACE;
