@@ -1,12 +1,8 @@
 import queryString from 'query-string';
 
-interface RequestHeader {
-  'Content-Type': string;
-}
-
 export default class Webservice {
   apiNamespace: string;
-  requestHeaders: RequestHeader
+  requestHeaders: HeadersInit
 
   constructor() {
     this.apiNamespace = import.meta.env.VITE_API_NAMESPACE;
@@ -25,7 +21,7 @@ export default class Webservice {
     return stringified ? `?${stringified}` : '';
   }
 
-  parseURL({ path, params }: { path: string, params: object }) {
+  parseURL({ path, params }: { path: string, params?: object }) {
     const url = `${this.apiNamespace}/${path}${this.parseParams(params)}`;
 
     return url;
