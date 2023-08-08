@@ -2,9 +2,15 @@
 
 ## Overview
 
-IN PROGRESS
+**IN PROGRESS**
 
 Front-end training project for viewing subjects and courses.
+
+### In progress features
+- Permissions handling
+- Admin pages
+- Student pages (module viewer)
+- UI/UX Enhancements (full implementation of figma)
 
 ### Mock Implementation
 
