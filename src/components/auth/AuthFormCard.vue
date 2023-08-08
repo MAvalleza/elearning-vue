@@ -41,7 +41,7 @@ v-form(ref="authForm" @submit.prevent="onSubmit")
   v-card(rounded="xl").text-center.pa-6
     v-card-item
       div
-        router-link(:to="{ name: 'login'}").text-lg-h3 eLearning Portal
+        router-link(:to="{ name: 'login'}").text-lg-h3.text-black eLearning Portal
       div.text-md-h5.my-5 {{ props.title }}
     v-card-text.ma-5
       component(
