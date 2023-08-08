@@ -6,9 +6,9 @@ const ROLES = {
   INSTRUCTOR: 'instructor',
 };
 
-const ROLES_LIST = Object.keys(ROLES).map(attr => ({
-  text: capitalize(ROLES[attr]),
-  value: ROLES[attr],
+const ROLES_LIST = Object.keys(ROLES).map((attr: string) => ({
+  text: capitalize(ROLES[attr as keyof typeof ROLES]),
+  value: ROLES[attr as keyof typeof ROLES],
 }));
 
 const ACTIONS = {

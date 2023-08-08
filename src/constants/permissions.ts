@@ -10,7 +10,7 @@ const { USERS, SUBJECTS, COURSES, MODULES, MODULE_CONTENTS, ENROLLMENTS } =
 // Users
 mappings.set(USERS.VIEW_ANY, [ADMIN]);
 mappings.set(USERS.VIEW_ANY_STUDENT, [ADMIN, INSTRUCTOR]);
-mappings.set(USERS.DELETE, [ADMIN]);
+mappings.set(USERS.DELETE_ANY, [ADMIN]);
 
 // Subjects
 mappings.set(SUBJECTS.VIEW_ANY_UNPUBLISHED, [ADMIN]);
@@ -40,6 +40,6 @@ mappings.set(MODULE_CONTENTS.DELETE_ANY, [ADMIN]);
 mappings.set(ENROLLMENTS.CREATE, [STUDENT]);
 mappings.set(ENROLLMENTS.VIEW, [ADMIN, STUDENT]);
 mappings.set(ENROLLMENTS.UPDATE, [STUDENT]);
-mappings.set(ENROLLMENTS.DELETE, [ADMIN]);
+mappings.set(ENROLLMENTS.DELETE_ANY, [ADMIN]);
 
 export default mappings;
