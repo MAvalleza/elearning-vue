@@ -23,7 +23,7 @@ const confirmDialog: Ref = ref(null);
 
 // Course
 const coursesStore = useCourses();
-const { courses }: { courses: Ref } = storeToRefs(coursesStore);
+const { courses, coursesTotal }: { courses: Ref, coursesTotal: Ref } = storeToRefs(coursesStore);
 
 async function fetchCourses() {
   await coursesStore.fetchCourses(fetchParams);
@@ -33,7 +33,7 @@ async function fetchCourses() {
 const initial = {
   params: {
     page: 1,
-    limit: 25,
+    limit: 24,
     keyword: null,
     published: true,
     subjectId: null,
@@ -49,8 +49,13 @@ const initial = {
 
 let fetchParams = reactive({ ...initial.params });
 
+// Pagination
+function getPaginationLength() {
+  return Math.ceil(coursesTotal.value / fetchParams.limit);
+}
+
 // Search
-const onSearch = debounce(() => fetchCourses(), 1000);
+const onParamChange = debounce(() => fetchCourses(), 1000);
 
 // Enrollment
 const enrollmentsStore = useEnrollments();
@@ -109,20 +114,20 @@ v-container(fluid)
         variant="outlined"
         label="Search for a course"
         placeholder="Enter a keyword"
-        @update:model-value="onSearch"
+        @update:model-value="onParamChange"
       )
     v-spacer
     // Subject search
     v-col
       subject-search(
         v-model="fetchParams.subjectId"
-        @update:model-value="onSearch"
+        @update:model-value="onParamChange"
       )
     // Instructor search
     v-col
       instructor-search(
         v-model="fetchParams.authorId"
-        @update:model-value="onSearch"
+        @update:model-value="onParamChange"
       )
   v-row(v-if="loading" justify="center")
     v-col.text-center
@@ -142,5 +147,11 @@ v-container(fluid)
         :course="course"
         @click="onCourseSelect(course)"
         @click:enroll="onEnrollCourse(course)"
+      )
+    v-col(cols="12")
+      v-pagination(
+        v-model="fetchParams.page"
+        :length="getPaginationLength()"
+        @update:model-value="fetchCourses"
       )
 </template>
