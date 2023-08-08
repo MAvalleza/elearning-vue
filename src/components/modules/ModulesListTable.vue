@@ -104,7 +104,7 @@ component(
   :headers="defineHeaders()"
   :items="props.items"
   :items-length="props.itemsLength"
-  :items-items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
+  :items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
   :loading="props.loading"
   @click:row="onClickRow"
   @update:options="onUpdateTableOptions"
