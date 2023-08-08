@@ -33,7 +33,7 @@ Before running the project, make sure to setup a `.env` file at the root folder.
 We need to put the API namespace to be used for MirageJS:
 
 ```
-VITE_SWAPI_BASE_URL=https://swapi.dev/api
+VITE_API_NAMESPACE=/api
 ```
 
 Run the project with:
