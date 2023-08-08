@@ -26,12 +26,12 @@ const createCourseRoutes = routeInstance => {
       ...new RelationshipFilter(request.queryParams).params,
     });
 
-    const { count, results } = evaluateParams(schema, {
+    const response = evaluateParams(schema, {
       collection,
       params: request.queryParams,
     });
 
-    return new Response(200, { some: 'header' }, { count, results });
+    return new Response(200, { some: 'header' }, response);
   });
 
   routeInstance.post('/courses', (schema, request) => {

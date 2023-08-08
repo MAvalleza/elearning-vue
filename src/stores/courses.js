@@ -29,7 +29,7 @@ export const useCourses = defineStore('courses', {
           throw Error(response.errors[0]);
         }
 
-        const mappedCourses = response.results.map(course => ({
+        const mappedCourses = response.data.map(course => ({
           ...course,
           status: course.isPublished ? 'Published' : 'Draft',
           ...(course.subject && { subjectTitle: course.subject.title }),
@@ -46,7 +46,7 @@ export const useCourses = defineStore('courses', {
         }));
 
         this.courses = mappedCourses;
-        this.coursesTotal = response.count;
+        this.coursesTotal = response.totalCount;
 
         return mappedCourses;
       } catch (e) {

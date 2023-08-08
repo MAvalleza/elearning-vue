@@ -30,14 +30,14 @@ export const useSubjects = defineStore('subjects', {
           throw Error(response.errors[0]);
         }
 
-        const mappedSubjects = response.results.map(subject => ({
+        const mappedSubjects = response.data.map(subject => ({
           ...subject,
           status: subject.isPublished ? 'Published' : 'Draft',
           totalCourses: size(subject.courseIds),
         }));
 
         this.subjects = mappedSubjects;
-        this.subjectsTotal = response.count;
+        this.subjectsTotal = response.totalCount;
 
         return mappedSubjects;
       } catch (e) {

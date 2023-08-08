@@ -24,12 +24,12 @@ const createContentRoutes = routeInstance => {
       collection = schema.contents.where({ moduleId });
     }
 
-    const { count, results } = evaluateParams(schema, {
+    const response = evaluateParams(schema, {
       collection,
       params: request.queryParams,
     });
 
-    return new Response(200, { some: 'header' }, { count, results });
+    return new Response(200, { some: 'header' }, response);
   });
 
   routeInstance.post('/contents', (schema, request) => {

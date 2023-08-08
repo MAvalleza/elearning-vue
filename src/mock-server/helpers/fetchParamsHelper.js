@@ -3,9 +3,7 @@ import { isArray, isEmpty, pick, get } from 'lodash-es';
 class Response {
   constructor({ data, count, params }) {
     this.data = data;
-    this.count = count;
     this.totalCount = count;
-    this.results = data;
     this.page = params.page || 1;
     this.limit = params.limit || 25;
   }

@@ -22,12 +22,12 @@ const createAuthRoutes = routeInstance => {
       ...(request.queryParams.role && { role: request.queryParams.role }),
     });
 
-    const { count, results } = evaluateParams(schema, {
+    const response = evaluateParams(schema, {
       collection,
       params: request.queryParams,
     });
 
-    return new Response(200, { some: 'header' }, { count, results });
+    return new Response(200, { some: 'header' }, response);
   });
 
   routeInstance.get('/users/:id', (schema, request) => {

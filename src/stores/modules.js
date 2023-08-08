@@ -31,14 +31,14 @@ export const useModules = defineStore('modules', {
           throw Error(response.errors[0]);
         }
 
-        const mappedModules = response.results.map(mod => ({
+        const mappedModules = response.data.map(mod => ({
           ...mod,
           status: mod.isPublished ? 'Published' : 'Draft',
           courseTitle: mod.course.title,
         }));
 
         this.modules = mappedModules;
-        this.modulesTotal = response.count;
+        this.modulesTotal = response.totalCount;
 
         return mappedModules;
       } catch (e) {

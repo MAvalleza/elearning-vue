@@ -28,8 +28,8 @@ export const useContents = defineStore('contents', {
           throw Error(response.errors[0]);
         }
 
-        this.contents = response.results;
-        this.contentsTotal = response.count;
+        this.contents = response.data;
+        this.contentsTotal = response.totalCount;
 
         return this.contents;
       } catch (e) {
