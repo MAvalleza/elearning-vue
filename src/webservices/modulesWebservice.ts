@@ -1,7 +1,9 @@
 import Webservice from './base';
+import { type FetchParams } from '@/types/params';
+import { ModuleUpdateParams, type ModuleCreateParams } from '@/types/module';
 
 export default class ModulesWebservice extends Webservice {
-  async getModules(params, token) {
+  async getModules(params: FetchParams, token: string) {
     try {
       const url = this.parseURL({
         path: 'modules',
@@ -22,7 +24,7 @@ export default class ModulesWebservice extends Webservice {
       throw e;
     }
   }
-  async createModule(params, token) {
+  async createModule(params: ModuleCreateParams, token: string) {
     try {
       const url = this.parseURL({ path: 'modules' });
 
@@ -42,7 +44,7 @@ export default class ModulesWebservice extends Webservice {
     }
   }
 
-  async updateModule(id, data, token) {
+  async updateModule(id: string, data: ModuleUpdateParams, token: string) {
     try {
       const url = this.parseURL({ path: `modules/${id}` });
 
@@ -62,7 +64,7 @@ export default class ModulesWebservice extends Webservice {
     }
   }
 
-  async deleteModule(id, token) {
+  async deleteModule(id: string, token: string) {
     try {
       const url = this.parseURL({ path: `modules/${id}` });
 
@@ -81,7 +83,7 @@ export default class ModulesWebservice extends Webservice {
     }
   }
 
-  async getModule({ id, params }, token) {
+  async getModule({ id, params }: { id: string, params: { join: string[] } }, token: string) {
     try {
       const url = this.parseURL({ path: `modules/${id}`, params });
 

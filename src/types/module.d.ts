@@ -16,3 +16,19 @@ interface Module {
 
   content?: Delta | object;
 }
+interface ModuleCreateParams {
+  title: string;
+  isPublished: boolean;
+  duration: number;
+  authorId: string;
+  courseId: string;
+}
+
+interface ModuleUpdateParams {
+  title?: string;
+  isPublished?: boolean;
+  duration?: number;
+  courseId?: string;
+}
+
+export { ModuleCreateParams, ModuleUpdateParams }
