@@ -1,6 +1,9 @@
 import Webservice from './base';
+import { type FetchParams } from '@/types/params';
+import { type SubjectCreateParams } from '@/types/subject';
+
 export default class SubjectsWebservice extends Webservice {
-  async getSubjects(params, token) {
+  async getSubjects(params: FetchParams, token: string) {
     try {
       const url = this.parseURL({
         path: 'subjects',
@@ -22,7 +25,7 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async createSubject(params, token) {
+  async createSubject(params: SubjectCreateParams, token: string) {
     try {
       const url = this.parseURL({ path: 'subjects' });
 
@@ -42,7 +45,7 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async getSubject({ id, params }, token) {
+  async getSubject({ id, params }: { id: string, params: { join: string[] } }, token: string) {
     try {
       const url = this.parseURL({ path: `subjects/${id}`, params });
 
@@ -61,7 +64,7 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async updateSubject(id, data, token) {
+  async updateSubject(id: string, data: Partial<SubjectCreateParams>, token: string) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
 
@@ -81,7 +84,7 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async deleteSubject(id, token) {
+  async deleteSubject(id: string, token: string) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
 
