@@ -5,3 +5,12 @@ interface Content {
   content: string | file | Delta;
   type: string;
 }
+
+interface ContentFetchParams {
+  module: string;
+}
+
+export {
+  Content,
+  ContentFetchParams,
+}

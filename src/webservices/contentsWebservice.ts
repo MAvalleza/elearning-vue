@@ -1,7 +1,8 @@
 import Webservice from './base';
+import { type ContentFetchParams, type Content } from '@/types/content';
 
 export default class ContentsWebservice extends Webservice {
-  async getContents(params, token) {
+  async getContents(params: ContentFetchParams, token: string) {
     try {
       const url = this.parseURL({
         path: 'contents',
@@ -23,7 +24,7 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  async createContent(params, token) {
+  async createContent(params: Content, token: string) {
     try {
       const url = this.parseURL({ path: 'contents' });
 
@@ -43,7 +44,7 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  async updateContent(id, data, token) {
+  async updateContent(id: string, data: { content: Content['content'] }, token: string) {
     try {
       const url = this.parseURL({ path: `contents/${id}` });
 
@@ -62,42 +63,4 @@ export default class ContentsWebservice extends Webservice {
       throw e;
     }
   }
-
-  // async deleteModule(id, token) {
-  //   try {
-  //     const url = this.parseURL({ path: `modules/${id}` });
-
-  //     const response = await fetch(url, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         ...this.requestHeaders,
-  //         Authorization: token,
-  //       },
-  //     });
-
-  //     return await response.json();
-  //   } catch(e) {
-  //     console.error(e);
-  //     throw e;
-  //   }
-  // }
-
-  // async getModule({ id, params }, token) {
-  //   try {
-  //     const url = this.parseURL({ path: `modules/${id}`, params });
-
-  //     const response = await fetch(url, {
-  //       method: 'GET',
-  //       headers: {
-  //         ...this.requestHeaders,
-  //         Authorization: token,
-  //       },
-  //     });
-
-  //     return await response.json();
-  //   } catch(e) {
-  //     console.error(e);
-  //     throw e;
-  //   }
-  // }
 }
