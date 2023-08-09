@@ -1,5 +1,6 @@
 import { type User } from './user';
 import { type Module } from './module';
+import { type FetchParams } from './params';
 
 interface Course {
   id?: string;
@@ -20,4 +21,21 @@ interface Course {
   totalDuration?: number;
 }
 
-export { Course };
+interface FetchCoursesParams extends FetchParams {
+  subjectId?: string
+}
+
+interface GetCourseParams {
+  join: string[],
+}
+
+interface CourseDataParams {
+  title?: string;
+  description?: string;
+  icon?: string;
+  isPublished?: boolean;
+  authorId?: string;
+  subjectId?: string;
+}
+
+export { Course, FetchCoursesParams, CourseDataParams, GetCourseParams };

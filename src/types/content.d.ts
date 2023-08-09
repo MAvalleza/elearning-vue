@@ -1,4 +1,5 @@
 import { Delta } from '@vueup/vue-quill';
+import { FetchParams } from './params';
 
 interface Content {
   moduleId: string;
@@ -6,11 +7,11 @@ interface Content {
   type: string;
 }
 
-interface ContentFetchParams {
+interface FetchContentsParams extends FetchParams {
   module: string;
 }
 
 export {
   Content,
-  ContentFetchParams,
+  FetchContentsParams,
 }

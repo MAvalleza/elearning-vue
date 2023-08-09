@@ -1,8 +1,8 @@
 import Webservice from './base';
-import { type ContentFetchParams, type Content } from '@/types/content';
+import { type FetchContentsParams, type Content } from '@/types/content';
 
 export default class ContentsWebservice extends Webservice {
-  async getContents(params: ContentFetchParams, token: string) {
+  async getContents(params: FetchContentsParams, token: string) {
     try {
       const url = this.parseURL({
         path: 'contents',
