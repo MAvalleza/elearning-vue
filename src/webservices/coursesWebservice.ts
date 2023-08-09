@@ -1,5 +1,5 @@
 import Webservice from './base';
-import { type FetchCoursesParams, type CourseDataParams, type GetCourseParams } from '@/types/course';
+import { type FetchCoursesParams, type CourseCreateParams, type GetCourseParams } from '@/types/course';
 
 export default class CoursesWebservice extends Webservice {
   async getCourses(params: FetchCoursesParams, token: string) {
@@ -24,7 +24,7 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async createCourse(params: CourseDataParams, token: string) {
+  async createCourse(params: CourseCreateParams, token: string) {
     try {
       const url = this.parseURL({ path: 'courses' });
 
@@ -44,7 +44,7 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async updateCourse(id: string, data: CourseDataParams, token: string) {
+  async updateCourse(id: string, data: Partial<CourseCreateParams>, token: string) {
     try {
       const url = this.parseURL({ path: `courses/${id}` });
 

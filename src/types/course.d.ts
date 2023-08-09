@@ -29,13 +29,13 @@ interface GetCourseParams {
   join: string[],
 }
 
-interface CourseDataParams {
-  title?: string;
-  description?: string;
+interface CourseCreateParams {
+  title: string;
+  description: string;
   icon?: string;
-  isPublished?: boolean;
-  authorId?: string;
-  subjectId?: string;
+  isPublished: boolean;
+  authorId: string;
+  subjectId: string;
 }
 
-export { Course, FetchCoursesParams, CourseDataParams, GetCourseParams };
+export { Course, FetchCoursesParams, CourseCreateParams, GetCourseParams };

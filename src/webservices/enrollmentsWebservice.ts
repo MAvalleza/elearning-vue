@@ -1,4 +1,4 @@
-import { type EnrollmentDataParams, type FetchEnrollmentsParams } from '@/types/enrollment';
+import { type EnrollmentCreateParams, type FetchEnrollmentsParams } from '@/types/enrollment';
 import Webservice from './base';
 
 export default class EnrollmentsWebservice extends Webservice {
@@ -24,7 +24,7 @@ export default class EnrollmentsWebservice extends Webservice {
     }
   }
 
-  async createEnrollment(params: EnrollmentDataParams, token: string) {
+  async createEnrollment(params: EnrollmentCreateParams, token: string) {
     try {
       const url = this.parseURL({ path: 'enrollments' });
 

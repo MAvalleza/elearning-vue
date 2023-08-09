@@ -4,8 +4,8 @@ interface FetchEnrollmentsParams extends FetchParams {
   subjectId?: string
 }
 
-interface EnrollmentDataParams {
+interface EnrollmentCreateParams {
   courseId: string,
 }
 
-export { FetchEnrollmentsParams, EnrollmentDataParams }
+export { FetchEnrollmentsParams, EnrollmentCreateParams }
