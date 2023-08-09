@@ -1,7 +1,15 @@
 import Webservice from './base';
 
+interface UserData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+}
+
 export default class AuthWebservice extends Webservice {
-  async getUsers(params, token) {
+  async getUsers(params: object, token: string) {
     try {
       const url = this.parseURL({
         path: 'users',
@@ -23,7 +31,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async signUpUser(data) {
+  async signUpUser(data: UserData) {
     try {
       const url = this.parseURL({ path: 'signup' });
       const response = await fetch(url, {
@@ -39,7 +47,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async loginUser(data) {
+  async loginUser(data: { email: string, password: string }) {
     try {
       const url = this.parseURL({ path: 'login' });
       const response = await fetch(url, {
@@ -55,7 +63,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async logoutUser(token) {
+  async logoutUser(token: string) {
     try {
       const url = this.parseURL({ path: 'logout' });
 
@@ -72,7 +80,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async requestResetPassword(data) {
+  async requestResetPassword(data: { email: string }) {
     try {
       const url = this.parseURL({
         path: 'password',
@@ -91,7 +99,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async resetPassword(data, token) {
+  async resetPassword(data: { password: string }, token: string) {
     try {
       const url = this.parseURL({ path: 'password' });
 
@@ -111,7 +119,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async activateAccount(params) {
+  async activateAccount(params: { token: string }) {
     try {
       const url = this.parseURL({
         path: 'signup/verification',
@@ -130,7 +138,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async createVerification(data) {
+  async createVerification(data: { email: string }) {
     try {
       const url = this.parseURL({
         path: 'signup/verification',
