@@ -1,4 +1,4 @@
-import { FetchParams } from "./params";
+import { type FetchParams } from './params';
 
 interface FetchEnrollmentsParams extends FetchParams {
   subjectId?: string
