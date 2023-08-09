@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuth } from '@/stores/auth';
 import { useEnrollments } from '@/stores/enrollments';
@@ -7,7 +7,7 @@ import CourseCard from '@/components/courses/CourseCard.vue';
 
 // Auth
 const authStore = useAuth();
-const { currentUser } = storeToRefs(authStore);
+const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Enrollments
 const enrollmentsStore = useEnrollments();
