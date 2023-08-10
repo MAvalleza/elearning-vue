@@ -1,3 +1,4 @@
+import { type PasswordRequest } from '@/types/auth';
 import Webservice from './base';
 
 interface UserData {
@@ -80,7 +81,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async requestResetPassword(data: { email: string }) {
+  async requestResetPassword(data: PasswordRequest) {
     try {
       const url = this.parseURL({
         path: 'password',

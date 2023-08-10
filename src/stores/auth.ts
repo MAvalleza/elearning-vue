@@ -3,13 +3,15 @@ import AuthWebservice from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
+import { type User, type CurrentUser, type FetchUsersParams, UserCreateParams } from '@/types/user';
+import { type PasswordRequest } from '@/types/auth';
 
 const webservice = new AuthWebservice();
 
 export const useAuth = defineStore('auth', {
   state: () => ({
-    currentUser: {},
-    users: [],
+    currentUser: {} as CurrentUser,
+    users: [] as User[],
     usersTotal: 0,
     loadingUsers: false,
   }),
@@ -22,7 +24,7 @@ export const useAuth = defineStore('auth', {
     },
   },
   actions: {
-    async fetchUsers(params) {
+    async fetchUsers(params: FetchUsersParams) {
       try {
         this.loadingUsers = true;
 
@@ -35,7 +37,7 @@ export const useAuth = defineStore('auth', {
           throw Error(response.errors[0]);
         }
 
-        this.users = response.data.map(res => ({
+        this.users = (response.data as User[]).map(res => ({
           ...res,
           normalizedName: `${res.firstName} ${res.lastName}`,
         }));
@@ -43,15 +45,19 @@ export const useAuth = defineStore('auth', {
 
         return this.users;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
+        
+        return [];
       } finally {
         this.loadingUsers = false;
       }
     },
-    async registerUser(data) {
+    async registerUser(data: UserCreateParams) {
       try {
         uiStore().setLoading(true);
 
@@ -71,15 +77,17 @@ export const useAuth = defineStore('auth', {
 
         return response;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
       } finally {
         uiStore().setLoading(false);
       }
     },
-    async loginUser(data) {
+    async loginUser(data: { email: string, password: string }) {
       try {
         uiStore().setLoading(true);
 
@@ -98,10 +106,12 @@ export const useAuth = defineStore('auth', {
 
         throw new Error(response.errors.message);
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
 
         uiStore().setLoading(false);
       }
@@ -118,7 +128,7 @@ export const useAuth = defineStore('auth', {
       this.$router.push({ name: 'login' });
     },
 
-    async requestResetPassword(data) {
+    async requestResetPassword(data: PasswordRequest) {
       try {
         uiStore().setLoading(true);
 
@@ -135,15 +145,17 @@ export const useAuth = defineStore('auth', {
 
         return response;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
       } finally {
         uiStore().setLoading(false);
       }
     },
-    async resetPassword({ password }, token) {
+    async resetPassword({ password }: { password: string }, token: string) {
       try {
         uiStore().setLoading(true);
 
@@ -158,17 +170,19 @@ export const useAuth = defineStore('auth', {
           message: 'Password reset successful.',
         });
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
       } finally {
         uiStore().setLoading(false);
 
         this.$router.push({ name: 'login' });
       }
     },
-    async activateAccount(token) {
+    async activateAccount(token: string) {
       try {
         uiStore().setLoading(true);
 
@@ -189,7 +203,7 @@ export const useAuth = defineStore('auth', {
         uiStore().setLoading(false);
       }
     },
-    async resendVerification(data) {
+    async resendVerification(data: { email: string }) {
       uiStore().setLoading(true);
 
       const response = await webservice.createVerification(data);
