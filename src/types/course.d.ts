@@ -4,10 +4,10 @@ import { type FetchParams } from './params';
 
 interface Course {
   id?: string;
-  title: string;
+  title?: string;
   description?: string;
   icon?: string;
-  isPublished: boolean;
+  isPublished?: boolean;
   createdAt?: number;
   updatedAt?: number | null;
   subject?: object;

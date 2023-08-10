@@ -6,6 +6,8 @@ import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
 import EditModulePage from '@/pages/modules/EditModulePage.vue';
 import BlankLayout from '@/layouts/Blank.vue';
 import { ROLES } from '@/constants/roles-and-actions';
+import { type RouteLocationNormalized, type NavigationGuard } from 'vue-router';
+import { type Course } from '@/types/course';
 
 export default [
   {
@@ -71,9 +73,9 @@ export default [
   },
 ];
 
-function editCourseGuard(to, from, next) {
+function editCourseGuard(to: RouteLocationNormalized, _from: RouteLocationNormalized, next: Parameters<NavigationGuard>[2]) {
   // No bypassing allowed, `currentCourse` is updated in store when we access the main edit form first
-  const course = coursesStore().currentCourse;
+  const course: Course = coursesStore().currentCourse;
   if (to.params.courseId !== course.id) {
     next({ name: 'edit-course', params: { courseId: to.params.courseId } });
   } else {

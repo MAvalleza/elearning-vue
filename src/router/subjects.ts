@@ -8,6 +8,8 @@ import EditCoursePage from '@/pages/courses/EditCoursePage.vue';
 import CreateModulePage from '@/pages/modules/CreateModulePage.vue';
 import EditModulePage from '@/pages/modules/EditModulePage.vue';
 import BlankLayout from '@/layouts/Blank.vue';
+import { type RouteLocationNormalized, type NavigationGuard } from 'vue-router';
+import { type Subject } from '@/types/subject';
 
 export default [
   {
@@ -103,9 +105,9 @@ export default [
   },
 ];
 
-function editSubjectGuard(to, from, next) {
+function editSubjectGuard(to: RouteLocationNormalized, _from: RouteLocationNormalized, next: Parameters<NavigationGuard>[2]) {
   // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
-  const subject = subjectsStore().currentSubject;
+  const subject = subjectsStore().currentSubject as Subject;
   if (to.params.subjectId !== subject.id) {
     next({ name: 'edit-subject', params: { subjectId: to.params.subjectId } });
   } else {
