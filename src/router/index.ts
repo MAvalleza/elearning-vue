@@ -14,7 +14,6 @@ import studentRoutes from './student';
 import activityWatcher from '@/plugins/activity-watcher';
 import { ROLES } from '@/constants/roles-and-actions';
 import InProgressPage from '@/pages/temp/InProgressPage.vue';
-import { type User } from '@/types/user';
 
 const routes = [
   {
@@ -80,8 +79,7 @@ router.afterEach(to => {
 });
 
 function redirect() {
-  const currentUser = authStore().currentUser as User;
-  const role: string = currentUser.role;
+  const role: string = authStore().currentUser.role;
 
   if ([ROLES.ADMIN, ROLES.INSTRUCTOR].includes(role)) {
     return { name: 'subjects' };
