@@ -1,6 +1,6 @@
 import Webservice from './base';
-import { type FetchParams } from '@/types/params';
-import { ModuleUpdateParams, type ModuleCreateParams } from '@/types/module';
+import type { FetchParams, GetParams } from '@/types/params';
+import type { ModuleUpdateParams, ModuleCreateParams } from '@/types/module';
 
 export default class ModulesWebservice extends Webservice {
   async getModules(params: FetchParams, token: string) {
@@ -83,7 +83,7 @@ export default class ModulesWebservice extends Webservice {
     }
   }
 
-  async getModule({ id, params }: { id: string, params: { join: string[] } }, token: string) {
+  async getModule({ id, params }: { id: string, params?: GetParams }, token: string) {
     try {
       const url = this.parseURL({ path: `modules/${id}`, params });
 

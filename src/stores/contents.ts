@@ -9,7 +9,7 @@ const webservice = new ContentsWebservice();
 
 export const useContents = defineStore('contents', {
   state: () => ({
-    contents: [],
+    contents: <Content[]>[],
     contentsTotal: 0,
     currentContent: {},
   }),

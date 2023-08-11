@@ -1,22 +1,29 @@
 import { defineStore } from 'pinia';
+import isEmpty from 'lodash-es/isEmpty';
+import omit from 'lodash-es/omit';
 import ModulesWebservice from '@/webservices/modulesWebservice';
 import { useContents as contentsStore } from './contents';
 import { useUI as uiStore } from './ui';
 import { useAuth as authStore } from './auth';
-import isEmpty from 'lodash-es/isEmpty';
-import omit from 'lodash-es/omit';
+import type { FetchParams, GetParams } from '@/types/params';
+import type {
+  MappedModule,
+  Module,
+  ModuleCreateParams,
+  ModuleUpdateParams
+} from '@/types/module';
 
 const webservice = new ModulesWebservice();
 
 export const useModules = defineStore('modules', {
   state: () => ({
-    modules: [],
+    modules: <MappedModule[]>[],
     modulesTotal: 0,
     currentModule: {},
     currentModuleContent: {}, // content of current module
   }),
   actions: {
-    async fetchModules(params) {
+    async fetchModules(params: FetchParams) {
       try {
         uiStore().setLoading(true);
 
@@ -31,26 +38,25 @@ export const useModules = defineStore('modules', {
           throw Error(response.errors[0]);
         }
 
-        const mappedModules = response.data.map(mod => ({
-          ...mod,
-          status: mod.isPublished ? 'Published' : 'Draft',
-          courseTitle: mod.course.title,
-        }));
-
+        const mappedModules = mapModules(response.data)
         this.modules = mappedModules;
         this.modulesTotal = response.totalCount;
 
         return mappedModules;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
+
+        return [];
       } finally {
         uiStore().setLoading(false);
       }
     },
-    async createModule(data) {
+    async createModule(data: ModuleCreateParams) {
       try {
         uiStore().setLoading(true);
 
@@ -88,7 +94,7 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
-    async updateModule(id, params) {
+    async updateModule(id: string, params: ModuleUpdateParams) {
       try {
         uiStore().setLoading(true);
 
@@ -119,7 +125,7 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
-    async deleteModule(id) {
+    async deleteModule(id: string) {
       try {
         uiStore().setLoading(true);
 
@@ -147,7 +153,7 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
-    async fetchModule(id, params) {
+    async fetchModule(id: string, params?: GetParams) {
       try {
         uiStore().setLoading(true);
 
@@ -174,7 +180,9 @@ export const useModules = defineStore('modules', {
         this.currentModule = { ...response };
 
         // We get first element since we used fetch endpoint which returns array
-        this.currentModuleContent = { ...contentResponse?.[0] };
+        if (contentResponse[0]) {
+          this.currentModuleContent = { ...contentResponse[0] };
+        }
       } catch (e) {
         uiStore().showSnackbar({
           color: 'error',
@@ -184,7 +192,7 @@ export const useModules = defineStore('modules', {
         uiStore().setLoading(false);
       }
     },
-    async onTableAction({ id, action }) {
+    async onTableAction({ id, action }: { id: string, action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };
@@ -197,6 +205,16 @@ export const useModules = defineStore('modules', {
         default:
           break;
       }
+
+      return null;
     },
   },
 });
+
+function mapModules(modules: Module[]) {
+ return modules.map(mod => ({
+    ...mod,
+    status: mod.isPublished ? 'Published' : 'Draft',
+    courseTitle: mod.course.title,
+  }));
+}

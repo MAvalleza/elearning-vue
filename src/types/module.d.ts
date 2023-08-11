@@ -1,20 +1,26 @@
-import { type Course } from './course';
+import type { Content } from './content';
+import type { Course } from './course';
 import { Delta } from '@vueup/vue-quill';
 
-interface Module {
+type Module = {
+  id: string;
   title: string;
   duration: number;
   isPublished: boolean;
-  createdAt?: number;
-  updatedAt?: number;
+  createdAt: number | Date | null;
+  updatedAt: number | Date | null;
 
+  // Populated
+  course: Course;
+}
+
+interface MappedModule extends Module {
   courseTitle?: string;
-  course?: Course;
   courseId?: string;
 
   status?: string;
 
-  content?: Delta | object;
+  content?: Delta | File | object;
 }
 interface ModuleCreateParams {
   title: string;
@@ -22,6 +28,7 @@ interface ModuleCreateParams {
   duration: number;
   authorId: string;
   courseId: string;
+  content?: Content['content'];
 }
 
 interface ModuleUpdateParams {
@@ -31,4 +38,9 @@ interface ModuleUpdateParams {
   courseId?: string;
 }
 
-export { ModuleCreateParams, ModuleUpdateParams }
+export {
+  Module,
+  MappedModule,
+  ModuleCreateParams,
+  ModuleUpdateParams,
+}
