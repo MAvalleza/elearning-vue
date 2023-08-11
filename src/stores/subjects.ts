@@ -4,18 +4,20 @@ import { useUI as uiStore } from './ui';
 import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
+import type { FetchParams, GetParams } from '@/types/params';
+import type { Subject, MappedSubject, SubjectCreateParams } from '@/types/subject';
 
 const webservice = new SubjectsWebservice();
 
 export const useSubjects = defineStore('subjects', {
   state: () => ({
-    subjects: [],
+    subjects: <MappedSubject[]>[],
     subjectsTotal: 0,
-    currentSubject: {},
+    currentSubject: {} as Subject,
     loadingSubjects: false,
   }),
   actions: {
-    async fetchSubjects(params) {
+    async fetchSubjects(params: FetchParams) {
       try {
         this.loadingSubjects = true;
 
@@ -30,26 +32,24 @@ export const useSubjects = defineStore('subjects', {
           throw Error(response.errors[0]);
         }
 
-        const mappedSubjects = response.data.map(subject => ({
-          ...subject,
-          status: subject.isPublished ? 'Published' : 'Draft',
-          totalCourses: size(subject.courseIds),
-        }));
+        const mappedSubjects = mapSubjects(response.data);
 
         this.subjects = mappedSubjects;
         this.subjectsTotal = response.totalCount;
 
         return mappedSubjects;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
       } finally {
         this.loadingSubjects = false;
       }
     },
-    async createSubject(params) {
+    async createSubject(params: SubjectCreateParams) {
       try {
         uiStore().setLoading(true);
 
@@ -83,7 +83,7 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
-    async fetchSubject(id, params) {
+    async fetchSubject(id: string, params: GetParams) {
       try {
         uiStore().setLoading(true);
 
@@ -113,7 +113,7 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
-    async updateSubject(id, params) {
+    async updateSubject(id: string, params: Partial<SubjectCreateParams>) {
       try {
         uiStore().setLoading(true);
 
@@ -144,7 +144,7 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
-    async deleteSubject(id) {
+    async deleteSubject(id: string) {
       try {
         uiStore().setLoading(true);
 
@@ -172,7 +172,7 @@ export const useSubjects = defineStore('subjects', {
         uiStore().setLoading(false);
       }
     },
-    async onTableAction({ id, action }) {
+    async onTableAction({ id, action }: { id: string, action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };
@@ -188,3 +188,11 @@ export const useSubjects = defineStore('subjects', {
     },
   },
 });
+
+function mapSubjects(subjects: Subject[]) {
+  return subjects.map(subject => ({
+    ...subject,
+    status: subject.isPublished ? 'Published' : 'Draft',
+    totalCourses: size(subject.courseIds),
+  }));
+}

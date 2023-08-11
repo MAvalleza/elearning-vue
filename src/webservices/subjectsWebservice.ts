@@ -1,5 +1,5 @@
 import Webservice from './base';
-import { type FetchParams } from '@/types/params';
+import { GetParams, type FetchParams } from '@/types/params';
 import { type SubjectCreateParams } from '@/types/subject';
 
 export default class SubjectsWebservice extends Webservice {
@@ -45,7 +45,7 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async getSubject({ id, params }: { id: string, params: { join: string[] } }, token: string) {
+  async getSubject({ id, params }: { id: string, params: GetParams }, token: string) {
     try {
       const url = this.parseURL({ path: `subjects/${id}`, params });
 
