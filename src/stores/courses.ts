@@ -4,22 +4,30 @@ import { useUI as uiStore } from './ui';
 import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
+import type {
+  Course,
+  MappedCourse,
+  FetchCoursesParams,
+  CourseCreateParams,
+  GetCourseParams,
+} from '@/types/course';
 
 const webservice = new CoursesWebservice();
 
 export const useCourses = defineStore('courses', {
   state: () => ({
-    courses: [],
+    courses: <MappedCourse[]>[],
     coursesTotal: 0,
     currentCourse: {},
   }),
   actions: {
-    async fetchCourses(params) {
+    async fetchCourses(params: FetchCoursesParams) {
       try {
         uiStore().setLoading(true);
 
         const currentUser = authStore().currentUser;
 
+        // Call the webservice
         const response = await webservice.getCourses(
           params,
           currentUser.accessToken
@@ -29,41 +37,31 @@ export const useCourses = defineStore('courses', {
           throw Error(response.errors[0]);
         }
 
-        const mappedCourses = response.data.map(course => ({
-          ...course,
-          status: course.isPublished ? 'Published' : 'Draft',
-          ...(course.subject && { subjectTitle: course.subject.title }),
-          ...(course.author && {
-            authorName: `${course.author.firstName} ${course.author.lastName}`,
-          }),
-          ...(course.modules && {
-            totalDuration: course.modules.reduce(
-              (acc, i) => acc + i.duration,
-              0
-            ),
-          }),
-          totalModules: size(course.moduleIds),
-        }));
+        const mappedCourses = mapCourses(response.data)
 
         this.courses = mappedCourses;
         this.coursesTotal = response.totalCount;
 
         return mappedCourses;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
+        return [];
       } finally {
         uiStore().setLoading(false);
       }
     },
-    async createCourse(data) {
+    async createCourse(data: CourseCreateParams) {
       try {
         uiStore().setLoading(true);
 
         const currentUser = authStore().currentUser;
 
+        // Call the webservice
         const response = await webservice.createCourse(
           data,
           currentUser.accessToken
@@ -82,18 +80,18 @@ export const useCourses = defineStore('courses', {
           color: 'error',
           message: 'There was an error in creating the course.',
         });
-        // this.$router.push({ name: 'courses-list' });
       } finally {
         uiStore().setLoading(false);
       }
     },
 
-    async updateCourse(id, params) {
+    async updateCourse(id: string, params: Partial<CourseCreateParams>) {
       try {
         uiStore().setLoading(true);
 
         const currentUser = authStore().currentUser;
 
+        // Call the webservice
         const response = await webservice.updateCourse(
           id,
           params,
@@ -119,7 +117,7 @@ export const useCourses = defineStore('courses', {
         uiStore().setLoading(false);
       }
     },
-    async deleteCourse(id) {
+    async deleteCourse(id: string) {
       try {
         uiStore().setLoading(true);
 
@@ -147,7 +145,7 @@ export const useCourses = defineStore('courses', {
         uiStore().setLoading(false);
       }
     },
-    async fetchCourse(id, params) {
+    async fetchCourse(id: string, params: GetCourseParams) {
       try {
         uiStore().setLoading(true);
 
@@ -175,7 +173,7 @@ export const useCourses = defineStore('courses', {
         uiStore().setLoading(false);
       }
     },
-    async onTableAction({ id, action }) {
+    async onTableAction({ id, action }: { id: string, action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };
@@ -188,6 +186,25 @@ export const useCourses = defineStore('courses', {
         default:
           break;
       }
+      return null;
     },
   },
 });
+
+function mapCourses(courses: Course[]) {
+  return courses.map(course => ({
+    ...course,
+    status: course.isPublished ? 'Published' : 'Draft',
+    ...(course.subject && { subjectTitle: course.subject.title }),
+    ...(course.author && {
+      authorName: `${course.author.firstName} ${course.author.lastName}`,
+    }),
+    ...(course.modules && {
+      totalDuration: course.modules.reduce(
+        (acc, i) => acc + i.duration,
+        0
+      ),
+    }),
+    totalModules: size(course.moduleIds),
+  }));
+}

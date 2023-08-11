@@ -1,23 +1,30 @@
-import { type User } from './user';
-import { type Module } from './module';
+import type { Module } from './module';
 import { type FetchParams } from './params';
+import type { Subject } from './subject';
+import type { Author } from './user';
 
-interface Course {
-  id?: string;
-  title?: string;
+type Course = {
+  id: string;
+  title: string;
   description?: string;
-  icon?: string;
-  isPublished?: boolean;
-  createdAt?: number;
-  updatedAt?: number | null;
-  subject?: object;
+  icon?: string | File;
+  isPublished: boolean;
+  createdAt: number | Date | null;
+  updatedAt: number | Date | null;
 
-  authorName?: string;
-  author?: User;
-
+  // Populated
+  subject: Subject;
+  author: Author;
   modules?: Module[];
-  totalModules?: number;
+
+  // 
   moduleIds?: (number | string)[];
+}
+
+interface MappedCourse extends Course {
+  authorName?: string;
+
+  totalModules?: number;
   totalDuration?: number;
 }
 
@@ -30,12 +37,18 @@ interface GetCourseParams {
 }
 
 interface CourseCreateParams {
-  title: string;
-  description: string;
-  icon?: string;
-  isPublished: boolean;
+  title: Course['title'];
+  description?: Course['description'];
+  icon?: Course['icon'];
+  isPublished: Course['isPublished'];
   authorId: string;
   subjectId: string;
 }
 
-export { Course, FetchCoursesParams, CourseCreateParams, GetCourseParams };
+export {
+  Course,
+  MappedCourse,
+  FetchCoursesParams,
+  CourseCreateParams,
+  GetCourseParams
+};

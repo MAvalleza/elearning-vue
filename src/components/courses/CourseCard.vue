@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import format from 'date-fns/format';
 import { computed } from 'vue';
-import { type Course } from '@/types/course';
+import type { MappedCourse } from '@/types/course';
 
 interface Props {
-  course: Course;
+  course: Partial<MappedCourse>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  course: () => ({ title: 'Course', isPublished: false }),
+  course: () => ({
+    title: 'Course',
+    isPublished: false,
+  }),
 });
 
 const emit = defineEmits(['click', 'click:enroll']);

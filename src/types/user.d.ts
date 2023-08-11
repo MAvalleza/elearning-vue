@@ -8,6 +8,8 @@ type User = {
   password: string;
 }
 
+type Author = User
+
 type CurrentUser = Omit<User, 'password'> & {
   accessToken: string;
 }
