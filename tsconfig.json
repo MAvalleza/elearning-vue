@@ -7,7 +7,7 @@
     "noImplicitAny": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
