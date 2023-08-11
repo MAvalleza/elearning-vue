@@ -49,10 +49,10 @@ declare module 'vue-router' {
 type BeforeResolveGuard = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized
-) => RouteLocationRaw
+) => RouteLocationRaw | void
 
 const beforeResolveGuard: BeforeResolveGuard = (to, from) => {
-  // If authorized route and there is no user logged in
+  // If authorized route and th`ere is no user logged in
   const isUnauthorized = to.meta.auth && !authStore().isAuthenticated;
 
   const role = authStore().currentUserRole;
@@ -64,8 +64,6 @@ const beforeResolveGuard: BeforeResolveGuard = (to, from) => {
     return { name: 'login' };
   } else if (isNotAllowed && from?.name) {
     return { name: from.name };
-  } else {
-    return { name: 'login' };
   }
 }
 
