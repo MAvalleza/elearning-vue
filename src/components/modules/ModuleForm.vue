@@ -19,10 +19,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: () => ({
-    title: '',
-    duration: 0,
     isPublished: false,
-  }),
+  } as Module),
   content: () => ({ content: null }),
   /**
    * This will hide the course field.
@@ -36,7 +34,7 @@ const emit = defineEmits(['update:modelValue', 'update:content', 'submit']);
 
 // -------
 
-const mod = computed({
+const mod: Ref = computed({
   get() {
     return props.modelValue;
   },
