@@ -4,6 +4,7 @@ import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { EMAIL_FORMAT_RULE, REQUIRED_RULE } from '@/constants/validation-rules';
+import type { LoginCredentials } from '@/types/auth';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
@@ -46,7 +47,7 @@ const LOGIN_FORM = {
   },
 };
 
-async function login(data: object) {
+async function login(data: LoginCredentials) {
   await authStore.loginUser(data);
 }
 

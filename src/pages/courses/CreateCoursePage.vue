@@ -42,7 +42,7 @@ const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Course
 const coursesStore = useCourses();
-const newCourse = ref({
+const newCourse: Ref = ref({
   title: null,
   isPublished: false,
   description: null,
@@ -53,10 +53,7 @@ const newCourse = ref({
 const isFromSubject = ref(route.meta?.from === 'subject');
 
 async function createCourse() {
-  const data: {
-    authorId: string;
-    subjectId?: string;
-  } | typeof newCourse.value = {
+  const data = {
     ...newCourse.value,
     authorId: currentUser.value.id,
   };

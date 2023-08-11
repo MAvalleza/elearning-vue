@@ -29,7 +29,7 @@ interface MappedCourse extends Course {
 }
 
 interface FetchCoursesParams extends FetchParams {
-  subjectId?: string
+  subjectId?: string | null;
 }
 
 interface GetCourseParams {

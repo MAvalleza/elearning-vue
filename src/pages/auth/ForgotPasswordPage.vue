@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { EMAIL_FORMAT_RULE, REQUIRED_RULE } from '@/constants/validation-rules';
+import type { PasswordRequest } from '@/types/auth';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
@@ -36,7 +37,7 @@ const FORGOT_PASSWORD_FORM = {
   },
 };
 
-async function requestReset(data: object) {
+async function requestReset(data: PasswordRequest) {
   const response = await authStore.requestResetPassword(data);
 
   // TODO: Temporary mocks since we do not send an actual email yet.

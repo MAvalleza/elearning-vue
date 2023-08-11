@@ -59,7 +59,7 @@ const CHANGE_PASSWORD_FORM = {
 };
 
 async function reset(data: { password: string }) {
-  const token = route.query.token;
+  const token = route.query.token as string;
 
   await authStore.resetPassword(data, token);
 }

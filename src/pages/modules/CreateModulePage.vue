@@ -61,7 +61,7 @@ const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Module
 const modulesStore = useModules();
-const newModule = ref({
+const newModule: Ref = ref({
   title: null,
   isPublished: false,
   duration: null,
@@ -72,11 +72,7 @@ const newModule = ref({
 const newContent = ref({ content: null });
 
 async function createModule() {
-  const data: {
-    authorId: string;
-    courseId?: string;
-    content?: typeof newContent.value.content;
-  } | typeof newModule.value = {
+  const data = {
     ...newModule.value,
     authorId: currentUser.value.id,
     content: newContent.value.content,

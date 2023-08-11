@@ -16,7 +16,7 @@ const isTokenActivated = ref(false);
 const authStore = useAuth();
 
 async function activateAccount() {
-  const token = route.query.token;
+  const token = route.query.token as string;
 
   isTokenActivated.value = await authStore.activateAccount(token);
 
@@ -30,7 +30,6 @@ async function activateAccount() {
 }
 
 const message = ref('');
-// const email = ref(null);
 
 onMounted(() => {
   activateAccount();
@@ -48,17 +47,6 @@ v-container(fluid).fill-height.align-center.bg-grey-darken-4
           h3 Account Activation
         v-card-text
           | {{ message }}
-          //- div(v-if="!isTokenActivated").mt-5
-          //-   v-text-field(
-          //-     v-model="email"
-          //-     variant="outlined"
-          //-     density="compact"
-          //-     label="Email"
-          //-   )
-          //-   v-btn(
-          //-     color="primary"
-          //-     density="compact"
-          //-   ) Resend
 
         v-card-actions
           v-spacer

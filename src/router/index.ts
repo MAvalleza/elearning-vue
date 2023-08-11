@@ -44,6 +44,12 @@ declare module 'vue-router' {
   interface RouteMeta {
     roles?: string[]
   }
+
+  interface RouteLocationNormalized {
+    query: {
+      token: string;
+    }
+  }
 }
 
 type BeforeResolveGuard = (

@@ -6,6 +6,7 @@ import { useUI } from '@/stores/ui';
 import isEmpty from 'lodash-es/isEmpty';
 import { EMAIL_FORMAT_RULE, REQUIRED_RULE } from '@/constants/validation-rules';
 import { ROLES_LIST } from '@/constants/roles-and-actions';
+import type { UserCreateParams } from '@/types/user';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 import VerificationModal from '@/components/auth/VerificationModal.vue';
@@ -110,7 +111,7 @@ const REGISTRATION_FORM = {
 const activationToken = ref(null);
 const email = ref(null);
 
-async function registerUser(data: object) {
+async function registerUser(data: UserCreateParams) {
   const response = await authStore.registerUser(data);
 
   if (isEmpty(response.errors)) {

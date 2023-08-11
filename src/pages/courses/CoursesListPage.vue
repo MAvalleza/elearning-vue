@@ -6,12 +6,12 @@ import uniqBy from 'lodash-es/uniqBy';
 import { useCourses } from '@/stores/courses';
 import { useUI } from '@/stores/ui';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
-import {
-  type GenericTableItem,
-  type TableOptions,
-  type TableActionOpt,
+import type {
+  GenericTableItem,
+  TableOptions,
+  TableActionOpt,
 } from '@/types/data-table';
-import { type Course } from '@/types/course';
+import type { FetchCoursesParams, MappedCourse } from '@/types/course';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -42,11 +42,6 @@ const initial = {
   params: {
     page: 1,
     limit: 25,
-    sort: null,
-    sortDirection: null,
-    keyword: null,
-    published: null,
-    subjectId: null,
     join: ['modules', 'subject', 'author'],
   },
   total: {
@@ -55,7 +50,7 @@ const initial = {
   },
 };
 
-let fetchParams = reactive({ ...initial.params });
+let fetchParams = reactive({ ...initial.params } as FetchCoursesParams);
 
 function initialize() {
   coursesStore.$reset();
@@ -73,7 +68,7 @@ const subjectFilterOptions: Ref = ref([]);
 
 function updateSubjectFilterOptions() {
   subjectFilterOptions.value = uniqBy(
-    courses.value.map((course: Course) => course.subject),
+    courses.value.map((course: MappedCourse) => course.subject),
     'id'
   );
 }

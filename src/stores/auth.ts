@@ -3,8 +3,8 @@ import AuthWebservice from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
-import { type User, type CurrentUser, type FetchUsersParams, UserCreateParams } from '@/types/user';
-import { type PasswordRequest } from '@/types/auth';
+import type { User, CurrentUser, FetchUsersParams, UserCreateParams } from '@/types/user';
+import type { LoginCredentials, PasswordRequest } from '@/types/auth';
 
 const webservice = new AuthWebservice();
 
@@ -87,7 +87,7 @@ export const useAuth = defineStore('auth', {
         uiStore().setLoading(false);
       }
     },
-    async loginUser(data: { email: string, password: string }) {
+    async loginUser(data: LoginCredentials) {
       try {
         uiStore().setLoading(true);
 

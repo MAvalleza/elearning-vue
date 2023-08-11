@@ -34,10 +34,7 @@ const initial = {
   params: {
     page: 1,
     limit: 24,
-    keyword: null,
     published: true,
-    subjectId: null,
-    authorId: null,
     join: ['modules', 'subject', 'author'],
   },
   total: {

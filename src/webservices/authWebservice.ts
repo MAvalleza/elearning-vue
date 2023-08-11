@@ -1,4 +1,4 @@
-import { type PasswordRequest } from '@/types/auth';
+import type { LoginCredentials, PasswordRequest } from '@/types/auth';
 import Webservice from './base';
 
 interface UserData {
@@ -48,7 +48,7 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async loginUser(data: { email: string, password: string }) {
+  async loginUser(data: LoginCredentials) {
     try {
       const url = this.parseURL({ path: 'login' });
       const response = await fetch(url, {

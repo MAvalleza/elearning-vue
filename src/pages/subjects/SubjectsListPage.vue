@@ -60,10 +60,6 @@ const initial = {
   params: {
     page: 1,
     limit: 25,
-    sort: null,
-    sortDirection: null,
-    keyword: null,
-    published: null,
     join: ['courses'],
     ownerId: currentUser.value.id,
   },

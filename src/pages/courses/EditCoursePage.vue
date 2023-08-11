@@ -38,7 +38,7 @@ const { loading } = storeToRefs(uiStore);
 const coursesStore = useCourses();
 const { currentCourse }: { currentCourse: Ref } = storeToRefs(coursesStore);
 const course = ref({});
-const courseId = ref(route.params.courseId);
+const courseId: Ref = ref(route.params.courseId);
 
 async function updateCourse() {
   await coursesStore.updateCourse(courseId.value, course.value);

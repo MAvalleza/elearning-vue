@@ -18,7 +18,7 @@ const HEADER_BUTTON_OPTS = {
 };
 
 const subjectsStore = useSubjects();
-const newSubject = ref({ title: null, isPublished: false });
+const newSubject: Ref = ref({ title: null, isPublished: false });
 
 const createForm: Ref = ref(null);
 function submitForm() {

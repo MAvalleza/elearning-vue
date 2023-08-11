@@ -30,7 +30,7 @@ const HEADER_BUTTON_OPTS = {
 const subjectsStore = useSubjects();
 const { currentSubject } = storeToRefs(subjectsStore);
 const subject = ref({});
-const subjectId = ref(route.params.subjectId);
+const subjectId: Ref = ref(route.params.subjectId);
 
 async function fetchSubject() {
   await subjectsStore.fetchSubject(subjectId.value, {
