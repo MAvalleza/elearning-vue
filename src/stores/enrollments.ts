@@ -3,6 +3,7 @@ import { useUI as uiStore } from './ui';
 import EnrollmentsWebservice from '@/webservices/enrollmentsWebservice';
 import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
+import type { FetchEnrollmentsParams, EnrollmentCreateParams } from '@/types/enrollment';
 
 const webservice = new EnrollmentsWebservice();
 
@@ -13,7 +14,7 @@ export const useEnrollments = defineStore('enrollments', {
     loadingEnrollments: false,
   }),
   actions: {
-    async fetchEnrollments(params) {
+    async fetchEnrollments(params: FetchEnrollmentsParams) {
       try {
         this.loadingEnrollments = true;
 
@@ -33,15 +34,19 @@ export const useEnrollments = defineStore('enrollments', {
 
         return this.enrollments;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
+
+        return [];
       } finally {
         this.loadingEnrollments = false;
       }
     },
-    async createEnrollment(params) {
+    async createEnrollment(params: EnrollmentCreateParams) {
       try {
         const currentUser = authStore().currentUser;
 
@@ -67,7 +72,7 @@ export const useEnrollments = defineStore('enrollments', {
         uiStore().setLoading(false);
       }
     },
-    async unenroll(id) {
+    async unenroll(id: string) {
       try {
         const currentUser = authStore().currentUser;
 
