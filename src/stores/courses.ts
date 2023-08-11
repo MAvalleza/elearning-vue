@@ -18,7 +18,7 @@ export const useCourses = defineStore('courses', {
   state: () => ({
     courses: <MappedCourse[]>[],
     coursesTotal: 0,
-    currentCourse: {},
+    currentCourse: {} as Course,
   }),
   actions: {
     async fetchCourses(params: FetchCoursesParams) {
