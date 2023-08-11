@@ -3,6 +3,7 @@ import ContentsWebservice from '@/webservices/contentsWebservice';
 import { useUI as uiStore } from './ui';
 import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
+import type { Content, ContentUpdateParams, FetchContentsParams } from '@/types/content';
 
 const webservice = new ContentsWebservice();
 
@@ -13,7 +14,7 @@ export const useContents = defineStore('contents', {
     currentContent: {},
   }),
   actions: {
-    async fetchContents(params) {
+    async fetchContents(params: FetchContentsParams) {
       try {
         uiStore().setLoading(true);
 
@@ -33,15 +34,19 @@ export const useContents = defineStore('contents', {
 
         return this.contents;
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: e.message,
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        }
+
+        return [];
       } finally {
         uiStore().setLoading(false);
       }
     },
-    async createContent(data) {
+    async createContent(data: Content) {
       try {
         uiStore().setLoading(true);
 
@@ -62,7 +67,7 @@ export const useContents = defineStore('contents', {
         uiStore().setLoading(false);
       }
     },
-    async updateContent(id, params) {
+    async updateContent(id: string, params: ContentUpdateParams) {
       try {
         uiStore().setLoading(true);
 

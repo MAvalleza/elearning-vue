@@ -1,5 +1,9 @@
 import Webservice from './base';
-import { type FetchContentsParams, type Content } from '@/types/content';
+import type {
+  FetchContentsParams,
+  Content,
+  ContentUpdateParams
+} from '@/types/content';
 
 export default class ContentsWebservice extends Webservice {
   async getContents(params: FetchContentsParams, token: string) {
@@ -44,7 +48,7 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  async updateContent(id: string, data: { content: Content['content'] }, token: string) {
+  async updateContent(id: string, data: ContentUpdateParams, token: string) {
     try {
       const url = this.parseURL({ path: `contents/${id}` });
 
