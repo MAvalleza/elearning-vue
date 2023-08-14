@@ -56,6 +56,6 @@ v-autocomplete(
   clearable
   :items="subjects"
   :loading="loadingSubjects"
-  :rules="required ? [REQUIRED_RULE] : null"
+  :rules="required ? [REQUIRED_RULE] : []"
 )
 </template>
