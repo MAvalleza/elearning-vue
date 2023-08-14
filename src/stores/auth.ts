@@ -17,7 +17,7 @@ export const useAuth = defineStore('auth', {
   }),
   getters: {
     isAuthenticated(state) {
-      return !!state.currentUser;
+      return !isEmpty(state.currentUser);
     },
     currentUserRole(state) {
       return state.currentUser?.role;
