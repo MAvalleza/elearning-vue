@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import ContentsWebservice from '@/webservices/contentsWebservice';
 import { useUI as uiStore } from './ui';
-import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import type { Content, ContentUpdateParams, FetchContentsParams } from '@/types/content';
 
@@ -18,12 +17,7 @@ export const useContents = defineStore('contents', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.getContents(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.getContents(params)
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -50,12 +44,7 @@ export const useContents = defineStore('contents', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.createContent(
-          data,
-          currentUser.accessToken
-        );
+        const response = await webservice.createContent(data);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -71,12 +60,9 @@ export const useContents = defineStore('contents', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         const response = await webservice.updateContent(
           id,
           params,
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {

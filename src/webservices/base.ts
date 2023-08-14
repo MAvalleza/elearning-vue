@@ -2,13 +2,16 @@ import queryString from 'query-string';
 
 export default class Webservice {
   apiNamespace: string;
-  requestHeaders: HeadersInit
 
   constructor() {
     this.apiNamespace = import.meta.env.VITE_API_NAMESPACE;
-    this.requestHeaders = {
+  }
+
+  requestHeaders() {
+    return {
       'Content-Type': 'application/json',
-    };
+      Authorization: `Bearer ${getToken()}`
+    }
   }
 
   parseParams(params = {}) {
@@ -25,5 +28,13 @@ export default class Webservice {
     const url = `${this.apiNamespace}/${path}${this.parseParams(params)}`;
 
     return url;
+  }
+}
+
+function getToken() {
+  const storedToken = localStorage.getItem('accessToken');
+
+  if (storedToken !== null) {
+    return storedToken;
   }
 }

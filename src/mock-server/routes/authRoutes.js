@@ -209,19 +209,21 @@ const createAuthRoutes = routeInstance => {
     }
 
     const accessToken = faker.database.mongodbObjectId();
+    const expirationDate = (new Date().getTime()) + (20 * 60 * 1000);
 
-    const sessionUser = schema.sessions.create({
+    schema.sessions.create({
       accessToken,
       email: userData.email,
-      role: userData.role,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-    }).attrs;
+      expiresAt: expirationDate
+    });
 
     // Add id and normalized name then return
     return {
-      ...sessionUser,
       id: userData.id,
+      accessToken: accessToken,
+      role: userData.role,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
       normalizedName: `${userData.firstName || ''} ${userData.lastName || ''}`,
     };
   });

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { useUI as uiStore } from './ui';
 import EnrollmentsWebservice from '@/webservices/enrollmentsWebservice';
-import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import type { FetchEnrollmentsParams, EnrollmentCreateParams } from '@/types/enrollment';
 
@@ -18,12 +17,7 @@ export const useEnrollments = defineStore('enrollments', {
       try {
         this.loadingEnrollments = true;
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.getEnrollments(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.getEnrollments(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -48,12 +42,7 @@ export const useEnrollments = defineStore('enrollments', {
     },
     async createEnrollment(params: EnrollmentCreateParams) {
       try {
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.createEnrollment(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.createEnrollment(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -74,12 +63,7 @@ export const useEnrollments = defineStore('enrollments', {
     },
     async unenroll(id: string) {
       try {
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.deleteEnrollment(
-          id,
-          currentUser.accessToken
-        );
+        const response = await webservice.deleteEnrollment(id);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);

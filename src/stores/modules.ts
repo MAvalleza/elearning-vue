@@ -4,7 +4,6 @@ import omit from 'lodash-es/omit';
 import ModulesWebservice from '@/webservices/modulesWebservice';
 import { useContents as contentsStore } from './contents';
 import { useUI as uiStore } from './ui';
-import { useAuth as authStore } from './auth';
 import type { FetchParams, GetParams } from '@/types/params';
 import type {
   MappedModule,
@@ -27,12 +26,7 @@ export const useModules = defineStore('modules', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.getModules(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.getModules(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -60,12 +54,9 @@ export const useModules = defineStore('modules', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         // Create the module
         const response = await webservice.createModule(
           omit(data, 'content'),
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -98,12 +89,9 @@ export const useModules = defineStore('modules', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         const response = await webservice.updateModule(
           id,
           params,
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -129,12 +117,7 @@ export const useModules = defineStore('modules', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.deleteModule(
-          id,
-          currentUser.accessToken
-        );
+        const response = await webservice.deleteModule(id);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -157,15 +140,12 @@ export const useModules = defineStore('modules', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         // Fetch module
         const response = await webservice.getModule(
           {
             id,
             params,
           },
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {

@@ -2,33 +2,43 @@ import { ROLES } from '@/constants/roles-and-actions';
 class AuthSession {
   constructor(schema, token) {
     this.schema = schema;
-    this.token = token;
+    // Remove bearer keyword
+    this.token = token.replace('Bearer ', '');
 
-    this.session = schema.sessions.findBy({ accessToken: token });
+    this.session = schema.sessions.findBy({ accessToken: this.token });
   }
 
   user() {
-    if (!this.session) {
-      return;
-    }
-
     return this.schema.users.findBy({ email: this.session.email });
   }
 
+  isExpiredToken() {
+    return this.session.expiresAt < Date.now();
+  }
+
   isAuthorized({ resource, resourceId } = {}) {
+    // If no session was found, then it is not allowed
+    if (!this.session) {
+      return false;
+    }
+
+    // If the token is expired, delete the record and return false
+    if (this.isExpiredToken()) {
+      this.schema.db.sessions.remove({ accessToken: this.token });
+      return false;
+    }
+
     // If an id is given but unknown resource
     if (resourceId && !resource) {
       return false;
     }
-
     // Admin can access
     if (this.isAdmin()) {
       return true;
     }
-
     // Simply checks if user exists
     if (!resourceId) {
-      return this.session && this.user();
+      return !!this.user();
     }
 
     // Checks if user has access to the resource

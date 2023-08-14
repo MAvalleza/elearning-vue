@@ -11,6 +11,8 @@ type User = {
 type Author = User
 
 type CurrentUser = Omit<User, 'password'> & {
+  id: string;
+  normalizedName: string;
   accessToken: string;
 }
 

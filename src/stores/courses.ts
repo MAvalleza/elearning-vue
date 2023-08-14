@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import CoursesWebservice from '@/webservices/coursesWebservice';
 import { useUI as uiStore } from './ui';
-import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
 import type {
@@ -25,13 +24,8 @@ export const useCourses = defineStore('courses', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         // Call the webservice
-        const response = await webservice.getCourses(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.getCourses(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -59,13 +53,8 @@ export const useCourses = defineStore('courses', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         // Call the webservice
-        const response = await webservice.createCourse(
-          data,
-          currentUser.accessToken
-        );
+        const response = await webservice.createCourse(data);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -89,13 +78,10 @@ export const useCourses = defineStore('courses', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         // Call the webservice
         const response = await webservice.updateCourse(
           id,
           params,
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -121,12 +107,7 @@ export const useCourses = defineStore('courses', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.deleteCourse(
-          id,
-          currentUser.accessToken
-        );
+        const response = await webservice.deleteCourse(id);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -149,14 +130,11 @@ export const useCourses = defineStore('courses', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         const response = await webservice.getCourse(
           {
             id,
             params,
           },
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {

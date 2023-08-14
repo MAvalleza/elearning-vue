@@ -2,7 +2,7 @@ import Webservice from './base';
 import { type FetchCoursesParams, type CourseCreateParams, type GetCourseParams } from '@/types/course';
 
 export default class CoursesWebservice extends Webservice {
-  async getCourses(params: FetchCoursesParams, token: string) {
+  async getCourses(params: FetchCoursesParams) {
     try {
       const url = this.parseURL({
         path: 'courses',
@@ -11,10 +11,7 @@ export default class CoursesWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -24,16 +21,13 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async createCourse(params: CourseCreateParams, token: string) {
+  async createCourse(params: CourseCreateParams) {
     try {
       const url = this.parseURL({ path: 'courses' });
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(params),
       });
 
@@ -44,16 +38,13 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async updateCourse(id: string, data: Partial<CourseCreateParams>, token: string) {
+  async updateCourse(id: string, data: Partial<CourseCreateParams>) {
     try {
       const url = this.parseURL({ path: `courses/${id}` });
 
       const response = await fetch(url, {
         method: 'PUT',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
 
@@ -64,16 +55,13 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async deleteCourse(id: string, token: string) {
+  async deleteCourse(id: string) {
     try {
       const url = this.parseURL({ path: `courses/${id}` });
 
       const response = await fetch(url, {
         method: 'DELETE',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -83,16 +71,13 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async getCourse({ id, params }: { id: string, params: GetCourseParams }, token: string) {
+  async getCourse({ id, params }: { id: string, params: GetCourseParams }) {
     try {
       const url = this.parseURL({ path: `courses/${id}`, params });
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();

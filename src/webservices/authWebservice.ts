@@ -10,7 +10,7 @@ interface UserData {
 }
 
 export default class AuthWebservice extends Webservice {
-  async getUsers(params: object, token: string) {
+  async getUsers(params: object) {
     try {
       const url = this.parseURL({
         path: 'users',
@@ -19,10 +19,7 @@ export default class AuthWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders()
       });
 
       return await response.json();
@@ -37,7 +34,7 @@ export default class AuthWebservice extends Webservice {
       const url = this.parseURL({ path: 'signup' });
       const response = await fetch(url, {
         method: 'POST',
-        headers: this.requestHeaders,
+        headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
 
@@ -53,7 +50,7 @@ export default class AuthWebservice extends Webservice {
       const url = this.parseURL({ path: 'login' });
       const response = await fetch(url, {
         method: 'POST',
-        headers: this.requestHeaders,
+        headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
 
@@ -64,16 +61,13 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async logoutUser(token: string) {
+  async logoutUser() {
     try {
       const url = this.parseURL({ path: 'logout' });
 
       await fetch(url, {
         method: 'DELETE',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
     } catch (e) {
       console.error(e);
@@ -90,7 +84,7 @@ export default class AuthWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: this.requestHeaders,
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -100,15 +94,15 @@ export default class AuthWebservice extends Webservice {
     }
   }
 
-  async resetPassword(data: { password: string }, token: string) {
+  async resetPassword(data: { password: string }, resetToken: string) {
     try {
       const url = this.parseURL({ path: 'password' });
 
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          ...this.requestHeaders,
-          Authorization: token,
+          ...this.requestHeaders(),
+          Authorization: `Bearer ${resetToken}`,
         },
         body: JSON.stringify(data),
       });
@@ -129,7 +123,7 @@ export default class AuthWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: this.requestHeaders,
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -147,7 +141,7 @@ export default class AuthWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: this.requestHeaders,
+        headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
 

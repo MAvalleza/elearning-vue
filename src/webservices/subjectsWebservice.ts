@@ -3,7 +3,7 @@ import { GetParams, type FetchParams } from '@/types/params';
 import { type SubjectCreateParams } from '@/types/subject';
 
 export default class SubjectsWebservice extends Webservice {
-  async getSubjects(params: FetchParams, token: string) {
+  async getSubjects(params: FetchParams) {
     try {
       const url = this.parseURL({
         path: 'subjects',
@@ -12,10 +12,7 @@ export default class SubjectsWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -25,16 +22,13 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async createSubject(params: SubjectCreateParams, token: string) {
+  async createSubject(params: SubjectCreateParams) {
     try {
       const url = this.parseURL({ path: 'subjects' });
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(params),
       });
 
@@ -45,16 +39,13 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async getSubject({ id, params }: { id: string, params: GetParams }, token: string) {
+  async getSubject({ id, params }: { id: string, params: GetParams }) {
     try {
       const url = this.parseURL({ path: `subjects/${id}`, params });
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -64,16 +55,13 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async updateSubject(id: string, data: Partial<SubjectCreateParams>, token: string) {
+  async updateSubject(id: string, data: Partial<SubjectCreateParams>) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
 
       const response = await fetch(url, {
         method: 'PUT',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
 
@@ -84,16 +72,13 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async deleteSubject(id: string, token: string) {
+  async deleteSubject(id: string) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
 
       const response = await fetch(url, {
         method: 'DELETE',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();

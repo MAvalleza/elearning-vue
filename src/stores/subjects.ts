@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import SubjectsWebservice from '@/webservices/subjectsWebservice';
 import { useUI as uiStore } from './ui';
-import { useAuth as authStore } from './auth';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
 import type { FetchParams, GetParams } from '@/types/params';
@@ -21,12 +20,7 @@ export const useSubjects = defineStore('subjects', {
       try {
         this.loadingSubjects = true;
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.getSubjects(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.getSubjects(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -53,12 +47,7 @@ export const useSubjects = defineStore('subjects', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.createSubject(
-          params,
-          currentUser.accessToken
-        );
+        const response = await webservice.createSubject(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -87,14 +76,11 @@ export const useSubjects = defineStore('subjects', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         const response = await webservice.getSubject(
           {
             id,
             params,
           },
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -117,12 +103,9 @@ export const useSubjects = defineStore('subjects', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
         const response = await webservice.updateSubject(
           id,
           params,
-          currentUser.accessToken
         );
 
         if (!isEmpty(response.errors)) {
@@ -148,12 +131,7 @@ export const useSubjects = defineStore('subjects', {
       try {
         uiStore().setLoading(true);
 
-        const currentUser = authStore().currentUser;
-
-        const response = await webservice.deleteSubject(
-          id,
-          currentUser.accessToken
-        );
+        const response = await webservice.deleteSubject(id);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);

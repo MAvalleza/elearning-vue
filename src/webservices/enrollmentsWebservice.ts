@@ -2,7 +2,7 @@ import { type EnrollmentCreateParams, type FetchEnrollmentsParams } from '@/type
 import Webservice from './base';
 
 export default class EnrollmentsWebservice extends Webservice {
-  async getEnrollments(params: FetchEnrollmentsParams, token: string) {
+  async getEnrollments(params: FetchEnrollmentsParams) {
     try {
       const url = this.parseURL({
         path: 'enrollments',
@@ -11,10 +11,7 @@ export default class EnrollmentsWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -24,16 +21,13 @@ export default class EnrollmentsWebservice extends Webservice {
     }
   }
 
-  async createEnrollment(params: EnrollmentCreateParams, token: string) {
+  async createEnrollment(params: EnrollmentCreateParams) {
     try {
       const url = this.parseURL({ path: 'enrollments' });
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(params),
       });
 
@@ -44,16 +38,13 @@ export default class EnrollmentsWebservice extends Webservice {
     }
   }
 
-  async deleteEnrollment(id: string, token: string) {
+  async deleteEnrollment(id: string) {
     try {
       const url = this.parseURL({ path: `enrollments/${id}` });
 
       const response = await fetch(url, {
         method: 'DELETE',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();

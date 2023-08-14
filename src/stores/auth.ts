@@ -28,10 +28,7 @@ export const useAuth = defineStore('auth', {
       try {
         this.loadingUsers = true;
 
-        const response = await webservice.getUsers(
-          params,
-          this.currentUser.accessToken
-        );
+        const response = await webservice.getUsers(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -119,9 +116,7 @@ export const useAuth = defineStore('auth', {
     async logoutUser() {
       if (!this.currentUser) return;
 
-      const token = this.currentUser.accessToken;
-
-      await webservice.logoutUser(token);
+      await webservice.logoutUser();
 
       localStorage.removeItem('accessToken');
 

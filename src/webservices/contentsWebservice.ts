@@ -6,7 +6,7 @@ import type {
 } from '@/types/content';
 
 export default class ContentsWebservice extends Webservice {
-  async getContents(params: FetchContentsParams, token: string) {
+  async getContents(params: FetchContentsParams) {
     try {
       const url = this.parseURL({
         path: 'contents',
@@ -15,10 +15,7 @@ export default class ContentsWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
       });
 
       return await response.json();
@@ -28,16 +25,13 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  async createContent(params: Content, token: string) {
+  async createContent(params: Content) {
     try {
       const url = this.parseURL({ path: 'contents' });
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(params),
       });
 
@@ -48,16 +42,13 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  async updateContent(id: string, data: ContentUpdateParams, token: string) {
+  async updateContent(id: string, data: ContentUpdateParams) {
     try {
       const url = this.parseURL({ path: `contents/${id}` });
 
       const response = await fetch(url, {
         method: 'PUT',
-        headers: {
-          ...this.requestHeaders,
-          Authorization: token,
-        },
+        headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
 
