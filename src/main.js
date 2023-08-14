@@ -5,6 +5,8 @@ import router from './router';
 import createMockServer from './mock-server';
 import App from './App.vue';
 
+const app = createApp(App);
+
 // Pinia
 const pinia = createPinia();
 
@@ -12,8 +14,7 @@ pinia.use(({ store }) => {
   store.$router = markRaw(router);
 });
 
-// MirageJS Mock server
-const mockServer = createMockServer();
+app.use(pinia);
 
 // Vuetify
 import 'vuetify/styles';
@@ -30,11 +31,19 @@ const vuetify = createVuetify({
   directives,
 });
 
-const app = createApp(App);
-
-app.use(pinia);
-app.use(router);
-app.use(mockServer);
 app.use(vuetify);
+
+app.use(router);
+
+// MirageJS Mock server
+
+const mockServer = createMockServer({
+  persistence: import.meta.env.VITE_MIRAGE_PERSISTENCE === 'true' ? true : false
+});
+
+
+if (import.meta.env.VITE_APP_ENV === 'test') {
+  app.use(mockServer);
+}
 
 app.mount('#app');

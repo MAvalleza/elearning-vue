@@ -20,9 +20,9 @@ The MirageJS configs can be found in `src/mock-server`
 
 Note that whatever data you created will be lost once you refresh the app since they are saved within the front-end instance only.
 
-The initial start of the app might run slow since MirageJS is seeding mock data
+To persist data, we can save it into localStorage by configuring it in our env file. (See installation section)
 
-These mock implementations will be removed once an actual backend has been developed for this app.
+The initial start of the app might run slow since MirageJS is seeding mock data
 
 ## Installation
 
@@ -36,13 +36,21 @@ yarn install
 
 Before running the project, make sure to setup a `.env` file at the root folder.
 
-We need to put the API namespace to be used for MirageJS:
+We need to put the API namespace and APP env to make sure MirageJS will run:
 
 ```
+VITE_APP_ENV=test
 VITE_API_NAMESPACE=/api
+
 ```
 
-Run the project with:
+Additionally, if you want data to persist for MirageJS, add this in the ENV file:
+
+```
+VITE_MIRAGE_PERSISTENCE=true
+```
+
+Finally, run the project with:
 
 ```
 yarn dev
@@ -79,5 +87,3 @@ Creating an account is still possible even without the backend.
 Simply go through the registration process as normal.
 
 No email verification has been set yet since actual sending of email is not present in the mocks. Instead, a temporary button that will redirect to user to verification will appear in the app.
-
-Note that this account will also be lost once the app is refreshed.
