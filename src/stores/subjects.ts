@@ -12,6 +12,7 @@ export const useSubjects = defineStore('subjects', {
   state: () => ({
     subjects: <MappedSubject[]>[],
     subjectsTotal: 0,
+    subjectsCurrentPage: 1,
     currentSubject: {} as Subject,
     loadingSubjects: false,
   }),
@@ -30,6 +31,7 @@ export const useSubjects = defineStore('subjects', {
 
         this.subjects = mappedSubjects;
         this.subjectsTotal = response.totalCount;
+        this.subjectsCurrentPage = response.page;
 
         return mappedSubjects;
       } catch (e) {

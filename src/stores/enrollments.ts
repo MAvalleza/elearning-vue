@@ -10,6 +10,7 @@ export const useEnrollments = defineStore('enrollments', {
   state: () => ({
     enrollments: [],
     enrollmentsTotal: 0,
+    enrollmentsCurrentPage: 1,
     loadingEnrollments: false,
   }),
   actions: {
@@ -25,6 +26,7 @@ export const useEnrollments = defineStore('enrollments', {
 
         this.enrollments = response.data;
         this.enrollmentsTotal = response.totalCount;
+        this.enrollmentsCurrentPage = response.page;
 
         return this.enrollments;
       } catch (e) {

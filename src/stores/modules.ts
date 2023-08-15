@@ -18,6 +18,7 @@ export const useModules = defineStore('modules', {
   state: () => ({
     modules: <MappedModule[]>[],
     modulesTotal: 0,
+    modulesCurrentPage: 1,
     currentModule: {},
     currentModuleContent: {}, // content of current module
   }),
@@ -35,6 +36,7 @@ export const useModules = defineStore('modules', {
         const mappedModules = mapModules(response.data)
         this.modules = mappedModules;
         this.modulesTotal = response.totalCount;
+        this.modulesCurrentPage = response.page;
 
         return mappedModules;
       } catch (e) {

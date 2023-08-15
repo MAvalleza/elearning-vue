@@ -17,6 +17,7 @@ export const useCourses = defineStore('courses', {
   state: () => ({
     courses: <MappedCourse[]>[],
     coursesTotal: 0,
+    coursesCurrentPage: 1,
     currentCourse: {} as Course,
   }),
   actions: {
@@ -35,6 +36,7 @@ export const useCourses = defineStore('courses', {
 
         this.courses = mappedCourses;
         this.coursesTotal = response.totalCount;
+        this.coursesCurrentPage = response.page;
 
         return mappedCourses;
       } catch (e) {

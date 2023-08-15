@@ -13,6 +13,7 @@ export const useAuth = defineStore('auth', {
     currentUser: {} as CurrentUser,
     users: [] as User[],
     usersTotal: 0,
+    usersCurrentPage: 1,
     loadingUsers: false,
   }),
   getters: {
@@ -37,11 +38,9 @@ export const useAuth = defineStore('auth', {
           throw Error(response.errors[0]);
         }
 
-        this.users = (response.data as User[]).map(res => ({
-          ...res,
-          normalizedName: `${res.firstName} ${res.lastName}`,
-        }));
+        this.users = mapUsers(response.data);
         this.usersTotal = response.totalCount;
+        this.usersCurrentPage = response.page;
 
         return this.users;
       } catch (e) {
@@ -234,3 +233,10 @@ export const useAuth = defineStore('auth', {
     }
   },
 });
+
+function mapUsers(users: User[]) {
+  return users.map(user => ({
+    ...user,
+    normalizedName: `${user.firstName} ${user.lastName}`,
+  }));
+}

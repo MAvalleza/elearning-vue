@@ -10,6 +10,7 @@ export const useContents = defineStore('contents', {
   state: () => ({
     contents: <Content[]>[],
     contentsTotal: 0,
+    contentsCurrentPage: 1,
     currentContent: {},
   }),
   actions: {
@@ -25,6 +26,7 @@ export const useContents = defineStore('contents', {
 
         this.contents = response.data;
         this.contentsTotal = response.totalCount;
+        this.contentsCurrentPage = response.page;
 
         return this.contents;
       } catch (e) {
