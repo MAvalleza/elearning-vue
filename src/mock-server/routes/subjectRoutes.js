@@ -17,9 +17,8 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    const ownerId = request.queryParams.ownerId;
     const collection = schema.subjects.where({
-      ...(ownerId && { ownerId }),
+      ...(authSession.isInstructor() && { ownerId: authSession.user().id }),
     });
 
     const response = evaluateParams(schema, {

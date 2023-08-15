@@ -4,7 +4,6 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
 import { useUI } from '@/stores/ui';
-import { useAuth } from '@/stores/auth';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import {
   mapOptionsToParams,
@@ -26,10 +25,6 @@ const HEADER_BUTTON_OPTS = {
   style: { color: 'black' },
   to: { name: 'create-subject' },
 };
-
-// Auth
-const authStore = useAuth();
-const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // UI states
 const uiStore = useUI();
@@ -61,7 +56,6 @@ const initial = {
     page: 1,
     limit: 25,
     join: ['courses'],
-    ownerId: currentUser.value.id,
   },
   total: {
     current: 0,
