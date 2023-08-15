@@ -1,5 +1,6 @@
 import { type TableOptions } from '@/types/data-table';
 
+// Convert vuetify options to the specified params for the API query
 const mapOptionsToParams = (opts: TableOptions): object => {
   const params: {
     limit: number | string;
