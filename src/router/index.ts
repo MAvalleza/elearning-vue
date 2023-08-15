@@ -15,6 +15,18 @@ import activityWatcher from '@/plugins/activity-watcher';
 import { ROLES } from '@/constants/roles-and-actions';
 import InProgressPage from '@/pages/temp/InProgressPage.vue';
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    roles?: string[]
+  }
+
+  interface RouteLocationNormalized {
+    query: {
+      token: string;
+    }
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -40,18 +52,6 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-
-declare module 'vue-router' {
-  interface RouteMeta {
-    roles?: string[]
-  }
-
-  interface RouteLocationNormalized {
-    query: {
-      token: string;
-    }
-  }
-}
 
 type BeforeResolveGuard = (
   to: RouteLocationNormalized,
@@ -81,6 +81,7 @@ const beforeResolveGuard: BeforeResolveGuard = async (to, from) => {
 // Global navigation guard
 router.beforeResolve(beforeResolveGuard);
 
+// To track user inactivity time
 router.afterEach(to => {
   if (to.meta.auth) {
     activityWatcher();
