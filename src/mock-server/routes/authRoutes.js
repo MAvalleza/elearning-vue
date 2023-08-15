@@ -217,15 +217,7 @@ const createAuthRoutes = routeInstance => {
       expiresAt: expirationDate
     });
 
-    // Add id and normalized name then return
-    return {
-      id: userData.id,
-      accessToken: accessToken,
-      role: userData.role,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      normalizedName: `${userData.firstName || ''} ${userData.lastName || ''}`,
-    };
+    return mapCurrentUser(userData, accessToken);
   });
 
   routeInstance.delete('/logout', (schema, request) => {
@@ -292,6 +284,40 @@ const createAuthRoutes = routeInstance => {
 
     schema.db.resetPasswordRequests.remove({ email: resetRequest.email });
   });
+
+  routeInstance.post('/validate-session', (schema, request) => {
+    const accessToken = request.requestHeaders['Authorization'];
+    const authSession = new AuthSession(schema, accessToken);
+
+    if (authSession.isExpiredToken()) {
+      // Delete token
+      schema.db.sessions.remove({ accessToken });
+
+      return new Response(
+        401,
+        { some: 'header' },
+        {
+          errors: {
+            name: 'authorized',
+            message: 'Your session has expired.'
+          }
+        }
+      );
+    }
+
+    return mapCurrentUser(authSession.user(), authSession.token);
+  });
 };
+
+function mapCurrentUser(userData, accessToken) {
+  return {
+    id: userData.id,
+    accessToken,
+    role: userData.role,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    normalizedName: `${userData.firstName || ''} ${userData.lastName || ''}`,
+  };
+}
 
 export default createAuthRoutes;

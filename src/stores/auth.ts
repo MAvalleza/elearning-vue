@@ -22,6 +22,9 @@ export const useAuth = defineStore('auth', {
     currentUserRole(state) {
       return state.currentUser?.role;
     },
+    hasPreviousSession() {
+      return !!localStorage.getItem('accessToken');
+    }
   },
   actions: {
     async fetchUsers(params: FetchUsersParams) {
@@ -207,5 +210,27 @@ export const useAuth = defineStore('auth', {
 
       return response;
     },
+    async validateSession() {
+      try {
+        if (!this.hasPreviousSession) {
+          return;
+        }
+
+        const response = await webservice.validateSession();
+
+        if (!isEmpty(response.errors)) {
+          throw new Error(response.errors.message);
+        }
+
+        this.currentUser = response;
+      } catch(e) {
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message
+          });
+        }
+      }
+    }
   },
 });

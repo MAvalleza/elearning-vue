@@ -19,7 +19,8 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    redirect: () => redirect(),
+    component: { template: '<router-view />' }, // Dummy component
+    beforeEnter: [rootRouteGuard],
   },
   ...authRoutes,
   ...subjectRoutes,
@@ -55,10 +56,14 @@ declare module 'vue-router' {
 type BeforeResolveGuard = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized
-) => RouteLocationRaw | void
+) => Promise<RouteLocationRaw | void>
 
-const beforeResolveGuard: BeforeResolveGuard = (to, from) => {
-  // If authorized route and th`ere is no user logged in
+const beforeResolveGuard: BeforeResolveGuard = async (to, from) => {
+  // If there is not current user, we check for previously saved tokens
+  if (!authStore().isAuthenticated) {
+    await authStore().validateSession();
+  } 
+  // If authorized route and there is no user logged in
   const isUnauthorized = to.meta.auth && !authStore().isAuthenticated;
 
   const role = authStore().currentUserRole;
@@ -82,7 +87,11 @@ router.afterEach(to => {
   }
 });
 
-function redirect() {
+async function rootRouteGuard() {
+   // If there is not current user, we check for previously saved tokens
+   if (!authStore().isAuthenticated) {
+    await authStore().validateSession();
+  } 
   const role: string = authStore().currentUser.role;
 
   if ([ROLES.ADMIN, ROLES.INSTRUCTOR].includes(role)) {

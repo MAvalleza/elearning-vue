@@ -151,4 +151,20 @@ export default class AuthWebservice extends Webservice {
       throw e;
     }
   }
+
+  async validateSession() {
+    try {
+      const url = this.parseURL({ path: 'validate-session' });
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: this.requestHeaders()
+      });
+
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
 }

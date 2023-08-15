@@ -44,7 +44,7 @@ VITE_API_NAMESPACE=/api
 
 ```
 
-Additionally, if you want data to persist for MirageJS, add this in the ENV file:
+Additionally, if you want data to persist for MirageJS, add this in the ENV file (true is recommended in order to mock sessions):
 
 ```
 VITE_MIRAGE_PERSISTENCE=true
