@@ -31,13 +31,13 @@ const createAuthRoutes = routeInstance => {
   });
 
   routeInstance.get('/users/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     return schema.users.find(id);
   });
 
   routeInstance.post('/signup', (schema, request) => {
-    let attrs = JSON.parse(request.requestBody);
+    const attrs = JSON.parse(request.requestBody);
 
     const { email } = attrs;
 
@@ -86,7 +86,7 @@ const createAuthRoutes = routeInstance => {
   routeInstance.post('/signup/verification', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
 
-    let { email } = attrs;
+    const { email } = attrs;
 
     const user = schema.users.findBy({ email });
 

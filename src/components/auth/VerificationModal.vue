@@ -53,7 +53,7 @@ async function resend() {
   timerCount.value = MAX_TIME_IN_SECONDS;
   isResendTimerRunning.value = true;
 
-  let interval = setInterval(() => {
+  const interval = setInterval(() => {
     timerCount.value--;
     if (timerCount.value === 0) {
       clearInterval(interval);

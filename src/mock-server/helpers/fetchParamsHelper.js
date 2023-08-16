@@ -92,7 +92,7 @@ class Filter {
   }
 
   filter(data) {
-    let conditions = [];
+    const conditions = [];
 
     // Evaluate the parameters based on the filter methods for those parameters
     // Push the result to an array.
@@ -166,7 +166,7 @@ class CollectionJoin {
   }
 
   #evaluateJoin(model) {
-    let foreignAttrs = {};
+    const foreignAttrs = {};
 
     if (!this.joinParams) {
       return model.attrs;

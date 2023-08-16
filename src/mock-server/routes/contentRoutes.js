@@ -33,7 +33,7 @@ const createContentRoutes = routeInstance => {
   });
 
   routeInstance.post('/contents', (schema, request) => {
-    let attrs = JSON.parse(request.requestBody);
+    const attrs = JSON.parse(request.requestBody);
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
@@ -61,8 +61,8 @@ const createContentRoutes = routeInstance => {
   });
 
   routeInstance.put('/contents/:id', (schema, request) => {
-    let id = request.params.id;
-    let attrs = JSON.parse(request.requestBody);
+    const id = request.params.id;
+    const attrs = JSON.parse(request.requestBody);
 
     const token = request.requestHeaders['Authorization'];
 

@@ -52,7 +52,7 @@ const createEnrollmentRoutes = routeInstance => {
     return new Response(200, { some: 'header' }, response);
   });
   routeInstance.post('/enrollments', (schema, request) => {
-    let attrs = JSON.parse(request.requestBody);
+    const attrs = JSON.parse(request.requestBody);
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
@@ -86,7 +86,7 @@ const createEnrollmentRoutes = routeInstance => {
   });
 
   routeInstance.del('/enrollments/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 
@@ -102,7 +102,7 @@ const createEnrollmentRoutes = routeInstance => {
       );
     }
 
-    let enrollment = schema.enrollments.find(id);
+    const enrollment = schema.enrollments.find(id);
 
     // Delete associated enrollment modules
     enrollment.enrollmentModules.destroy();

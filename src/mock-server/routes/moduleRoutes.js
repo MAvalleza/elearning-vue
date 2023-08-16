@@ -37,7 +37,7 @@ const createModuleRoutes = routeInstance => {
   });
 
   routeInstance.post('/modules', (schema, request) => {
-    let attrs = JSON.parse(request.requestBody);
+    const attrs = JSON.parse(request.requestBody);
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
@@ -65,8 +65,8 @@ const createModuleRoutes = routeInstance => {
   });
 
   routeInstance.put('/modules/:id', (schema, request) => {
-    let id = request.params.id;
-    let attrs = JSON.parse(request.requestBody);
+    const id = request.params.id;
+    const attrs = JSON.parse(request.requestBody);
 
     const token = request.requestHeaders['Authorization'];
 
@@ -101,7 +101,7 @@ const createModuleRoutes = routeInstance => {
   });
 
   routeInstance.del('/modules/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 
@@ -115,7 +115,7 @@ const createModuleRoutes = routeInstance => {
       );
     }
 
-    let module = schema.modules.find(id);
+    const module = schema.modules.find(id);
 
     // Delete the module
     module.destroy();
@@ -128,7 +128,7 @@ const createModuleRoutes = routeInstance => {
   });
 
   routeInstance.get('/modules/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 

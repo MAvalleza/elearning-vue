@@ -35,7 +35,7 @@ const createCourseRoutes = routeInstance => {
   });
 
   routeInstance.post('/courses', (schema, request) => {
-    let attrs = JSON.parse(request.requestBody);
+    const attrs = JSON.parse(request.requestBody);
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
@@ -63,8 +63,8 @@ const createCourseRoutes = routeInstance => {
   });
 
   routeInstance.put('/courses/:id', (schema, request) => {
-    let id = request.params.id;
-    let attrs = JSON.parse(request.requestBody);
+    const id = request.params.id;
+    const attrs = JSON.parse(request.requestBody);
 
     const token = request.requestHeaders['Authorization'];
 
@@ -100,7 +100,7 @@ const createCourseRoutes = routeInstance => {
   });
 
   routeInstance.del('/courses/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 
@@ -114,7 +114,7 @@ const createCourseRoutes = routeInstance => {
       );
     }
 
-    let course = schema.courses.find(id);
+    const course = schema.courses.find(id);
 
     // Delete associated modules
     course.modules.destroy();
@@ -130,7 +130,7 @@ const createCourseRoutes = routeInstance => {
   });
 
   routeInstance.get('/courses/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 

@@ -30,7 +30,7 @@ const createSubjectRoutes = routeInstance => {
   });
 
   routeInstance.post('/subjects', (schema, request) => {
-    let attrs = JSON.parse(request.requestBody);
+    const attrs = JSON.parse(request.requestBody);
     const token = request.requestHeaders['Authorization'];
 
     const authSession = new AuthSession(schema, token);
@@ -54,7 +54,7 @@ const createSubjectRoutes = routeInstance => {
   });
 
   routeInstance.get('/subjects/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 
@@ -97,8 +97,8 @@ const createSubjectRoutes = routeInstance => {
   });
 
   routeInstance.put('/subjects/:id', (schema, request) => {
-    let id = request.params.id;
-    let attrs = JSON.parse(request.requestBody);
+    const id = request.params.id;
+    const attrs = JSON.parse(request.requestBody);
 
     const token = request.requestHeaders['Authorization'];
 
@@ -112,13 +112,13 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    let subject = schema.subjects.find(id);
+    const subject = schema.subjects.find(id);
 
     return subject.update(attrs);
   });
 
   routeInstance.del('/subjects/:id', (schema, request) => {
-    let id = request.params.id;
+    const id = request.params.id;
 
     const token = request.requestHeaders['Authorization'];
 
@@ -132,7 +132,7 @@ const createSubjectRoutes = routeInstance => {
       );
     }
 
-    let subject = schema.subjects.find(id);
+    const subject = schema.subjects.find(id);
 
     // TODO: Reusable destroy
     // Delete associated courses
