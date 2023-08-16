@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useCourses } from '@/stores/courses';
 import { useSubjects } from '@/stores/subjects';
 import { useModules } from '@/stores/modules';
-import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { type RouteWithCustomProperties } from '@/types/vue-router';
@@ -51,16 +50,13 @@ function definePageTitle() {
   return routeMetaTitle;
 }
 
-// UI State
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
-
 // Auth
 const authStore = useAuth();
 const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Module
 const modulesStore = useModules();
+const { loadingModules } = storeToRefs(modulesStore);
 const newModule: Ref = ref({
   title: null,
   isPublished: false,
@@ -118,7 +114,7 @@ function submitForm() {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loading")
+app-loader(:is-visible="loadingModules")
 
 page-header(
   :title="definePageTitle()"

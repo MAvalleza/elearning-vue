@@ -2,7 +2,6 @@
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useUI } from '@/stores/ui';
 import { useModules } from '@/stores/modules';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
 import {
@@ -27,8 +26,6 @@ const HEADER_BUTTON_OPTS = {
 };
 
 // UI states
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
 const confirmDialog: Ref = ref(null);
 
 // Fetch params
@@ -52,7 +49,7 @@ function initialize() {
 }
 
 const modulesStore = useModules();
-const { modules, modulesTotal } = storeToRefs(modulesStore);
+const { modules, modulesTotal, loadingModules } = storeToRefs(modulesStore);
 
 async function fetchModules() {
   await modulesStore.fetchModules(fetchParams);
@@ -125,7 +122,7 @@ page-content
     v-model:items-per-page="fetchParams.limit"
     :items="modules"
     :items-length="modulesTotal"
-    :loading="loading"
+    :loading="loadingModules"
     @click:row="editModule"
     @update:options="onUpdateTableOptions"
     @action="onAction"

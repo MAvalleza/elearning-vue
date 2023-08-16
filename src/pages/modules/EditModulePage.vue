@@ -5,7 +5,6 @@ import { useModules } from '@/stores/modules';
 import { useContents } from '@/stores/contents';
 import { useCourses } from '@/stores/courses';
 import { useSubjects } from '@/stores/subjects';
-import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
 import { type RouteWithCustomProperties } from '@/types/vue-router';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -31,16 +30,14 @@ function definePageTitle() {
     .join(' > ');
 }
 
-// UI
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
 
 // Module
 const modulesStore = useModules();
 const {
   currentModule,
   currentModuleContent,
-}: { currentModule: Ref; currentModuleContent: Ref } =
+  loadingModules,
+}: { currentModule: Ref; currentModuleContent: Ref; loadingModules: Ref } =
   storeToRefs(modulesStore);
 const moduleId: Ref = ref(route.params?.moduleId);
 const mod = ref({});
@@ -138,7 +135,7 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loading")
+app-loader(:is-visible="loadingModules")
 
 page-header(
   :title="definePageTitle()"
@@ -153,7 +150,7 @@ page-content
     v-model="mod"
     v-model:content="modContent"
     :hide-course-field="isCourseProvided"
-    :loading="loading"
+    :loading="loadingModules"
     @submit="update"
   )
 </template>

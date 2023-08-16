@@ -19,13 +19,14 @@ export const useModules = defineStore('modules', {
     modules: <MappedModule[]>[],
     modulesTotal: 0,
     modulesCurrentPage: 1,
+    loadingModules: false,
     currentModule: {},
     currentModuleContent: {}, // content of current module
   }),
   actions: {
     async fetchModules(params: FetchParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingModules = true;
 
         const response = await webservice.getModules(params);
 
@@ -49,12 +50,12 @@ export const useModules = defineStore('modules', {
 
         return [];
       } finally {
-        uiStore().setLoading(false);
+        this.loadingModules = false;
       }
     },
     async createModule(data: ModuleCreateParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingModules = true;
 
         // Create the module
         const response = await webservice.createModule(
@@ -84,12 +85,12 @@ export const useModules = defineStore('modules', {
           message: 'There was an error in creating the module.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingModules = false;
       }
     },
     async updateModule(id: string, params: ModuleUpdateParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingModules = true;
 
         const response = await webservice.updateModule(
           id,
@@ -112,12 +113,12 @@ export const useModules = defineStore('modules', {
 
         this.$router.push({ name: 'modules-list' });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingModules = false;
       }
     },
     async deleteModule(id: string) {
       try {
-        uiStore().setLoading(true);
+        this.loadingModules = true;
 
         const response = await webservice.deleteModule(id);
 
@@ -135,12 +136,12 @@ export const useModules = defineStore('modules', {
           message: 'There was an error in deleting the module.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingModules = false;
       }
     },
     async fetchModule(id: string, params?: GetParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingModules = true;
 
         // Fetch module
         const response = await webservice.getModule(
@@ -171,7 +172,7 @@ export const useModules = defineStore('modules', {
           message: 'There was an error in fetching the module.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingModules = false;
       }
     },
     async onTableAction({ id, action }: { id: string, action: string }) {
