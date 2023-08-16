@@ -36,7 +36,7 @@ const { loading } = storeToRefs(uiStore);
 
 // Course
 const coursesStore = useCourses();
-const { currentCourse }: { currentCourse: Ref } = storeToRefs(coursesStore);
+const { currentCourse, loadingCourses }: { currentCourse: Ref; loadingCourses: Ref } = storeToRefs(coursesStore);
 const course = ref({});
 const courseId: Ref = ref(route.params.courseId);
 
@@ -130,7 +130,7 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loading")
+app-loader(:is-visible="loadingCourses || loading")
 
 page-header(
   :title="definePageTitle()"
@@ -150,7 +150,7 @@ page-content
           ref="form"
           :key="course.id"
           v-model="course"
-          :loading="loading"
+          :loading="loadingCourses"
           :subject="isFromSubject"
           @submit="updateCourse"
         )
@@ -166,7 +166,7 @@ page-content
             ).text-none Add a module
           modules-list-table(
             component="v-data-table"
-            :loading="loading"
+            :loading="loadingCourses"
             :items="course.modules || []"
             hide-course-column
             @click:row="editModule"

@@ -19,11 +19,12 @@ export const useCourses = defineStore('courses', {
     coursesTotal: 0,
     coursesCurrentPage: 1,
     currentCourse: {} as Course,
+    loadingCourses: false,
   }),
   actions: {
     async fetchCourses(params: FetchCoursesParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingCourses = true;
 
         // Call the webservice
         const response = await webservice.getCourses(params);
@@ -48,7 +49,7 @@ export const useCourses = defineStore('courses', {
         }
         return [];
       } finally {
-        uiStore().setLoading(false);
+        this.loadingCourses = false;
       }
     },
     async createCourse(data: CourseCreateParams) {
@@ -78,7 +79,7 @@ export const useCourses = defineStore('courses', {
 
     async updateCourse(id: string, params: Partial<CourseCreateParams>) {
       try {
-        uiStore().setLoading(true);
+        this.loadingCourses = true;
 
         // Call the webservice
         const response = await webservice.updateCourse(
@@ -102,12 +103,12 @@ export const useCourses = defineStore('courses', {
 
         this.$router.push({ name: 'courses-list' });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingCourses = false;
       }
     },
     async deleteCourse(id: string) {
       try {
-        uiStore().setLoading(true);
+        this.loadingCourses = true;
 
         const response = await webservice.deleteCourse(id);
 
@@ -125,7 +126,7 @@ export const useCourses = defineStore('courses', {
           message: 'There was an error in deleting the course.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingCourses = false;
       }
     },
     async fetchCourse(id: string, params: GetCourseParams) {

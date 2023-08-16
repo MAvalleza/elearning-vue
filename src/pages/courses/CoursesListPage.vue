@@ -4,7 +4,6 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import uniqBy from 'lodash-es/uniqBy';
 import { useCourses } from '@/stores/courses';
-import { useUI } from '@/stores/ui';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
 import type {
   GenericTableItem,
@@ -29,12 +28,10 @@ const HEADER_BUTTON_OPTS = {
 };
 
 // UI states
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
 const confirmDialog: Ref = ref(null);
 
 const coursesStore = useCourses();
-const { courses, coursesTotal }: { courses: Ref; coursesTotal: Ref } =
+const { courses, coursesTotal, loadingCourses }: { courses: Ref; coursesTotal: Ref; loadingCourses: Ref } =
   storeToRefs(coursesStore);
 
 // Fetch params
@@ -155,7 +152,7 @@ page-content
     v-model:items-per-page="fetchParams.limit"
     :items="courses"
     :items-length="coursesTotal"
-    :loading="loading"
+    :loading="loadingCourses"
     @click:row="editCourse"
     @update:options="onUpdateTableOptions"
     @action="onAction"
