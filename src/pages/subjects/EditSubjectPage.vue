@@ -3,9 +3,9 @@ import { ref, onMounted, type Ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
-import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
 import { type TableActionOpt, type GenericTableItem } from '@/types/data-table';
+import AppLoader from '@/components/commons/AppLoader.vue';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
@@ -17,9 +17,6 @@ const router = useRouter();
 const route = useRoute();
 
 // UI States
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
-
 const confirmDialog: Ref = ref(null);
 const tab = ref('form');
 const HEADER_BUTTON_OPTS = {
@@ -103,7 +100,7 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loadingSubjects || loading")
+app-loader(:is-visible="loadingSubjects")
 
 page-confirm-dialog(ref="confirmDialog")
 
@@ -125,7 +122,7 @@ page-content
           ref="form"
           :key="subject.id"
           v-model="subject"
-          :loading="loading"
+          :loading="loadingSubjects"
           @submit="updateSubject"
         )
       v-window-item(value="courses")

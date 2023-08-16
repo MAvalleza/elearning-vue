@@ -3,7 +3,6 @@ import { ref, onMounted, type Ref } from 'vue';
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
-import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
 import { type GenericTableItem } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -29,10 +28,6 @@ const tab = ref('form');
 // Router
 const router = useRouter();
 const route = useRoute();
-
-// UI
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
 
 // Course
 const coursesStore = useCourses();
@@ -130,7 +125,7 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loadingCourses || loading")
+app-loader(:is-visible="loadingCourses")
 
 page-header(
   :title="definePageTitle()"

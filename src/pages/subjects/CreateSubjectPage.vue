@@ -2,7 +2,6 @@
 import { ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
-import { useUI } from '@/stores/ui';
 import { storeToRefs } from 'pinia';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
@@ -10,14 +9,12 @@ import SubjectForm from '@/components/subjects/SubjectForm.vue';
 
 const route = useRoute();
 
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
-
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
 
 const subjectsStore = useSubjects();
+const { loadingSubjects } = storeToRefs(subjectsStore);
 const newSubject: Ref = ref({ title: null, isPublished: false });
 
 const createForm: Ref = ref(null);
@@ -31,7 +28,7 @@ function createSubject() {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loading")
+app-loader(:is-visible="loadingSubjects")
 
 page-header(
   :title="route.meta.title"

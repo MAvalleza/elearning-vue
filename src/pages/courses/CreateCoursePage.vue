@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
-import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import isEmpty from 'lodash-es/isEmpty';
@@ -32,16 +31,13 @@ function definePageTitle() {
 const route: RouteWithCustomProperties = useRoute();
 const router = useRouter();
 
-// UI State
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
-
 // Auth
 const authStore = useAuth();
 const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Course
 const coursesStore = useCourses();
+const { loadingCourses } = storeToRefs(coursesStore);
 const newCourse: Ref = ref({
   title: null,
   isPublished: false,
@@ -84,7 +80,7 @@ const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loading")
+app-loader(:is-visible="loadingCourses")
 
 page-header(
   :title="definePageTitle()"

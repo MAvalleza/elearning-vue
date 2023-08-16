@@ -54,7 +54,7 @@ export const useCourses = defineStore('courses', {
     },
     async createCourse(data: CourseCreateParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingCourses = true;
 
         // Call the webservice
         const response = await webservice.createCourse(data);
@@ -73,7 +73,7 @@ export const useCourses = defineStore('courses', {
           message: 'There was an error in creating the course.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingCourses = false;
       }
     },
 
@@ -131,7 +131,7 @@ export const useCourses = defineStore('courses', {
     },
     async fetchCourse(id: string, params: GetCourseParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingCourses = true;
 
         const response = await webservice.getCourse(
           {
@@ -151,7 +151,7 @@ export const useCourses = defineStore('courses', {
           message: 'There was an error in fetching the course.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingCourses = false;
       }
     },
     async onTableAction({ id, action }: { id: string, action: string }) {
