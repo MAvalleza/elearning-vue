@@ -103,7 +103,7 @@ export const useSubjects = defineStore('subjects', {
     },
     async updateSubject(id: string, params: Partial<SubjectCreateParams>) {
       try {
-        uiStore().setLoading(true);
+        this.loadingSubjects = true;
 
         const response = await webservice.updateSubject(
           id,
@@ -126,12 +126,12 @@ export const useSubjects = defineStore('subjects', {
 
         this.$router.push({ name: 'subjects-list' });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingSubjects = false;
       }
     },
     async deleteSubject(id: string) {
       try {
-        uiStore().setLoading(true);
+        this.loadingSubjects = true;
 
         const response = await webservice.deleteSubject(id);
 
@@ -149,7 +149,7 @@ export const useSubjects = defineStore('subjects', {
           message: 'There was an error in deleting the subject.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingSubjects = false;
       }
     },
     async onTableAction({ id, action }: { id: string, action: string }) {

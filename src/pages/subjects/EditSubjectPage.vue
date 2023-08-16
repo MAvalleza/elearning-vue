@@ -28,7 +28,7 @@ const HEADER_BUTTON_OPTS = {
 
 // Subject operations
 const subjectsStore = useSubjects();
-const { currentSubject } = storeToRefs(subjectsStore);
+const { currentSubject, loadingSubjects } = storeToRefs(subjectsStore);
 const subject = ref({});
 const subjectId: Ref = ref(route.params.subjectId);
 
@@ -103,7 +103,7 @@ onBeforeRouteUpdate((to, from) => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loading")
+app-loader(:is-visible="loadingSubjects || loading")
 
 page-confirm-dialog(ref="confirmDialog")
 
@@ -140,7 +140,6 @@ page-content
             ).text-none Add a course
           courses-list-table(
             component="v-data-table"
-            :loading="loading"
             :items="subject.courses || []"
             hide-subject-column
             @click:row="editCourse"

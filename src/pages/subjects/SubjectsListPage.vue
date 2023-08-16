@@ -3,7 +3,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useSubjects } from '@/stores/subjects';
-import { useUI } from '@/stores/ui';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import {
   mapOptionsToParams,
@@ -27,8 +26,6 @@ const HEADER_BUTTON_OPTS = {
 };
 
 // UI states
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
 const confirmDialog: Ref = ref(null);
 
 // Subjects data
@@ -48,7 +45,7 @@ const SUBJECTS_DATA_TABLE = {
 };
 
 const subjectsStore = useSubjects();
-const { subjects, subjectsTotal } = storeToRefs(subjectsStore);
+const { subjects, subjectsTotal, loadingSubjects } = storeToRefs(subjectsStore);
 
 // Fetch params
 const initial = {
@@ -157,7 +154,7 @@ page-content
     :items="subjects"
     :items-length="subjectsTotal"
     :items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
-    :loading="loading"
+    :loading="loadingSubjects"
     @click:row="editSubject"
     @update:options="onUpdateTableOptions"
   )
