@@ -6,7 +6,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import { type Course } from '@/types/course';
 import { useCourses } from '@/stores/courses';
 import { useEnrollments } from '@/stores/enrollments';
-import { useUI } from '@/stores/ui';
+import AppLoader from '@/components/commons/AppLoader.vue';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
@@ -15,15 +15,12 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import CourseInformationDialog from '@/components/courses/CourseInformationDialog.vue';
 
 // UI
-const uiStore = useUI();
-const { loading } = storeToRefs(uiStore);
-
 const infoDialog: Ref = ref(null);
 const confirmDialog: Ref = ref(null);
 
 // Course
 const coursesStore = useCourses();
-const { courses, coursesTotal }: { courses: Ref, coursesTotal: Ref } = storeToRefs(coursesStore);
+const { courses, coursesTotal, loadingCourses }: { courses: Ref; coursesTotal: Ref; loadingCourses: Ref } = storeToRefs(coursesStore);
 
 async function fetchCourses() {
   await coursesStore.fetchCourses(fetchParams);
@@ -90,6 +87,8 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
+app-loader(:is-visible="loadingCourses")
+
 page-confirm-dialog(ref="confirmDialog")
 course-information-dialog(ref="infoDialog")
 
@@ -126,7 +125,7 @@ v-container(fluid)
         v-model="fetchParams.authorId"
         @update:model-value="onParamChange"
       )
-  v-row(v-if="loading" justify="center")
+  v-row(v-if="loadingCourses" justify="center")
     v-col.text-center
       v-progress-circular(indeterminate color="light-blue")
   v-row(v-else-if="isEmpty(courses)")

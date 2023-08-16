@@ -44,6 +44,7 @@ export const useEnrollments = defineStore('enrollments', {
     },
     async createEnrollment(params: EnrollmentCreateParams) {
       try {
+        this.loadingEnrollments = true;
         const response = await webservice.createEnrollment(params);
 
         if (!isEmpty(response.errors)) {
@@ -60,11 +61,13 @@ export const useEnrollments = defineStore('enrollments', {
           message: 'There was an error in enrolling.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingEnrollments = false;
       }
     },
     async unenroll(id: string) {
       try {
+        this.loadingEnrollments = true;
+
         const response = await webservice.deleteEnrollment(id);
 
         if (!isEmpty(response.errors)) {
@@ -81,7 +84,7 @@ export const useEnrollments = defineStore('enrollments', {
           message: 'There was an error in unenrolling',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingEnrollments = false;
       }
     },
   },
