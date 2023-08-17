@@ -49,6 +49,7 @@ const USER_MENU_ITEMS = [
 const navItems = ref(
   NAV_ITEMS.filter(item => item.roles.includes(currentUser.value?.role))
 );
+
 </script>
 
 <template lang="pug">
@@ -56,23 +57,30 @@ v-navigation-drawer(
   v-model="drawer"
   location="left"
   color="#2D323E"
-  width="350"
+  width="268"
   theme="dark"
 )
   template(#prepend)
     div.drawer-header.white--text.d-flex.pt-2
-      h5.text-h5.pt-2.pl-3 eLearning Portal
+      img(src="../../assets/images/arcanys-logo-symbol.png" width="27" height="27").mt-2.ml-4
+      h5.drawer-header-text.pt-3.pl-3 eLearning Portal
       v-spacer
-      v-app-bar-nav-icon(color="white" variant="text" @click.stop="drawer = !drawer")
-  v-list(density="compact")
+      v-app-bar-nav-icon(
+        color="white"
+        variant="text"
+        @click.stop="drawer = !drawer"
+      )
+  v-list(density="compact").drawer-list.pt-3
     v-list-subheader MANAGEMENT
     v-list-item(
       v-for="(item, key) in navItems"
       :key="key"
       :title="item.title"
-      :prepend-icon="item.icon"
       :to="{ name: item.route }"
+      active-class="active-nav"
     )
+      template(#prepend)
+        v-icon(:icon="item.icon" size="small")
 v-app-bar(color="#f0f0f0" theme="light")
   template(v-if="!drawer")
     v-app-bar-nav-icon(variant="text" @click.stop="drawer = !drawer")
@@ -103,5 +111,38 @@ v-app-bar(color="#f0f0f0" theme="light")
   background-color: black;
   height: 64px;
   color: white;
+}
+
+.drawer-header-text {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  /* 150% */
+  letter-spacing: 0.15px;
+}
+
+.drawer-list {
+  .v-list-subheader {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    /* 171.429% */
+    letter-spacing: 0.1px;
+  }
+
+  .v-list-item :deep(.v-list-item-title) {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    /* 142.857% */
+    letter-spacing: 0.25px;
+  }
+}
+
+.active-nav {
+  background: var(--accent-400, #28B4F4);
 }
 </style>
