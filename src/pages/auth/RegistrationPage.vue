@@ -102,7 +102,7 @@ const REGISTRATION_FORM = {
     text: 'REGISTER',
     variant: 'elevated',
     color: 'primary',
-    size: 'x-large',
+    size: 'large',
     minWidth: '200',
   },
 };
@@ -124,19 +124,18 @@ async function registerUser(data: UserCreateParams) {
 </script>
 
 <template lang="pug">
-v-container(fluid).fill-height.bg-grey-darken-4
-  app-loader(:is-visible="loading")
+app-loader(:is-visible="loading")
 
-  verification-modal(
-    v-model="isVerificationModalVisible"
-    v-model:token="activationToken"
-    :email="email"
-  )
+verification-modal(
+  v-model="isVerificationModalVisible"
+  v-model:token="activationToken"
+  :email="email"
+)
 
-  v-row(justify="center")
-    v-col(cols="12" lg="4")
-      auth-form-card(
-        v-bind="REGISTRATION_FORM"
-        @submit="registerUser"
-      )
+v-row(justify="center")
+  v-col(cols="12" lg="3")
+    auth-form-card(
+      v-bind="REGISTRATION_FORM"
+      @submit="registerUser"
+    )
 </template>

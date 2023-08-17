@@ -32,7 +32,7 @@ const FORGOT_PASSWORD_FORM = {
     text: 'SEND RESET LINK',
     variant: 'elevated',
     color: 'primary',
-    size: 'x-large',
+    size: 'large',
     minWidth: '200',
   },
 };
@@ -61,14 +61,13 @@ function proceed() {
 </script>
 
 <template lang="pug">
-v-container(fluid).fill-height.bg-grey-darken-4
-  app-loader(:is-visible="loading")
+app-loader(:is-visible="loading")
 
-  v-row(justify="center")
-    v-col(cols="12" lg="4")
-      auth-form-card(v-bind="FORGOT_PASSWORD_FORM" @submit="requestReset")
+v-row(justify="center")
+  v-col(cols="12" lg="3")
+    auth-form-card(v-bind="FORGOT_PASSWORD_FORM" @submit="requestReset")
 
-      //- NOTE: Since we are just mocking the backend, we just provide a button here that the user would normally see in an email.
-      div(v-if="showTempLink").mt-10.text-center
-        v-btn(@click="proceed") (temp) Proceed to reset
+    //- NOTE: Since we are just mocking the backend, we just provide a button here that the user would normally see in an email.
+    div(v-if="showTempLink").mt-10.text-center
+      v-btn(@click="proceed") (temp) Proceed to reset
 </template>

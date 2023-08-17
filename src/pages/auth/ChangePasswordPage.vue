@@ -53,7 +53,7 @@ const CHANGE_PASSWORD_FORM = {
     text: 'SAVE CHANGES',
     variant: 'elevated',
     color: 'primary',
-    size: 'x-large',
+    size: 'large',
     minWidth: '200',
   },
 };
@@ -66,10 +66,9 @@ async function reset(data: { password: string }) {
 </script>
 
 <template lang="pug">
-v-container(fluid).fill-height.bg-grey-darken-4
-  app-loader(:is-visible="loading")
+app-loader(:is-visible="loading")
 
-  v-row(justify="center")
-    v-col(cols="12" lg="4")
-      auth-form-card(v-bind="CHANGE_PASSWORD_FORM" @submit="reset")
+v-row(justify="center")
+  v-col(cols="12" lg="3")
+    auth-form-card(v-bind="CHANGE_PASSWORD_FORM" @submit="reset")
 </template>

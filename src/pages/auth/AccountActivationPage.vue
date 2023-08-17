@@ -37,22 +37,21 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-v-container(fluid).fill-height.align-center.bg-grey-darken-4
-  app-loader(:loading="loading")
+app-loader(:loading="loading")
 
-  v-row(v-if="isProcessDone" justify="center")
-    v-col(cols="12" lg="6" xl="6")
-      v-card
-        v-card-item
-          h3 Account Activation
-        v-card-text
-          | {{ message }}
+v-row(v-if="isProcessDone" justify="center")
+  v-col(cols="12" lg="6" xl="6")
+    v-card
+      v-card-item
+        h3 Account Activation
+      v-card-text
+        | {{ message }}
 
-        v-card-actions
-          v-spacer
-            v-btn(
-              color="primary"
-              :to="{ name: 'login' }"
-            ) Login
-          v-spacer
+      v-card-actions
+        v-spacer
+          v-btn(
+            color="primary"
+            :to="{ name: 'login' }"
+          ) Login
+        v-spacer
 </template>
