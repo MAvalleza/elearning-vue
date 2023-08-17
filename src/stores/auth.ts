@@ -218,6 +218,7 @@ export const useAuth = defineStore('auth', {
         const response = await webservice.validateSession();
 
         if (!isEmpty(response.errors)) {
+          localStorage.removeItem('accessToken');
           throw new Error(response.errors.message);
         }
 
