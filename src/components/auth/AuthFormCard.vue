@@ -38,11 +38,12 @@ async function onSubmit() {
 
 <template lang="pug">
 v-form(ref="authForm" @submit.prevent="onSubmit")
-  v-card(rounded="xl").text-center.pa-6
+  v-card(rounded="lg").text-center.pa-6
     v-card-item
       div
-        router-link(:to="{ name: 'login'}").text-lg-h3.text-black eLearning Portal
-      div.text-md-h5.my-5 {{ props.title }}
+        router-link(:to="{ name: 'login'}")
+          span.el-text-h4.text-black eLearning Portal
+      div.auth-card-title.my-5 {{ props.title }}
     v-card-text.ma-5
       component(
         :is="field.component"
@@ -57,3 +58,17 @@ v-form(ref="authForm" @submit.prevent="onSubmit")
       v-btn(v-bind="buttonOpts" type="submit")
     slot(name="append-form-actions")
 </template>
+
+<style scoped>
+.auth-card-title {
+  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.60));
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: 'Montserrat';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  /* 120% */
+  letter-spacing: 0.15px;
+}
+</style>

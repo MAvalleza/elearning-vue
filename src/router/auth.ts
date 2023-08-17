@@ -7,7 +7,7 @@ import AccountActivationPage from '@/pages/auth/AccountActivationPage.vue';
 export default [
   {
     path: '/auth',
-    meta: { layout: 'BlankLayout' },
+    meta: { layout: 'AuthLayout' },
     children: [
       {
         path: 'register',

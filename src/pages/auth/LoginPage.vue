@@ -23,6 +23,7 @@ const LOGIN_FORM = {
         label: 'Email',
         variant: 'outlined',
         rules: [REQUIRED_RULE, EMAIL_FORMAT_RULE],
+        appendInnerIcon: 'mdi-email-outline',
         validateOn: 'input',
       },
     },
@@ -34,6 +35,7 @@ const LOGIN_FORM = {
         variant: 'outlined',
         type: 'password',
         rules: [REQUIRED_RULE],
+        appendInnerIcon: 'mdi-key-outline',
         validateOn: 'input',
       },
     },
@@ -42,7 +44,7 @@ const LOGIN_FORM = {
     text: 'LOGIN',
     variant: 'elevated',
     color: 'primary',
-    size: 'x-large',
+    size: 'large',
     minWidth: '200',
   },
 };
@@ -57,17 +59,16 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-v-container(fluid).fill-height.align-center.bg-grey-darken-4
-  app-loader(:is-visible="loading")
+app-loader(:is-visible="loading")
 
-  v-row(justify="center")
-    v-col(cols="12" lg="4")
-      auth-form-card(v-bind="LOGIN_FORM" @submit="login")
-        template(#append-form)
-          div.text-right
-            v-btn(variant="text" size="x-small" :to="{ name: 'forgot-password' }") Forgot Password
-        template(#append-form-actions)
-          v-col
-            span OR
-          router-link(:to="{ name: 'registration' }") Create an account
+v-row(justify="center")
+  v-col(cols="12" lg="3")
+    auth-form-card(v-bind="LOGIN_FORM" @submit="login")
+      template(#append-form)
+        div.text-right
+          v-btn(variant="text" size="small" :to="{ name: 'forgot-password' }").text-none Forgot Password
+      template(#append-form-actions)
+        v-col
+          span -- OR --
+        router-link(:to="{ name: 'registration' }") Create an account
 </template>
