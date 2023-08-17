@@ -3,7 +3,7 @@ const props = defineProps({
   // Header height in px (omit 'px')
   height: {
     type: [String, Number],
-    default: '200',
+    default: '180',
   },
   // Vuetify classes as value. Prefix with `bg-`
   bgColor: {
@@ -41,7 +41,7 @@ const HEADER_STYLES = {
 };
 
 function defineHeaderClasses() {
-  return [props.bgColor];
+  return ['page-header', props.bgColor];
 }
 
 function onButtonClick() {
@@ -56,7 +56,7 @@ div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
       v-row(align="center")
         v-col(:style="{ color: props.fontColor }").d-flex
           slot(name="title")
-            v-icon(:icon="props.titleIcon" size="x-large").pt-4
+            v-icon(:icon="props.titleIcon" size="x-large")
             h1.pl-3 {{ props.title }}
         template(v-if="hasCenterSection")
           v-col(cols="5").pt-4
@@ -65,3 +65,15 @@ div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
           slot(name="action-btn")
             v-btn(v-bind="buttonOpts" @click="onButtonClick")
 </template>
+
+<style scoped>
+.page-header h1 {
+  font-family: 'Montserrat', 'sans-serif';
+  font-size: 20px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  /* 120% */
+  letter-spacing: 0.15px;
+}
+</style>

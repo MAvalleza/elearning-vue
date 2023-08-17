@@ -1,5 +1,5 @@
 <template lang="pug">
 v-container(fluid)
-  v-card
+  v-card.mt-n10.pt-5.rounded-lg
     slot(name="default")
 </template>

@@ -111,10 +111,10 @@ page-header(
 )
 
 page-content
-  v-card
+  v-card.mt-5
     v-tabs(v-model="tab")
-      v-tab(value="form") Subject
-      v-tab(value="courses") Courses
+      v-tab(value="form" width="116").text-none Subject
+      v-tab(value="courses" width="116").text-none Courses
 
     v-window(v-model="tab").pt-10
       v-window-item(value="form")
