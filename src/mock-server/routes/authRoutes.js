@@ -314,6 +314,7 @@ function mapCurrentUser(userData, accessToken) {
     id: userData.id,
     accessToken,
     role: userData.role,
+    email: userData.email,
     firstName: userData.firstName,
     lastName: userData.lastName,
     normalizedName: `${userData.firstName || ''} ${userData.lastName || ''}`,
