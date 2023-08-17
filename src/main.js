@@ -1,6 +1,5 @@
 import { createApp, markRaw } from 'vue';
 import { createPinia } from 'pinia';
-import './style.css';
 import router from './router';
 import createMockServer from './mock-server';
 import App from './App.vue';

@@ -1,0 +1,51 @@
+:root {
+  color-scheme: light dark;
+  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.60));
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 1 999;
+  src: url('./fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 1 999;
+  src: url('./fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: var(--font-weight); /* Use a CSS variable to control weight */
+}
+
+em {
+  font-style: italic;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+.el-text-h4 {
+  font-family: 'Montserrat';
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px; 
+}

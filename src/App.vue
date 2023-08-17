@@ -24,3 +24,7 @@ v-app
 
     component(:is="layout")
 </template>
+
+<style lang="scss">
+@import '@/assets/styles.scss';
+</style>
