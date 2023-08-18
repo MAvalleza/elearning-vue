@@ -20,8 +20,22 @@
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 1 999;
+  font-weight: normal;
   src: url('./fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  src: url('./fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./fonts/Roboto/Roboto-Medium.ttf') format('truetype');
 }
 
 body {

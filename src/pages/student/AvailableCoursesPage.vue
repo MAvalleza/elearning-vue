@@ -6,7 +6,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import { type Course } from '@/types/course';
 import { useCourses } from '@/stores/courses';
 import { useEnrollments } from '@/stores/enrollments';
-import AppLoader from '@/components/commons/AppLoader.vue';
+import GenericContainer from '@/components/commons/GenericContainer.vue';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
@@ -33,6 +33,7 @@ const initial = {
     limit: 24,
     published: true,
     join: ['modules', 'subject', 'author'],
+    authorId: null,
   },
   total: {
     current: 0,
@@ -87,8 +88,6 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loadingCourses")
-
 page-confirm-dialog(ref="confirmDialog")
 course-information-dialog(ref="infoDialog")
 
@@ -100,8 +99,7 @@ page-header
           h1 Welcome to the eLearning portal
           p Our course will step you through the process of building a small application, or adding a new feature to an existing application
 // Content
-// TODO: Create pagination
-v-container(fluid)
+generic-container
   v-row
     // Search bar
     v-col
@@ -110,6 +108,7 @@ v-container(fluid)
         variant="outlined"
         label="Search for a course"
         placeholder="Enter a keyword"
+        :disabled="loadingCourses"
         @update:model-value="onParamChange"
       )
     v-spacer
@@ -117,12 +116,14 @@ v-container(fluid)
     v-col
       subject-search(
         v-model="fetchParams.subjectId"
+        :disabled="loadingCourses"
         @update:model-value="onParamChange"
       )
     // Instructor search
     v-col
       instructor-search(
         v-model="fetchParams.authorId"
+        :disabled="loadingCourses"
         @update:model-value="onParamChange"
       )
   v-row(v-if="loadingCourses" justify="center")

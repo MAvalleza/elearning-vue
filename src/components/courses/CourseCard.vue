@@ -56,10 +56,10 @@ v-card(
   :elevation="5"
   @click="emit('click')"
 )
-  v-toolbar(color="light-blue").text-white.px-2
-    | {{ props.course.subject?.title || 'Subject' }}
+  v-toolbar(color="light-blue").text-white.px-2.toolbar-title
+    span {{ props.course.subject?.title || 'Subject' }}
     v-spacer
-    v-icon(size="sm").pr-2 mdi-clock-outline
+    v-icon(size="large").pr-2 mdi-clock-outline
     | {{ totalDuration }} min
   v-card-text.text-center
     // Icon
@@ -69,10 +69,31 @@ v-card(
     // Details
     .details.mt-5
       h3 {{ props.course.title }}
-      p.text-caption {{ authorName }}
-      p.text-caption Created {{ createdDate }}
+      p {{ authorName }}
+      p Created {{ createdDate }}
   v-divider
   v-card-actions
     slot(name="action-btn")
       v-btn(block color="light-blue" @click.stop="onEnrollClick") ENROLL
 </template>
+
+<style scoped>
+.toolbar-title,
+.details h3 {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  /* 171.429% */
+  letter-spacing: 0.1px;
+}
+
+.details p {
+  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.60));
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  /* 133.333% */
+  letter-spacing: 0.4px;
+}
+</style>
