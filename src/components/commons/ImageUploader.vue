@@ -56,7 +56,9 @@ v-card(
     template(#placeholder)
       div(style="background-color: #f0f0f0;").d-flex.fill-height.align-center.justify-center
         v-progress-circular(v-if="uploading" color="grey-lighten-4" indeterminate)
-        span(v-else) {{ props.label }}
+        div(v-else).d-flex.flex-column.align-center
+          v-icon(icon="mdi-image-plus" size="x-large")
+          | {{ props.label }}
     input(
       ref="uploader"
       hidden

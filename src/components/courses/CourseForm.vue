@@ -96,5 +96,5 @@ v-form(ref="form")
             placeholder="e.g. A basic course"
           )
         v-col(cols="12")
-          image-uploader(v-model="course.icon" label="Upload a course icon")
+          image-uploader(v-model="course.icon" label="Upload course icon")
 </template>
