@@ -13,7 +13,7 @@ export const useSubjects = defineStore('subjects', {
     subjects: <MappedSubject[]>[],
     subjectsTotal: 0,
     subjectsCurrentPage: 1,
-    currentSubject: {} as Subject,
+    currentSubject: <Subject>{},
     loadingSubjects: false,
   }),
   actions: {

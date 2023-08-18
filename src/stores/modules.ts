@@ -20,7 +20,7 @@ export const useModules = defineStore('modules', {
     modulesTotal: 0,
     modulesCurrentPage: 1,
     loadingModules: false,
-    currentModule: {},
+    currentModule: <Module>{},
     currentModuleContent: {}, // content of current module
   }),
   actions: {

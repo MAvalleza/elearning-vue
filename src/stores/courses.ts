@@ -18,7 +18,7 @@ export const useCourses = defineStore('courses', {
     courses: <MappedCourse[]>[],
     coursesTotal: 0,
     coursesCurrentPage: 1,
-    currentCourse: {} as Course,
+    currentCourse: <Course>{},
     loadingCourses: false,
   }),
   actions: {

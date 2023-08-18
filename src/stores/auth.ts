@@ -10,8 +10,8 @@ const webservice = new AuthWebservice();
 
 export const useAuth = defineStore('auth', {
   state: () => ({
-    currentUser: {} as CurrentUser,
-    users: [] as User[],
+    currentUser: <CurrentUser>{},
+    users: <User[]>[],
     usersTotal: 0,
     usersCurrentPage: 1,
     loadingUsers: false,
