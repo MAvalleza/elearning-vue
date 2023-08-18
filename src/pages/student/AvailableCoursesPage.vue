@@ -93,11 +93,11 @@ course-information-dialog(ref="infoDialog")
 
 page-header
   template(#content)
-    v-container(fluid)
+    generic-container
       v-row(align="center" justify="center")
-        v-col(cols="12" lg="8").text-center
-          h1 Welcome to the eLearning portal
-          p Our course will step you through the process of building a small application, or adding a new feature to an existing application
+        v-col(cols="12" lg="5").text-center.page-header-text
+          h1.header-title Welcome to the eLearning portal
+          p.header-description.mt-3 Our course will step you through the process of building a small application, or adding a new feature to an existing application
 // Content
 generic-container
   v-row
@@ -152,3 +152,29 @@ generic-container
         @update:model-value="fetchCourses"
       )
 </template>
+
+<style scoped>
+.page-header-text {
+  .header-title {
+    color: var(--gray-2, #4F4F4F);
+    font-feature-settings: 'clig' off, 'liga' off;
+
+    font-family: Montserrat;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 36px;
+    /* 105.882% */
+  }
+
+  .header-description {
+    color: var(--gray-2, #4F4F4F);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 150% */
+    letter-spacing: 0.5px;
+  }
+}
+</style>
