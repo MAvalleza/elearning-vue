@@ -208,14 +208,7 @@ const createAuthRoutes = routeInstance => {
       );
     }
 
-    const accessToken = faker.database.mongodbObjectId();
-    const expirationDate = (new Date().getTime()) + (20 * 60 * 1000);
-
-    schema.sessions.create({
-      accessToken,
-      email: userData.email,
-      expiresAt: expirationDate
-    });
+    const accessToken = createAccessToken(schema, { email: userData.email });
 
     return mapCurrentUser(userData, accessToken);
   });
@@ -305,9 +298,30 @@ const createAuthRoutes = routeInstance => {
       );
     }
 
-    return mapCurrentUser(authSession.user(), authSession.token);
+    // Create a new token to refresh session
+    const refreshToken = createAccessToken(schema, { email: authSession.user().email });
+
+    return mapCurrentUser(authSession.user(), refreshToken);
   });
 };
+
+function createAccessToken(schema, { email }) {
+  const accessToken = faker.database.mongodbObjectId();
+  // 20 minutes
+  const expirationDate = (new Date().getTime()) + (20 * 60 * 1000);
+
+  // Remove existing tokens
+  schema.db.sessions.remove({ email });
+
+  // Create new token
+  schema.sessions.create({
+    accessToken,
+    email,
+    expiresAt: expirationDate
+  });
+
+  return accessToken;
+}
 
 function mapCurrentUser(userData, accessToken) {
   return {

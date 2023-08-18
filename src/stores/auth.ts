@@ -223,6 +223,8 @@ export const useAuth = defineStore('auth', {
         }
 
         this.currentUser = response;
+        // Set local storage token to the new token
+        localStorage.setItem('accessToken', response.accessToken);
       } catch(e) {
         if (e instanceof Error) {
           uiStore().showSnackbar({
