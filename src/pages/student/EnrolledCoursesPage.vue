@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import isEmpty from 'lodash-es/isEmpty';
 import { useAuth } from '@/stores/auth';
 import { useEnrollments } from '@/stores/enrollments';
+import { useStudent } from '@/stores/student';
+import GenericContainer from '@/components/commons/GenericContainer.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
 
 // Auth
@@ -15,6 +18,14 @@ const { enrollments, loadingEnrollments } = storeToRefs(enrollmentsStore);
 
 async function fetchEnrollments() {
   await enrollmentsStore.fetchEnrollments(fetchParams);
+}
+
+// Student
+const studentStore = useStudent();
+const { currentLesson }: { currentLesson: Ref } = storeToRefs(studentStore);
+
+function hasCurrentLesson() {
+  return !isEmpty(currentLesson.value);
 }
 
 // Fetch params
@@ -42,24 +53,54 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-v-container(fluid)
-  h4.text-h4.text-light-blue Current Lesson
-  h4.text-h4.text-light-blue My Courses
+generic-container
+  div(v-if="hasCurrentLesson()")
+    h4.section-title Current Lesson
 
-  v-row(v-if="loadingEnrollments" justify="center")
-    v-col.text-center
-      v-progress-circular(indeterminate color="light-blue")
-  v-row(v-else).mt-5
-    // Course cards
-    v-col(
-      v-for="(enrollment, key) in enrollments"
-      :key="key"
-      cols="12"
-      lg="4"
-    )
-      course-card(
-        :course="enrollment.course"
+    div.d-flex
+      v-img(v-if="currentLesson.course?.icon" :src="currentLesson.course?.icon" height="100")
+      v-icon(v-else size="100" icon="mdi-bookshelf")
+      v-icon(icon="mdi-arrow-right")
+      h6.current-module {{ currentLesson.module?.title }}
+  div
+    h4.section-title.mb-5 My Courses
+
+    v-row(v-if="loadingEnrollments" justify="center")
+      v-col.text-center
+        v-progress-circular(indeterminate color="light-blue")
+    v-row(v-else-if="isEmpty(enrollments)")
+      v-col
+        h6.text-h6 No courses enrolled
+    v-row(v-else)
+      // Course cards
+      v-col(
+        v-for="(enrollment, key) in enrollments"
+        :key="key"
+        cols="12"
+        lg="4"
       )
-        template(#action-btn)
-          v-btn(block color="light-blue") START
+        course-card(
+          :course="enrollment.course"
+        )
+          template(#action-btn)
+            v-btn(block color="light-blue") START
 </template>
+
+<style scoped>
+.section-title {
+  color: var(--accent-a-700, #1191E9);
+  font-family: Montserrat;
+  font-size: 34px;
+  line-height: 36px;
+}
+
+.current-module {
+  color: var(--on-surface-white-high-emphasis-87, rgba(0, 0, 0, 0.87));
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+</style>

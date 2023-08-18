@@ -37,7 +37,7 @@ const props = defineProps({
 const emit = defineEmits(['click']);
 
 const HEADER_STYLES = {
-  height: `${props.height}px`,
+  minHeight: `${props.height}px`,
 };
 
 function defineHeaderClasses() {
