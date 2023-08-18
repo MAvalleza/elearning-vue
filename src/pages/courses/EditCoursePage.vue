@@ -136,8 +136,8 @@ page-header(
 page-content
   v-card
     v-tabs(v-model="tab")
-      v-tab(value="form") Course
-      v-tab(value="modules") Modules
+      v-tab(value="form" width="116").text-none Course
+      v-tab(value="modules" width="116").text-none Modules
 
     v-window(v-model="tab").pt-10
       v-window-item(value="form")
@@ -157,6 +157,7 @@ page-content
               color="light-blue"
               variant="flat"
               theme="dark"
+              size="large"
               :to="defineCreateModuleRoute()"
             ).text-none Add a module
           modules-list-table(

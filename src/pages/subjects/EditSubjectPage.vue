@@ -133,6 +133,7 @@ page-content
               color="light-blue"
               variant="flat"
               theme="dark"
+              size="large"
               :to="{ name: 'subject-create-course', params: { subjectId: subjectId }}"
             ).text-none Add a course
           courses-list-table(

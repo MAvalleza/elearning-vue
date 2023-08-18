@@ -57,7 +57,7 @@ div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
         v-col(:style="{ color: props.fontColor }").d-flex
           slot(name="title")
             v-icon(:icon="props.titleIcon" size="x-large")
-            h1.pl-3 {{ props.title }}
+            h1.pl-3.pt-1 {{ props.title }}
         template(v-if="hasCenterSection")
           v-col(cols="5").pt-4
             slot(name="center-section")

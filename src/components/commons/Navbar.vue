@@ -20,12 +20,14 @@ const USER_MENU_ITEMS = [
   // TODO: My profile page
   {
     title: 'My Profile',
+    icon: 'mdi-account-circle-outline',
     onClick: () => {
       router.push({ name: 'in-progress' });
     },
   },
   {
     title: 'Change Password',
+    icon: 'mdi-lock',
     onClick: async () => {
       // TODO: Temporary mock implementation, normally we send email
       const { token } = await authStore.requestResetPassword({
@@ -40,6 +42,7 @@ const USER_MENU_ITEMS = [
   },
   {
     title: 'Logout',
+    icon: 'mdi-exit-to-app',
     onClick: () => {
       logout();
     },
@@ -92,14 +95,19 @@ v-app-bar(color="#f0f0f0" theme="light")
         :title="currentUser.email"
         append-icon="mdi-chevron-down"
       )
+        // Note: There is no avatar/icon field included in the user endpoints so we just put a placeholder
+        template(#prepend)
+          v-icon(icon="mdi-account-circle" size="x-large")
     v-menu(activator="#user-menu-activator")
       v-list
         v-list-item(
           v-for="(item, index) in USER_MENU_ITEMS"
           :key="index"
+          :title="item.title"
           @click="item.onClick"
         )
-          v-list-item-title {{ item.title }}
+          template(#prepend)
+            v-icon(:icon="item.icon" color="black")
 </template>
 
 <style scoped>
