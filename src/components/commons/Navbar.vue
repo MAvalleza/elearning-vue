@@ -88,7 +88,7 @@ v-app-bar(color="#f0f0f0" theme="light")
   template(v-if="!drawer")
     v-app-bar-nav-icon(variant="text" @click.stop="drawer = !drawer")
     v-app-bar-title.text-h5
-      router-link(:to="{ name: 'index' }").app-bar-title.font-weight-bold eLearning Portal
+      router-link(:to="{ name: 'index' }").app-bar-title eLearning Portal
   template(#append)
     v-list(bg-color="#f0f0f0")#user-menu-activator
       v-list-item(
@@ -121,7 +121,8 @@ v-app-bar(color="#f0f0f0" theme="light")
   color: white;
 }
 
-.drawer-header-text {
+.drawer-header-text,
+.app-bar-title {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

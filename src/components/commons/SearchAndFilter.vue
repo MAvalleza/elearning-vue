@@ -75,6 +75,7 @@ v-text-field(
               variant="outlined"
               label="Status"
               :items="STATUS_LABELS"
+              density="comfortable"
               item-title="label"
             )
             slot(name="custom-filter")

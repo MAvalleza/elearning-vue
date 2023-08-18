@@ -144,6 +144,7 @@ page-header(
           v-model="fetchParams.subjectId"
           label="Subject"
           variant="outlined"
+          density="comfortable"
           :items="subjectFilterOptions"
           item-value="id"
         )
