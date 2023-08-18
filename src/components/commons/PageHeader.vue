@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import GenericContainer from './GenericContainer.vue';
+
 const props = defineProps({
   // Header height in px (omit 'px')
   height: {
@@ -52,7 +54,7 @@ function onButtonClick() {
 <template lang="pug">
 div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
   slot(name="content")
-    v-container(fluid)
+    generic-container
       v-row(align="center")
         v-col(:style="{ color: props.fontColor }").d-flex
           slot(name="title")
