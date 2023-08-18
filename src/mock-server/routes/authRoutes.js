@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Response } from 'miragejs';
 import { getTime, addDays } from 'date-fns';
 import { evaluateParams } from '../helpers/fetchParamsHelper';
-import { AuthSession } from '../helpers/authHelper';
+import { AuthSession, getToken } from '../helpers/authHelper';
 
 const createAuthRoutes = routeInstance => {
   routeInstance.get('/users', (schema, request) => {
@@ -214,7 +214,7 @@ const createAuthRoutes = routeInstance => {
   });
 
   routeInstance.delete('/logout', (schema, request) => {
-    const token = request.requestHeaders['Authorization'];
+    const token = getToken(request.requestHeaders['Authorization']);
 
     schema.db.sessions.remove({ accessToken: token });
   });
@@ -253,7 +253,7 @@ const createAuthRoutes = routeInstance => {
   });
 
   routeInstance.post('/password', (schema, request) => {
-    const token = request.requestHeaders['Authorization'];
+    const token = getToken(request.requestHeaders['Authorization']);
     const { password } = JSON.parse(request.requestBody);
 
     const resetRequest = schema.resetPasswordRequests.findBy({ token });

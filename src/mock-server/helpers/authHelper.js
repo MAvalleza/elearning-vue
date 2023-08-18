@@ -3,7 +3,7 @@ class AuthSession {
   constructor(schema, token) {
     this.schema = schema;
     // Remove bearer keyword
-    this.token = token.replace('Bearer ', '');
+    this.token = getToken(token);
 
     this.session = schema.sessions.findBy({ accessToken: this.token });
   }
@@ -60,4 +60,9 @@ class AuthSession {
   }
 }
 
-export { AuthSession };
+// Removes the `Bearer` prefix
+function getToken(tokenString) {
+  return tokenString.replace('Bearer ', '');
+};
+
+export { AuthSession, getToken };
