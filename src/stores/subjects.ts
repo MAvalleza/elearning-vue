@@ -47,7 +47,7 @@ export const useSubjects = defineStore('subjects', {
     },
     async createSubject(params: SubjectCreateParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingSubjects = true;
 
         const response = await webservice.createSubject(params);
 
@@ -71,12 +71,12 @@ export const useSubjects = defineStore('subjects', {
           message: 'There was an error in creating your subject.',
         });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingSubjects = false;
       }
     },
     async fetchSubject(id: string, params: GetParams) {
       try {
-        uiStore().setLoading(true);
+        this.loadingSubjects = true;
 
         const response = await webservice.getSubject(
           {
@@ -98,7 +98,7 @@ export const useSubjects = defineStore('subjects', {
 
         this.$router.push({ name: 'subjects-list' });
       } finally {
-        uiStore().setLoading(false);
+        this.loadingSubjects = false;
       }
     },
     async updateSubject(id: string, params: Partial<SubjectCreateParams>) {
