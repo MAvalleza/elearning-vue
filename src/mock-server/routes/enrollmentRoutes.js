@@ -116,6 +116,44 @@ const createEnrollmentRoutes = routeInstance => {
       { deleted: id, resource: 'enrollments' }
     );
   });
+
+  routeInstance.get('/enrollments/:id', (schema, request) => {
+    const enrollmentId = request.params.id;
+    const token = request.requestHeaders['Authorization'];
+    const params = request.queryParams;
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isStudent() && !authSession.isAdmin()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const enrollment = schema.enrollments.find(enrollmentId);
+
+    return mapEnrollment(enrollment, { params });
+  });
 };
+
+function mapEnrollment(enrollment, { params }) {
+  return {
+    ...enrollment.attrs,
+    ...(params.join.includes('course')) && {
+      course: enrollment.course.attrs
+    },
+    ...(params.join.includes('subject') && {
+      subject: enrollment.course.subject,
+    }),
+    ...(params.join.includes('modules') && {
+      modules: enrollment.course.modules.models.map(mod => ({
+        ...mod.attrs,
+        content: mod.contents?.[0],
+      }))
+    }),
+  };
+}
 
 export default createEnrollmentRoutes;

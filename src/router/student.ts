@@ -31,7 +31,7 @@ export default [
             component: EnrolledCoursesPage,
           },
           {
-            path: '/my-courses/:enrollmentId',
+            path: '/student/my-courses/:enrollmentId',
             name: 'view-enrolled-course',
             component: ViewEnrolledCoursePage,
           },

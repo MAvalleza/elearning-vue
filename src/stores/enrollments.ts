@@ -2,7 +2,12 @@ import { defineStore } from 'pinia';
 import { useUI as uiStore } from './ui';
 import EnrollmentsWebservice from '@/webservices/enrollmentsWebservice';
 import isEmpty from 'lodash-es/isEmpty';
-import type { FetchEnrollmentsParams, EnrollmentCreateParams } from '@/types/enrollment';
+import type {
+  FetchEnrollmentsParams,
+  EnrollmentCreateParams,
+  GetEnrollmentParams,
+  MappedEnrollment
+} from '@/types/enrollment';
 
 const webservice = new EnrollmentsWebservice();
 
@@ -12,6 +17,7 @@ export const useEnrollments = defineStore('enrollments', {
     enrollmentsTotal: 0,
     enrollmentsCurrentPage: 1,
     loadingEnrollments: false,
+    currentEnrollment: <MappedEnrollment>{},
   }),
   actions: {
     async fetchEnrollments(params: FetchEnrollmentsParams) {
@@ -87,5 +93,27 @@ export const useEnrollments = defineStore('enrollments', {
         this.loadingEnrollments = false;
       }
     },
+    async fetchEnrollment(id: string, params: GetEnrollmentParams) {
+      try {
+        this.loadingEnrollments = true;
+
+        const response = await webservice.getEnrollment({
+          id,
+          params
+        });
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        this.currentEnrollment = response;
+        return response;
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in fetching this course',
+        })
+      }
+    }
   },
 });

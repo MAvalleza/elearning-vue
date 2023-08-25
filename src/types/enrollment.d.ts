@@ -1,4 +1,21 @@
-import { type FetchParams } from './params';
+import type { Subject } from './subject';
+import type { Course } from './course';
+import type { FetchParams } from './params';
+import type { MappedModule } from './module';
+
+type Enrollment = {
+  id: string;
+  createdAt: number | Date | null;
+  updatedAt: number | Date | null;
+  userId: string;
+  courseId: string;
+}
+
+interface MappedEnrollment extends Enrollment {
+  course?: Course;
+  subject?: Subject;
+  modules: MappedModule[];
+}
 
 interface FetchEnrollmentsParams extends FetchParams {
   subjectId?: string
@@ -8,4 +25,13 @@ interface EnrollmentCreateParams {
   courseId: string,
 }
 
-export { FetchEnrollmentsParams, EnrollmentCreateParams }
+interface GetEnrollmentParams {
+  join?: string[]
+}
+
+export {
+  FetchEnrollmentsParams,
+  EnrollmentCreateParams,
+  GetEnrollmentParams,
+  MappedEnrollment,
+}
