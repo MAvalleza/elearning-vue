@@ -83,7 +83,11 @@ generic-container
           :course="enrollment.course"
         )
           template(#action-btn)
-            v-btn(block color="light-blue") START
+            v-btn(
+              block
+              color="light-blue"
+              :to="{ name: 'view-enrolled-course', params: { enrollmentId: enrollment.id } }"
+            ) START
 </template>
 
 <style scoped>
