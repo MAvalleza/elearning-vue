@@ -75,6 +75,15 @@ const createEnrollmentRoutes = routeInstance => {
       );
     }
 
+    // Check if already enrolled
+    if (schema.enrollments.findBy({ userId: authSession.user().id, courseId: attrs.courseId })) {
+      return new Response(
+        403,
+        { some: 'header' },
+        { errors: ['Course already enrolled'] }
+      )
+    }
+
     const data = {
       user: authSession.user(),
       course,
