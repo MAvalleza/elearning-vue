@@ -125,6 +125,8 @@ export const useEnrollments = defineStore('enrollments', {
           color: 'error',
           message: 'There was an error in fetching this course',
         })
+      } finally {
+        this.loadingEnrollments = false;
       }
     }
   },
