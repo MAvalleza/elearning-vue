@@ -46,7 +46,13 @@ export const useCourses = defineStore('courses', {
             color: 'error',
             message: e.message,
           });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
+          });
         }
+
         return [];
       } finally {
         this.loadingCourses = false;

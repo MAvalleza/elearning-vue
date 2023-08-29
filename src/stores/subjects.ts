@@ -40,6 +40,11 @@ export const useSubjects = defineStore('subjects', {
             color: 'error',
             message: e.message,
           });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
+          });
         }
       } finally {
         this.loadingSubjects = false;

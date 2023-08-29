@@ -41,6 +41,11 @@ export const useEnrollments = defineStore('enrollments', {
             color: 'error',
             message: e.message,
           });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
+          });
         }
 
         return [];
@@ -62,10 +67,17 @@ export const useEnrollments = defineStore('enrollments', {
           message: 'Successfully enrolled.',
         });
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: 'There was an error in enrolling.',
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error in enrolling.'
+          });
+        }
       } finally {
         this.loadingEnrollments = false;
       }

@@ -49,6 +49,11 @@ export const useAuth = defineStore('auth', {
             color: 'error',
             message: e.message,
           });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
+          });
         }
         
         return [];
@@ -81,6 +86,11 @@ export const useAuth = defineStore('auth', {
             color: 'error',
             message: e.message,
           });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
+          });
         }
       } finally {
         uiStore().setLoading(false);
@@ -109,6 +119,11 @@ export const useAuth = defineStore('auth', {
           uiStore().showSnackbar({
             color: 'error',
             message: e.message,
+          });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
           });
         }
 
@@ -147,6 +162,11 @@ export const useAuth = defineStore('auth', {
             color: 'error',
             message: e.message,
           });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
+          });
         }
       } finally {
         uiStore().setLoading(false);
@@ -171,6 +191,11 @@ export const useAuth = defineStore('auth', {
           uiStore().showSnackbar({
             color: 'error',
             message: e.message,
+          });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
           });
         }
       } finally {
@@ -230,6 +255,11 @@ export const useAuth = defineStore('auth', {
           uiStore().showSnackbar({
             color: 'error',
             message: e.message
+          });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error.'
           });
         }
       }
