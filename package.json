@@ -20,6 +20,7 @@
     "pinia": "^2.1.1",
     "query-string": "^8.1.0",
     "quill-blot-formatter": "^1.0.5",
+    "quill-delta-to-html": "^0.12.1",
     "vue": "^3.2.47",
     "vue-router": "4",
     "vuetify": "3.2.5"
