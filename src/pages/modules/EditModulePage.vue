@@ -40,7 +40,7 @@ const {
 }: { currentModule: Ref; currentModuleContent: Ref; loadingModules: Ref } =
   storeToRefs(modulesStore);
 const moduleId: Ref = ref(route.params?.moduleId);
-const mod = ref({});
+const mod: Ref = ref({});
 const modContent = ref({ content: {} });
 
 async function fetchModule() {
@@ -66,10 +66,12 @@ async function updateModuleContent() {
       content: modContent.value.content,
       type: 'document',
       moduleId: moduleId.value,
+      isPublished: mod.value.isPublished,
     });
   } else {
     await contentsStore.updateContent(contentId, {
       content: modContent.value.content,
+      isPublished: mod.value.isPublished
     });
   }
 }

@@ -5,6 +5,7 @@ type Content = {
   moduleId: string;
   content: string | file | Delta;
   type: string;
+  isPublished: boolean;
 }
 
 interface FetchContentsParams extends FetchParams {
@@ -14,6 +15,7 @@ interface FetchContentsParams extends FetchParams {
 interface ContentUpdateParams {
   type?: Content['type'];
   content?: Content['content'];
+  isPublished?: Content['isPublished'];
 }
 
 export {

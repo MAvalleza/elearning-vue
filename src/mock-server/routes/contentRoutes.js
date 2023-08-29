@@ -51,6 +51,7 @@ const createContentRoutes = routeInstance => {
     const data = {
       type: attrs.type,
       content: attrs.content,
+      isPublished: attrs.isPublished,
       author: module.author,
       module,
       createdAt: Date.now(),

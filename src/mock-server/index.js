@@ -34,6 +34,13 @@ const createMockServer = ({ persistence }) => {
                 server.createList('module', 3, {
                   author: user,
                   course,
+                }).forEach(mod => {
+                  server.createList('content', 1, {
+                    module: mod,
+                    author: user,
+                    isPublished: mod.isPublished,
+                    type: 'document',
+                  })
                 });
               });
           });

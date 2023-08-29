@@ -53,4 +53,12 @@ export default {
     createdAt: Date.now(),
     updatedAt: null,
   }),
+  content: Factory.extend({
+    content() {
+      // We return vue-quill format
+      return {
+        ops: [ { insert: faker.lorem.paragraph() } ]
+      };
+    }
+  })
 };

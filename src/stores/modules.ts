@@ -72,6 +72,7 @@ export const useModules = defineStore('modules', {
         await contentsStore().createContent({
           moduleId,
           content: data.content,
+          isPublished: data.isPublished,
           type: 'document', // Assigned 'document' when created thru rich text editor
         });
 
