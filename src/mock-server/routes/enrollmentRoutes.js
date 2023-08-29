@@ -157,7 +157,7 @@ function mapEnrollment(enrollment, { params }) {
       subject: enrollment.course.subject,
     }),
     ...(params.join.includes('modules') && {
-      modules: enrollment.course.modules.models.map(mod => ({
+      modules: enrollment.course.modules.filter(mod => mod.isPublished).models.map(mod => ({
         ...mod.attrs,
         content: mod.contents?.models?.[0],
       }))
