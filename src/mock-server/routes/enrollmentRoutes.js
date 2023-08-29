@@ -150,7 +150,7 @@ function mapEnrollment(enrollment, { params }) {
     ...(params.join.includes('modules') && {
       modules: enrollment.course.modules.models.map(mod => ({
         ...mod.attrs,
-        content: mod.contents?.[0],
+        content: mod.contents?.models?.[0],
       }))
     }),
   };
