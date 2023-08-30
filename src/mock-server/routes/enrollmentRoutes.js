@@ -29,6 +29,7 @@ const createEnrollmentRoutes = routeInstance => {
       params: omit(params, 'join'),
     });
 
+    // Evaluate join
     if (params.join?.includes('course')) {
       response.data = response.data.map(item => {
         return {
@@ -93,8 +94,8 @@ const createEnrollmentRoutes = routeInstance => {
 
     const enrollment = schema.enrollments.create(data);
 
-    // Create enrollment modules
-    const modules = course.modules.models.filter(mod => mod.isPublished);
+    // Create enrollment modules for published modules
+    const modules = course.modules.filter(mod => mod.isPublished).models;
     modules.forEach(mod => {
       schema.enrollmentModules.create({
         module: mod,

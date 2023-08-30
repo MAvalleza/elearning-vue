@@ -35,6 +35,7 @@ const initial = {
     limit: 25,
     studentId: currentUser.value.id,
     join: ['course', 'author', 'subject', 'modules'],
+    completed: false,
   },
 };
 

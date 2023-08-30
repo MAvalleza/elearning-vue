@@ -90,6 +90,14 @@ class Filter {
     courses: {
       filter: data => !isEmpty(data.courseIds),
     },
+    // Filter according to status of enrollment modules
+    completed: {
+      filter: (data, params) => {
+        const enrollmentModules = data.enrollmentModules.models;
+
+        return !isEmpty(enrollmentModules.filter(mod => mod.isCompleted === JSON.parse(params.completed)));
+      }
+    }
   };
 
   constructor(params = {}) {

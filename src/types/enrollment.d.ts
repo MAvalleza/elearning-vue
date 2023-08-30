@@ -18,7 +18,8 @@ interface MappedEnrollment extends Enrollment {
 }
 
 interface FetchEnrollmentsParams extends FetchParams {
-  subjectId?: string
+  subjectId?: string;
+  completed?: boolean;
 }
 
 interface EnrollmentCreateParams {
