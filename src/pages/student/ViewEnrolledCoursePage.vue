@@ -2,6 +2,7 @@
 import { onMounted, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useEnrollments } from '@/stores/enrollments';
+import { useContents } from '@/stores/contents';
 import { useRoute, useRouter } from 'vue-router';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import NumberedTimeline from '@/components/commons/NumberedTimeline.vue';
@@ -11,10 +12,13 @@ import CourseModuleContent from '@/components/student/CourseModuleContent.vue';
 const route = useRoute();
 const router = useRouter();
 
+// UI state
+const loading = ref(false);
+
 // Enrollment / course
 const enrollmentId: Ref = ref(route.params.enrollmentId);
 const enrollmentsStore = useEnrollments();
-const { currentEnrollment, loadingEnrollments } = storeToRefs(enrollmentsStore);
+const { currentEnrollment } = storeToRefs(enrollmentsStore);
 
 async function fetchCourse() {
   await enrollmentsStore.fetchEnrollment(enrollmentId.value, {
@@ -33,16 +37,36 @@ async function fetchCourse() {
 const courseModules: Ref = ref([]);
 const currentCourseModule: Ref = ref({});
 
-function redirectToModule(index: number) {
-  currentCourseModule.value = { ...courseModules.value[index] }
+async function redirectToModule(index: number) {
+  loading.value = true;
+  currentCourseModule.value = { ...courseModules.value[index] };
+
+  await fetchModuleContent();
+
+  loading.value = false;
+}
+
+// Content
+const moduleContent: Ref = ref({});
+const contentsStore = useContents();
+
+async function fetchModuleContent() {
+  console.log('module', currentCourseModule.value.id);
+  const contents = await contentsStore.fetchContents({ module: currentCourseModule.value.id });
+
+  console.log('contents', contents);
+  moduleContent.value = contents[0];
 }
 
 function redirectToEnrolledCoursesList() {
   router.push({ name: 'enrolled-courses' });
 }
 
-function initialize() {
-  fetchCourse();
+async function initialize() {
+  loading.value = true;
+  await fetchCourse();
+  await fetchModuleContent();
+  loading.value = false;
 }
 
 onMounted(() => {
@@ -51,7 +75,7 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-app-loader(:is-visible="loadingEnrollments")
+app-loader(:is-visible="loading")
 
 v-navigation-drawer(
   location="left"
@@ -75,11 +99,12 @@ v-toolbar(color="light-blue")
 v-container.pa-12
   v-card(elevation="5" rounded="large").pa-10
     course-module-content(
-      v-if="currentCourseModule?.content"
-      :key="currentCourseModule.index"
-      :content="currentCourseModule.content.content"
+      v-if="moduleContent?.content && !loading"
+      :key="currentCourseModule.id"
+      :content="moduleContent.content"
     )
-// FAB
+
+// FAB Next
 v-btn(
   v-if="currentCourseModule.index + 1 < courseModules.length"
   icon="mdi-chevron-right"
