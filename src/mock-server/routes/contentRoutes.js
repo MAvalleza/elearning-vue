@@ -61,7 +61,7 @@ const createContentRoutes = routeInstance => {
     return schema.contents.create(data).attrs;
   });
 
-  routeInstance.put('/contents/:id', (schema, request) => {
+  routeInstance.patch('/contents/:id', (schema, request) => {
     const id = request.params.id;
     const attrs = JSON.parse(request.requestBody);
 

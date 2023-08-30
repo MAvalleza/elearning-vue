@@ -3,6 +3,7 @@ import CoursesWebservice from '@/webservices/coursesWebservice';
 import { useUI as uiStore } from './ui';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
+import { getUpdatedAttributes } from '@/helpers/paramsHelper';
 import type {
   Course,
   MappedCourse,
@@ -90,7 +91,7 @@ export const useCourses = defineStore('courses', {
         // Call the webservice
         const response = await webservice.updateCourse(
           id,
-          params,
+          getUpdatedAttributes(this.currentCourse, params),
         );
 
         if (!isEmpty(response.errors)) {

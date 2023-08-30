@@ -64,7 +64,7 @@ const createModuleRoutes = routeInstance => {
     return schema.modules.create(data).attrs;
   });
 
-  routeInstance.put('/modules/:id', (schema, request) => {
+  routeInstance.patch('/modules/:id', (schema, request) => {
     const id = request.params.id;
     const attrs = JSON.parse(request.requestBody);
 

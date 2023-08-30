@@ -60,7 +60,7 @@ export default class SubjectsWebservice extends Webservice {
       const url = this.parseURL({ path: `subjects/${id}` });
 
       const response = await fetch(url, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });

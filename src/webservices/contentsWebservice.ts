@@ -47,7 +47,7 @@ export default class ContentsWebservice extends Webservice {
       const url = this.parseURL({ path: `contents/${id}` });
 
       const response = await fetch(url, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });

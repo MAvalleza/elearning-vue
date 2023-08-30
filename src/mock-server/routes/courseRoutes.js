@@ -62,7 +62,7 @@ const createCourseRoutes = routeInstance => {
     return schema.courses.create(data).attrs;
   });
 
-  routeInstance.put('/courses/:id', (schema, request) => {
+  routeInstance.patch('/courses/:id', (schema, request) => {
     const id = request.params.id;
     const attrs = JSON.parse(request.requestBody);
 

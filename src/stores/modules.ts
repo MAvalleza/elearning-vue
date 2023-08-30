@@ -4,6 +4,7 @@ import omit from 'lodash-es/omit';
 import ModulesWebservice from '@/webservices/modulesWebservice';
 import { useContents as contentsStore } from './contents';
 import { useUI as uiStore } from './ui';
+import { getUpdatedAttributes } from '@/helpers/paramsHelper';
 import type { FetchParams, GetParams } from '@/types/params';
 import type {
   MappedModule,
@@ -100,7 +101,7 @@ export const useModules = defineStore('modules', {
 
         const response = await webservice.updateModule(
           id,
-          params,
+          getUpdatedAttributes(this.currentModule, params),
         );
 
         if (!isEmpty(response.errors)) {

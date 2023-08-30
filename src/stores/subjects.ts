@@ -3,6 +3,7 @@ import SubjectsWebservice from '@/webservices/subjectsWebservice';
 import { useUI as uiStore } from './ui';
 import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
+import { getUpdatedAttributes } from '@/helpers/paramsHelper';
 import type { FetchParams, GetParams } from '@/types/params';
 import type { Subject, MappedSubject, SubjectCreateParams } from '@/types/subject';
 
@@ -112,7 +113,7 @@ export const useSubjects = defineStore('subjects', {
 
         const response = await webservice.updateSubject(
           id,
-          params,
+          getUpdatedAttributes(this.currentSubject, params),
         );
 
         if (!isEmpty(response.errors)) {

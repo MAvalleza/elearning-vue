@@ -96,7 +96,7 @@ const createSubjectRoutes = routeInstance => {
     return dataJoined;
   });
 
-  routeInstance.put('/subjects/:id', (schema, request) => {
+  routeInstance.patch('/subjects/:id', (schema, request) => {
     const id = request.params.id;
     const attrs = JSON.parse(request.requestBody);
 

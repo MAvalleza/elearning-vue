@@ -43,7 +43,7 @@ export default class ModulesWebservice extends Webservice {
       const url = this.parseURL({ path: `modules/${id}` });
 
       const response = await fetch(url, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: this.requestHeaders(),
         body: JSON.stringify(data),
       });
