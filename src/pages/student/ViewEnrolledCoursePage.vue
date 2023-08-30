@@ -43,7 +43,9 @@ async function updateEnrollmentProgress() {
   })
 
   // if there is next page
-  await redirectToModule(currentCourseModule.value.index + 1);
+  if (currentCourseModule.value.index < courseModules.value.length - 1) {
+    await redirectToModule(currentCourseModule.value.index + 1);
+  }
 
   loading.value = false;
 }
@@ -74,6 +76,12 @@ async function fetchModuleContent() {
 
 function redirectToEnrolledCoursesList() {
   router.push({ name: 'enrolled-courses' });
+}
+
+async function finishCourse() {
+  await updateEnrollmentProgress();
+
+  redirectToEnrolledCoursesList();
 }
 
 async function initialize() {
@@ -131,6 +139,15 @@ v-btn(
   color="light-blue"
   @click="updateEnrollmentProgress"
 ).ma-10
+
+v-btn(
+  v-if="currentCourseModule.index === courseModules.length - 1"
+  position="fixed"
+  size="large"
+  location="bottom right"
+  color="light-blue"
+  @click="finishCourse"
+).ma-10 Finish
 </template>
 
 <style scoped>
