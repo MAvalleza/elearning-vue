@@ -1,19 +1,34 @@
 <script setup lang="ts">
 interface Props {
-  items?: object[];
-  titleKey?: string;
+  items: object[];
+  titleKey: string; // atrribute of item to display as title
+  activeKey: string; // attribute of item to compare with the selected key value
+  activeKeyValue: string; // represents the value of the attribute of the selected item
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
+
+const emit = defineEmits(['select']);
+
+function onItemClick(item: object, index: string) {
+  emit('select', { item, index });
+}
 </script>
 
 <template lang="pug">
 v-list
-  v-list-item(v-for="(item, index) in props.items" :key="index").mb-5
+  v-list-item(
+    v-for="(item, index) in props.items"
+    :key="index"
+    :active="item[props.activeKey] === props.activeKeyValue"
+    active-class="bg-light-blue-lighten-5"
+    @click="onItemClick(item, index)"
+  ).mb-5
     v-list-item-content
-      div.timeline-item
-        div.number {{ index + 1 }}
-        div.text.ml-3 {{ item[props.titleKey] }}
+      v-hover
+        div.timeline-item
+          div.number {{ index + 1 }}
+          div.text.ml-3 {{ item[props.titleKey] }}
     div(v-if="index < props.items.length - 1").timeline-line
 </template>
 
@@ -22,7 +37,13 @@ v-list
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 20px;
+  /* 142.857% */
+  letter-spacing: 0.25px;
 }
 
 .number {
@@ -41,8 +62,8 @@ v-list
   top: 40px;
   left: 30px;
   width: 2px;
-  height: 50%;
+  height: 70%;
   background-color: grey;
-  z-index: -1;
+  z-index: 100;
 }
 </style>

@@ -37,6 +37,10 @@ async function fetchCourse() {
 const courseModules: Ref = ref([]);
 const currentCourseModule: Ref = ref({});
 
+function onModuleSelect({ index }: { index: number }) {
+  redirectToModule(index);
+}
+
 async function redirectToModule(index: number) {
   loading.value = true;
   currentCourseModule.value = { ...courseModules.value[index] };
@@ -84,8 +88,11 @@ v-navigation-drawer(
 )
   div.timeline
     numbered-timeline(
+      :active-key-value="currentCourseModule.id"
       :items="courseModules"
       title-key="title"
+      active-key="id"
+      @select="onModuleSelect($event)"
     )
 
 v-toolbar(color="light-blue")
