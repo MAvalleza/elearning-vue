@@ -81,6 +81,9 @@ function redirectToEnrolledCoursesList() {
 async function finishCourse() {
   await updateEnrollmentProgress();
 
+  // Remove current enrollment / lesson since it is done
+  enrollmentsStore.clearCurrentEnrollment();
+
   redirectToEnrolledCoursesList();
 }
 

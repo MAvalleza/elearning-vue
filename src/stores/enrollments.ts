@@ -147,6 +147,9 @@ export const useEnrollments = defineStore('enrollments', {
       } finally {
         this.loadingEnrollments = false;
       }
-    }
+    },
+    clearCurrentEnrollment() {
+      this.currentEnrollment = <MappedEnrollment>{}
+    },
   },
 });

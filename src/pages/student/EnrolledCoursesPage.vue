@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia';
 import isEmpty from 'lodash-es/isEmpty';
 import { useAuth } from '@/stores/auth';
 import { useEnrollments } from '@/stores/enrollments';
-import { useStudent } from '@/stores/student';
 import GenericContainer from '@/components/commons/GenericContainer.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
 
@@ -14,18 +13,14 @@ const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Enrollments
 const enrollmentsStore = useEnrollments();
-const { enrollments, loadingEnrollments } = storeToRefs(enrollmentsStore);
+const { enrollments, loadingEnrollments, currentEnrollment } = storeToRefs(enrollmentsStore);
 
 async function fetchEnrollments() {
   await enrollmentsStore.fetchEnrollments(fetchParams);
 }
 
-// Student
-const studentStore = useStudent();
-const { currentLesson }: { currentLesson: Ref } = storeToRefs(studentStore);
-
 function hasCurrentLesson() {
-  return !isEmpty(currentLesson.value);
+  return !isEmpty(currentEnrollment.value);
 }
 
 // Fetch params
@@ -42,7 +37,6 @@ const initial = {
 let fetchParams = reactive({ ...initial.params });
 
 function initialize() {
-  enrollmentsStore.$reset();
   fetchParams = reactive({ ...initial.params });
 
   fetchEnrollments();
@@ -58,11 +52,12 @@ generic-container
   div(v-if="hasCurrentLesson()")
     h4.section-title Current Lesson
 
-    div.d-flex
-      v-img(v-if="currentLesson.course?.icon" :src="currentLesson.course?.icon" height="100")
-      v-icon(v-else size="100" icon="mdi-bookshelf")
-      v-icon(icon="mdi-arrow-right")
-      h6.current-module {{ currentLesson.module?.title }}
+    // TODO: Refactor
+    //- div.d-flex
+    //-   v-img(v-if="currentEnrollment.course?.icon" :src="currentEnrollment.course?.icon" height="100")
+    //-   v-icon(v-else size="100" icon="mdi-bookshelf")
+    //-   v-icon(icon="mdi-arrow-right")
+    //-   h6.current-module {{ currentEnrollment.module?.title }}
   div
     h4.section-title.mb-5 My Courses
 
@@ -88,7 +83,7 @@ generic-container
               block
               color="light-blue"
               :to="{ name: 'view-enrolled-course', params: { enrollmentId: enrollment.id } }"
-            ) START
+            ) {{ currentEnrollment.id === enrollment.id ? 'CONTINUE' : 'START' }}
 </template>
 
 <style scoped>
