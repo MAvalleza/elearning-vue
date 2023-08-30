@@ -30,6 +30,7 @@ interface MappedCourse extends Course {
 
 interface FetchCoursesParams extends FetchParams {
   subjectId?: string | null;
+  sections?: boolean;
 }
 
 interface GetCourseParams {

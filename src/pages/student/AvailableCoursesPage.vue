@@ -34,6 +34,7 @@ const initial = {
     published: true,
     join: ['modules', 'subject', 'author'],
     authorId: null,
+    sections: true,
   },
   total: {
     current: 0,

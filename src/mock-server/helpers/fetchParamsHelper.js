@@ -82,6 +82,11 @@ class Filter {
         return data.isPublished === JSON.parse(params.published);
       },
     },
+    // Filter those with modules only
+    sections: {
+      filter: data => !isEmpty(data.moduleIds),
+    },
+    // Filter those with courses only
     courses: {
       filter: data => !isEmpty(data.courseIds),
     },
@@ -201,4 +206,4 @@ class RelationshipFilter {
   }
 }
 
-export { evaluateParams, CollectionJoin, RelationshipFilter };
+export { evaluateParams, CollectionJoin, RelationshipFilter, Sorter };
