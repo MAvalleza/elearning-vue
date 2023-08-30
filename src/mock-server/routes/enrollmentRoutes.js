@@ -1,6 +1,6 @@
 import { Response } from 'miragejs';
 import { AuthSession } from '../helpers/authHelper';
-import { evaluateParams } from '../helpers/fetchParamsHelper';
+import { evaluateParams, Sorter } from '../helpers/fetchParamsHelper';
 import omit from 'lodash-es/omit';
 
 const createEnrollmentRoutes = routeInstance => {
@@ -91,7 +91,19 @@ const createEnrollmentRoutes = routeInstance => {
       updatedAt: null,
     };
 
-    return schema.enrollments.create(data).attrs;
+    const enrollment = schema.enrollments.create(data);
+
+    // Create enrollment modules
+    const modules = course.modules.models.filter(mod => mod.isPublished);
+    modules.forEach(mod => {
+      schema.enrollmentModules.create({
+        module: mod,
+        enrollment,
+        isCompleted: false,
+      });
+    });
+
+    return enrollment.attrs;
   });
 
   routeInstance.del('/enrollments/:id', (schema, request) => {
@@ -145,9 +157,68 @@ const createEnrollmentRoutes = routeInstance => {
 
     return mapEnrollment(enrollment, { params });
   });
+
+  routeInstance.patch('/enrollments/:id', (schema, request) => {
+    const enrollmentId = request.params.id;
+    const token = request.requestHeaders['Authorization'];
+    const { moduleId, isCompleted } = JSON.parse(request.requestBody);
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isStudent() && !authSession.isAdmin()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    // Update enrollment module status
+    const enrollment = schema.enrollments.find(enrollmentId);
+
+    if (!enrollment) {
+      return new Response(
+        404,
+        { some: 'header' },
+        { errors: ['Enrollment does not exist'] }
+      );
+    }
+
+    const enrollmentModule = schema.enrollmentModules.findBy({ moduleId, enrollmentId });
+
+    // If no enrollment module, this is possibly a previously drafted module that was published
+    // So we create the enrollment module
+    if (!enrollmentModule) {
+      const mod = schema.modules.find(moduleId);
+
+      schema.enrollmentModules.create({
+        module: mod,
+        enrollment,
+        isCompleted: true,
+      });
+    } else {
+      schema.db.enrollmentModules.update({ moduleId, enrollmentId }, { isCompleted });
+    }
+
+    // Update date
+    const updatedDate = Date.now();
+    enrollment.update({ updatedAt: updatedDate });
+
+    return {
+      id: enrollmentId,
+      userId: authSession.user().id,
+      courseId: enrollment.course.id,
+      modulesInProgress: schema.enrollmentModules.where({ enrollmentId, isCompleted: false }).models,
+      completedModules: schema.enrollmentModules.where({ enrollmentId, isCompleted: true }).models,
+      createdAt: enrollment.createdAt,
+      updatedAt: updatedDate,
+    };
+  })
 };
 
 function mapEnrollment(enrollment, { params }) {
+  const moduleSorter = new Sorter({ sort: 'createdAt', sortDirection: 'asc' });
+
   return {
     ...enrollment.attrs,
     ...(params.join.includes('course')) && {
@@ -158,6 +229,7 @@ function mapEnrollment(enrollment, { params }) {
     }),
     ...(params.join.includes('modules') && {
       modules: enrollment.course.modules.filter(mod => mod.isPublished).models
+        .sort((a, b) => { return moduleSorter.sort(a, b) })
     })
   };
 }

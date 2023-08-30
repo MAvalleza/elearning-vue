@@ -33,6 +33,21 @@ async function fetchCourse() {
   currentCourseModule.value = { ...courseModules.value[0] };
 }
 
+// Update module to completed
+async function updateEnrollmentProgress() {
+  loading.value = true;
+
+  await enrollmentsStore.updateEnrollment(enrollmentId.value, {
+    moduleId: currentCourseModule.value.id,
+    isCompleted: true
+  })
+
+  // if there is next page
+  await redirectToModule(currentCourseModule.value.index + 1);
+
+  loading.value = false;
+}
+
 // Modules
 const courseModules: Ref = ref([]);
 const currentCourseModule: Ref = ref({});
@@ -41,13 +56,10 @@ function onModuleSelect({ index }: { index: number }) {
   redirectToModule(index);
 }
 
-async function redirectToModule(index: number) {
-  loading.value = true;
-  currentCourseModule.value = { ...courseModules.value[index] };
+async function redirectToModule(moduleIndex: number) {
+  currentCourseModule.value = { ...courseModules.value[moduleIndex] };
 
   await fetchModuleContent();
-
-  loading.value = false;
 }
 
 // Content
@@ -55,10 +67,8 @@ const moduleContent: Ref = ref({});
 const contentsStore = useContents();
 
 async function fetchModuleContent() {
-  console.log('module', currentCourseModule.value.id);
   const contents = await contentsStore.fetchContents({ module: currentCourseModule.value.id });
 
-  console.log('contents', contents);
   moduleContent.value = contents[0];
 }
 
@@ -119,7 +129,7 @@ v-btn(
   size="large"
   location="bottom right"
   color="light-blue"
-  @click="redirectToModule(currentCourseModule.index + 1)"
+  @click="updateEnrollmentProgress"
 ).ma-10
 </template>
 

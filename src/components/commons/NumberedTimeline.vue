@@ -49,12 +49,11 @@ v-list
 .number {
   width: 30px;
   height: 30px;
-  border: 1px solid black;
+  border: 0.5px solid black;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
 }
 
 .timeline-line {

@@ -6,7 +6,8 @@ import type {
   FetchEnrollmentsParams,
   EnrollmentCreateParams,
   GetEnrollmentParams,
-  MappedEnrollment
+  MappedEnrollment,
+  EnrollmentUpdateParams
 } from '@/types/enrollment';
 
 const webservice = new EnrollmentsWebservice();
@@ -125,6 +126,24 @@ export const useEnrollments = defineStore('enrollments', {
           color: 'error',
           message: 'There was an error in fetching this course',
         })
+      } finally {
+        this.loadingEnrollments = false;
+      }
+    },
+    async updateEnrollment(id: string, params: EnrollmentUpdateParams) {
+      try {
+        this.loadingEnrollments = true;
+
+        const response = await webservice.updateEnrollment(id, params);
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in updating the enrollment',
+        });
       } finally {
         this.loadingEnrollments = false;
       }

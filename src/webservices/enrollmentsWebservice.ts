@@ -1,7 +1,8 @@
 import type {
   GetEnrollmentParams,
   EnrollmentCreateParams,
-  FetchEnrollmentsParams
+  FetchEnrollmentsParams,
+  EnrollmentUpdateParams
 } from '@/types/enrollment';
 import Webservice from './base';
 
@@ -71,7 +72,24 @@ export default class EnrollmentsWebservice extends Webservice {
       });
 
       return await response.json();
-    } catch(e) {
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
+
+  async updateEnrollment(id: string, data: EnrollmentUpdateParams) {
+    try {
+      const url = this.parseURL({ path: `enrollments/${id}` });
+
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: this.requestHeaders(),
+        body: JSON.stringify(data),
+      });
+
+      return await response.json();
+    } catch (e) {
       console.error(e);
       throw e;
     }

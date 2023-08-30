@@ -29,9 +29,15 @@ interface GetEnrollmentParams {
   join?: string[]
 }
 
+interface EnrollmentUpdateParams {
+  moduleId: string;
+  isCompleted: boolean;
+}
+
 export {
   FetchEnrollmentsParams,
   EnrollmentCreateParams,
   GetEnrollmentParams,
+  EnrollmentUpdateParams,
   MappedEnrollment,
 }
