@@ -9,10 +9,10 @@ class Response {
   }
 }
 
-function evaluateParams(schema, { collection, params }) {
+function evaluateParams(schema, { collection, params, opts }) {
   let data = collection;
 
-  const filter = new Filter(params);
+  const filter = new Filter(params, opts);
   const sorter = new Sorter(params);
   const pagination = new PaginationParams(params);
   const collectionJoin = new CollectionJoin(schema, params);
@@ -69,15 +69,23 @@ class PaginationParams {
 class Filter {
   #FILTER_OPTS = {
     keyword: {
-      filter: (data, params) => {
-        const title = data.title.toLowerCase();
+      filter: (data, { params, opts }) => {
         const keyword = params.keyword.toLowerCase();
 
-        return title.includes(keyword);
+        if (!isEmpty(opts?.keywordKeys)) {
+          // Iterate thru the given attributes to see if there is a match
+          return opts.keywordKeys.reduce((acc , key) => {
+            return acc || data[key]?.toLowerCase()?.includes(keyword);
+          }, false);
+        } else if (data?.title) {
+          return data.title.toLowerCase().includes(keyword);
+        } else {
+          return false;
+        }
       },
     },
     published: {
-      filter: (data, params) => {
+      filter: (data, { params }) => {
         // We parse the parse to handle boolean values that are strings
         return data.isPublished === JSON.parse(params.published);
       },
@@ -92,7 +100,7 @@ class Filter {
     },
     // Filter according to status of enrollment modules
     completed: {
-      filter: (data, params) => {
+      filter: (data, { params }) => {
         const enrollmentModules = data.enrollmentModules.models;
 
         return !isEmpty(enrollmentModules.filter(mod => mod.isCompleted === JSON.parse(params.completed)));
@@ -100,8 +108,9 @@ class Filter {
     }
   };
 
-  constructor(params = {}) {
+  constructor(params = {}, opts = {}) {
     this.filterParams = pick(params, Object.keys(this.#FILTER_OPTS));
+    this.filterOpts = opts.filter;
   }
 
   filter(data) {
@@ -110,7 +119,10 @@ class Filter {
     // Evaluate the parameters based on the filter methods for those parameters
     // Push the result to an array.
     Object.keys(this.filterParams).forEach(key => {
-      conditions.push(this.#FILTER_OPTS[key].filter(data, this.filterParams));
+      conditions.push(this.#FILTER_OPTS[key].filter(data, {
+        params: this.filterParams,
+        opts: this.filterOpts
+      }));
     });
 
     // Return the reduced result
