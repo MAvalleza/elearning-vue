@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted, reactive, type Ref } from 'vue';
+import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import isEmpty from 'lodash-es/isEmpty';
 import { useAuth } from '@/stores/auth';
 import { useEnrollments } from '@/stores/enrollments';
 import GenericContainer from '@/components/commons/GenericContainer.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
+import type { MappedEnrollment } from '@/types/enrollment';
 
 // Auth
 const authStore = useAuth();
@@ -13,10 +14,23 @@ const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Enrollments
 const enrollmentsStore = useEnrollments();
-const { enrollments, loadingEnrollments, currentEnrollment } = storeToRefs(enrollmentsStore);
+const { enrollments, loadingEnrollments, currentEnrollment }
+  : { enrollments: Ref, loadingEnrollments: Ref, currentEnrollment: Ref } = storeToRefs(enrollmentsStore);
+const mappedEnrollments: Ref = ref([]);
 
 async function fetchEnrollments() {
   await enrollmentsStore.fetchEnrollments(fetchParams);
+
+  // Map data for the course card
+  mappedEnrollments.value = enrollments.value.map((e: MappedEnrollment) => ({
+    ...e,
+    course: {
+      ...e.course,
+      subject: e.subject,
+      modules: e.modules,
+      author: e.author,
+    }
+  }));
 }
 
 function hasCurrentLesson() {
@@ -70,7 +84,7 @@ generic-container
     v-row(v-else)
       // Course cards
       v-col(
-        v-for="(enrollment, key) in enrollments"
+        v-for="(enrollment, key) in mappedEnrollments"
         :key="key"
         cols="12"
         lg="4"

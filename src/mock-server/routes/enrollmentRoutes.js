@@ -29,26 +29,7 @@ const createEnrollmentRoutes = routeInstance => {
       params: omit(params, 'join'),
     });
 
-    // Evaluate join
-    if (params.join?.includes('course')) {
-      response.data = response.data.map(item => {
-        return {
-          ...item.attrs,
-          course: {
-            ...item.course.attrs,
-            ...(params.join.includes('subject') && {
-              subject: item.course.subject,
-            }),
-            ...(params.join.includes('author') && {
-              author: item.course.author,
-            }),
-            ...(params.join.includes('modules') && {
-              modules: item.course.modules.models,
-            }),
-          },
-        };
-      });
-    }
+    response.data = response.data.map(item => mapEnrollment(item, { params }))
 
     return new Response(200, { some: 'header' }, response);
   });
@@ -228,9 +209,13 @@ function mapEnrollment(enrollment, { params }) {
     ...(params.join.includes('subject') && {
       subject: enrollment.course.subject,
     }),
+    ...(params.join.includes('author') && {
+      author: enrollment.course.author,
+    }),
     ...(params.join.includes('modules') && {
-      modules: enrollment.course.modules.filter(mod => mod.isPublished).models
-        .sort((a, b) => { return moduleSorter.sort(a, b) })
+      modules: enrollment.enrollmentModules.models
+        .map(mod => mod.module)
+        .sort((a, b) => moduleSorter.sort(a, b))
     })
   };
 }

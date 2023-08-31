@@ -24,6 +24,7 @@ type UserCreateParams = Required<User>
 
 export {
   User,
+  Author,
   CurrentUser,
   FetchUsersParams,
   UserCreateParams,
