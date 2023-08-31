@@ -139,7 +139,7 @@ page-header(
       @filter="fetchCourses"
       @clear:filter="onClearFilter"
     )
-      template(#custom-filter)
+      template(#additional-filter)
         v-select(
           v-model="fetchParams.subjectId"
           label="Subject"

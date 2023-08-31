@@ -70,15 +70,16 @@ v-text-field(
       )
         v-card(:min-width="props.filterMenuWidth")
           v-card-item
-            v-select(
-              v-model="published"
-              variant="outlined"
-              label="Status"
-              :items="STATUS_LABELS"
-              density="comfortable"
-              item-title="label"
-            )
-            slot(name="custom-filter")
+            slot(name="filter")
+              v-select(
+                v-model="published"
+                variant="outlined"
+                label="Status"
+                :items="STATUS_LABELS"
+                density="comfortable"
+                item-title="label"
+              )
+              slot(name="additional-filter")
           v-card-actions
             v-spacer
             v-btn(variant="text" @click="onClear") Clear
