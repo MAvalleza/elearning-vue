@@ -3,7 +3,7 @@ import AuthWebservice from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
-import type { User, CurrentUser, FetchUsersParams, UserCreateParams } from '@/types/user';
+import type { User, CurrentUser, UserCreateParams } from '@/types/user';
 import type { LoginCredentials, PasswordRequest } from '@/types/auth';
 
 const webservice = new AuthWebservice();
@@ -28,39 +28,6 @@ export const useAuth = defineStore('auth', {
     }
   },
   actions: {
-    async fetchUsers(params: FetchUsersParams) {
-      try {
-        this.loadingUsers = true;
-
-        const response = await webservice.getUsers(params);
-
-        if (!isEmpty(response.errors)) {
-          throw Error(response.errors[0]);
-        }
-
-        this.users = mapUsers(response.data);
-        this.usersTotal = response.totalCount;
-        this.usersCurrentPage = response.page;
-
-        return this.users;
-      } catch (e) {
-        if (e instanceof Error) {
-          uiStore().showSnackbar({
-            color: 'error',
-            message: e.message,
-          });
-        } else {
-          uiStore().showSnackbar({
-            color: 'error',
-            message: 'There was an error.'
-          });
-        }
-        
-        return [];
-      } finally {
-        this.loadingUsers = false;
-      }
-    },
     async registerUser(data: UserCreateParams) {
       try {
         uiStore().setLoading(true);
@@ -266,10 +233,3 @@ export const useAuth = defineStore('auth', {
     }
   },
 });
-
-function mapUsers(users: User[]) {
-  return users.map(user => ({
-    ...user,
-    normalizedName: `${user.firstName} ${user.lastName}`,
-  }));
-}

@@ -1,35 +1,8 @@
 import type { LoginCredentials, PasswordRequest } from '@/types/auth';
+import type { User } from '@/types/user';
 import Webservice from './base';
-
-interface UserData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-}
-
 export default class AuthWebservice extends Webservice {
-  async getUsers(params: object) {
-    try {
-      const url = this.parseURL({
-        path: 'users',
-        params,
-      });
-
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: this.requestHeaders()
-      });
-
-      return await response.json();
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
-  }
-
-  async signUpUser(data: UserData) {
+  async signUpUser(data: User) {
     try {
       const url = this.parseURL({ path: 'signup' });
       const response = await fetch(url, {
