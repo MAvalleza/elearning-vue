@@ -58,7 +58,7 @@ class PaginationParams {
     const { limit = 25, page = 1 } = params;
 
     this.start = (page - 1) * limit;
-    this.end = this.start + limit;
+    this.end = this.start + parseInt(limit);
   }
 
   paginate(data) {
