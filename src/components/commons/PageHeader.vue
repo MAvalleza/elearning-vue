@@ -34,6 +34,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Set to true if you want to hide the action button
+  // No need to set if you are using a custom slot for "content"
+  hideButton: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['click']);
@@ -60,12 +66,12 @@ div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
           slot(name="title")
             v-icon(:icon="props.titleIcon" size="x-large")
             h1.pl-3.pt-1 {{ props.title }}
-        template(v-if="hasCenterSection")
+        template(v-if="props.hasCenterSection")
           v-col(cols="5").pt-4
             slot(name="center-section")
-        v-col.text-right
+        v-col(v-if="!props.hideButton").text-right
           slot(name="action-btn")
-            v-btn(v-bind="buttonOpts" @click="onButtonClick")
+            v-btn(v-bind="props.buttonOpts" @click="onButtonClick")
 </template>
 
 <style scoped>

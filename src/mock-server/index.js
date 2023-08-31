@@ -45,6 +45,16 @@ const createMockServer = ({ persistence }) => {
               });
           });
         });
+        // Create admin
+        server.create('user', {
+          email: 'admin@test',
+          password: '123',
+          firstName: 'Admin',
+          lastName: 'Account',
+          role: ROLES.ADMIN,
+          isActive: true,
+          createdAt: Date.now(),
+        });
   
         // Create student
         server.create('user', {

@@ -4,6 +4,12 @@ const { ADMIN, INSTRUCTOR, STUDENT } = ROLES;
 
 const NAV_ITEMS = [
   {
+    title: 'Users',
+    icon: 'mdi-account',
+    route: 'users',
+    roles: [ADMIN],
+  },
+  {
     title: 'Subjects',
     icon: 'mdi-bookshelf',
     route: 'subjects',

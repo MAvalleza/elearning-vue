@@ -17,7 +17,7 @@ type CurrentUser = Omit<User, 'password'> & {
 }
 
 interface FetchUsersParams extends FetchParams {
-  role: User['role'];
+  role?: User['role'];
 }
 
 type UserCreateParams = Required<User>

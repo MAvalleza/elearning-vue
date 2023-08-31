@@ -7,6 +7,7 @@ import {
 import 'vue-router';
 import { useAuth as authStore } from '@/stores/auth';
 import authRoutes from './auth';
+import adminRoutes from './admin';
 import subjectRoutes from './subjects';
 import courseRoutes from './courses';
 import moduleRoutes from './modules';
@@ -35,6 +36,7 @@ const routes = [
     beforeEnter: [rootRouteGuard],
   },
   ...authRoutes,
+  ...adminRoutes,
   ...subjectRoutes,
   ...courseRoutes,
   ...moduleRoutes,
@@ -95,7 +97,9 @@ async function rootRouteGuard() {
   } 
   const role: string = authStore().currentUser.role;
 
-  if ([ROLES.ADMIN, ROLES.INSTRUCTOR].includes(role)) {
+  if (role === ROLES.ADMIN) {
+    return { name: 'users' };
+  } else if (role === ROLES.INSTRUCTOR) {
     return { name: 'subjects' };
   } else if (role === ROLES.STUDENT) {
     return { name: 'available-courses' };
