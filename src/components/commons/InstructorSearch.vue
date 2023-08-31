@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { useAuth } from '@/stores/auth';
+import { useUsers } from '@/stores/users';
 import { storeToRefs } from 'pinia';
 import debounce from 'lodash-es/debounce';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
@@ -37,11 +37,11 @@ watch(instructorSearch, val => {
   val !== instructorId.value && !instructorId.value && searchInstructor(val);
 });
 
-const authStore = useAuth();
-const { users, loadingUsers } = storeToRefs(authStore);
+const usersStore = useUsers();
+const { users, loadingUsers } = storeToRefs(usersStore);
 
 async function fetchUsers(keyword: string) {
-  await authStore.fetchUsers({ keyword, role: ROLES.INSTRUCTOR });
+  await usersStore.fetchUsers({ keyword, role: ROLES.INSTRUCTOR });
 }
 
 const searchInstructor = debounce(keyword => fetchUsers(keyword), 500);
