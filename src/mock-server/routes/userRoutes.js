@@ -8,7 +8,9 @@ const createUserRoutes = routeInstance => {
 
     const authSession = new AuthSession(schema, token);
 
-    if (!authSession.isAdmin()) {
+    // Only admins are allowed to fetch all users.
+    const isAllowedToFetchAll = authSession.isAdmin() || request.queryParams.role;
+    if (!isAllowedToFetchAll) {
       return new Response(
         401,
         { some: 'header' },
@@ -23,6 +25,11 @@ const createUserRoutes = routeInstance => {
     const response = evaluateParams(schema, {
       collection,
       params: request.queryParams,
+      opts: {
+        filter: {
+          keywordKeys: ['firstName', 'lastName'],
+        },
+      },
     });
 
     return new Response(200, { some: 'header' }, response);

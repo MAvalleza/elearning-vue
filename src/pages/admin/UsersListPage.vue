@@ -5,8 +5,10 @@ import { useRoute } from 'vue-router';
 import { useUsers } from '@/stores/users';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
+import { ROLES_LIST } from '@/constants/roles-and-actions';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
+import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import type { TableOptions } from '@/types/data-table';
 
 // Router
@@ -71,13 +73,24 @@ page-header(
   has-center-section
 )
   template(#center-section)
-    //- search-and-filter(
-    //-   v-model:search-text="fetchParams.keyword"
-    //-   v-model:status-filter="fetchParams.published"
-    //-   @search="fetchSubjects"
-    //-   @filter="fetchSubjects"
-    //-   @clear:filter="fetchSubjects"
-    //- )
+    // Search user
+    search-and-filter(
+      v-model:search-text="fetchParams.keyword"
+      @search="fetchUsers"
+      @filter="fetchUsers"
+      @clear:filter="fetchParams.role = null; fetchUsers()"
+    )
+      template(#filter)
+        v-select(
+          v-model="fetchParams.role"
+          variant="outlined"
+          label="Role"
+          :items="ROLES_LIST"
+          density="comfortable"
+          item-title="text"
+          item-value="value"
+        )
+
 page-content
   v-data-table-server(
     v-model:items-per-page="fetchParams.limit"

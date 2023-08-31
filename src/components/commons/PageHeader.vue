@@ -69,9 +69,9 @@ div(:style="HEADER_STYLES" :class="defineHeaderClasses()").pt-8
         template(v-if="props.hasCenterSection")
           v-col(cols="5").pt-4
             slot(name="center-section")
-        v-col(v-if="!props.hideButton").text-right
+        v-col.text-right
           slot(name="action-btn")
-            v-btn(v-bind="props.buttonOpts" @click="onButtonClick")
+            v-btn(v-if="!props.hideButton" v-bind="props.buttonOpts" @click="onButtonClick")
 </template>
 
 <style scoped>
