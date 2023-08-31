@@ -14,8 +14,8 @@ const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
 // Enrollments
 const enrollmentsStore = useEnrollments();
-const { enrollments, loadingEnrollments, currentEnrollment }
-  : { enrollments: Ref, loadingEnrollments: Ref, currentEnrollment: Ref } = storeToRefs(enrollmentsStore);
+const { enrollments, loadingEnrollments, currentLesson }
+  : { enrollments: Ref, loadingEnrollments: Ref, currentLesson: Ref } = storeToRefs(enrollmentsStore);
 const mappedEnrollments: Ref = ref([]);
 
 async function fetchEnrollments() {
@@ -34,7 +34,7 @@ async function fetchEnrollments() {
 }
 
 function hasCurrentLesson() {
-  return !isEmpty(currentEnrollment.value);
+  return !isEmpty(currentLesson.value);
 }
 
 // Fetch params
@@ -63,15 +63,18 @@ onMounted(() => {
 
 <template lang="pug">
 generic-container
-  div(v-if="hasCurrentLesson()")
+  div(v-if="hasCurrentLesson()").mb-15
     h4.section-title Current Lesson
 
     // TODO: Refactor
-    //- div.d-flex
-    //-   v-img(v-if="currentEnrollment.course?.icon" :src="currentEnrollment.course?.icon" height="100")
-    //-   v-icon(v-else size="100" icon="mdi-bookshelf")
-    //-   v-icon(icon="mdi-arrow-right")
-    //-   h6.current-module {{ currentEnrollment.module?.title }}
+    div.d-flex.align-center
+      div
+        v-img(v-if="currentLesson.course?.icon" :src="currentLesson.course?.icon" height="100")
+        v-icon(v-else size="100" icon="mdi-bookshelf")
+      div
+        v-icon(icon="mdi-arrow-right")
+      div.ml-2
+        h6.current-module {{ currentLesson.module?.title }}
   div
     h4.section-title.mb-5 My Courses
 
@@ -97,7 +100,7 @@ generic-container
               block
               color="light-blue"
               :to="{ name: 'view-enrolled-course', params: { enrollmentId: enrollment.id } }"
-            ) {{ currentEnrollment.id === enrollment.id ? 'CONTINUE' : 'START' }}
+            ) {{ currentLesson.enrollmentId === enrollment.id ? 'CONTINUE' : 'START' }}
 </template>
 
 <style scoped>

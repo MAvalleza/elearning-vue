@@ -9,8 +9,16 @@ import type {
   MappedEnrollment,
   EnrollmentUpdateParams
 } from '@/types/enrollment';
+import type { Module } from '@/types/module';
+import type { Course } from '@/types/course';
 
 const webservice = new EnrollmentsWebservice();
+
+type CurrentLesson = {
+  enrollmentId: string;
+  course: Course;
+  module: Module;
+}
 
 export const useEnrollments = defineStore('enrollments', {
   state: () => ({
@@ -19,6 +27,7 @@ export const useEnrollments = defineStore('enrollments', {
     enrollmentsCurrentPage: 1,
     loadingEnrollments: false,
     currentEnrollment: <MappedEnrollment>{},
+    currentLesson: <CurrentLesson>{},
   }),
   actions: {
     async fetchEnrollments(params: FetchEnrollmentsParams) {
@@ -147,6 +156,9 @@ export const useEnrollments = defineStore('enrollments', {
       } finally {
         this.loadingEnrollments = false;
       }
+    },
+    setCurrentLesson(lesson: CurrentLesson) {
+      this.currentLesson = lesson;
     },
     clearCurrentEnrollment() {
       this.currentEnrollment = <MappedEnrollment>{}

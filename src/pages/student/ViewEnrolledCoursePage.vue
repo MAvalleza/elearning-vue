@@ -4,9 +4,11 @@ import { storeToRefs } from 'pinia';
 import { useEnrollments } from '@/stores/enrollments';
 import { useContents } from '@/stores/contents';
 import { useRoute, useRouter } from 'vue-router';
+import isEmpty from 'lodash-es/isEmpty';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import NumberedTimeline from '@/components/commons/NumberedTimeline.vue';
 import CourseModuleContent from '@/components/student/CourseModuleContent.vue';
+import type { Module } from '@/types/module';
 
 // Route
 const route = useRoute();
@@ -15,22 +17,36 @@ const router = useRouter();
 // UI state
 const loading = ref(false);
 
-// Enrollment / course
+// Enrollment
 const enrollmentId: Ref = ref(route.params.enrollmentId);
 const enrollmentsStore = useEnrollments();
-const { currentEnrollment } = storeToRefs(enrollmentsStore);
+const { currentEnrollment, currentLesson }: { currentEnrollment: Ref, currentLesson: Ref } = storeToRefs(enrollmentsStore);
 
-async function fetchCourse() {
+
+async function fetchEnrollment() {
   await enrollmentsStore.fetchEnrollment(enrollmentId.value, {
     join: ['course', 'modules']
   });
 
-  courseModules.value = currentEnrollment.value.modules.map((mod, index) => ({
+  // Get modules
+  courseModules.value = currentEnrollment.value.modules.map((mod: Module, index: number) => ({
     index,
     ...mod,
   }));
-  // TODO: Handle picking up from where it stopped
-  currentCourseModule.value = { ...courseModules.value[0] };
+
+  // Check if there is a current lesson then assign that lesson's module as the current module
+  if (!isEmpty(currentLesson.value)) {
+    currentCourseModule.value = { ...currentLesson.value.module };
+  } else {
+    currentCourseModule.value = { ...courseModules.value[0] };
+
+    // Set current lesson
+    enrollmentsStore.setCurrentLesson({
+      enrollmentId: enrollmentId.value,
+      course: currentEnrollment.value.course,
+      module: currentCourseModule.value,
+    });
+  }
 }
 
 // Update module to completed
@@ -42,7 +58,7 @@ async function updateEnrollmentProgress() {
     isCompleted: true
   })
 
-  // if there is next page
+  // if there is next module, we allow to proceed to next module
   if (currentCourseModule.value.index < courseModules.value.length - 1) {
     await redirectToModule(currentCourseModule.value.index + 1);
   }
@@ -60,6 +76,12 @@ function onModuleSelect({ index }: { index: number }) {
 
 async function redirectToModule(moduleIndex: number) {
   currentCourseModule.value = { ...courseModules.value[moduleIndex] };
+
+  enrollmentsStore.setCurrentLesson({
+    enrollmentId: enrollmentId.value,
+    course: currentEnrollment.value.course,
+    module: currentCourseModule.value,
+  });
 
   await fetchModuleContent();
 }
@@ -89,7 +111,14 @@ async function finishCourse() {
 
 async function initialize() {
   loading.value = true;
-  await fetchCourse();
+
+  // Check if `currentLesson` store data is the one viewed
+  // Otherwise we reset the store
+  if (currentLesson.value.enrollmentId !== enrollmentId.value) {
+    enrollmentsStore.$reset();
+  }
+
+  await fetchEnrollment();
   await fetchModuleContent();
   loading.value = false;
 }
