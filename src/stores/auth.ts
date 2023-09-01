@@ -123,11 +123,6 @@ export const useAuth = defineStore('auth', {
           throw new Error(response.errors.message);
         }
 
-        uiStore().showSnackbar({
-          color: 'success',
-          message: 'A reset password link was sent to your email.',
-        });
-
         return response;
       } catch (e) {
         if (e instanceof Error) {
@@ -141,6 +136,8 @@ export const useAuth = defineStore('auth', {
             message: 'There was an error.'
           });
         }
+
+        return null;
       } finally {
         uiStore().setLoading(false);
       }

@@ -42,6 +42,11 @@ async function requestReset(data: PasswordRequest) {
 
   // TODO: Temporary mocks since we do not send an actual email yet.
   if (response?.token) {
+    uiStore.showSnackbar({
+      color: 'success',
+      message: 'A reset password link was sent to your email.',
+    });
+
     token.value = response.token;
     showTempLink.value = true;
   }

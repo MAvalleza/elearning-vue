@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useUsers } from '@/stores/users';
 import { storeToRefs } from 'pinia';
 import debounce from 'lodash-es/debounce';
@@ -45,6 +45,10 @@ async function fetchUsers(keyword: string) {
 }
 
 const searchInstructor = debounce(keyword => fetchUsers(keyword), 500);
+
+onMounted(() => {
+  usersStore.$reset();
+})
 </script>
 
 <template lang="pug">
