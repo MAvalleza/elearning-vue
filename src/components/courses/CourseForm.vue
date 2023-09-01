@@ -23,6 +23,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Make all form fields disabled
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
@@ -66,27 +71,34 @@ v-form(ref="form")
             variant="outlined"
             placeholder="Mathematics"
             label="Title"
+            :disabled="props.disabled"
             :rules="[REQUIRED_RULE]"
           )
         // Do not show when course is created thru subject
         template(v-if="!subject")
           v-col(cols="12" lg="6")
-            subject-search(v-model="course.subjectId" required)
+            subject-search(
+              v-model="course.subjectId"
+              :disabled="props.disabled"
+              required
+            )
           v-col(cols="12" lg="6")
+            // TODO: Fetch
             v-text-field(
               v-model="currentUser.normalizedName"
               label="Author"
               variant="outlined"
-              :disabled="currentUser.role === ROLES.INSTRUCTOR"
+              :disabled="currentUser.role === ROLES.INSTRUCTOR || props.disabled"
             )
         v-col(cols="12" lg="6")
           v-select(
             v-model="course.isPublished"
             label="Status"
             variant="outlined"
-            :items="STATUS_LABELS"
             item-title="label"
             item-value="value"
+            :items="STATUS_LABELS"
+            :disabled="props.disabled"
           )
         v-col(cols="12")
           v-text-field(
@@ -94,7 +106,12 @@ v-form(ref="form")
             variant="outlined"
             label="Course Description"
             placeholder="e.g. A basic course"
+            :disabled="props.disabled"
           )
         v-col(cols="12")
-          image-uploader(v-model="course.icon" label="Upload course icon")
+          image-uploader(
+            v-model="course.icon"
+            label="Upload course icon"
+            :disabled="props.disabled"
+          )
 </template>

@@ -3,6 +3,7 @@ import { ref, onMounted, type Ref } from 'vue';
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
+import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { type GenericTableItem } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -28,6 +29,9 @@ const tab = ref('form');
 // Router
 const router = useRouter();
 const route = useRoute();
+
+// Auth
+const authStore = useAuth();
 
 // Course
 const coursesStore = useCourses();
@@ -130,6 +134,7 @@ app-loader(:is-visible="loadingCourses")
 page-header(
   :title="definePageTitle()"
   :button-opts="HEADER_BUTTON_OPTS"
+  :hide-button="!authStore.isInstructor"
   @click="submitForm"
 )
 
@@ -147,6 +152,7 @@ page-content
           v-model="course"
           :loading="loadingCourses"
           :subject="isFromSubject"
+          :disabled="!authStore.isInstructor"
           @submit="updateCourse"
         )
       v-window-item(value="modules")
@@ -154,6 +160,7 @@ page-content
           v-card-actions.mb-10
             v-spacer
             v-btn(
+              v-if="authStore.isInstructor"
               color="light-blue"
               variant="flat"
               theme="dark"
@@ -164,6 +171,7 @@ page-content
             component="v-data-table"
             :loading="loadingCourses"
             :items="course.modules || []"
+            :disabled="!authStore.isInstructor"
             hide-course-column
             @click:row="editModule"
           )

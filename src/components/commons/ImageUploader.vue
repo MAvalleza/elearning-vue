@@ -10,6 +10,11 @@ const props = defineProps({
     type: String,
     default: 'Upload',
   },
+  // Prevent uploading
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -27,6 +32,8 @@ const uploader: Ref = ref(null);
 const uploading = ref(false);
 
 function changeFile() {
+  if (props.disabled) return;
+
   uploader.value.click();
 }
 

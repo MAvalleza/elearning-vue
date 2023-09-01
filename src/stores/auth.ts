@@ -4,7 +4,7 @@ import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
 import { ROLES } from '@/constants/roles-and-actions';
-import type { User, CurrentUser, UserCreateParams } from '@/types/user';
+import type { CurrentUser, UserCreateParams } from '@/types/user';
 import type { LoginCredentials, PasswordRequest } from '@/types/auth';
 
 const webservice = new AuthWebservice();
@@ -12,10 +12,6 @@ const webservice = new AuthWebservice();
 export const useAuth = defineStore('auth', {
   state: () => ({
     currentUser: <CurrentUser>{},
-    users: <User[]>[],
-    usersTotal: 0,
-    usersCurrentPage: 1,
-    loadingUsers: false,
   }),
   getters: {
     isAuthenticated(state) {

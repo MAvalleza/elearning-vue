@@ -4,6 +4,7 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import uniqBy from 'lodash-es/uniqBy';
 import { useCourses } from '@/stores/courses';
+import { useAuth } from '@/stores/auth';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
 import type {
   GenericTableItem,
@@ -17,9 +18,14 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
+// Router
 const router = useRouter();
 const route = useRoute();
 
+// Auth
+const authStore = useAuth();
+
+// UI states
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW COURSE',
   flat: true,
@@ -27,7 +33,6 @@ const HEADER_BUTTON_OPTS = {
   to: { name: 'create-course' },
 };
 
-// UI states
 const confirmDialog: Ref = ref(null);
 
 const coursesStore = useCourses();
@@ -129,6 +134,7 @@ page-confirm-dialog(ref="confirmDialog")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
+  :hide-button="!authStore.isInstructor"
   has-center-section
 )
   template(#center-section)
@@ -154,6 +160,7 @@ page-content
     :items="courses"
     :items-length="coursesTotal"
     :loading="loadingCourses"
+    :disabled="!authStore.isInstructor"
     @click:row="editCourse"
     @update:options="onUpdateTableOptions"
     @action="onAction"
