@@ -1,4 +1,4 @@
-import type { FetchUsersParams } from '@/types/user';
+import type { FetchUsersParams, UserUpdateParams } from '@/types/user';
 import Webservice from './base';
 
 export default class UsersWebservice extends Webservice {
@@ -12,6 +12,23 @@ export default class UsersWebservice extends Webservice {
       const response = await fetch(url, {
         method: 'GET',
         headers: this.requestHeaders()
+      });
+
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
+
+  async updateUser(id: string, data: UserUpdateParams) {
+    try {
+      const url = this.parseURL({ path: `users/${id}` });
+
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: this.requestHeaders(),
+        body: JSON.stringify(data),
       });
 
       return await response.json();

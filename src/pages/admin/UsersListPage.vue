@@ -9,7 +9,9 @@ import { ROLES_LIST } from '@/constants/roles-and-actions';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
+import TableActions from '@/components/commons/TableActions.vue';
 import type { TableOptions } from '@/types/data-table';
+import type { MappedUser } from '@/types/user';
 
 // Router
 const route = useRoute();
@@ -25,6 +27,8 @@ const USERS_DATA_TABLE = {
     },
     { title: 'Email', align: 'end', key: 'email' },
     { title: 'Role', align: 'end', key: 'role' },
+    { title: 'Status', align: 'end', key: 'status' },
+    { title: '', align: 'end', key: 'actions', sortable: false },
   ],
   itemValue: '',
 };
@@ -46,6 +50,40 @@ async function fetchUsers() {
   await usersStore.fetchUsers(fetchParams);
 }
 
+function getTableActions(item: MappedUser) {
+  const getTableStatusAction = (isActive: boolean) => {
+    if (isActive) {
+      return {
+        icon: {
+          icon: 'mdi-close',
+        },
+        title: 'Set inactive',
+        action: 'inactive',
+      }
+    } else {
+      return {
+        icon: {
+          icon: 'mdi-check',
+          color: 'success',
+        },
+        title: 'Set active',
+        action: 'active',
+      };
+    }
+  };
+
+  const DELETE_ACTION = {
+    icon: {
+      icon: 'mdi-delete',
+      color: 'error',
+    },
+    title: 'Delete',
+    action: 'delete',
+  };
+
+  return [getTableStatusAction(item.isActive), DELETE_ACTION];
+}
+
 function onUpdateTableOptions(options: TableOptions) {
   const updatedParams = mapOptionsToParams(options);
 
@@ -54,6 +92,18 @@ function onUpdateTableOptions(options: TableOptions) {
     ...updatedParams,
   });
 
+  fetchUsers();
+}
+
+async function onAction({ action, item }: { action: string, item: MappedUser }) {
+  const id = item.id;
+  const result = await usersStore.onTableAction({ id, action });
+
+  if (result?.delete) {
+    console.log('delete');
+  }
+
+  // Re-fetch users
   fetchUsers();
 }
 
@@ -101,4 +151,15 @@ page-content
     :loading="loadingUsers"
     @update:options="onUpdateTableOptions"
   )
+    template(#[`item.role`]="{ item }")
+      span.text-capitalize {{ item.raw.role }}
+
+    template(#[`item.status`]="{ item }")
+      span {{ item.raw.isActive ? 'Active' : 'Inactive' }}
+
+    template(#[`item.actions`]="{ item }")
+      table-actions(
+        :actions="getTableActions(item.raw)"
+        @action="onAction({ action: $event, item: item.raw })"
+      )
 </template>
