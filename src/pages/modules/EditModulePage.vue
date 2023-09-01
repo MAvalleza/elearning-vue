@@ -5,6 +5,7 @@ import { useModules } from '@/stores/modules';
 import { useContents } from '@/stores/contents';
 import { useCourses } from '@/stores/courses';
 import { useSubjects } from '@/stores/subjects';
+import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { type RouteWithCustomProperties } from '@/types/vue-router';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -14,6 +15,9 @@ import ModuleForm from '@/components/modules/ModuleForm.vue';
 // Router
 const router = useRouter();
 const route: RouteWithCustomProperties = useRoute();
+
+// Auth
+const authStore = useAuth();
 
 // Header
 const HEADER_BUTTON_OPTS = {
@@ -142,6 +146,7 @@ app-loader(:is-visible="loadingModules")
 page-header(
   :title="definePageTitle()"
   :button-opts="HEADER_BUTTON_OPTS"
+  :hide-button="!authStore.isInstructor"
   @click="submitForm"
 )
 
@@ -153,6 +158,7 @@ page-content
     v-model:content="modContent"
     :hide-course-field="isCourseProvided"
     :loading="loadingModules"
+    :disabled="!authStore.isInstructor"
     @submit="update"
   )
 </template>

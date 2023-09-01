@@ -15,6 +15,7 @@ interface Props {
   modelValue: Module;
   content: Content | object;
   hideCourseField?: boolean;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -28,6 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
    * Usually `true` when component is consumed in course/subject form
    **/
   hideCourseField: false,
+  // Makes form fields disabled
+  disabled: false,
 });
 
 const emit = defineEmits(['update:modelValue', 'update:content', 'submit']);
@@ -102,6 +105,7 @@ v-form(ref="form")
             variant="outlined"
             placeholder="Introduction"
             label="Title"
+            :disabled="props.disabled"
             :rules="[REQUIRED_RULE]"
           )
         v-col(v-if="!hideCourseField" cols="12" lg="6")
@@ -114,6 +118,7 @@ v-form(ref="form")
             item-title="title"
             item-value="id"
             hide-no-data
+            :disabled="props.disabled"
             :rules="[REQUIRED_RULE]"
           )
         v-col(cols="12" lg="6")
@@ -121,9 +126,10 @@ v-form(ref="form")
             v-model="mod.isPublished"
             label="Status"
             variant="outlined"
-            :items="STATUS_LABELS"
             item-title="label"
             item-value="value"
+            :items="STATUS_LABELS"
+            :disabled="props.disabled"
           )
         v-col(cols="12" lg="6")
           v-text-field(
@@ -131,9 +137,10 @@ v-form(ref="form")
             label="Duration"
             variant="outlined"
             type="number"
+            :disabled="props.disabled"
             :rules="[REQUIRED_RULE]"
           )
     // Rich text editor
     div(style="height: 600px")
-      text-editor(v-model="modContent.content")
+      text-editor(v-model="modContent.content" :disabled="props.disabled")
 </template>

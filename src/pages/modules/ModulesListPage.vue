@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useModules } from '@/stores/modules';
+import { useAuth } from '@/stores/auth';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
 import {
   type TableActionOpt,
@@ -15,9 +16,14 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import ModulesListTable from '@/components/modules/ModulesListTable.vue';
 
+// Router
 const route = useRoute();
 const router = useRouter();
 
+// Auth
+const authStore = useAuth();
+
+// UI states
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW MODULE',
   flat: true,
@@ -25,7 +31,6 @@ const HEADER_BUTTON_OPTS = {
   to: { name: 'create-module' },
 };
 
-// UI states
 const confirmDialog: Ref = ref(null);
 
 // Fetch params
@@ -107,6 +112,7 @@ page-confirm-dialog(ref="confirmDialog")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
+  :hide-button="!authStore.isInstructor"
   has-center-section
 )
   template(#center-section)
@@ -123,6 +129,7 @@ page-content
     :items="modules"
     :items-length="modulesTotal"
     :loading="loadingModules"
+    :disabled="!authStore.isInstructor"
     @click:row="editModule"
     @update:options="onUpdateTableOptions"
     @action="onAction"

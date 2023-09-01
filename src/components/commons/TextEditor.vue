@@ -9,6 +9,10 @@ const props = defineProps({
     type: [Delta, Object],
     default: () => ({}),
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -45,5 +49,6 @@ quill-editor(
   v-model:content="content"
   :modules="modules"
   :toolbar="toolbarOptions"
+  :read-only="props.disabled"
 )
 </template>
