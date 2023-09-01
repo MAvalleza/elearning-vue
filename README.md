@@ -7,11 +7,7 @@
 Front-end training project for viewing subjects and courses.
 
 ### In progress features
-- Permissions handling
-- Admin pages
-- Student pages (module viewer)
-- UI/UX Enhancements (full implementation of figma)
-
+- Code evaluation checklist
 ### Mock Implementation
 
 Due to absence of a backend, the endpoints have been mocked using [MirageJS](https://miragejs.com/docs/getting-started/introduction/)
@@ -79,6 +75,12 @@ Default Student
 email: s@test
 password: 123
 ```
+
+Admin
+
+```
+email: admin@test
+password: 123
 
 ### Creating your own account
 
