@@ -1,6 +1,7 @@
 import { Response } from 'miragejs';
 import { evaluateParams } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
+import omit from 'lodash-es/omit';
 
 const createUserRoutes = routeInstance => {
   routeInstance.get('/users', (schema, request) => {
@@ -32,8 +33,17 @@ const createUserRoutes = routeInstance => {
       },
     });
 
+    response.data = response.data.map(item => mapUser(item.attrs));
+    
     return new Response(200, { some: 'header' }, response);
   });
 };
+
+function mapUser(userData) {
+  return {
+    ...omit(userData, 'password'),
+    normalizedName: `${userData.firstName || ''} ${userData.lastName || ''}`,
+  };
+}
 
 export default createUserRoutes;

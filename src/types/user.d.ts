@@ -10,9 +10,12 @@ type User = {
 
 type Author = User
 
-type CurrentUser = Omit<User, 'password'> & {
+type MappedUser = Omit<User, 'password'> & {
   id: string;
   normalizedName: string;
+}
+
+interface CurrentUser extends MappedUser {
   accessToken: string;
 }
 
@@ -25,6 +28,7 @@ type UserCreateParams = Required<User>
 export {
   User,
   Author,
+  MappedUser,
   CurrentUser,
   FetchUsersParams,
   UserCreateParams,

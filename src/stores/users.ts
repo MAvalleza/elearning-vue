@@ -2,13 +2,13 @@ import { defineStore } from 'pinia';
 import UsersWebservice from '@/webservices/usersWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import isEmpty from 'lodash-es/isEmpty';
-import type { User, FetchUsersParams } from '@/types/user';
+import type { MappedUser, FetchUsersParams } from '@/types/user';
 
 const webservice = new UsersWebservice();
 
 export const useUsers = defineStore('users', {
   state: () => ({
-    users: <User[]>[],
+    users: <MappedUser[]>[],
     usersTotal: 0,
     usersCurrentPage: 1,
     loadingUsers: false,
@@ -24,7 +24,7 @@ export const useUsers = defineStore('users', {
           throw Error(response.errors[0]);
         }
 
-        this.users = mapUsers(response.data);
+        this.users = response.data;
         this.usersTotal = response.totalCount;
         this.usersCurrentPage = response.page;
 
@@ -49,10 +49,3 @@ export const useUsers = defineStore('users', {
     },
   },
 });
-
-function mapUsers(users: User[]) {
-  return users.map(user => ({
-    ...user,
-    normalizedName: `${user.firstName} ${user.lastName}`,
-  }));
-}
