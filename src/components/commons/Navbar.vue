@@ -17,12 +17,11 @@ async function logout() {
 }
 
 const USER_MENU_ITEMS = [
-  // TODO: My profile page
   {
     title: 'My Profile',
     icon: 'mdi-account-circle-outline',
     onClick: () => {
-      router.push({ name: 'in-progress' });
+      router.push({ name: 'profile' });
     },
   },
   {

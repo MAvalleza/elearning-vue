@@ -14,6 +14,7 @@ import moduleRoutes from './modules';
 import studentRoutes from './student';
 import activityWatcher from '@/plugins/activity-watcher';
 import { ROLES } from '@/constants/roles-and-actions';
+import UserProfilePage from '@/pages/user/UserProfilePage.vue';
 import InProgressPage from '@/pages/temp/InProgressPage.vue';
 
 declare module 'vue-router' {
@@ -34,6 +35,12 @@ const routes = [
     name: 'index',
     component: { template: '<router-view />' }, // Dummy component
     beforeEnter: [rootRouteGuard],
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    meta: { auth: true, layout: 'AppLayout' },
+    component: UserProfilePage,
   },
   ...authRoutes,
   ...adminRoutes,
