@@ -12,6 +12,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
@@ -46,7 +50,7 @@ v-form(ref="form" @submit.prevent="submit")
             variant="outlined"
             placeholder="Mathematics"
             label="Title"
-            :disabled="props.loading"
+            :disabled="props.loading || props.disabled"
             :rules="[REQUIRED_RULE]"
             @update:model-value="onUpdate"
           )
@@ -57,7 +61,7 @@ v-form(ref="form" @submit.prevent="submit")
             variant="outlined"
             item-title="label"
             item-value="value"
-            :disabled="props.loading"
+            :disabled="props.loading || props.disabled"
             :items="STATUS_LABELS"
             @update:model-value="onUpdate"
           )

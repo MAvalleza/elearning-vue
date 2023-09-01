@@ -3,6 +3,7 @@ import { ref, onMounted, type Ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useSubjects } from '@/stores/subjects';
 import { useCourses } from '@/stores/courses';
+import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { type TableActionOpt, type GenericTableItem } from '@/types/data-table';
 import AppLoader from '@/components/commons/AppLoader.vue';
@@ -22,6 +23,9 @@ const tab = ref('form');
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
+
+// Auth
+const authStore = useAuth();
 
 // Subject operations
 const subjectsStore = useSubjects();
@@ -107,6 +111,7 @@ page-confirm-dialog(ref="confirmDialog")
 page-header(
   :title="subject.title || route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
+  :hide-button="!authStore.isInstructor"
   @click="submitForm"
 )
 
@@ -123,6 +128,7 @@ page-content
           :key="subject.id"
           v-model="subject"
           :loading="loadingSubjects"
+          :disabled="!authStore.isInstructor"
           @submit="updateSubject"
         )
       v-window-item(value="courses")
@@ -130,6 +136,7 @@ page-content
           v-card-actions.mb-10
             v-spacer
             v-btn(
+              v-if="authStore.isInstructor"
               color="light-blue"
               variant="flat"
               theme="dark"
@@ -139,6 +146,7 @@ page-content
           courses-list-table(
             component="v-data-table"
             :items="subject.courses || []"
+            :disabled="!authStore.isInstructor"
             hide-subject-column
             @click:row="editCourse"
             @action="onAction"

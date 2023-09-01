@@ -31,6 +31,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // To prevent any data updates
+  disabled: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const emit = defineEmits(['update:options', 'action', 'click:row']);
@@ -132,6 +137,7 @@ component(
 
   template(#[`item.actions`]="{ item }")
     table-actions(
+      v-if="!props.disabled"
       :actions="getTableActions(item)"
       @action="onAction($event, item)"
     )

@@ -3,6 +3,7 @@ import AuthWebservice from '@/webservices/authWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import pick from 'lodash-es/pick';
 import isEmpty from 'lodash-es/isEmpty';
+import { ROLES } from '@/constants/roles-and-actions';
 import type { User, CurrentUser, UserCreateParams } from '@/types/user';
 import type { LoginCredentials, PasswordRequest } from '@/types/auth';
 
@@ -25,6 +26,15 @@ export const useAuth = defineStore('auth', {
     },
     hasPreviousSession() {
       return !!localStorage.getItem('accessToken');
+    },
+    isAdmin(state) {
+      return state.currentUser?.role === ROLES.ADMIN;
+    },
+    isInstructor(state) {
+      return state.currentUser?.role === ROLES.INSTRUCTOR;
+    },
+    isStudent(state) {
+      return state.currentUser?.role === ROLES.STUDENT;
     }
   },
   actions: {

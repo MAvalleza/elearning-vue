@@ -2,6 +2,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useAuth } from '@/stores/auth';
 import { useSubjects } from '@/stores/subjects';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import {
@@ -15,9 +16,14 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import TableActions from '@/components/commons/TableActions.vue';
 
+// Router
 const router = useRouter();
 const route = useRoute();
 
+// Auth
+const authStore = useAuth();
+
+// UI states
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW SUBJECT',
   flat: true,
@@ -25,7 +31,6 @@ const HEADER_BUTTON_OPTS = {
   to: { name: 'create-subject' },
 };
 
-// UI states
 const confirmDialog: Ref = ref(null);
 
 // Subjects data
@@ -137,6 +142,7 @@ page-confirm-dialog(ref="confirmDialog")
 page-header(
   :title="route.meta.title"
   :button-opts="HEADER_BUTTON_OPTS"
+  :hide-button="!authStore.isInstructor"
   has-center-section
 )
   template(#center-section)
@@ -165,6 +171,7 @@ page-content
 
     template(#[`item.actions`]="{ item }")
       table-actions(
+        v-if="authStore.isInstructor"
         :actions="getTableActions(item)"
         @action="onAction($event, item)"
       )
