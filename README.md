@@ -84,6 +84,7 @@ Admin
 ```
 email: admin@test
 password: 123
+```
 
 ### Creating your own account
 
