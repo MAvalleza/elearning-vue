@@ -60,7 +60,7 @@ const isFromSubject = ref(route.meta.from === 'subject');
 
 async function fetchCourse() {
   await coursesStore.fetchCourse(courseId.value, {
-    join: ['modules'],
+    join: ['author', 'modules'],
   });
 
   course.value = { ...currentCourse.value };

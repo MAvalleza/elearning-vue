@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useAuth } from '@/stores/auth';
-import { ROLES } from '@/constants/roles-and-actions';
 import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 import ImageUploader from '@/components/commons/ImageUploader.vue';
@@ -43,9 +40,9 @@ const course = computed({
   },
 });
 
-// Current user
-const authStore = useAuth();
-const { currentUser } = storeToRefs(authStore);
+const authorName = computed(() => {
+  return `${course.value?.author?.firstName} ${course.value?.author?.lastName}`;
+});
 
 // Form handler
 const form: Ref = ref(null);
@@ -83,12 +80,11 @@ v-form(ref="form")
               required
             )
           v-col(cols="12" lg="6")
-            // TODO: Fetch
             v-text-field(
-              v-model="currentUser.normalizedName"
+              :model-value="authorName"
               label="Author"
               variant="outlined"
-              :disabled="currentUser.role === ROLES.INSTRUCTOR || props.disabled"
+              disabled
             )
         v-col(cols="12" lg="6")
           v-select(
