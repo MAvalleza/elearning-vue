@@ -5,23 +5,25 @@ import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { NAV_ITEMS } from '@/constants/nav-items';
 
+// ROUTE
 const router = useRouter();
 
+// AUTH
 const authStore = useAuth();
 const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
+// UI STATES
 const drawer = ref(true);
-
-async function logout() {
-  await authStore.logoutUser();
-}
 
 const USER_MENU_ITEMS = [
   {
     title: 'My Profile',
     icon: 'mdi-account-circle-outline',
     onClick: () => {
-      router.push({ name: 'profile', params: { userId: currentUser.value.id } });
+      router.push({
+        name: 'profile',
+        params: { userId: currentUser.value.id },
+      });
     },
   },
   {
@@ -52,6 +54,10 @@ const navItems = ref(
   NAV_ITEMS.filter(item => item.roles.includes(currentUser.value?.role))
 );
 
+// LOGOUT ACTION
+async function logout() {
+  await authStore.logoutUser();
+}
 </script>
 
 <template lang="pug">
@@ -151,6 +157,6 @@ v-app-bar(color="#f0f0f0" theme="light")
 }
 
 .active-nav {
-  background: var(--accent-400, #28B4F4);
+  background: var(--accent-400, #28b4f4);
 }
 </style>

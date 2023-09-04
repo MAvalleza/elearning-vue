@@ -6,6 +6,7 @@ import debounce from 'lodash-es/debounce';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { ROLES } from '@/constants/roles-and-actions';
 
+// PROPS AND EMITS
 interface Props {
   modelValue?: string | null;
   required?: boolean;
@@ -19,7 +20,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(['update:modelValue']);
+//
 
+// INSTRUCTOR SEARCH OPERATIONS
 const instructorId = computed({
   get() {
     return props.modelValue;
@@ -31,24 +34,26 @@ const instructorId = computed({
 
 const instructorSearch = ref(null);
 
+const searchInstructor = debounce(keyword => fetchUsers(keyword), 500);
+
 // Proceed with search when current search query is not equal to previous one
 // And if there is no instructor selected
 watch(instructorSearch, val => {
   val !== instructorId.value && !instructorId.value && searchInstructor(val);
 });
 
+// USERS STORE AND OPERATIONS
 const usersStore = useUsers();
 const { users, loadingUsers } = storeToRefs(usersStore);
 
 async function fetchUsers(keyword: string) {
   await usersStore.fetchUsers({ keyword, role: ROLES.INSTRUCTOR });
 }
-
-const searchInstructor = debounce(keyword => fetchUsers(keyword), 500);
+//
 
 onMounted(() => {
   usersStore.$reset();
-})
+});
 </script>
 
 <template lang="pug">

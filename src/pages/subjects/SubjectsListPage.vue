@@ -16,14 +16,14 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import TableActions from '@/components/commons/TableActions.vue';
 
-// Router
+// ROUTER
 const router = useRouter();
 const route = useRoute();
 
-// Auth
+// AUTH
 const authStore = useAuth();
 
-// UI states
+// UI
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW SUBJECT',
   flat: true,
@@ -33,44 +33,9 @@ const HEADER_BUTTON_OPTS = {
 
 const confirmDialog: Ref = ref(null);
 
-// Subjects data
-const SUBJECTS_DATA_TABLE = {
-  headers: [
-    {
-      title: 'Title',
-      align: 'start',
-      sortable: true,
-      key: 'title',
-    },
-    { title: 'Courses', align: 'end', key: 'totalCourses' },
-    { title: 'Status', align: 'end', key: 'status' },
-    { title: '', align: 'end', key: 'actions', sortable: false },
-  ],
-  itemValue: 'title',
-};
-
+// SUBJECT OPERATIONS
 const subjectsStore = useSubjects();
 const { subjects, subjectsTotal, loadingSubjects } = storeToRefs(subjectsStore);
-
-// Fetch params
-const initial = {
-  params: {
-    page: 1,
-    limit: 25,
-    join: ['courses'],
-  },
-  total: {
-    current: 0,
-    overall: 0,
-  },
-};
-
-let fetchParams = reactive({ ...initial.params });
-
-function initialize() {
-  subjectsStore.$reset();
-  fetchParams = reactive({ ...initial.params });
-}
 
 async function fetchSubjects() {
   await subjectsStore.fetchSubjects(fetchParams);
@@ -96,6 +61,38 @@ async function deleteSubject(id: string) {
     await subjectsStore.deleteSubject(id);
   }
 }
+
+// FETCH PARAMS
+const initial = {
+  params: {
+    page: 1,
+    limit: 25,
+    join: ['courses'],
+  },
+  total: {
+    current: 0,
+    overall: 0,
+  },
+};
+
+let fetchParams = reactive({ ...initial.params });
+
+// TABLE OPERATIONS
+// Subjects data
+const SUBJECTS_DATA_TABLE = {
+  headers: [
+    {
+      title: 'Title',
+      align: 'start',
+      sortable: true,
+      key: 'title',
+    },
+    { title: 'Courses', align: 'end', key: 'totalCourses' },
+    { title: 'Status', align: 'end', key: 'status' },
+    { title: '', align: 'end', key: 'actions', sortable: false },
+  ],
+  itemValue: 'title',
+};
 
 function onUpdateTableOptions(options: TableOptions) {
   const updatedParams = mapOptionsToParams(options);
@@ -129,6 +126,12 @@ async function onAction(action: string, item: GenericTableItem['item']) {
 
   // Re-fetch subjects
   fetchSubjects();
+}
+
+// INITIALIZATIONS
+function initialize() {
+  subjectsStore.$reset();
+  fetchParams = reactive({ ...initial.params });
 }
 
 onMounted(() => {

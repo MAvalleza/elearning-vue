@@ -8,14 +8,18 @@ import GenericContainer from '@/components/commons/GenericContainer.vue';
 import CourseCard from '@/components/courses/CourseCard.vue';
 import type { MappedEnrollment } from '@/types/enrollment';
 
-// Auth
+// AUTH
 const authStore = useAuth();
 const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
-// Enrollments
+// ENROLLMENT OPERATIONS
 const enrollmentsStore = useEnrollments();
-const { enrollments, loadingEnrollments, currentLesson }
-  : { enrollments: Ref, loadingEnrollments: Ref, currentLesson: Ref } = storeToRefs(enrollmentsStore);
+const {
+  enrollments,
+  loadingEnrollments,
+  currentLesson,
+}: { enrollments: Ref; loadingEnrollments: Ref; currentLesson: Ref } =
+  storeToRefs(enrollmentsStore);
 const mappedEnrollments: Ref = ref([]);
 
 async function fetchEnrollments() {
@@ -29,7 +33,7 @@ async function fetchEnrollments() {
       subject: e.subject,
       modules: e.modules,
       author: e.author,
-    }
+    },
   }));
 }
 
@@ -37,7 +41,7 @@ function hasCurrentLesson() {
   return !isEmpty(currentLesson.value);
 }
 
-// Fetch params
+// FETCH PARAMS
 const initial = {
   params: {
     page: 1,
@@ -50,6 +54,7 @@ const initial = {
 
 let fetchParams = reactive({ ...initial.params });
 
+// INITIALIZATIONS
 function initialize() {
   fetchParams = reactive({ ...initial.params });
 
@@ -66,7 +71,6 @@ generic-container
   div(v-if="hasCurrentLesson()").mb-15
     h4.section-title Current Lesson
 
-    // TODO: Refactor
     div.d-flex.align-center
       div
         v-img(v-if="currentLesson.course?.icon" :src="currentLesson.course?.icon" height="100")
@@ -105,7 +109,7 @@ generic-container
 
 <style scoped>
 .section-title {
-  color: var(--accent-a-700, #1191E9);
+  color: var(--accent-a-700, #1191e9);
   font-family: Montserrat;
   font-size: 34px;
   line-height: 36px;

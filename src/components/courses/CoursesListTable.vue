@@ -6,6 +6,7 @@ import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import TableActions from '@/components/commons/TableActions.vue';
 import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 
+// PROPS AND EMITS
 const props = defineProps({
   component: {
     type: String,
@@ -35,11 +36,13 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 const emit = defineEmits(['update:options', 'action', 'click:row']);
+//
 
+// DATA TABLE
 const itemsPerPage = ref(props.itemsPerPage);
 
 // Courses data

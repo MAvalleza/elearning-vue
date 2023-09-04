@@ -16,14 +16,14 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import ModulesListTable from '@/components/modules/ModulesListTable.vue';
 
-// Router
+// ROUTER
 const route = useRoute();
 const router = useRouter();
 
-// Auth
+// AUTH
 const authStore = useAuth();
 
-// UI states
+// UI
 const HEADER_BUTTON_OPTS = {
   text: 'ADD NEW MODULE',
   flat: true,
@@ -33,7 +33,7 @@ const HEADER_BUTTON_OPTS = {
 
 const confirmDialog: Ref = ref(null);
 
-// Fetch params
+// FETCH PARAMS
 const initial = {
   params: {
     page: 1,
@@ -48,11 +48,7 @@ const initial = {
 
 let fetchParams = reactive({ ...initial.params });
 
-function initialize() {
-  modulesStore.$reset();
-  fetchParams = reactive({ ...initial.params });
-}
-
+// MODULE OPERATIONS
 const modulesStore = useModules();
 const { modules, modulesTotal, loadingModules } = storeToRefs(modulesStore);
 
@@ -80,6 +76,7 @@ async function deleteModule(id: string) {
   }
 }
 
+// TABLE OPERATIONS
 function onUpdateTableOptions(event: TableOptions) {
   const updatedParams = mapOptionsToParams(event);
 
@@ -99,6 +96,12 @@ async function onAction({ action, item }: TableActionOpt) {
 
   // Re-fetch modules
   fetchModules();
+}
+
+// INITIALIZATIONS
+function initialize() {
+  modulesStore.$reset();
+  fetchParams = reactive({ ...initial.params });
 }
 
 onMounted(() => {

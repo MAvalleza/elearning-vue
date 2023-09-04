@@ -3,6 +3,7 @@ import { ref, type Ref } from 'vue';
 import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 
+// PROPS AND EMITS
 const props = defineProps({
   modelValue: {
     type: Object,
@@ -19,13 +20,18 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
+//
 
+// SUBJECT MODEL
 const subject = ref(props.modelValue);
 
+// Data update
 function onUpdate() {
   emit('update:modelValue', subject.value);
 }
+//
 
+// FORM HANDLER
 const form: Ref = ref(null);
 
 async function submit() {

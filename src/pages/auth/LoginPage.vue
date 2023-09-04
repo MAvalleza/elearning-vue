@@ -8,10 +8,9 @@ import type { LoginCredentials } from '@/types/auth';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
+// UI HANDLERS
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-
-const authStore = useAuth();
 
 const LOGIN_FORM = {
   title: 'LOGIN TO YOUR ACCOUNT',
@@ -48,6 +47,9 @@ const LOGIN_FORM = {
     minWidth: '200',
   },
 };
+
+// AUTH OPERATIONS
+const authStore = useAuth();
 
 async function login(data: LoginCredentials) {
   await authStore.loginUser(data);

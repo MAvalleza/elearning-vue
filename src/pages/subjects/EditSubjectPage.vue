@@ -13,21 +13,21 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
 import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
-// Router
+// ROUTER
 const router = useRouter();
 const route = useRoute();
 
-// UI States
+// UI
 const confirmDialog: Ref = ref(null);
 const tab = ref('form');
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
 
-// Auth
+// AUTH
 const authStore = useAuth();
 
-// Subject operations
+// SUBJECT OPERATIONS
 const subjectsStore = useSubjects();
 const { currentSubject, loadingSubjects } = storeToRefs(subjectsStore);
 const subject = ref({});
@@ -47,13 +47,7 @@ async function updateSubject() {
   router.push({ name: 'subjects-list' });
 }
 
-// Form
-const form: Ref = ref(null);
-function submitForm() {
-  form.value.submit();
-}
-
-// Course Operations
+// COURSE OPERATIONS
 const coursesStore = useCourses();
 
 function editCourse(_event: Event, { item }: GenericTableItem) {
@@ -80,7 +74,7 @@ async function deleteCourse(id: string) {
   }
 }
 
-// Table operations
+// TABLE OPERATIONS
 async function onAction({ action, item }: TableActionOpt) {
   const id = item.raw.id;
   const result = await coursesStore.onTableAction({ id, action });
@@ -91,6 +85,13 @@ async function onAction({ action, item }: TableActionOpt) {
   fetchSubject();
 }
 
+// FORM HANDLER
+const form: Ref = ref(null);
+function submitForm() {
+  form.value.submit();
+}
+
+// HOOKS
 onMounted(() => {
   fetchSubject();
 });

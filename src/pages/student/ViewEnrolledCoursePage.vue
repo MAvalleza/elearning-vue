@@ -10,29 +10,38 @@ import NumberedTimeline from '@/components/commons/NumberedTimeline.vue';
 import CourseModuleContent from '@/components/student/CourseModuleContent.vue';
 import type { Module } from '@/types/module';
 
-// Route
+// ROUTER
 const route = useRoute();
 const router = useRouter();
 
-// UI state
+function redirectToEnrolledCoursesList() {
+  router.push({ name: 'enrolled-courses' });
+}
+
+// UI STATE
 const loading = ref(false);
 
-// Enrollment
+// ENROLLMENT OPERATIONS
 const enrollmentId: Ref = ref(route.params.enrollmentId);
 const enrollmentsStore = useEnrollments();
-const { currentEnrollment, currentLesson }: { currentEnrollment: Ref, currentLesson: Ref } = storeToRefs(enrollmentsStore);
-
+const {
+  currentEnrollment,
+  currentLesson,
+}: { currentEnrollment: Ref; currentLesson: Ref } =
+  storeToRefs(enrollmentsStore);
 
 async function fetchEnrollment() {
   await enrollmentsStore.fetchEnrollment(enrollmentId.value, {
-    join: ['course', 'modules']
+    join: ['course', 'modules'],
   });
 
   // Get modules
-  courseModules.value = currentEnrollment.value.modules.map((mod: Module, index: number) => ({
-    index,
-    ...mod,
-  }));
+  courseModules.value = currentEnrollment.value.modules.map(
+    (mod: Module, index: number) => ({
+      index,
+      ...mod,
+    })
+  );
 
   // Check if there is a current lesson then assign that lesson's module as the current module
   if (!isEmpty(currentLesson.value)) {
@@ -49,14 +58,14 @@ async function fetchEnrollment() {
   }
 }
 
-// Update module to completed
+// Update enrollment module to completed
 async function updateEnrollmentProgress() {
   loading.value = true;
 
   await enrollmentsStore.updateEnrollment(enrollmentId.value, {
     moduleId: currentCourseModule.value.id,
-    isCompleted: true
-  })
+    isCompleted: true,
+  });
 
   // if there is next module, we allow to proceed to next module
   if (currentCourseModule.value.index < courseModules.value.length - 1) {
@@ -66,7 +75,7 @@ async function updateEnrollmentProgress() {
   loading.value = false;
 }
 
-// Modules
+// MODULE OPERATIONS
 const courseModules: Ref = ref([]);
 const currentCourseModule: Ref = ref({});
 
@@ -86,18 +95,16 @@ async function redirectToModule(moduleIndex: number) {
   await fetchModuleContent();
 }
 
-// Content
+// MODULE CONTENT
 const moduleContent: Ref = ref({});
 const contentsStore = useContents();
 
 async function fetchModuleContent() {
-  const contents = await contentsStore.fetchContents({ module: currentCourseModule.value.id });
+  const contents = await contentsStore.fetchContents({
+    module: currentCourseModule.value.id,
+  });
 
   moduleContent.value = contents[0];
-}
-
-function redirectToEnrolledCoursesList() {
-  router.push({ name: 'enrolled-courses' });
 }
 
 async function finishCourse() {
@@ -109,6 +116,7 @@ async function finishCourse() {
   redirectToEnrolledCoursesList();
 }
 
+// INITIALIZATIONS
 async function initialize() {
   loading.value = true;
 

@@ -7,23 +7,27 @@ import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import SubjectForm from '@/components/subjects/SubjectForm.vue';
 
+// ROUTER
 const route = useRoute();
 
+// HEADER
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
 
+// SUBJECT OPERATIONS
 const subjectsStore = useSubjects();
 const { loadingSubjects } = storeToRefs(subjectsStore);
 const newSubject: Ref = ref({ title: null, isPublished: false });
 
+function createSubject() {
+  subjectsStore.createSubject(newSubject.value);
+}
+
+// FORM HANDLER
 const createForm: Ref = ref(null);
 function submitForm() {
   createForm.value.submit();
-}
-
-function createSubject() {
-  subjectsStore.createSubject(newSubject.value);
 }
 </script>
 

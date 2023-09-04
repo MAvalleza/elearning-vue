@@ -18,15 +18,20 @@ import CourseInformationDialog from '@/components/courses/CourseInformationDialo
 const infoDialog: Ref = ref(null);
 const confirmDialog: Ref = ref(null);
 
-// Course
+// COURSE OPERATIONS
 const coursesStore = useCourses();
-const { courses, coursesTotal, loadingCourses }: { courses: Ref; coursesTotal: Ref; loadingCourses: Ref } = storeToRefs(coursesStore);
+const {
+  courses,
+  coursesTotal,
+  loadingCourses,
+}: { courses: Ref; coursesTotal: Ref; loadingCourses: Ref } =
+  storeToRefs(coursesStore);
 
 async function fetchCourses() {
   await coursesStore.fetchCourses(fetchParams);
 }
 
-// Fetch params
+// FETCH PARAMS
 const initial = {
   params: {
     page: 1,
@@ -53,8 +58,9 @@ function getPaginationLength() {
 // Search
 const onParamChange = debounce(() => fetchCourses(), 1000);
 
-// Enrollment
+// ENROLLMENT OPERAETIONS
 const enrollmentsStore = useEnrollments();
+
 async function onEnrollCourse(course: Course) {
   const confirm = await confirmDialog.value.open({
     title: `Enroll in ${course.title}`,
@@ -77,6 +83,7 @@ async function onCourseSelect(selectedCourse: Course) {
   }
 }
 
+// INITIALIZATIONS
 function initialize() {
   coursesStore.$reset();
   fetchParams = reactive({ ...initial.params });
@@ -157,7 +164,7 @@ generic-container
 <style scoped>
 .page-header-text {
   .header-title {
-    color: var(--gray-2, #4F4F4F);
+    color: var(--gray-2, #4f4f4f);
     font-feature-settings: 'clig' off, 'liga' off;
 
     font-family: Montserrat;
@@ -169,7 +176,7 @@ generic-container
   }
 
   .header-description {
-    color: var(--gray-2, #4F4F4F);
+    color: var(--gray-2, #4f4f4f);
     font-size: 16px;
     font-style: normal;
     font-weight: 400;

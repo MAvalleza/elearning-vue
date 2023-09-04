@@ -5,7 +5,7 @@ import { REQUIRED_RULE } from '@/constants/validation-rules';
 import ImageUploader from '@/components/commons/ImageUploader.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
 
-// -- PROP AND EMITS --
+// PROPS AND EMITS
 const props = defineProps({
   modelValue: {
     type: Object,
@@ -28,9 +28,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'submit']);
+//
 
-// -------
-
+// COURSE MODEL
 const course = computed({
   get() {
     return props.modelValue;
@@ -39,12 +39,13 @@ const course = computed({
     emit('update:modelValue', val);
   },
 });
+//
 
 const authorName = computed(() => {
   return `${course.value?.author?.firstName} ${course.value?.author?.lastName}`;
 });
 
-// Form handler
+// FORM HANDLER
 const form: Ref = ref(null);
 async function submit() {
   const { valid } = await form.value.validate();
@@ -54,6 +55,7 @@ async function submit() {
   }
 }
 
+// EXPOSED FUNCTIONS
 defineExpose({ submit });
 </script>
 

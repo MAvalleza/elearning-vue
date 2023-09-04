@@ -134,7 +134,6 @@ const createSubjectRoutes = routeInstance => {
 
     const subject = schema.subjects.find(id);
 
-    // TODO: Reusable destroy
     // Delete associated courses
     subject.courses.destroy();
 

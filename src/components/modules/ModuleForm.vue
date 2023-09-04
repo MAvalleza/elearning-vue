@@ -10,7 +10,7 @@ import { type Module } from '@/types/module';
 import { type Content } from '@/types/content';
 import TextEditor from '@/components/commons/TextEditor.vue';
 
-// -- PROP AND EMITS --
+// PROPS AND EMITS
 interface Props {
   modelValue: Module;
   content: Content | object;
@@ -19,9 +19,10 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: () => ({
-    isPublished: false,
-  } as Module),
+  modelValue: () =>
+    ({
+      isPublished: false,
+    } as Module),
   content: () => ({ content: null }),
   /**
    * This will hide the course field.
@@ -34,9 +35,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(['update:modelValue', 'update:content', 'submit']);
+//
 
-// -------
-
+// MODULE MODELS
 const mod: Ref = computed({
   get() {
     return props.modelValue;
@@ -54,8 +55,9 @@ const modContent = computed({
     emit('update:content', val);
   },
 });
+//
 
-// Form handler
+// FORM HANDLER
 const form: Ref = ref(null);
 async function submit() {
   const { valid } = await form.value.validate();
@@ -65,9 +67,7 @@ async function submit() {
   }
 }
 
-defineExpose({ submit });
-
-// Course search handlers
+// COURSE SEARCH OPERATIONS
 const courseSearch = ref(null);
 
 // Proceed with search when current search query is not equal to previous one
@@ -84,6 +84,7 @@ async function fetchCourses(keyword?: string) {
 }
 
 const searchCourse = debounce(keyword => fetchCourses(keyword), 500);
+//
 
 onMounted(() => {
   // Since we get the data from courses store, it is possible that
@@ -92,6 +93,8 @@ onMounted(() => {
     fetchCourses();
   }
 });
+
+defineExpose({ submit });
 </script>
 
 <template lang="pug">

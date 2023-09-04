@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, type Ref } from 'vue';
 
+// pROPS AND EMITS
 const props = defineProps({
   modelValue: {
     type: String,
@@ -19,6 +20,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
+// IMAGE UPLOAD OPERATIONS
 const image: Ref = computed({
   get() {
     return props.modelValue;

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/auth';
 
+// PROPS AND EMITS
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -20,6 +21,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'update:token']);
+//
 
 const token = computed({
   get() {
@@ -39,7 +41,7 @@ const dialog = computed({
   },
 });
 
-// Resend email
+// RESEND EMAIL OPERATIONS
 const MAX_TIME_IN_SECONDS = 30;
 const isResendTimerRunning = ref(false);
 const timerCount = ref(MAX_TIME_IN_SECONDS);

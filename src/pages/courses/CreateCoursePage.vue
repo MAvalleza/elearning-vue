@@ -12,7 +12,7 @@ import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
 import CourseForm from '@/components/courses/CourseForm.vue';
 
-// Header
+// HEADER
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
@@ -27,15 +27,19 @@ function definePageTitle() {
   }
 }
 
-// Router
+// ROUTER
 const route: RouteWithCustomProperties = useRoute();
 const router = useRouter();
 
-// Auth
+// aUTH
 const authStore = useAuth();
 const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
-// Course
+// SUBJECT
+const subjectsStore = useSubjects();
+const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
+
+// COURSE OPERATIONS
 const coursesStore = useCourses();
 const { loadingCourses } = storeToRefs(coursesStore);
 const newCourse: Ref = ref({
@@ -69,14 +73,11 @@ async function createCourse() {
   });
 }
 
+// FORM HANDLER
 const form: Ref = ref(null);
 function submitForm() {
   form.value.submit();
 }
-
-// Subject
-const subjectsStore = useSubjects();
-const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
 </script>
 
 <template lang="pug">

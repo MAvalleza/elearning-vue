@@ -3,6 +3,7 @@ import format from 'date-fns/format';
 import { computed } from 'vue';
 import type { MappedCourse } from '@/types/course';
 
+// PROPS AND EMITS
 interface Props {
   course: Partial<MappedCourse>;
 }
@@ -15,7 +16,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(['click', 'click:enroll']);
+//
 
+// COMPUTED ATTRIBUTES
 const authorName = computed(() => {
   if (props.course?.authorName) {
     return props.course.authorName;
@@ -43,6 +46,7 @@ const createdDate = computed(() => {
     return 'on unknown date';
   }
 });
+//
 
 function onEnrollClick() {
   emit('click:enroll');
@@ -89,7 +93,7 @@ v-card(
 }
 
 .details p {
-  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.60));
+  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.6));
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;

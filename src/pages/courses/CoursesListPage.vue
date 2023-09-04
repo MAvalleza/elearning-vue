@@ -18,7 +18,7 @@ import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import CoursesListTable from '@/components/courses/CoursesListTable.vue';
 
-// Router
+// ROUTER
 const router = useRouter();
 const route = useRoute();
 
@@ -35,11 +35,7 @@ const HEADER_BUTTON_OPTS = {
 
 const confirmDialog: Ref = ref(null);
 
-const coursesStore = useCourses();
-const { courses, coursesTotal, loadingCourses }: { courses: Ref; coursesTotal: Ref; loadingCourses: Ref } =
-  storeToRefs(coursesStore);
-
-// Fetch params
+// FETCH PARAMS
 const initial = {
   params: {
     page: 1,
@@ -54,10 +50,14 @@ const initial = {
 
 let fetchParams = reactive({ ...initial.params } as FetchCoursesParams);
 
-function initialize() {
-  coursesStore.$reset();
-  fetchParams = reactive({ ...initial.params });
-}
+// COURSE OPERATIONS
+const coursesStore = useCourses();
+const {
+  courses,
+  coursesTotal,
+  loadingCourses,
+}: { courses: Ref; coursesTotal: Ref; loadingCourses: Ref } =
+  storeToRefs(coursesStore);
 
 async function fetchCourses() {
   await coursesStore.fetchCourses(fetchParams);
@@ -65,7 +65,21 @@ async function fetchCourses() {
   updateSubjectFilterOptions();
 }
 
-// Filter operations
+async function deleteCourse(id: string) {
+  const confirm = await confirmDialog.value.open({
+    title: 'Delete Course',
+    message:
+      'Deleting a course will also delete its modules, are you sure you want to delete this course?',
+    primaryAction: 'DELETE',
+    primaryColor: 'error',
+  });
+
+  if (confirm) {
+    await coursesStore.deleteCourse(id);
+  }
+}
+
+// FILTER OPERATIONS
 const subjectFilterOptions: Ref = ref([]);
 
 function updateSubjectFilterOptions() {
@@ -81,25 +95,13 @@ function onClearFilter() {
   fetchCourses();
 }
 
+// TABLE OPERATIONS
+
 function editCourse(_event: Event, { item }: GenericTableItem) {
   router.push({
     name: 'edit-course',
     params: { courseId: item.raw.id },
   });
-}
-
-async function deleteCourse(id: string) {
-  const confirm = await confirmDialog.value.open({
-    title: 'Delete Course',
-    message:
-      'Deleting a course will also delete its modules, are you sure you want to delete this course?',
-    primaryAction: 'DELETE',
-    primaryColor: 'error',
-  });
-
-  if (confirm) {
-    await coursesStore.deleteCourse(id);
-  }
 }
 
 function onUpdateTableOptions(options: TableOptions) {
@@ -121,6 +123,12 @@ async function onAction({ action, item }: TableActionOpt) {
 
   // Re-fetch courses
   fetchCourses();
+}
+
+// INITIALIZATIONS
+function initialize() {
+  coursesStore.$reset();
+  fetchParams = reactive({ ...initial.params });
 }
 
 onMounted(() => {

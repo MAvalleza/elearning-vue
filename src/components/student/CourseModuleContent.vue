@@ -7,7 +7,7 @@ interface Props {
   content: Delta;
 }
 const props = withDefaults(defineProps<Props>(), {
-  content: () => (<Delta>{}),
+  content: () => <Delta>{},
 });
 
 const renderedContent: Ref = ref(null);
@@ -15,7 +15,7 @@ const renderedContent: Ref = ref(null);
 onMounted(() => {
   const renderedHTML = convertToHTML(props.content);
   renderedContent.value.innerHTML = renderedHTML;
-})
+});
 </script>
 
 <template lang="pug">

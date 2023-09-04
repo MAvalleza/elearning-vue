@@ -7,11 +7,12 @@ import { REQUIRED_RULE } from '@/constants/validation-rules';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
+// ROUTE
+const route = useRoute();
+
+// UI HANDLERS
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-
-const route = useRoute();
-const authStore = useAuth();
 
 const CHANGE_PASSWORD_FORM = {
   title: 'SET PASSWORD',
@@ -57,6 +58,9 @@ const CHANGE_PASSWORD_FORM = {
     minWidth: '200',
   },
 };
+
+// AUTH OPERATIONS
+const authStore = useAuth();
 
 async function reset(data: { password: string }) {
   const token = route.query.token as string;

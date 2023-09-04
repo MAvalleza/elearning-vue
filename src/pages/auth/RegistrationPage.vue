@@ -11,9 +11,7 @@ import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 import VerificationModal from '@/components/auth/VerificationModal.vue';
 
-const authStore = useAuth();
-
-// UI states
+// UI HANDLERS
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 const isVerificationModalVisible = ref(false);
@@ -108,6 +106,9 @@ const REGISTRATION_FORM = {
     minWidth: '200',
   },
 };
+
+// AUTH OPERATIONS
+const authStore = useAuth();
 
 // TODO: Temporary constant
 const activationToken = ref(null);

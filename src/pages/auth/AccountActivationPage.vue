@@ -5,14 +5,19 @@ import { useUI } from '@/stores/ui';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 
+// ROUTE
 const route = useRoute();
 
+// UI HANDLER
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
 
 const isProcessDone = ref(false);
 const isTokenActivated = ref(false);
 
+const message = ref('');
+
+// AUTH OPERATIONS
 const authStore = useAuth();
 
 async function activateAccount() {
@@ -28,9 +33,7 @@ async function activateAccount() {
 
   isProcessDone.value = true;
 }
-
-const message = ref('');
-
+//
 onMounted(() => {
   activateAccount();
 });

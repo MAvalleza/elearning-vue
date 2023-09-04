@@ -9,10 +9,9 @@ import type { PasswordRequest } from '@/types/auth';
 import AppLoader from '@/components/commons/AppLoader.vue';
 import AuthFormCard from '@/components/auth/AuthFormCard.vue';
 
+// UI HANDLERS
 const uiStore = useUI();
 const { loading } = storeToRefs(uiStore);
-
-const authStore = useAuth();
 
 const FORGOT_PASSWORD_FORM = {
   title: 'RECOVER YOUR PASSWORD',
@@ -36,6 +35,9 @@ const FORGOT_PASSWORD_FORM = {
     minWidth: '200',
   },
 };
+
+// AUTH OPERATIONS
+const authStore = useAuth();
 
 async function requestReset(data: PasswordRequest) {
   const response = await authStore.requestResetPassword(data);

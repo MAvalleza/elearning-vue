@@ -11,7 +11,7 @@ import PageContent from '@/components/commons/PageContent.vue';
 import CourseForm from '@/components/courses/CourseForm.vue';
 import ModulesListTable from '@/components/modules/ModulesListTable.vue';
 
-// Header
+// HEADER
 const HEADER_BUTTON_OPTS = {
   text: 'Save',
 };
@@ -24,20 +24,46 @@ function definePageTitle() {
   }
 }
 
+// TAB
 const tab = ref('form');
 
-// Router
+// ROUTER
 const router = useRouter();
 const route = useRoute();
 
-// Auth
+function defineCreateModuleRoute() {
+  if (isFromSubject.value) {
+    return {
+      name: SUBJECT_MODULE_ROUTE_MAPPINGS.createRoute,
+      params: SUBJECT_MODULE_ROUTE_MAPPINGS.params,
+    };
+  } else {
+    return {
+      name: 'course-create-module',
+      params: { courseId: courseId.value },
+    };
+  }
+}
+
+// AUTH
 const authStore = useAuth();
 
-// Course
+// COURSE OPERATIONS
 const coursesStore = useCourses();
-const { currentCourse, loadingCourses }: { currentCourse: Ref; loadingCourses: Ref } = storeToRefs(coursesStore);
+const {
+  currentCourse,
+  loadingCourses,
+}: { currentCourse: Ref; loadingCourses: Ref } = storeToRefs(coursesStore);
 const course = ref({});
 const courseId: Ref = ref(route.params.courseId);
+
+async function fetchCourse() {
+  await coursesStore.fetchCourse(courseId.value, {
+    join: ['author', 'modules'],
+  });
+
+  course.value = { ...currentCourse.value };
+}
 
 async function updateCourse() {
   await coursesStore.updateCourse(courseId.value, course.value);
@@ -50,7 +76,7 @@ async function updateCourse() {
   });
 }
 
-// Subject
+// SUBJECT
 const subjectsStore = useSubjects();
 const { currentSubject }: { currentSubject: Ref } = storeToRefs(subjectsStore);
 const subjectId = ref(route.params.subjectId);
@@ -58,21 +84,7 @@ const subjectId = ref(route.params.subjectId);
 // Flag for knowing if accessed from subject form
 const isFromSubject = ref(route.meta.from === 'subject');
 
-async function fetchCourse() {
-  await coursesStore.fetchCourse(courseId.value, {
-    join: ['author', 'modules'],
-  });
-
-  course.value = { ...currentCourse.value };
-}
-
-// Form operations
-const form: Ref = ref(null);
-function submitForm() {
-  form.value.submit();
-}
-
-// Module
+// MODULE
 const SUBJECT_MODULE_ROUTE_MAPPINGS = {
   createRoute: 'subject-create-module',
   editRoute: 'subject-edit-module',
@@ -102,20 +114,13 @@ function editModule(_event: Event, { item }: GenericTableItem) {
   }
 }
 
-function defineCreateModuleRoute() {
-  if (isFromSubject.value) {
-    return {
-      name: SUBJECT_MODULE_ROUTE_MAPPINGS.createRoute,
-      params: SUBJECT_MODULE_ROUTE_MAPPINGS.params,
-    };
-  } else {
-    return {
-      name: 'course-create-module',
-      params: { courseId: courseId.value },
-    };
-  }
+// FORM HANDLER
+const form: Ref = ref(null);
+function submitForm() {
+  form.value.submit();
 }
 
+// HOOKS
 onMounted(() => {
   fetchCourse();
 });

@@ -14,11 +14,38 @@ import TableActions from '@/components/commons/TableActions.vue';
 import type { TableOptions, GenericTableItem } from '@/types/data-table';
 import type { MappedUser } from '@/types/user';
 
-// Router
+// ROUTER
 const route = useRoute();
 const router = useRouter();
 
-// Users data
+// FETCH PARAMS
+const initial = {
+  params: {
+    page: 1,
+    limit: 25,
+  },
+};
+
+let fetchParams = reactive({ ...initial.params });
+//
+
+// USERS STORE AND OPERATIONS
+const usersStore = useUsers();
+const { users, usersTotal, loadingUsers } = storeToRefs(usersStore);
+
+async function fetchUsers() {
+  await usersStore.fetchUsers(fetchParams);
+}
+
+function viewUser(_event: Event, { item }: GenericTableItem) {
+  router.push({
+    name: 'profile',
+    params: { userId: item.raw.id },
+  });
+}
+//
+
+// DATA TABLE
 const USERS_DATA_TABLE = {
   headers: [
     {
@@ -35,24 +62,6 @@ const USERS_DATA_TABLE = {
   itemValue: '',
 };
 
-const usersStore = useUsers();
-const { users, usersTotal, loadingUsers } = storeToRefs(usersStore);
-
-// Fetch params
-const initial = {
-  params: {
-    page: 1,
-    limit: 25,
-  },
-};
-
-let fetchParams = reactive({ ...initial.params });
-
-async function fetchUsers() {
-  await usersStore.fetchUsers(fetchParams);
-}
-
-// Table operations
 function getTableActions(item: MappedUser) {
   const getTableStatusAction = (isActive: boolean) => {
     if (isActive) {
@@ -62,7 +71,7 @@ function getTableActions(item: MappedUser) {
         },
         title: 'Set inactive',
         action: 'inactive',
-      }
+      };
     } else {
       return {
         icon: {
@@ -98,7 +107,13 @@ function onUpdateTableOptions(options: TableOptions) {
   fetchUsers();
 }
 
-async function onAction({ action, item }: { action: string, item: MappedUser }) {
+async function onAction({
+  action,
+  item,
+}: {
+  action: string;
+  item: MappedUser;
+}) {
   const id = item.id;
   const result = await usersStore.onTableAction({ id, action });
 
@@ -109,22 +124,15 @@ async function onAction({ action, item }: { action: string, item: MappedUser }) 
   // Re-fetch users
   fetchUsers();
 }
+//
 
-function viewUser(_event: Event, { item }: GenericTableItem) {
-  router.push({
-    name: 'profile',
-    params: { userId: item.raw.id },
-  });
-}
-
-// Dialog operations
+// DIALOG OPERATIONS
 const confirmDialog: Ref = ref(null);
 
 async function deleteUser(id: string) {
   const confirm = await confirmDialog.value.open({
     title: 'Delete User',
-    message:
-      'Are you sure you want to delete this user?',
+    message: 'Are you sure you want to delete this user?',
     primaryAction: 'DELETE',
     primaryColor: 'error',
   });
@@ -133,6 +141,7 @@ async function deleteUser(id: string) {
     await usersStore.deleteUser(id);
   }
 }
+//
 
 // Initializations
 function initialize() {
@@ -141,7 +150,7 @@ function initialize() {
 
 onMounted(() => {
   initialize();
-})
+});
 </script>
 
 <template lang="pug">

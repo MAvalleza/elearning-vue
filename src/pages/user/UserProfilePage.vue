@@ -12,23 +12,23 @@ import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { ROLES_LIST } from '@/constants/roles-and-actions';
 import { USER_STATUS_LABELS } from '@/constants/statuses';
 
-// Route
+// ROUTE
 const route = useRoute();
 
-// Auth
+// AUTH
 const authStore = useAuth();
 
-// Users
-const userId: Ref = ref(route.params.userId)
+// USER OPERATIONS
+const userId: Ref = ref(route.params.userId);
 const usersStore = useUsers();
 const { currentFetchedUser, loadingUsers } = storeToRefs(usersStore);
-const user = ref(<MappedUser>{})
+const user = ref(<MappedUser>{});
 
 async function fetchUser() {
   await usersStore.fetchUser(userId.value);
 
   user.value = { ...currentFetchedUser.value };
-};
+}
 
 async function updateUser() {
   await usersStore.updateUser(userId.value, user.value);
@@ -41,10 +41,10 @@ const HEADER_BUTTON_OPTS = {
   style: { color: 'black' },
 };
 
-// Initializations
+// INITIALIZATIONS
 onMounted(async () => {
   await fetchUser();
-})
+});
 </script>
 
 <template lang="pug">

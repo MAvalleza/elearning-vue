@@ -3,6 +3,7 @@ import { objectifyArray } from '@/helpers/arrayHelper';
 import { createRules } from '@/helpers/rulesHelper';
 import { ref, type Ref } from 'vue';
 
+// PROPS AND EMITS
 interface FormField {
   value: string;
   component: string;
@@ -22,7 +23,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(['submit']);
+//
 
+// FORM OPERATIONS
 const authForm: Ref = ref(null);
 
 const formData = ref(objectifyArray(props.fields.map(f => f.value)));
@@ -61,7 +64,7 @@ v-form(ref="authForm" @submit.prevent="onSubmit")
 
 <style scoped>
 .auth-card-title {
-  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.60));
+  color: var(--on-surface-white-med-emphasis-60, rgba(0, 0, 0, 0.6));
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: 'Montserrat';
   font-size: 20px;
