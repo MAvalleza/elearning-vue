@@ -34,7 +34,7 @@ export const useCourses = defineStore('courses', {
           throw Error(response.errors[0]);
         }
 
-        const mappedCourses = mapCourses(response.data)
+        const mappedCourses = mapCourses(response.data);
 
         this.courses = mappedCourses;
         this.coursesTotal = response.totalCount;
@@ -50,7 +50,7 @@ export const useCourses = defineStore('courses', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
 
@@ -91,7 +91,7 @@ export const useCourses = defineStore('courses', {
         // Call the webservice
         const response = await webservice.updateCourse(
           id,
-          getUpdatedAttributes(this.currentCourse, params),
+          getUpdatedAttributes(this.currentCourse, params)
         );
 
         if (!isEmpty(response.errors)) {
@@ -140,12 +140,10 @@ export const useCourses = defineStore('courses', {
       try {
         this.loadingCourses = true;
 
-        const response = await webservice.getCourse(
-          {
-            id,
-            params,
-          },
-        );
+        const response = await webservice.getCourse({
+          id,
+          params,
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -161,7 +159,7 @@ export const useCourses = defineStore('courses', {
         this.loadingCourses = false;
       }
     },
-    async onTableAction({ id, action }: { id: string, action: string }) {
+    async onTableAction({ id, action }: { id: string; action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };
@@ -188,10 +186,7 @@ function mapCourses(courses: Course[]) {
       authorName: `${course.author.firstName} ${course.author.lastName}`,
     }),
     ...(course.modules && {
-      totalDuration: course.modules.reduce(
-        (acc, i) => acc + i.duration,
-        0
-      ),
+      totalDuration: course.modules.reduce((acc, i) => acc + i.duration, 0),
     }),
     totalModules: size(course.moduleIds),
   }));

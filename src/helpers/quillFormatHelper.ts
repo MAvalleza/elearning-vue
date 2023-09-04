@@ -1,8 +1,8 @@
-import type { Delta } from "@vueup/vue-quill";
+import type { Delta } from '@vueup/vue-quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 
 // Converts Quill Delta format to HTML
-export const convertToHTML =(delta: Delta) => {
+export const convertToHTML = (delta: Delta) => {
   const deltaOps = delta.ops;
   const cfg = {};
 

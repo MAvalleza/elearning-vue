@@ -7,7 +7,7 @@ import type {
   EnrollmentCreateParams,
   GetEnrollmentParams,
   MappedEnrollment,
-  EnrollmentUpdateParams
+  EnrollmentUpdateParams,
 } from '@/types/enrollment';
 import type { Module } from '@/types/module';
 import type { Course } from '@/types/course';
@@ -18,7 +18,7 @@ type CurrentLesson = {
   enrollmentId: string;
   course: Course;
   module: Module;
-}
+};
 
 export const useEnrollments = defineStore('enrollments', {
   state: () => ({
@@ -54,7 +54,7 @@ export const useEnrollments = defineStore('enrollments', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
 
@@ -85,7 +85,7 @@ export const useEnrollments = defineStore('enrollments', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error in enrolling.'
+            message: 'There was an error in enrolling.',
           });
         }
       } finally {
@@ -121,7 +121,7 @@ export const useEnrollments = defineStore('enrollments', {
 
         const response = await webservice.getEnrollment({
           id,
-          params
+          params,
         });
 
         if (!isEmpty(response.errors)) {
@@ -134,7 +134,7 @@ export const useEnrollments = defineStore('enrollments', {
         uiStore().showSnackbar({
           color: 'error',
           message: 'There was an error in fetching this course',
-        })
+        });
       } finally {
         this.loadingEnrollments = false;
       }
@@ -161,7 +161,7 @@ export const useEnrollments = defineStore('enrollments', {
       this.currentLesson = lesson;
     },
     clearCurrentEnrollment() {
-      this.currentEnrollment = <MappedEnrollment>{}
+      this.currentEnrollment = <MappedEnrollment>{};
     },
   },
 });

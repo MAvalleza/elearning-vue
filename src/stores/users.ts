@@ -3,7 +3,11 @@ import isEmpty from 'lodash-es/isEmpty';
 import UsersWebservice from '@/webservices/usersWebservice';
 import { useUI as uiStore } from '@/stores/ui';
 import { getUpdatedAttributes } from '@/helpers/paramsHelper';
-import type { MappedUser, FetchUsersParams, UserUpdateParams } from '@/types/user';
+import type {
+  MappedUser,
+  FetchUsersParams,
+  UserUpdateParams,
+} from '@/types/user';
 
 const webservice = new UsersWebservice();
 
@@ -40,10 +44,10 @@ export const useUsers = defineStore('users', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error in fetching users'
+            message: 'There was an error in fetching users',
           });
         }
-        
+
         return [];
       } finally {
         this.loadingUsers = false;
@@ -78,7 +82,7 @@ export const useUsers = defineStore('users', {
         // Call the webservice
         const response = await webservice.updateUser(
           id,
-          getUpdatedAttributes(this.currentFetchedUser, params),
+          getUpdatedAttributes(this.currentFetchedUser, params)
         );
 
         if (!isEmpty(response.errors)) {
@@ -130,7 +134,7 @@ export const useUsers = defineStore('users', {
       }
     },
 
-    async onTableAction({ id, action }: { id: string, action: string }) {
+    async onTableAction({ id, action }: { id: string; action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };

@@ -11,7 +11,7 @@ export default class UsersWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'GET',
-        headers: this.requestHeaders()
+        headers: this.requestHeaders(),
       });
 
       return await response.json();

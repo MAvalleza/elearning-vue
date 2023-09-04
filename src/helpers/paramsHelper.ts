@@ -1,6 +1,9 @@
 // Create an object with the updated attributes only
 
-export const getUpdatedAttributes = <T>(initial: T, updated: Partial<T>): Partial<T> => {
+export const getUpdatedAttributes = <T>(
+  initial: T,
+  updated: Partial<T>
+): Partial<T> => {
   const updatedAttributes: Partial<T> = {};
 
   for (const key in updated) {
@@ -11,4 +14,3 @@ export const getUpdatedAttributes = <T>(initial: T, updated: Partial<T>): Partia
 
   return updatedAttributes;
 };
-

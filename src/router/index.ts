@@ -18,13 +18,13 @@ import UserProfilePage from '@/pages/user/UserProfilePage.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
-    roles?: string[]
+    roles?: string[];
   }
 
   interface RouteLocationNormalized {
     query: {
       token: string;
-    }
+    };
   }
 }
 
@@ -57,27 +57,26 @@ const router = createRouter({
 type BeforeResolveGuard = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized
-) => Promise<RouteLocationRaw | void>
+) => Promise<RouteLocationRaw | void>;
 
 const beforeResolveGuard: BeforeResolveGuard = async (to, from) => {
   // If there is not current user, we check for previously saved tokens
   if (!authStore().isAuthenticated) {
     await authStore().validateSession();
-  } 
+  }
   // If authorized route and there is no user logged in
   const isUnauthorized = to.meta.auth && !authStore().isAuthenticated;
 
   const role = authStore().currentUserRole;
   // If the logged-in user's role is not allowed to access the page
-  const isNotAllowed =
-      to.meta?.roles?.length && !to.meta.roles.includes(role);
+  const isNotAllowed = to.meta?.roles?.length && !to.meta.roles.includes(role);
 
   if (isUnauthorized) {
     return { name: 'login' };
   } else if (isNotAllowed && from?.name) {
     return { name: from.name };
   }
-}
+};
 
 // Global navigation guard
 router.beforeResolve(beforeResolveGuard);
@@ -90,10 +89,10 @@ router.afterEach(to => {
 });
 
 async function rootRouteGuard() {
-   // If there is not current user, we check for previously saved tokens
-   if (!authStore().isAuthenticated) {
+  // If there is not current user, we check for previously saved tokens
+  if (!authStore().isAuthenticated) {
     await authStore().validateSession();
-  } 
+  }
   const role: string = authStore().currentUser.role;
 
   if (role === ROLES.ADMIN) {

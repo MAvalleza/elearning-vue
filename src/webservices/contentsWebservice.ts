@@ -2,7 +2,7 @@ import Webservice from './base';
 import type {
   FetchContentsParams,
   Content,
-  ContentUpdateParams
+  ContentUpdateParams,
 } from '@/types/content';
 
 export default class ContentsWebservice extends Webservice {

@@ -31,7 +31,7 @@ export const useAuth = defineStore('auth', {
     },
     isStudent(state) {
       return state.currentUser?.role === ROLES.STUDENT;
-    }
+    },
   },
   actions: {
     async registerUser(data: UserCreateParams) {
@@ -62,7 +62,7 @@ export const useAuth = defineStore('auth', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
       } finally {
@@ -96,7 +96,7 @@ export const useAuth = defineStore('auth', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
 
@@ -133,7 +133,7 @@ export const useAuth = defineStore('auth', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
 
@@ -165,7 +165,7 @@ export const useAuth = defineStore('auth', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
       } finally {
@@ -220,19 +220,19 @@ export const useAuth = defineStore('auth', {
         this.currentUser = response;
         // Set local storage token to the new token
         localStorage.setItem('accessToken', response.accessToken);
-      } catch(e) {
+      } catch (e) {
         if (e instanceof Error) {
           uiStore().showSnackbar({
             color: 'error',
-            message: e.message
+            message: e.message,
           });
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
       }
-    }
+    },
   },
 });

@@ -39,7 +39,7 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async getSubject({ id, params }: { id: string, params: GetParams }) {
+  async getSubject({ id, params }: { id: string; params: GetParams }) {
     try {
       const url = this.parseURL({ path: `subjects/${id}`, params });
 

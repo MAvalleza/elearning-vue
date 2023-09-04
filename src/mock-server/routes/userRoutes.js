@@ -11,7 +11,8 @@ const createUserRoutes = routeInstance => {
     const authSession = new AuthSession(schema, token);
 
     // Only admins are allowed to fetch all users.
-    const isAllowedToFetchAll = authSession.isAdmin() || request.queryParams.role;
+    const isAllowedToFetchAll =
+      authSession.isAdmin() || request.queryParams.role;
     if (!isAllowedToFetchAll) {
       return new Response(
         401,
@@ -35,7 +36,7 @@ const createUserRoutes = routeInstance => {
     });
 
     response.data = response.data.map(item => mapUser(item.attrs));
-    
+
     return new Response(200, { some: 'header' }, response);
   });
 
@@ -46,8 +47,9 @@ const createUserRoutes = routeInstance => {
     const authSession = new AuthSession(schema, token);
 
     // Only admins are allowed to fetch other users.
-    const isAllowedToFetch = authSession.isAdmin() || authSession.user().id === userId;
-    
+    const isAllowedToFetch =
+      authSession.isAdmin() || authSession.user().id === userId;
+
     if (!isAllowedToFetch) {
       return new Response(
         401,
@@ -98,13 +100,17 @@ const createUserRoutes = routeInstance => {
     }
 
     const user = schema.users.find(id);
-  
+
     // Cannot delete own account as admin
     if (user.role === ROLES.ADMIN && authSession.user().id === user.id) {
       return new Response(
         403,
         { some: 'header' },
-        { errors: ['You are not allowed to delete this account while logged in.'] }
+        {
+          errors: [
+            'You are not allowed to delete this account while logged in.',
+          ],
+        }
       );
     }
 

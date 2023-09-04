@@ -10,7 +10,7 @@ type Enrollment = {
   updatedAt: number | Date | null;
   userId: string;
   courseId: string;
-}
+};
 
 interface MappedEnrollment extends Enrollment {
   course?: Course;
@@ -25,11 +25,11 @@ interface FetchEnrollmentsParams extends FetchParams {
 }
 
 interface EnrollmentCreateParams {
-  courseId: string,
+  courseId: string;
 }
 
 interface GetEnrollmentParams {
-  join?: string[]
+  join?: string[];
 }
 
 interface EnrollmentUpdateParams {
@@ -43,4 +43,4 @@ export {
   GetEnrollmentParams,
   EnrollmentUpdateParams,
   MappedEnrollment,
-}
+};

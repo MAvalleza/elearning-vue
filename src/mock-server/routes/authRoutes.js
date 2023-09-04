@@ -292,14 +292,16 @@ const createAuthRoutes = routeInstance => {
         {
           errors: {
             name: 'authorized',
-            message: 'Your session has expired.'
-          }
+            message: 'Your session has expired.',
+          },
         }
       );
     }
 
     // Create a new token to refresh session
-    const refreshToken = createAccessToken(schema, { email: authSession.user().email });
+    const refreshToken = createAccessToken(schema, {
+      email: authSession.user().email,
+    });
 
     return mapCurrentUser(authSession.user(), refreshToken);
   });
@@ -308,7 +310,7 @@ const createAuthRoutes = routeInstance => {
 function createAccessToken(schema, { email }) {
   const accessToken = faker.database.mongodbObjectId();
   // 20 minutes
-  const expirationDate = (new Date().getTime()) + (20 * 60 * 1000);
+  const expirationDate = new Date().getTime() + 20 * 60 * 1000;
 
   // Remove existing tokens
   schema.db.sessions.remove({ email });
@@ -317,7 +319,7 @@ function createAccessToken(schema, { email }) {
   schema.sessions.create({
     accessToken,
     email,
-    expiresAt: expirationDate
+    expiresAt: expirationDate,
   });
 
   return accessToken;

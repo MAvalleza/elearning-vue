@@ -7,10 +7,13 @@
 Front-end training project for viewing subjects and courses.
 
 ### Notes
-*MirageJS code is not in typescript since it is not yet fully supported.
+
+\*MirageJS code is not in typescript since it is not yet fully supported.
 
 ### In progress features
+
 - Code evaluation checklist
+
 ### Mock Implementation
 
 Due to absence of a backend, the endpoints have been mocked using [MirageJS](https://miragejs.com/docs/getting-started/introduction/)

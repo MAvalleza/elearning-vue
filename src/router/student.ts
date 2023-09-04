@@ -1,5 +1,5 @@
 import { ROLES } from '@/constants/roles-and-actions';
-import BlankLayout from '@/layouts/Blank.vue'; 
+import BlankLayout from '@/layouts/Blank.vue';
 import AvailableCoursesPage from '@/pages/student/AvailableCoursesPage.vue';
 import EnrolledCoursesPage from '@/pages/student/EnrolledCoursesPage.vue';
 import ViewEnrolledCoursePage from '@/pages/student/ViewEnrolledCoursePage.vue';
@@ -35,7 +35,7 @@ export default [
             name: 'view-enrolled-course',
             component: ViewEnrolledCoursePage,
           },
-        ]
+        ],
       },
     ],
   },

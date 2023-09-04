@@ -71,7 +71,7 @@ export default class ModulesWebservice extends Webservice {
     }
   }
 
-  async getModule({ id, params }: { id: string, params?: GetParams }) {
+  async getModule({ id, params }: { id: string; params?: GetParams }) {
     try {
       const url = this.parseURL({ path: `modules/${id}`, params });
 

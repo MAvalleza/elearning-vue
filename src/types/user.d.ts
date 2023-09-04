@@ -1,4 +1,4 @@
-import { type FetchParams } from "./params";
+import { type FetchParams } from './params';
 
 type User = {
   firstName: string;
@@ -6,15 +6,15 @@ type User = {
   role: string;
   email: string;
   password: string;
-}
+};
 
-type Author = User
+type Author = User;
 
 type MappedUser = Omit<User, 'password'> & {
   id: string;
   normalizedName: string;
   isActive: boolean;
-}
+};
 
 interface CurrentUser extends MappedUser {
   accessToken: string;

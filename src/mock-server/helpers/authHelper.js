@@ -63,6 +63,6 @@ class AuthSession {
 // Removes the `Bearer` prefix
 function getToken(tokenString) {
   return tokenString.replace('Bearer ', '');
-};
+}
 
 export { AuthSession, getToken };

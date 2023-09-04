@@ -73,7 +73,11 @@ export default [
   },
 ];
 
-function editCourseGuard(to: RouteLocationNormalized, _from: RouteLocationNormalized, next: Parameters<NavigationGuard>[2]) {
+function editCourseGuard(
+  to: RouteLocationNormalized,
+  _from: RouteLocationNormalized,
+  next: Parameters<NavigationGuard>[2]
+) {
   // No bypassing allowed, `currentCourse` is updated in store when we access the main edit form first
   const course: Course = coursesStore().currentCourse;
   if (to.params.courseId !== course.id) {

@@ -2,7 +2,7 @@ import type {
   GetEnrollmentParams,
   EnrollmentCreateParams,
   FetchEnrollmentsParams,
-  EnrollmentUpdateParams
+  EnrollmentUpdateParams,
 } from '@/types/enrollment';
 import Webservice from './base';
 
@@ -59,7 +59,13 @@ export default class EnrollmentsWebservice extends Webservice {
     }
   }
 
-  async getEnrollment({ id, params }: { id: string, params: GetEnrollmentParams }) {
+  async getEnrollment({
+    id,
+    params,
+  }: {
+    id: string;
+    params: GetEnrollmentParams;
+  }) {
     try {
       const url = this.parseURL({
         path: `enrollments/${id}`,

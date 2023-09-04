@@ -2,7 +2,11 @@ import { defineStore } from 'pinia';
 import ContentsWebservice from '@/webservices/contentsWebservice';
 import { useUI as uiStore } from './ui';
 import isEmpty from 'lodash-es/isEmpty';
-import type { Content, ContentUpdateParams, FetchContentsParams } from '@/types/content';
+import type {
+  Content,
+  ContentUpdateParams,
+  FetchContentsParams,
+} from '@/types/content';
 
 const webservice = new ContentsWebservice();
 
@@ -18,7 +22,7 @@ export const useContents = defineStore('contents', {
       try {
         uiStore().setLoading(true);
 
-        const response = await webservice.getContents(params)
+        const response = await webservice.getContents(params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -38,7 +42,7 @@ export const useContents = defineStore('contents', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
 
@@ -67,10 +71,7 @@ export const useContents = defineStore('contents', {
       try {
         uiStore().setLoading(true);
 
-        const response = await webservice.updateContent(
-          id,
-          params,
-        );
+        const response = await webservice.updateContent(id, params);
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);

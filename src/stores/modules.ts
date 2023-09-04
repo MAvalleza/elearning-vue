@@ -10,7 +10,7 @@ import type {
   MappedModule,
   Module,
   ModuleCreateParams,
-  ModuleUpdateParams
+  ModuleUpdateParams,
 } from '@/types/module';
 
 const webservice = new ModulesWebservice();
@@ -35,7 +35,7 @@ export const useModules = defineStore('modules', {
           throw Error(response.errors[0]);
         }
 
-        const mappedModules = mapModules(response.data)
+        const mappedModules = mapModules(response.data);
         this.modules = mappedModules;
         this.modulesTotal = response.totalCount;
         this.modulesCurrentPage = response.page;
@@ -50,7 +50,7 @@ export const useModules = defineStore('modules', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
 
@@ -64,9 +64,7 @@ export const useModules = defineStore('modules', {
         this.loadingModules = true;
 
         // Create the module
-        const response = await webservice.createModule(
-          omit(data, 'content'),
-        );
+        const response = await webservice.createModule(omit(data, 'content'));
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -101,7 +99,7 @@ export const useModules = defineStore('modules', {
 
         const response = await webservice.updateModule(
           id,
-          getUpdatedAttributes(this.currentModule, params),
+          getUpdatedAttributes(this.currentModule, params)
         );
 
         if (!isEmpty(response.errors)) {
@@ -151,12 +149,10 @@ export const useModules = defineStore('modules', {
         this.loadingModules = true;
 
         // Fetch module
-        const response = await webservice.getModule(
-          {
-            id,
-            params,
-          },
-        );
+        const response = await webservice.getModule({
+          id,
+          params,
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -182,7 +178,7 @@ export const useModules = defineStore('modules', {
         this.loadingModules = false;
       }
     },
-    async onTableAction({ id, action }: { id: string, action: string }) {
+    async onTableAction({ id, action }: { id: string; action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };
@@ -202,7 +198,7 @@ export const useModules = defineStore('modules', {
 });
 
 function mapModules(modules: Module[]) {
- return modules.map(mod => ({
+  return modules.map(mod => ({
     ...mod,
     status: mod.isPublished ? 'Published' : 'Draft',
     courseTitle: mod.course.title,

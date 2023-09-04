@@ -4,7 +4,7 @@ type Subject = {
   isPublished: boolean;
 
   courseIds?: string[];
-}
+};
 
 interface MappedSubject extends Subject {
   status?: string;
@@ -16,8 +16,4 @@ interface SubjectCreateParams {
   isPublished: boolean;
 }
 
-export {
-  Subject,
-  SubjectCreateParams,
-  MappedSubject,
-};
+export { Subject, SubjectCreateParams, MappedSubject };

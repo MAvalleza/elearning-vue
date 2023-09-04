@@ -29,7 +29,7 @@ const createEnrollmentRoutes = routeInstance => {
       params: omit(params, 'join'),
     });
 
-    response.data = response.data.map(item => mapEnrollment(item, { params }))
+    response.data = response.data.map(item => mapEnrollment(item, { params }));
 
     return new Response(200, { some: 'header' }, response);
   });
@@ -58,12 +58,17 @@ const createEnrollmentRoutes = routeInstance => {
     }
 
     // Check if already enrolled
-    if (schema.enrollments.findBy({ userId: authSession.user().id, courseId: attrs.courseId })) {
+    if (
+      schema.enrollments.findBy({
+        userId: authSession.user().id,
+        courseId: attrs.courseId,
+      })
+    ) {
       return new Response(
         403,
         { some: 'header' },
         { errors: ['Course already enrolled'] }
-      )
+      );
     }
 
     const data = {
@@ -166,7 +171,10 @@ const createEnrollmentRoutes = routeInstance => {
       );
     }
 
-    const enrollmentModule = schema.enrollmentModules.findBy({ moduleId, enrollmentId });
+    const enrollmentModule = schema.enrollmentModules.findBy({
+      moduleId,
+      enrollmentId,
+    });
 
     // If no enrollment module, this is possibly a previously drafted module that was published
     // So we create the enrollment module
@@ -179,7 +187,10 @@ const createEnrollmentRoutes = routeInstance => {
         isCompleted: true,
       });
     } else {
-      schema.db.enrollmentModules.update({ moduleId, enrollmentId }, { isCompleted });
+      schema.db.enrollmentModules.update(
+        { moduleId, enrollmentId },
+        { isCompleted }
+      );
     }
 
     // Update date
@@ -190,12 +201,18 @@ const createEnrollmentRoutes = routeInstance => {
       id: enrollmentId,
       userId: authSession.user().id,
       courseId: enrollment.course.id,
-      modulesInProgress: schema.enrollmentModules.where({ enrollmentId, isCompleted: false }).models,
-      completedModules: schema.enrollmentModules.where({ enrollmentId, isCompleted: true }).models,
+      modulesInProgress: schema.enrollmentModules.where({
+        enrollmentId,
+        isCompleted: false,
+      }).models,
+      completedModules: schema.enrollmentModules.where({
+        enrollmentId,
+        isCompleted: true,
+      }).models,
       createdAt: enrollment.createdAt,
       updatedAt: updatedDate,
     };
-  })
+  });
 };
 
 function mapEnrollment(enrollment, { params }) {
@@ -203,9 +220,9 @@ function mapEnrollment(enrollment, { params }) {
 
   return {
     ...enrollment.attrs,
-    ...(params.join.includes('course')) && {
-      course: enrollment.course.attrs
-    },
+    ...(params.join.includes('course') && {
+      course: enrollment.course.attrs,
+    }),
     ...(params.join.includes('subject') && {
       subject: enrollment.course.subject,
     }),
@@ -215,8 +232,8 @@ function mapEnrollment(enrollment, { params }) {
     ...(params.join.includes('modules') && {
       modules: enrollment.enrollmentModules.models
         .map(mod => mod.module)
-        .sort((a, b) => moduleSorter.sort(a, b))
-    })
+        .sort((a, b) => moduleSorter.sort(a, b)),
+    }),
   };
 }
 

@@ -11,7 +11,7 @@ const PERSISTENCE_KEY = 'mirageDb';
 
 const createMockServer = ({ persistence }) => {
   if (!persistence) {
-    localStorage.removeItem(PERSISTENCE_KEY)
+    localStorage.removeItem(PERSISTENCE_KEY);
   }
 
   let server = createServer({
@@ -31,17 +31,19 @@ const createMockServer = ({ persistence }) => {
             server
               .createList('course', 6, { author: user, subject })
               .forEach(course => {
-                server.createList('module', 3, {
-                  author: user,
-                  course,
-                }).forEach(mod => {
-                  server.createList('content', 1, {
-                    module: mod,
+                server
+                  .createList('module', 3, {
                     author: user,
-                    isPublished: mod.isPublished,
-                    type: 'document',
+                    course,
                   })
-                });
+                  .forEach(mod => {
+                    server.createList('content', 1, {
+                      module: mod,
+                      author: user,
+                      isPublished: mod.isPublished,
+                      type: 'document',
+                    });
+                  });
               });
           });
         });
@@ -55,7 +57,7 @@ const createMockServer = ({ persistence }) => {
           isActive: true,
           createdAt: Date.now(),
         });
-  
+
         // Create student
         server.create('user', {
           email: 's@test',
@@ -86,7 +88,7 @@ const createMockServer = ({ persistence }) => {
       if (!['get', 'head'].includes(verb.toLowerCase())) {
         localStorage.setItem(PERSISTENCE_KEY, JSON.stringify(server.db.dump()));
       }
-  
+
       mirageRequestHandler(verb, path, request);
     };
   }

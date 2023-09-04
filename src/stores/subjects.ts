@@ -5,7 +5,11 @@ import isEmpty from 'lodash-es/isEmpty';
 import size from 'lodash-es/size';
 import { getUpdatedAttributes } from '@/helpers/paramsHelper';
 import type { FetchParams, GetParams } from '@/types/params';
-import type { Subject, MappedSubject, SubjectCreateParams } from '@/types/subject';
+import type {
+  Subject,
+  MappedSubject,
+  SubjectCreateParams,
+} from '@/types/subject';
 
 const webservice = new SubjectsWebservice();
 
@@ -44,7 +48,7 @@ export const useSubjects = defineStore('subjects', {
         } else {
           uiStore().showSnackbar({
             color: 'error',
-            message: 'There was an error.'
+            message: 'There was an error.',
           });
         }
       } finally {
@@ -84,12 +88,10 @@ export const useSubjects = defineStore('subjects', {
       try {
         this.loadingSubjects = true;
 
-        const response = await webservice.getSubject(
-          {
-            id,
-            params,
-          },
-        );
+        const response = await webservice.getSubject({
+          id,
+          params,
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -113,7 +115,7 @@ export const useSubjects = defineStore('subjects', {
 
         const response = await webservice.updateSubject(
           id,
-          getUpdatedAttributes(this.currentSubject, params),
+          getUpdatedAttributes(this.currentSubject, params)
         );
 
         if (!isEmpty(response.errors)) {
@@ -158,7 +160,7 @@ export const useSubjects = defineStore('subjects', {
         this.loadingSubjects = false;
       }
     },
-    async onTableAction({ id, action }: { id: string, action: string }) {
+    async onTableAction({ id, action }: { id: string; action: string }) {
       switch (action) {
         case 'delete':
           return { id, delete: true };

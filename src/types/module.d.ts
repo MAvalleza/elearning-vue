@@ -12,7 +12,7 @@ type Module = {
 
   // Populated
   course: Course;
-}
+};
 
 interface MappedModule extends Module {
   courseTitle?: string;
@@ -38,9 +38,4 @@ interface ModuleUpdateParams {
   courseId?: string;
 }
 
-export {
-  Module,
-  MappedModule,
-  ModuleCreateParams,
-  ModuleUpdateParams,
-}
+export { Module, MappedModule, ModuleCreateParams, ModuleUpdateParams };

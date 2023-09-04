@@ -6,7 +6,7 @@ type Content = {
   content: string | file | Delta;
   type: string;
   isPublished: boolean;
-}
+};
 
 interface FetchContentsParams extends FetchParams {
   module: string;
@@ -18,8 +18,4 @@ interface ContentUpdateParams {
   isPublished?: Content['isPublished'];
 }
 
-export {
-  Content,
-  FetchContentsParams,
-  ContentUpdateParams,
-}
+export { Content, FetchContentsParams, ContentUpdateParams };

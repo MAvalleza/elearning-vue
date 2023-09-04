@@ -5,6 +5,7 @@ v-container(fluid).fill-height.align-center.auth-bg
 
 <style scoped>
 .auth-bg {
-  background: url('../assets/images/auth-bg.png'), lightgray 50% / cover no-repeat;
+  background: url('../assets/images/auth-bg.png'),
+    lightgray 50% / cover no-repeat;
 }
 </style>

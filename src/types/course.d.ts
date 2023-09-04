@@ -17,9 +17,9 @@ type Course = {
   author: Author;
   modules?: Module[];
 
-  // 
+  //
   moduleIds?: (number | string)[];
-}
+};
 
 interface MappedCourse extends Course {
   authorName?: string;
@@ -34,7 +34,7 @@ interface FetchCoursesParams extends FetchParams {
 }
 
 interface GetCourseParams {
-  join: string[],
+  join: string[];
 }
 
 interface CourseCreateParams {
@@ -51,5 +51,5 @@ export {
   MappedCourse,
   FetchCoursesParams,
   CourseCreateParams,
-  GetCourseParams
+  GetCourseParams,
 };

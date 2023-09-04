@@ -37,9 +37,9 @@ app.use(router);
 // MirageJS Mock server
 
 const mockServer = createMockServer({
-  persistence: import.meta.env.VITE_MIRAGE_PERSISTENCE === 'true' ? true : false
+  persistence:
+    import.meta.env.VITE_MIRAGE_PERSISTENCE === 'true' ? true : false,
 });
-
 
 if (import.meta.env.VITE_APP_ENV === 'test') {
   app.use(mockServer);

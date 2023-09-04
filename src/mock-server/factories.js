@@ -57,8 +57,8 @@ export default {
     content() {
       // We return vue-quill format
       return {
-        ops: [ { insert: faker.lorem.paragraph() } ]
+        ops: [{ insert: faker.lorem.paragraph() }],
       };
-    }
-  })
+    },
+  }),
 };

@@ -74,7 +74,7 @@ class Filter {
 
         if (!isEmpty(opts?.keywordKeys)) {
           // Iterate thru the given attributes to see if there is a match
-          return opts.keywordKeys.reduce((acc , key) => {
+          return opts.keywordKeys.reduce((acc, key) => {
             return acc || data[key]?.toLowerCase()?.includes(keyword);
           }, false);
         } else if (data?.title) {
@@ -103,9 +103,13 @@ class Filter {
       filter: (data, { params }) => {
         const enrollmentModules = data.enrollmentModules.models;
 
-        return !isEmpty(enrollmentModules.filter(mod => mod.isCompleted === JSON.parse(params.completed)));
-      }
-    }
+        return !isEmpty(
+          enrollmentModules.filter(
+            mod => mod.isCompleted === JSON.parse(params.completed)
+          )
+        );
+      },
+    },
   };
 
   constructor(params = {}, opts = {}) {
@@ -119,10 +123,12 @@ class Filter {
     // Evaluate the parameters based on the filter methods for those parameters
     // Push the result to an array.
     Object.keys(this.filterParams).forEach(key => {
-      conditions.push(this.#FILTER_OPTS[key].filter(data, {
-        params: this.filterParams,
-        opts: this.filterOpts
-      }));
+      conditions.push(
+        this.#FILTER_OPTS[key].filter(data, {
+          params: this.filterParams,
+          opts: this.filterOpts,
+        })
+      );
     });
 
     // Return the reduced result

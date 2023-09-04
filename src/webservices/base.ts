@@ -10,8 +10,8 @@ export default class Webservice {
   requestHeaders() {
     return {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
+      Authorization: `Bearer ${getToken()}`,
+    };
   }
 
   parseParams(params = {}) {
@@ -24,7 +24,7 @@ export default class Webservice {
     return stringified ? `?${stringified}` : '';
   }
 
-  parseURL({ path, params }: { path: string, params?: object }) {
+  parseURL({ path, params }: { path: string; params?: object }) {
     const url = `${this.apiNamespace}/${path}${this.parseParams(params)}`;
 
     return url;

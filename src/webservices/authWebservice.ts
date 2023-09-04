@@ -131,7 +131,7 @@ export default class AuthWebservice extends Webservice {
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: this.requestHeaders()
+        headers: this.requestHeaders(),
       });
 
       return await response.json();

@@ -105,7 +105,11 @@ export default [
   },
 ];
 
-function editSubjectGuard(to: RouteLocationNormalized, _from: RouteLocationNormalized, next: Parameters<NavigationGuard>[2]) {
+function editSubjectGuard(
+  to: RouteLocationNormalized,
+  _from: RouteLocationNormalized,
+  next: Parameters<NavigationGuard>[2]
+) {
   // No bypassing allowed, `currentSubject` is updated in store when we access the main edit form first
   const subject = subjectsStore().currentSubject as Subject;
   if (to.params.subjectId !== subject.id) {
