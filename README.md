@@ -6,6 +6,9 @@
 
 Front-end training project for viewing subjects and courses.
 
+### Notes
+*MirageJS code is not in typescript since it is not yet fully supported.
+
 ### In progress features
 - Code evaluation checklist
 ### Mock Implementation
@@ -88,4 +91,4 @@ Creating an account is still possible even without the backend.
 
 Simply go through the registration process as normal.
 
-No email verification has been set yet since actual sending of email is not present in the mocks. Instead, a temporary button that will redirect to user to verification will appear in the app.
+No email verification has been set yet since actual sending of email is not present in the mocks. Instead, a temporary button that will redirect and activate the user to verification will appear in the app.
