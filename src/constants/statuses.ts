@@ -1,11 +1,11 @@
-const STATUS_MAP = {
+const RESOURCE_STATUS_MAP = {
   published: 'Published',
   draft: 'Draft',
 };
 
-const STATUS_LABELS = [
-  { label: STATUS_MAP.published, value: true },
-  { label: STATUS_MAP.draft, value: false },
+const RESOURCE_STATUS_LABELS = [
+  { label: RESOURCE_STATUS_MAP.published, value: true },
+  { label: RESOURCE_STATUS_MAP.draft, value: false },
 ];
 
-export { STATUS_MAP, STATUS_LABELS };
+export { RESOURCE_STATUS_MAP, RESOURCE_STATUS_LABELS };

@@ -3,7 +3,7 @@ import { computed, ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuth } from '@/stores/auth';
 import { ROLES } from '@/constants/roles-and-actions';
-import { STATUS_LABELS } from '@/constants/statuses';
+import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 import ImageUploader from '@/components/commons/ImageUploader.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
@@ -97,7 +97,7 @@ v-form(ref="form")
             variant="outlined"
             item-title="label"
             item-value="value"
-            :items="STATUS_LABELS"
+            :items="RESOURCE_STATUS_LABELS"
             :disabled="props.disabled"
           )
         v-col(cols="12")

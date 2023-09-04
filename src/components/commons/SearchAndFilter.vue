@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
 import debounce from 'lodash-es/debounce';
-import { STATUS_LABELS } from '@/constants/statuses';
+import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 
 const props = defineProps({
   searchText: {
@@ -75,7 +75,7 @@ v-text-field(
                 v-model="published"
                 variant="outlined"
                 label="Status"
-                :items="STATUS_LABELS"
+                :items="RESOURCE_STATUS_LABELS"
                 density="comfortable"
                 item-title="label"
               )

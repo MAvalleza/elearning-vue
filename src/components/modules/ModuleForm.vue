@@ -4,7 +4,7 @@ import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { storeToRefs } from 'pinia';
 import { useCourses } from '@/stores/courses';
-import { STATUS_LABELS } from '@/constants/statuses';
+import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 import { type Module } from '@/types/module';
 import { type Content } from '@/types/content';
@@ -128,7 +128,7 @@ v-form(ref="form")
             variant="outlined"
             item-title="label"
             item-value="value"
-            :items="STATUS_LABELS"
+            :items="RESOURCE_STATUS_LABELS"
             :disabled="props.disabled"
           )
         v-col(cols="12" lg="6")

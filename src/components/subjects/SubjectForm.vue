@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
-import { STATUS_LABELS } from '@/constants/statuses';
+import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
 
 const props = defineProps({
@@ -62,7 +62,7 @@ v-form(ref="form" @submit.prevent="submit")
             item-title="label"
             item-value="value"
             :disabled="props.loading || props.disabled"
-            :items="STATUS_LABELS"
+            :items="RESOURCE_STATUS_LABELS"
             @update:model-value="onUpdate"
           )
 </template>
