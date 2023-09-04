@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
+import isEmpty from 'lodash-es/isEmpty';
 import UsersWebservice from '@/webservices/usersWebservice';
 import { useUI as uiStore } from '@/stores/ui';
-import isEmpty from 'lodash-es/isEmpty';
+import { getUpdatedAttributes } from '@/helpers/paramsHelper';
 import type { MappedUser, FetchUsersParams, UserUpdateParams } from '@/types/user';
 
 const webservice = new UsersWebservice();
@@ -77,7 +78,7 @@ export const useUsers = defineStore('users', {
         // Call the webservice
         const response = await webservice.updateUser(
           id,
-          params,
+          getUpdatedAttributes(this.currentFetchedUser, params),
         );
 
         if (!isEmpty(response.errors)) {
