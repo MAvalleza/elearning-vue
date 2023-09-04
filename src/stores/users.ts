@@ -113,10 +113,17 @@ export const useUsers = defineStore('users', {
           message: 'Successfully deleted the user.',
         });
       } catch (e) {
-        uiStore().showSnackbar({
-          color: 'error',
-          message: 'There was an error in deleting the user.',
-        });
+        if (e instanceof Error) {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: e.message,
+          });
+        } else {
+          uiStore().showSnackbar({
+            color: 'error',
+            message: 'There was an error in deleting the user.',
+          });
+        }
       } finally {
         this.loadingUsers = false;
       }

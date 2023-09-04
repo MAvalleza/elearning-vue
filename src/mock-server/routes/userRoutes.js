@@ -2,6 +2,7 @@ import { Response } from 'miragejs';
 import { evaluateParams } from '../helpers/fetchParamsHelper';
 import { AuthSession } from '../helpers/authHelper';
 import omit from 'lodash-es/omit';
+import { ROLES } from '@/constants/roles-and-actions';
 
 const createUserRoutes = routeInstance => {
   routeInstance.get('/users', (schema, request) => {
@@ -97,6 +98,15 @@ const createUserRoutes = routeInstance => {
     }
 
     const user = schema.users.find(id);
+  
+    // Cannot delete own account as admin
+    if (user.role === ROLES.ADMIN && authSession.user().id === user.id) {
+      return new Response(
+        403,
+        { some: 'header' },
+        { errors: ['You are not allowed to delete this account while logged in.'] }
+      );
+    }
 
     // Delete the user
     user.subjects.forEach(subject => subject.destroy());
