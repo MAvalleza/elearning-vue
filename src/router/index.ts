@@ -15,7 +15,6 @@ import studentRoutes from './student';
 import activityWatcher from '@/plugins/activity-watcher';
 import { ROLES } from '@/constants/roles-and-actions';
 import UserProfilePage from '@/pages/user/UserProfilePage.vue';
-import InProgressPage from '@/pages/temp/InProgressPage.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -48,13 +47,6 @@ const routes = [
   ...courseRoutes,
   ...moduleRoutes,
   ...studentRoutes,
-  // TODO: Temporary, placeholder route. (TO REMOVE)
-  {
-    path: '/in-progress',
-    meta: { layout: 'BlankLayout' },
-    name: 'in-progress',
-    component: InProgressPage,
-  },
 ];
 
 const router = createRouter({
