@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, type Ref, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { useUsers } from '@/stores/users';
@@ -8,6 +8,7 @@ import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import { ROLES_LIST } from '@/constants/roles-and-actions';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
+import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import TableActions from '@/components/commons/TableActions.vue';
 import type { TableOptions } from '@/types/data-table';
@@ -50,6 +51,7 @@ async function fetchUsers() {
   await usersStore.fetchUsers(fetchParams);
 }
 
+// Table operations
 function getTableActions(item: MappedUser) {
   const getTableStatusAction = (isActive: boolean) => {
     if (isActive) {
@@ -100,13 +102,31 @@ async function onAction({ action, item }: { action: string, item: MappedUser }) 
   const result = await usersStore.onTableAction({ id, action });
 
   if (result?.delete) {
-    console.log('delete');
+    await deleteUser(id);
   }
 
   // Re-fetch users
   fetchUsers();
 }
 
+// Dialog operations
+const confirmDialog: Ref = ref(null);
+
+async function deleteUser(id: string) {
+  const confirm = await confirmDialog.value.open({
+    title: 'Delete User',
+    message:
+      'Are you sure you want to delete this user?',
+    primaryAction: 'DELETE',
+    primaryColor: 'error',
+  });
+
+  if (confirm) {
+    await usersStore.deleteUser(id);
+  }
+}
+
+// Initializations
 function initialize() {
   fetchParams = reactive({ ...initial.params });
 }
@@ -117,6 +137,8 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
+page-confirm-dialog(ref="confirmDialog")
+
 page-header(
   :title="route.meta.title"
   hide-button

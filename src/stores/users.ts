@@ -76,6 +76,30 @@ export const useUsers = defineStore('users', {
       }
     },
 
+    async deleteUser(id: string) {
+      try {
+        this.loadingUsers = true;
+
+        const response = await webservice.deleteUser(id);
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        uiStore().showSnackbar({
+          color: 'success',
+          message: 'Successfully deleted the user.',
+        });
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in deleting the user.',
+        });
+      } finally {
+        this.loadingUsers = false;
+      }
+    },
+
     async onTableAction({ id, action }: { id: string, action: string }) {
       switch (action) {
         case 'delete':

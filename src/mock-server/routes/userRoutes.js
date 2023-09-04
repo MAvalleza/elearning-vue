@@ -58,6 +58,38 @@ const createUserRoutes = routeInstance => {
 
     return user.update(attrs);
   });
+
+  routeInstance.del('/users/:id', (schema, request) => {
+    const id = request.params.id;
+
+    const token = request.requestHeaders['Authorization'];
+
+    const authSession = new AuthSession(schema, token);
+
+    if (!authSession.isAdmin()) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const user = schema.users.find(id);
+
+    // Delete the user
+    user.subjects.forEach(subject => subject.destroy());
+    user.courses.forEach(course => course.destroy());
+    user.modules.forEach(mod => mod.destroy());
+    user.contents.forEach(content => content.destroy());
+    user.enrollments.forEach(enrollment => enrollment.destroy());
+    user.destroy();
+
+    return new Response(
+      200,
+      { some: 'header' },
+      { deleted: id, resource: 'users' }
+    );
+  });
 };
 
 function mapUser(userData) {

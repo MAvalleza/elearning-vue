@@ -37,4 +37,20 @@ export default class UsersWebservice extends Webservice {
       throw e;
     }
   }
+
+  async deleteUser(id: string) {
+    try {
+      const url = this.parseURL({ path: `users/${id}` });
+
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: this.requestHeaders(),
+      });
+
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
 }
