@@ -37,7 +37,7 @@ const routes = [
     beforeEnter: [rootRouteGuard],
   },
   {
-    path: '/profile',
+    path: '/profile/:userId',
     name: 'profile',
     meta: { auth: true, layout: 'AppLayout' },
     component: UserProfilePage,

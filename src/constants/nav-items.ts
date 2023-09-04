@@ -5,7 +5,7 @@ const { ADMIN, INSTRUCTOR, STUDENT } = ROLES;
 const NAV_ITEMS = [
   {
     title: 'Users',
-    icon: 'mdi-account',
+    icon: 'mdi-account-supervisor-circle-outline',
     route: 'users',
     roles: [ADMIN],
   },

@@ -38,6 +38,28 @@ const createUserRoutes = routeInstance => {
     return new Response(200, { some: 'header' }, response);
   });
 
+  routeInstance.get('/users/:id', (schema, request) => {
+    const token = request.requestHeaders['Authorization'];
+    const userId = request.params.id;
+
+    const authSession = new AuthSession(schema, token);
+
+    // Only admins are allowed to fetch other users.
+    const isAllowedToFetch = authSession.isAdmin() || authSession.user().id === userId;
+    
+    if (!isAllowedToFetch) {
+      return new Response(
+        401,
+        { some: 'header' },
+        { errors: ['You are not authorized to fulfill this request'] }
+      );
+    }
+
+    const user = schema.users.find(userId);
+
+    return mapUser(user.attrs);
+  });
+
   routeInstance.patch('/users/:id', (schema, request) => {
     const userId = request.params.id;
     const attrs = JSON.parse(request.requestBody);

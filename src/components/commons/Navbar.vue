@@ -21,7 +21,7 @@ const USER_MENU_ITEMS = [
     title: 'My Profile',
     icon: 'mdi-account-circle-outline',
     onClick: () => {
-      router.push({ name: 'profile' });
+      router.push({ name: 'profile', params: { userId: currentUser.value.id } });
     },
   },
   {

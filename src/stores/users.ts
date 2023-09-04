@@ -9,6 +9,7 @@ const webservice = new UsersWebservice();
 export const useUsers = defineStore('users', {
   state: () => ({
     users: <MappedUser[]>[],
+    currentFetchedUser: <MappedUser>{},
     usersTotal: 0,
     usersCurrentPage: 1,
     loadingUsers: false,
@@ -43,6 +44,27 @@ export const useUsers = defineStore('users', {
         }
         
         return [];
+      } finally {
+        this.loadingUsers = false;
+      }
+    },
+
+    async fetchUser(id: string) {
+      try {
+        this.loadingUsers = true;
+
+        const response = await webservice.getUser(id);
+
+        if (!isEmpty(response.errors)) {
+          throw Error(response.errors[0]);
+        }
+
+        this.currentFetchedUser = response;
+      } catch (e) {
+        uiStore().showSnackbar({
+          color: 'error',
+          message: 'There was an error in fetching the user.',
+        });
       } finally {
         this.loadingUsers = false;
       }

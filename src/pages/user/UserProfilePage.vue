@@ -1,16 +1,36 @@
 <script setup lang="ts">
-import { useAuth } from '@/stores/auth';
+import { onMounted, ref, type Ref } from 'vue';
+import { useUsers } from '@/stores/users';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';
+import AppLoader from '@/components/commons/AppLoader.vue';
 
-const authStore = useAuth();
-const { currentUser } = storeToRefs(authStore);
+// Route
+const route = useRoute();
+
+// Users
+const userId: Ref = ref(route.params.userId)
+const usersStore = useUsers();
+const { currentFetchedUser, loadingUsers } = storeToRefs(usersStore);
+
+async function fetchUser() {
+  await usersStore.fetchUser(userId.value);
+}
+
+// Initializations
+onMounted(async () => {
+  await fetchUser();
+})
 </script>
 
 <template lang="pug">
+app-loader(:is-visible="loadingUsers")
+
 page-header(
-  title="Profile"
+  :title="currentFetchedUser.normalizedName"
+  title-icon="mdi-account-supervisor-circle-outline"
   hide-button
 )
 
@@ -19,11 +39,11 @@ page-content
     v-col
       .name
         h3 Name
-        p {{ currentUser.normalizedName }}
+        p {{ currentFetchedUser.normalizedName }}
       .email.my-5
         h3 Email
-        p {{ currentUser.email }}
+        p {{ currentFetchedUser.email }}
       .role
         h3 Role
-        p.text-capitalize {{ currentUser.role }}
+        p.text-capitalize {{ currentFetchedUser.role }}
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, onMounted, type Ref, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUsers } from '@/stores/users';
 import { mapOptionsToParams } from '@/helpers/tableHelper';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
@@ -11,11 +11,12 @@ import PageContent from '@/components/commons/PageContent.vue';
 import PageConfirmDialog from '@/components/commons/ConfirmDialog.vue';
 import SearchAndFilter from '@/components/commons/SearchAndFilter.vue';
 import TableActions from '@/components/commons/TableActions.vue';
-import type { TableOptions } from '@/types/data-table';
+import type { TableOptions, GenericTableItem } from '@/types/data-table';
 import type { MappedUser } from '@/types/user';
 
 // Router
 const route = useRoute();
+const router = useRouter();
 
 // Users data
 const USERS_DATA_TABLE = {
@@ -109,6 +110,13 @@ async function onAction({ action, item }: { action: string, item: MappedUser }) 
   fetchUsers();
 }
 
+function viewUser(_event: Event, { item }: GenericTableItem) {
+  router.push({
+    name: 'profile',
+    params: { userId: item.raw.id },
+  });
+}
+
 // Dialog operations
 const confirmDialog: Ref = ref(null);
 
@@ -141,6 +149,7 @@ page-confirm-dialog(ref="confirmDialog")
 
 page-header(
   :title="route.meta.title"
+  title-icon="mdi-account-supervisor-circle-outline"
   hide-button
   has-center-section
 )
@@ -172,6 +181,7 @@ page-content
     :items-per-page-options="PAGINATION_DATA_TABLE_OPTIONS"
     :loading="loadingUsers"
     @update:options="onUpdateTableOptions"
+    @click:row="viewUser"
   )
     template(#[`item.role`]="{ item }")
       span.text-capitalize {{ item.raw.role }}

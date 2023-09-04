@@ -21,6 +21,22 @@ export default class UsersWebservice extends Webservice {
     }
   }
 
+  async getUser(id: string) {
+    try {
+      const url = this.parseURL({ path: `users/${id}` });
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: this.requestHeaders(),
+      });
+
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
+
   async updateUser(id: string, data: UserUpdateParams) {
     try {
       const url = this.parseURL({ path: `users/${id}` });
