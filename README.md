@@ -12,7 +12,7 @@ Front-end training project for viewing subjects and courses.
 
 ### In progress features
 
-- Code evaluation checklist
+- Code evaluation checklist (unit tests)
 
 ### Mock Implementation
 
