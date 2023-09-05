@@ -162,6 +162,7 @@ export const useEnrollments = defineStore('enrollments', {
     },
     clearCurrentEnrollment() {
       this.currentEnrollment = <MappedEnrollment>{};
+      this.currentLesson = <CurrentLesson>{};
     },
   },
 });

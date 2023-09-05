@@ -73,7 +73,7 @@ generic-container
 
     div.d-flex.align-center
       div
-        v-img(v-if="currentLesson.course?.icon" :src="currentLesson.course?.icon" height="100")
+        v-img(v-if="currentLesson.course?.icon" :src="currentLesson.course.icon" height="100" width="100")
         v-icon(v-else size="100" icon="mdi-bookshelf")
       div
         v-icon(icon="mdi-arrow-right")

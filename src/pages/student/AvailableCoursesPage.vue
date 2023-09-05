@@ -71,6 +71,8 @@ async function onEnrollCourse(course: Course) {
 
   if (confirm) {
     await enrollmentsStore.createEnrollment({ courseId: course.id });
+
+    fetchCourses();
   }
 }
 
@@ -79,7 +81,7 @@ async function onCourseSelect(selectedCourse: Course) {
   const isEnrollClicked = await infoDialog.value.open(selectedCourse);
 
   if (isEnrollClicked) {
-    await enrollmentsStore.createEnrollment({ courseId: selectedCourse.id });
+    onEnrollCourse(selectedCourse);
   }
 }
 
