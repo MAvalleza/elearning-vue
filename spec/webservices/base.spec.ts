@@ -1,4 +1,4 @@
-import { describe, vi, afterEach, it, expect, beforeEach } from 'vitest';
+import { describe, vi, afterEach, it, expect } from 'vitest';
 import { faker } from '@faker-js/faker';
 import Webservice from '../../src/webservices/base';
 
@@ -18,11 +18,7 @@ vi.stubEnv('VITE_API_NAMESPACE', mockURL);
 
 // Describe a test suite for the Webservice class
 describe('Webservice', () => {
-  let webservice;
-
-  beforeEach(() => {
-    webservice = new Webservice();
-  });
+  const webservice = new Webservice();
 
   afterEach(() => {
     vi.clearAllMocks();
