@@ -69,6 +69,6 @@ v-autocomplete(
   :items="users"
   :loading="loadingUsers"
   :disabled="props.disabled"
-  :rules="[props.required && REQUIRED_RULE]"
+  :rules="props.required ? [REQUIRED_RULE] : []"
 )
 </template>
