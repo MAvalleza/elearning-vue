@@ -128,7 +128,6 @@ async function onAction({ action, item }: TableActionOpt) {
     // Re-fetch courses
     fetchCourses();
   }
-
 }
 
 // INITIALIZATIONS

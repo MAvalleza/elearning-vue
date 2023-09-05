@@ -5,10 +5,7 @@ import { storeToRefs } from 'pinia';
 import { useAuth } from '@/stores/auth';
 import { useSubjects } from '@/stores/subjects';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
-import {
-  mapOptionsToParams,
-  getTableActions,
-} from '@/helpers/tableHelper';
+import { mapOptionsToParams, getTableActions } from '@/helpers/tableHelper';
 import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
 import PageContent from '@/components/commons/PageContent.vue';

@@ -34,14 +34,17 @@ const getTableActions = (item: GenericTableItem['item']) => {
 
   const statusAction = getTableStatusAction(item.raw);
 
-  return [
-    statusAction,
-    DELETE_ACTION,
-  ].filter(action => action);
-}
+  return [statusAction, DELETE_ACTION].filter(action => action);
+};
 
 // Determines the table action for a published/draft resource
-const getTableStatusAction = ({ isPublished, isActive }: { isPublished?: boolean; isActive?: boolean; }) => {
+const getTableStatusAction = ({
+  isPublished,
+  isActive,
+}: {
+  isPublished?: boolean;
+  isActive?: boolean;
+}) => {
   const STATUS_ACTION = {
     published: {
       icon: {
@@ -72,9 +75,9 @@ const getTableStatusAction = ({ isPublished, isActive }: { isPublished?: boolean
       },
       title: 'Set active',
       action: 'active',
-    }
+    },
   };
-  
+
   if (!isNil(isPublished)) {
     return isPublished ? STATUS_ACTION.published : STATUS_ACTION.draft;
   } else if (!isNil(isActive)) {

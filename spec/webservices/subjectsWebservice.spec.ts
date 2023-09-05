@@ -20,8 +20,9 @@ describe('SubjectsWebservice', () => {
   // Fetch mock
   const fetchSpy = vi.spyOn(global, 'fetch').mockImplementation(() =>
     Promise.resolve(<Response>{
-      json: () => Promise.resolve(resolvedResponse)
-    }));
+      json: () => Promise.resolve(resolvedResponse),
+    })
+  );
 
   // Headers mock
   const headersSpy = vi.spyOn(webservice, 'requestHeaders');
@@ -42,9 +43,9 @@ describe('SubjectsWebservice', () => {
 
     expect(urlSpy).toHaveBeenCalledWith({
       path: 'subjects',
-      params
+      params,
     });
-    
+
     expect(fetchSpy).toHaveBeenCalledWith(mockURL, {
       method: 'GET',
       headers: mockHeaders,
@@ -58,7 +59,7 @@ describe('SubjectsWebservice', () => {
 
     const result = await webservice.createSubject(params);
 
-    expect(urlSpy).toHaveBeenCalledWith({ path: 'subjects' })
+    expect(urlSpy).toHaveBeenCalledWith({ path: 'subjects' });
     expect(jsonSpy).toHaveBeenCalledWith(params);
     expect(fetchSpy).toHaveBeenCalledWith(mockURL, {
       method: 'POST',
@@ -103,7 +104,7 @@ describe('SubjectsWebservice', () => {
 
   it('should delete a subject', async () => {
     const id = 'some_id';
-    
+
     const result = await webservice.deleteSubject(id);
 
     expect(urlSpy).toHaveBeenCalledWith({ path: `subjects/${id}` });

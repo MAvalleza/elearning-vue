@@ -102,7 +102,6 @@ async function onAction({ action, item }: TableActionOpt) {
     // Re-fetch modules
     fetchModules();
   }
-
 }
 
 // INITIALIZATIONS

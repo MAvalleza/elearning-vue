@@ -24,7 +24,7 @@ const createCourseRoutes = routeInstance => {
     let collection = schema.courses.where({
       // If instructor, only fetch owned courses
       ...(authSession.isInstructor() && { authorId: authSession.user().id }),
-      ...new RelationshipFilter(request.queryParams).params
+      ...new RelationshipFilter(request.queryParams).params,
     });
 
     // Filter out courses that have been enrolled
@@ -32,7 +32,7 @@ const createCourseRoutes = routeInstance => {
       collection = collection.filter(course => {
         const enrollments = authSession.user().enrollments;
         const courseIds = enrollments.models.map(e => e.courseId);
-        
+
         return !courseIds.includes(course.id);
       });
     }
