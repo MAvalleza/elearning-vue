@@ -7,7 +7,7 @@ import { useSubjects } from '@/stores/subjects';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import {
   mapOptionsToParams,
-  getTableStatusAction,
+  getTableActions,
 } from '@/helpers/tableHelper';
 import { type GenericTableItem, type TableOptions } from '@/types/data-table';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -59,6 +59,8 @@ async function deleteSubject(id: string) {
 
   if (confirm) {
     await subjectsStore.deleteSubject(id);
+
+    fetchSubjects();
   }
 }
 
@@ -95,6 +97,7 @@ const SUBJECTS_DATA_TABLE = {
 };
 
 function onUpdateTableOptions(options: TableOptions) {
+  // We update the fetch Params before invoking fetch request
   const updatedParams = mapOptionsToParams(options);
 
   fetchParams = reactive({
@@ -105,27 +108,16 @@ function onUpdateTableOptions(options: TableOptions) {
   fetchSubjects();
 }
 
-function getTableActions(item: GenericTableItem['item']) {
-  const DELETE_ACTION = {
-    icon: {
-      icon: 'mdi-delete',
-      color: 'error',
-    },
-    title: 'Delete',
-    action: 'delete',
-  };
-
-  return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
-}
-
+// On selection of a table action
 async function onAction(action: string, item: GenericTableItem['item']) {
   const id = item.raw.id;
   const result = await subjectsStore.onTableAction({ id, action });
 
-  if (result?.delete) await deleteSubject(id);
-
-  // Re-fetch subjects
-  fetchSubjects();
+  if (result?.delete) {
+    await deleteSubject(id);
+  } else {
+    fetchSubjects();
+  }
 }
 
 // INITIALIZATIONS

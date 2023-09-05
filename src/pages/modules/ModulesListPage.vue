@@ -73,11 +73,14 @@ async function deleteModule(id: string) {
 
   if (confirm) {
     await modulesStore.deleteModule(id);
+
+    fetchModules();
   }
 }
 
 // TABLE OPERATIONS
 function onUpdateTableOptions(event: TableOptions) {
+  // We update the fetch Params before invoking fetch request
   const updatedParams = mapOptionsToParams(event);
 
   fetchParams = reactive({
@@ -88,14 +91,18 @@ function onUpdateTableOptions(event: TableOptions) {
   fetchModules();
 }
 
+// On selection of a table action
 async function onAction({ action, item }: TableActionOpt) {
   const id = item.raw.id;
   const result = await modulesStore.onTableAction({ id, action });
 
-  if (result?.delete) await deleteModule(id);
+  if (result?.delete) {
+    await deleteModule(id);
+  } else {
+    // Re-fetch modules
+    fetchModules();
+  }
 
-  // Re-fetch modules
-  fetchModules();
 }
 
 // INITIALIZATIONS

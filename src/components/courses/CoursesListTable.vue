@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import size from 'lodash-es/size';
-import { getTableStatusAction } from '@/helpers/tableHelper';
+import { getTableActions } from '@/helpers/tableHelper';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import TableActions from '@/components/commons/TableActions.vue';
 import { type GenericTableItem, type TableOptions } from '@/types/data-table';
@@ -65,19 +65,6 @@ function defineHeaders() {
     COURSES_TABLE_HEADERS.splice(1, 1);
   }
   return COURSES_TABLE_HEADERS;
-}
-
-function getTableActions(item: GenericTableItem['item']) {
-  const DELETE_ACTION = {
-    icon: {
-      icon: 'mdi-delete',
-      color: 'error',
-    },
-    title: 'Delete',
-    action: 'delete',
-  };
-
-  return [getTableStatusAction(item.raw.isPublished), DELETE_ACTION];
 }
 
 function getItemAuthor(item: GenericTableItem['item']) {

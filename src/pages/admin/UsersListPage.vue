@@ -3,7 +3,7 @@ import { reactive, onMounted, type Ref, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { useUsers } from '@/stores/users';
-import { mapOptionsToParams } from '@/helpers/tableHelper';
+import { mapOptionsToParams, getTableActions } from '@/helpers/tableHelper';
 import { PAGINATION_DATA_TABLE_OPTIONS } from '@/constants/pagination';
 import { ROLES_LIST } from '@/constants/roles-and-actions';
 import PageHeader from '@/components/commons/PageHeader.vue';
@@ -62,41 +62,8 @@ const USERS_DATA_TABLE = {
   itemValue: '',
 };
 
-function getTableActions(item: MappedUser) {
-  const getTableStatusAction = (isActive: boolean) => {
-    if (isActive) {
-      return {
-        icon: {
-          icon: 'mdi-close',
-        },
-        title: 'Set inactive',
-        action: 'inactive',
-      };
-    } else {
-      return {
-        icon: {
-          icon: 'mdi-check',
-          color: 'success',
-        },
-        title: 'Set active',
-        action: 'active',
-      };
-    }
-  };
-
-  const DELETE_ACTION = {
-    icon: {
-      icon: 'mdi-delete',
-      color: 'error',
-    },
-    title: 'Delete',
-    action: 'delete',
-  };
-
-  return [getTableStatusAction(item.isActive), DELETE_ACTION];
-}
-
 function onUpdateTableOptions(options: TableOptions) {
+  // We update the fetch Params before invoking fetch request
   const updatedParams = mapOptionsToParams(options);
 
   fetchParams = reactive({
@@ -119,10 +86,10 @@ async function onAction({
 
   if (result?.delete) {
     await deleteUser(id);
+  } else {
+    // Re-fetch users
+    fetchUsers();
   }
-
-  // Re-fetch users
-  fetchUsers();
 }
 //
 
@@ -139,6 +106,8 @@ async function deleteUser(id: string) {
 
   if (confirm) {
     await usersStore.deleteUser(id);
+
+    fetchUsers();
   }
 }
 //
@@ -200,7 +169,7 @@ page-content
 
     template(#[`item.actions`]="{ item }")
       table-actions(
-        :actions="getTableActions(item.raw)"
+        :actions="getTableActions(item)"
         @action="onAction({ action: $event, item: item.raw })"
       )
 </template>

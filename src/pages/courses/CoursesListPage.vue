@@ -76,6 +76,8 @@ async function deleteCourse(id: string) {
 
   if (confirm) {
     await coursesStore.deleteCourse(id);
+
+    fetchCourses();
   }
 }
 
@@ -105,6 +107,7 @@ function editCourse(_event: Event, { item }: GenericTableItem) {
 }
 
 function onUpdateTableOptions(options: TableOptions) {
+  // We update the fetch Params before invoking fetch request
   const updatedParams = mapOptionsToParams(options);
 
   fetchParams = reactive({
@@ -119,10 +122,13 @@ async function onAction({ action, item }: TableActionOpt) {
   const id = item.raw.id;
   const result = await coursesStore.onTableAction({ id, action });
 
-  if (result?.delete) await deleteCourse(id);
+  if (result?.delete) {
+    await deleteCourse(id);
+  } else {
+    // Re-fetch courses
+    fetchCourses();
+  }
 
-  // Re-fetch courses
-  fetchCourses();
 }
 
 // INITIALIZATIONS
