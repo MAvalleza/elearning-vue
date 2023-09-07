@@ -108,7 +108,7 @@ describe('AuthWebservice', () => {
         ...mockHeaders,
         Authorization: `Bearer ${resetToken}`,
       },
-      body: mockJSONStringified
+      body: mockJSONStringified,
     });
 
     expect(jsonSpy).toHaveBeenCalledWith(data);
@@ -121,10 +121,13 @@ describe('AuthWebservice', () => {
 
     const result = await webservice.activateAccount(params);
 
-    expect(urlSpy).toHaveBeenCalledWith({ path: 'signup/verification', params });
+    expect(urlSpy).toHaveBeenCalledWith({
+      path: 'signup/verification',
+      params,
+    });
     expect(fetchSpy).toHaveBeenCalledWith(mockURL, {
       method: 'GET',
-      headers: mockHeaders
+      headers: mockHeaders,
     });
 
     expect(result).toEqual(resolvedResponse);
@@ -146,7 +149,6 @@ describe('AuthWebservice', () => {
 
     expect(result).toEqual(resolvedResponse);
   });
-
 
   it('should validate session', async () => {
     const result = await webservice.validateSession();
