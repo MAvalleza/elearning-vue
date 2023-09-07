@@ -1,4 +1,4 @@
-import { describe, vi, it, expect, afterAll } from 'vitest';
+import { describe, vi, it, expect, afterEach } from 'vitest';
 import EnrollmentsWebservice from '../../src/webservices/enrollmentsWebservice';
 
 // Mock data
@@ -13,8 +13,8 @@ const mockJSONStringified = 'some_stringified';
 describe('EnrollmentsWebservice', () => {
   const webservice = new EnrollmentsWebservice();
 
-  afterAll(() => {
-    vi.resetAllMocks();
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   // Fetch mock
