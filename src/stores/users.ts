@@ -75,15 +75,15 @@ export const useUsers = defineStore('users', {
       }
     },
 
-    async updateUser(id: string, params: UserUpdateParams) {
+    async updateUser({ id, data }: { id: string, data: UserUpdateParams }) {
       try {
         this.loadingUsers = true;
 
         // Call the webservice
-        const response = await webservice.updateUser(
+        const response = await webservice.updateUser({
           id,
-          getUpdatedAttributes(this.currentFetchedUser, params)
-        );
+          data: getUpdatedAttributes(this.currentFetchedUser, data)
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -139,10 +139,10 @@ export const useUsers = defineStore('users', {
         case 'delete':
           return { id, delete: true };
         case 'active':
-          await this.updateUser(id, { isActive: true });
+          await this.updateUser({ id, data: { isActive: true } });
           break;
         case 'inactive':
-          await this.updateUser(id, { isActive: false });
+          await this.updateUser({ id, data: { isActive: false } });
           break;
         default:
           break;

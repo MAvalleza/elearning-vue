@@ -31,7 +31,10 @@ async function fetchUser() {
 }
 
 async function updateUser() {
-  await usersStore.updateUser(userId.value, user.value);
+  await usersStore.updateUser({
+    id: userId.value,
+    data: user.value
+  });
 }
 
 // UI states
