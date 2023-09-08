@@ -132,20 +132,20 @@ describe('useSubjects', () => {
     const mockResponse = {
       id: subjectId
     };
-    const params = { some: 'param' };
+    const data = { some: 'param' };
 
     const updateSpy = vi.spyOn(SubjectsWebservice.prototype, 'updateSubject');
     updateSpy.mockResolvedValue(mockResponse);
 
     await subjectsStore.updateSubject({
       id: subjectId,
-      params
+      data
     });
 
-    expect(updateSpy).toHaveBeenCalledWith(
-      subjectId,
-      params
-    );
+    expect(updateSpy).toHaveBeenCalledWith({
+      id: subjectId,
+      data,
+    });
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'success',
