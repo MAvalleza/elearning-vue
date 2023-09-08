@@ -38,7 +38,7 @@ export default class ModulesWebservice extends Webservice {
     }
   }
 
-  async updateModule(id: string, data: ModuleUpdateParams) {
+  async updateModule({ id, data }: { id: string, data: ModuleUpdateParams }) {
     try {
       const url = this.parseURL({ path: `modules/${id}` });
 

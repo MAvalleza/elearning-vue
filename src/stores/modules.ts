@@ -82,7 +82,7 @@ export const useModules = defineStore('modules', {
 
         uiStore().showSnackbar({
           color: 'success',
-          message: 'Successfully created the module.',
+          message: 'Successfully created a module.',
         });
       } catch (e) {
         uiStore().showSnackbar({
@@ -93,14 +93,14 @@ export const useModules = defineStore('modules', {
         this.loadingModules = false;
       }
     },
-    async updateModule(id: string, params: ModuleUpdateParams) {
+    async updateModule({ id, data }: { id: string, data: ModuleUpdateParams }) {
       try {
         this.loadingModules = true;
 
-        const response = await webservice.updateModule(
+        const response = await webservice.updateModule({
           id,
-          getUpdatedAttributes(this.currentModule, params)
-        );
+          data: getUpdatedAttributes(this.currentModule, data)
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -144,7 +144,7 @@ export const useModules = defineStore('modules', {
         this.loadingModules = false;
       }
     },
-    async fetchModule(id: string, params?: GetParams) {
+    async fetchModule({ id, params = {} }: { id: string, params?: GetParams }) {
       try {
         this.loadingModules = true;
 
@@ -183,10 +183,10 @@ export const useModules = defineStore('modules', {
         case 'delete':
           return { id, delete: true };
         case 'publish':
-          await this.updateModule(id, { isPublished: true });
+          await this.updateModule({ id, data: { isPublished: true } });
           break;
         case 'draft':
-          await this.updateModule(id, { isPublished: false });
+          await this.updateModule({ id, data: { isPublished: false } });
           break;
         default:
           break;
