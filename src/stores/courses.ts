@@ -72,7 +72,7 @@ export const useCourses = defineStore('courses', {
 
         uiStore().showSnackbar({
           color: 'success',
-          message: 'Successfully created the course.',
+          message: 'Successfully created a course.',
         });
       } catch (e) {
         uiStore().showSnackbar({
