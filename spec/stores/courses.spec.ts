@@ -175,5 +175,5 @@ describe('useCourses', () => {
     });
   });
 
-  testTableActions({ id: 'some_id', useStore: useCourses });
+  testTableActions({ useStore: useCourses });
 });

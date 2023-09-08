@@ -2,6 +2,7 @@ import { setActivePinia, createPinia } from 'pinia';
 import { describe, vi, it, expect, afterEach, beforeEach } from 'vitest';
 import { useSubjects } from '../../src/stores/subjects'; // Import your store module
 import SubjectsWebservice from '../../src/webservices/subjectsWebservice';
+import testTableActions from './shared/table-actions';
 import { faker } from '@faker-js/faker';
 
 vi.mock('../../src/stores/ui', () => {
@@ -172,15 +173,5 @@ describe('useSubjects', () => {
     });
   });
 
-  it('should indicate deletion when delete table action is selected', async () => {
-    const subjectId = 'some_id';
-    const action = 'delete';
-
-    const result = await subjectsStore.onTableAction({ id: subjectId, action });
-
-    expect(result).toEqual({
-      id: subjectId,
-      delete: true
-    }); 
-  })
+  testTableActions({ useStore: useSubjects })
 });

@@ -208,5 +208,5 @@ describe('useModules', () => {
     });
   });
 
-  testTableActions({ id: 'some_id', useStore: useModules, });
+  testTableActions({ useStore: useModules });
 });
