@@ -84,7 +84,7 @@ export const useSubjects = defineStore('subjects', {
         this.loadingSubjects = false;
       }
     },
-    async fetchSubject(id: string, params: GetParams) {
+    async fetchSubject({ id, params }: { id: string, params: GetParams }) {
       try {
         this.loadingSubjects = true;
 
@@ -109,14 +109,14 @@ export const useSubjects = defineStore('subjects', {
         this.loadingSubjects = false;
       }
     },
-    async updateSubject(id: string, params: Partial<SubjectCreateParams>) {
+    async updateSubject({ id, data }: { id: string, data: Partial<SubjectCreateParams> }) {
       try {
         this.loadingSubjects = true;
 
-        const response = await webservice.updateSubject(
+        const response = await webservice.updateSubject({
           id,
-          getUpdatedAttributes(this.currentSubject, params)
-        );
+          data: getUpdatedAttributes(this.currentSubject, data)
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -165,10 +165,10 @@ export const useSubjects = defineStore('subjects', {
         case 'delete':
           return { id, delete: true };
         case 'publish':
-          await this.updateSubject(id, { isPublished: true });
+          await this.updateSubject({ id, data: { isPublished: true } });
           break;
         case 'draft':
-          await this.updateSubject(id, { isPublished: false });
+          await this.updateSubject({ id, data: { isPublished: false } });
           break;
         default:
           break;

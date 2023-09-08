@@ -114,7 +114,10 @@ describe('useSubjects', () => {
     const getSpy = vi.spyOn(SubjectsWebservice.prototype, 'getSubject');
     getSpy.mockResolvedValue(mockResponse);
 
-    await subjectsStore.fetchSubject(subjectId, params);
+    await subjectsStore.fetchSubject({
+      id: subjectId,
+      params
+    });
 
     expect(getSpy).toHaveBeenCalledWith({
       id: subjectId,
@@ -134,7 +137,10 @@ describe('useSubjects', () => {
     const updateSpy = vi.spyOn(SubjectsWebservice.prototype, 'updateSubject');
     updateSpy.mockResolvedValue(mockResponse);
 
-    await subjectsStore.updateSubject(subjectId, params);
+    await subjectsStore.updateSubject({
+      id: subjectId,
+      params
+    });
 
     expect(updateSpy).toHaveBeenCalledWith(
       subjectId,

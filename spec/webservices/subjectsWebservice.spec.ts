@@ -89,7 +89,7 @@ describe('SubjectsWebservice', () => {
     const id = 'some_id';
     const data = { some: 'update' };
 
-    const result = await webservice.updateSubject(id, data);
+    const result = await webservice.updateSubject({ id, data });
 
     expect(urlSpy).toHaveBeenCalledWith({ path: `subjects/${id}` });
     expect(jsonSpy).toHaveBeenCalledWith(data);

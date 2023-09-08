@@ -34,15 +34,19 @@ const subject = ref({});
 const subjectId: Ref = ref(route.params.subjectId);
 
 async function fetchSubject() {
-  await subjectsStore.fetchSubject(subjectId.value, {
-    join: ['courses'],
+  await subjectsStore.fetchSubject({
+    id: subjectId.value,
+    params: { join: ['courses'] },
   });
 
   subject.value = { ...currentSubject.value };
 }
 
 async function updateSubject() {
-  await subjectsStore.updateSubject(subjectId.value, subject.value);
+  await subjectsStore.updateSubject({
+    id: subjectId.value,
+    data: subject.value
+  });
 
   router.push({ name: 'subjects-list' });
 }
