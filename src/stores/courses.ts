@@ -84,15 +84,15 @@ export const useCourses = defineStore('courses', {
       }
     },
 
-    async updateCourse(id: string, params: Partial<CourseCreateParams>) {
+    async updateCourse({ id, data }: { id: string, data: Partial<CourseCreateParams> }) {
       try {
         this.loadingCourses = true;
 
         // Call the webservice
-        const response = await webservice.updateCourse(
+        const response = await webservice.updateCourse({
           id,
-          getUpdatedAttributes(this.currentCourse, params)
-        );
+          data: getUpdatedAttributes(this.currentCourse, data)
+        });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
@@ -136,7 +136,7 @@ export const useCourses = defineStore('courses', {
         this.loadingCourses = false;
       }
     },
-    async fetchCourse(id: string, params: GetCourseParams) {
+    async fetchCourse({ id, params }: { id: string, params: GetCourseParams }) {
       try {
         this.loadingCourses = true;
 
@@ -164,10 +164,10 @@ export const useCourses = defineStore('courses', {
         case 'delete':
           return { id, delete: true };
         case 'publish':
-          await this.updateCourse(id, { isPublished: true });
+          await this.updateCourse({ id , data: { isPublished: true } });
           break;
         case 'draft':
-          await this.updateCourse(id, { isPublished: false });
+          await this.updateCourse({ id, data: { isPublished: false } });
           break;
         default:
           break;

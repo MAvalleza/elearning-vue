@@ -58,15 +58,19 @@ const course = ref({});
 const courseId: Ref = ref(route.params.courseId);
 
 async function fetchCourse() {
-  await coursesStore.fetchCourse(courseId.value, {
-    join: ['author', 'modules'],
+  await coursesStore.fetchCourse({
+    id: courseId.value,
+    params: { join: ['author', 'modules'] },
   });
 
   course.value = { ...currentCourse.value };
 }
 
 async function updateCourse() {
-  await coursesStore.updateCourse(courseId.value, course.value);
+  await coursesStore.updateCourse({
+    id: courseId.value,
+    data: course.value
+  });
 
   router.push({
     name: isFromSubject.value ? 'edit-subject' : 'courses-list',
