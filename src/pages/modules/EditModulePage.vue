@@ -102,9 +102,12 @@ async function updateModuleContent() {
       isPublished: mod.value.isPublished,
     });
   } else {
-    await contentsStore.updateContent(contentId, {
-      content: modContent.value.content,
-      isPublished: mod.value.isPublished,
+    await contentsStore.updateContent({
+      id: contentId,
+      data: {
+        content: modContent.value.content,
+        isPublished: mod.value.isPublished,
+      }
     });
   }
 }

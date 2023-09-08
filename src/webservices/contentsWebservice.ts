@@ -42,7 +42,7 @@ export default class ContentsWebservice extends Webservice {
     }
   }
 
-  async updateContent(id: string, data: ContentUpdateParams) {
+  async updateContent({ id, data }: { id: string, data: ContentUpdateParams }) {
     try {
       const url = this.parseURL({ path: `contents/${id}` });
 

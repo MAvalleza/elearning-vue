@@ -67,11 +67,11 @@ export const useContents = defineStore('contents', {
         uiStore().setLoading(false);
       }
     },
-    async updateContent(id: string, params: ContentUpdateParams) {
+    async updateContent({ id, data }: { id: string, data: ContentUpdateParams }) {
       try {
         uiStore().setLoading(true);
 
-        const response = await webservice.updateContent(id, params);
+        const response = await webservice.updateContent({ id, data });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);

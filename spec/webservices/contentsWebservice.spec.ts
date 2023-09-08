@@ -74,7 +74,7 @@ describe('ContentsWebservice', () => {
     const id = 'some_id';
     const data = { some: 'update' };
 
-    const result = await webservice.updateContent(id, data);
+    const result = await webservice.updateContent({ id, data });
 
     expect(urlSpy).toHaveBeenCalledWith({ path: `contents/${id}` });
     expect(jsonSpy).toHaveBeenCalledWith(data);
