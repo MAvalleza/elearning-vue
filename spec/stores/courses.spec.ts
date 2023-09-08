@@ -2,6 +2,7 @@ import { setActivePinia, createPinia } from 'pinia';
 import { describe, vi, it, expect, afterEach, beforeEach } from 'vitest';
 import { useCourses } from '../../src/stores/courses'; // Import your store module
 import CoursesWebservice from '../../src/webservices/coursesWebservice';
+import testTableActions from './shared/table-actions';
 import { faker } from '@faker-js/faker';
 
 vi.mock('../../src/stores/ui', () => {
@@ -46,7 +47,7 @@ describe('useCourses', () => {
       {
         ...mockCourses[0],
         status: 'Draft',
-        totalCourses: mockCourses[0].moduleIds.length,
+        totalModules: mockCourses[0].moduleIds.length,
       },
     ];
 
@@ -61,7 +62,7 @@ describe('useCourses', () => {
     const fetchSpy = vi.spyOn(CoursesWebservice.prototype, 'getCourses');
     fetchSpy.mockResolvedValue(mockResponse);
 
-    const result = await coursesStore.fetchcourses(params);
+    const result = await coursesStore.fetchCourses(params);
 
     expect(fetchSpy).toHaveBeenCalledWith(params);
     expect(coursesStore.courses).toEqual(mappedCourses);
@@ -79,7 +80,7 @@ describe('useCourses', () => {
     const fetchSpy = vi.spyOn(CoursesWebservice.prototype, 'getCourses');
     fetchSpy.mockResolvedValue(mockResponse);
   
-    await coursesStore.fetchcourses({});
+    await coursesStore.fetchCourses({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
@@ -174,15 +175,5 @@ describe('useCourses', () => {
     });
   });
 
-  it('should indicate deletion when delete table action is selected', async () => {
-    const courseId = 'some_id';
-    const action = 'delete';
-
-    const result = await coursesStore.onTableAction({ id: courseId, action });
-
-    expect(result).toEqual({
-      id: courseId,
-      delete: true
-    }); 
-  })
+  testTableActions({ id: 'some_id', useStore: useCourses });
 });
