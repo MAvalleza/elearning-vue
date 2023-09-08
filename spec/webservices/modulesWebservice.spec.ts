@@ -89,7 +89,7 @@ describe('ModulesWebservice', () => {
     const id = 'some_id';
     const data = { some: 'update' };
 
-    const result = await webservice.updateModule(id, data);
+    const result = await webservice.updateModule({ id, data });
 
     expect(urlSpy).toHaveBeenCalledWith({ path: `modules/${id}` });
     expect(jsonSpy).toHaveBeenCalledWith(data);
