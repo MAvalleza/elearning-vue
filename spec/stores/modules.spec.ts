@@ -2,6 +2,7 @@ import { setActivePinia, createPinia } from 'pinia';
 import { describe, vi, it, expect, afterEach, beforeEach } from 'vitest';
 import { useModules } from '../../src/stores/modules'; // Import your store module
 import ModulesWebservice from '../../src/webservices/modulesWebservice';
+import testTableActions from './shared/table-actions';
 import { faker } from '@faker-js/faker';
 import omit from 'lodash-es/omit';
 
@@ -207,15 +208,5 @@ describe('useModules', () => {
     });
   });
 
-  it('should indicate deletion when delete table action is selected', async () => {
-    const moduleId = 'some_id';
-    const action = 'delete';
-
-    const result = await modulesStore.onTableAction({ id: moduleId, action });
-
-    expect(result).toEqual({
-      id: moduleId,
-      delete: true
-    }); 
-  })
+  testTableActions({ id: 'some_id', useStore: useModules, });
 });
