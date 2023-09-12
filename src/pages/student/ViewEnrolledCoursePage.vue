@@ -31,8 +31,9 @@ const {
   storeToRefs(enrollmentsStore);
 
 async function fetchEnrollment() {
-  await enrollmentsStore.fetchEnrollment(enrollmentId.value, {
-    join: ['course', 'modules'],
+  await enrollmentsStore.fetchEnrollment({
+    id: enrollmentId.value,
+    params: { join: ['course', 'modules'] },
   });
 
   // Get modules
