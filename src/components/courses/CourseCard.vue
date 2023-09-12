@@ -33,7 +33,13 @@ const totalDuration = computed(() => {
   if (props.course?.totalDuration) {
     return props.course.totalDuration;
   } else if (props.course?.modules) {
-    return props.course.modules.reduce((acc, i) => acc + i.duration, 0);
+    return props.course.modules.reduce((acc, i) => {
+      if (typeof i.duration === 'number') {
+        return acc + i.duration;
+      } else {
+        return acc + parseInt(i.duration);
+      }
+    }, 0);
   } else {
     return 0;
   }
