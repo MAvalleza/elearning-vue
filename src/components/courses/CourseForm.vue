@@ -2,8 +2,10 @@
 import { computed, ref, type Ref } from 'vue';
 import { RESOURCE_STATUS_LABELS } from '@/constants/statuses';
 import { REQUIRED_RULE } from '@/constants/validation-rules';
+import { useAuth } from '@/stores/auth';
 import ImageUploader from '@/components/commons/ImageUploader.vue';
 import SubjectSearch from '@/components/commons/SubjectSearch.vue';
+import { storeToRefs } from 'pinia';
 
 // PROPS AND EMITS
 const props = defineProps({
@@ -30,6 +32,9 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'submit']);
 //
 
+const authStore = useAuth();
+const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
+
 // COURSE MODEL
 const course = computed({
   get() {
@@ -42,7 +47,11 @@ const course = computed({
 //
 
 const authorName = computed(() => {
-  return `${course.value?.author?.firstName} ${course.value?.author?.lastName}`;
+  if (course.value?.author) {
+    return `${course.value.author.firstName} ${course.value.author.lastName}`;
+  } else {
+    return currentUser.value.normalizedName;
+  }
 });
 
 // FORM HANDLER
