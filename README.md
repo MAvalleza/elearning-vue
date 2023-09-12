@@ -2,17 +2,11 @@
 
 ## Overview
 
-**IN PROGRESS**
-
 Front-end training project for viewing subjects and courses.
 
 ### Notes
 
 \*MirageJS code is not in typescript since it is not yet fully supported.
-
-### In progress features
-
-- Code evaluation checklist (unit tests)
 
 ### Mock Implementation
 
@@ -56,6 +50,15 @@ Finally, run the project with:
 
 ```
 yarn dev
+```
+
+## Running tests
+
+Unit tests for webservices and store functions are provided.
+
+You can run them with:
+```
+yarn test
 ```
 
 ## Users
