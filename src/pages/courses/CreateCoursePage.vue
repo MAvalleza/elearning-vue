@@ -20,7 +20,7 @@ const HEADER_BUTTON_OPTS = {
 function definePageTitle() {
   const routeMetaTitle = route.meta?.title || 'Add a course';
 
-  if (!isEmpty(currentSubject.value)) {
+  if (!isEmpty(currentSubject.value) && isFromSubject.value) {
     return `${currentSubject.value.title} > ${routeMetaTitle}`;
   } else {
     return routeMetaTitle;
@@ -31,7 +31,7 @@ function definePageTitle() {
 const route: RouteWithCustomProperties = useRoute();
 const router = useRouter();
 
-// aUTH
+// AUTH
 const authStore = useAuth();
 const { currentUser }: { currentUser: Ref } = storeToRefs(authStore);
 
