@@ -84,7 +84,7 @@ export const useSubjects = defineStore('subjects', {
         this.loadingSubjects = false;
       }
     },
-    async fetchSubject({ id, params }: { id: string, params: GetParams }) {
+    async fetchSubject({ id, params }: { id: string; params: GetParams }) {
       try {
         this.loadingSubjects = true;
 
@@ -109,13 +109,19 @@ export const useSubjects = defineStore('subjects', {
         this.loadingSubjects = false;
       }
     },
-    async updateSubject({ id, data }: { id: string, data: Partial<SubjectCreateParams> }) {
+    async updateSubject({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<SubjectCreateParams>;
+    }) {
       try {
         this.loadingSubjects = true;
 
         const response = await webservice.updateSubject({
           id,
-          data: getUpdatedAttributes(this.currentSubject, data)
+          data: getUpdatedAttributes(this.currentSubject, data),
         });
 
         if (!isEmpty(response.errors)) {

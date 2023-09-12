@@ -93,13 +93,13 @@ export const useModules = defineStore('modules', {
         this.loadingModules = false;
       }
     },
-    async updateModule({ id, data }: { id: string, data: ModuleUpdateParams }) {
+    async updateModule({ id, data }: { id: string; data: ModuleUpdateParams }) {
       try {
         this.loadingModules = true;
 
         const response = await webservice.updateModule({
           id,
-          data: getUpdatedAttributes(this.currentModule, data)
+          data: getUpdatedAttributes(this.currentModule, data),
         });
 
         if (!isEmpty(response.errors)) {
@@ -144,7 +144,7 @@ export const useModules = defineStore('modules', {
         this.loadingModules = false;
       }
     },
-    async fetchModule({ id, params = {} }: { id: string, params?: GetParams }) {
+    async fetchModule({ id, params = {} }: { id: string; params?: GetParams }) {
       try {
         this.loadingModules = true;
 

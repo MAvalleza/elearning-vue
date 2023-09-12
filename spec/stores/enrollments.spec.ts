@@ -7,17 +7,17 @@ const mockSnack = vi.fn();
 
 vi.mock('../../src/stores/ui', () => {
   let _cache: {
-    showSnackbar: () => void,
+    showSnackbar: () => void;
   };
   const useUI = () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -45,7 +45,10 @@ describe('useEnrollments', () => {
     };
     const params = { some: 'param' };
 
-    const fetchSpy = vi.spyOn(EnrollmentsWebservice.prototype, 'getEnrollments');
+    const fetchSpy = vi.spyOn(
+      EnrollmentsWebservice.prototype,
+      'getEnrollments'
+    );
     fetchSpy.mockResolvedValue(mockResponse);
 
     await enrollmentsStore.fetchEnrollments(params);
@@ -54,28 +57,31 @@ describe('useEnrollments', () => {
     expect(enrollmentsStore.enrollments).toEqual(mockResponse.data);
     expect(enrollmentsStore.enrollmentsTotal).toBe(1);
     expect(enrollmentsStore.enrollmentsCurrentPage).toBe(1);
-  }); 
+  });
 
   it('should show a notification when there is an error', async () => {
     const mockResponse = {
       errors: ['Some error'],
     };
-    
-    const fetchSpy = vi.spyOn(EnrollmentsWebservice.prototype, 'getEnrollments');
+
+    const fetchSpy = vi.spyOn(
+      EnrollmentsWebservice.prototype,
+      'getEnrollments'
+    );
     fetchSpy.mockResolvedValue(mockResponse);
-  
+
     await enrollmentsStore.fetchEnrollments({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
       message: mockResponse.errors[0],
-    })
+    });
   });
 
   it('should fetch specific enrollment', async () => {
     const enrollmentId = 'some_id';
     const mockResponse = {
-      id: enrollmentId
+      id: enrollmentId,
     };
     const params = { some: 'param' };
 
@@ -84,12 +90,12 @@ describe('useEnrollments', () => {
 
     await enrollmentsStore.fetchEnrollment({
       id: enrollmentId,
-      params
+      params,
     });
 
     expect(getSpy).toHaveBeenCalledWith({
       id: enrollmentId,
-      params
+      params,
     });
 
     expect(enrollmentsStore.currentEnrollment).toEqual(mockResponse);
@@ -97,11 +103,14 @@ describe('useEnrollments', () => {
 
   it('should create enrollment', async () => {
     const mockResponse = {
-      id: 'some_id'
+      id: 'some_id',
     };
     const params = { some: 'param' };
 
-    const createSpy = vi.spyOn(EnrollmentsWebservice.prototype, 'createEnrollment');
+    const createSpy = vi.spyOn(
+      EnrollmentsWebservice.prototype,
+      'createEnrollment'
+    );
     createSpy.mockResolvedValue(mockResponse);
 
     await enrollmentsStore.createEnrollment(params);
@@ -112,16 +121,19 @@ describe('useEnrollments', () => {
   it('should update enrollment', async () => {
     const enrollmentId = 'some_id';
     const mockResponse = {
-      id: enrollmentId
+      id: enrollmentId,
     };
     const data = { some: 'param' };
 
-    const updateSpy = vi.spyOn(EnrollmentsWebservice.prototype, 'updateEnrollment');
+    const updateSpy = vi.spyOn(
+      EnrollmentsWebservice.prototype,
+      'updateEnrollment'
+    );
     updateSpy.mockResolvedValue(mockResponse);
 
     await enrollmentsStore.updateEnrollment({
       id: enrollmentId,
-      data
+      data,
     });
 
     expect(updateSpy).toHaveBeenCalledWith({
@@ -133,10 +145,13 @@ describe('useEnrollments', () => {
   it('should unenroll', async () => {
     const enrollmentId = 'some_id';
     const mockResponse = {
-      id: enrollmentId
+      id: enrollmentId,
     };
 
-    const deleteSpy = vi.spyOn(EnrollmentsWebservice.prototype, 'deleteEnrollment');
+    const deleteSpy = vi.spyOn(
+      EnrollmentsWebservice.prototype,
+      'deleteEnrollment'
+    );
     deleteSpy.mockResolvedValue(mockResponse);
 
     await enrollmentsStore.unenroll(enrollmentId);

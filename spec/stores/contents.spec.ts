@@ -5,19 +5,19 @@ import ContentsWebservice from '../../src/webservices/contentsWebservice';
 
 vi.mock('../../src/stores/ui', () => {
   let _cache: {
-    showSnackbar: () => void,
-    setLoading: () => void,
+    showSnackbar: () => void;
+    setLoading: () => void;
   };
   const useUI = () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
         setLoading: vi.fn(),
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -56,27 +56,27 @@ describe('useContents', () => {
     expect(contentsStore.contents).toEqual(mockResponse.data);
     expect(contentsStore.contentsTotal).toBe(1);
     expect(contentsStore.contentsCurrentPage).toBe(1);
-  }); 
+  });
 
   it('should show a notification when there is an error', async () => {
     const mockResponse = {
       errors: ['Some error'],
     };
-    
+
     const fetchSpy = vi.spyOn(ContentsWebservice.prototype, 'getContents');
     fetchSpy.mockResolvedValue(mockResponse);
-  
+
     await contentsStore.fetchContents({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
       message: mockResponse.errors[0],
-    })
-  })
+    });
+  });
 
   it('should create content', async () => {
     const mockResponse = {
-      id: 'some_id'
+      id: 'some_id',
     };
     const params = { some: 'param' };
 
@@ -91,7 +91,7 @@ describe('useContents', () => {
   it('should update content', async () => {
     const contentId = 'some_id';
     const mockResponse = {
-      id: contentId
+      id: contentId,
     };
     const data = { some: 'param' };
 
@@ -100,7 +100,7 @@ describe('useContents', () => {
 
     await contentsStore.updateContent({
       id: contentId,
-      data
+      data,
     });
 
     expect(updateSpy).toHaveBeenCalledWith({

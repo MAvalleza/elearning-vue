@@ -55,7 +55,13 @@ export default class SubjectsWebservice extends Webservice {
     }
   }
 
-  async updateSubject({ id, data }: { id: string, data: Partial<SubjectCreateParams> }) {
+  async updateSubject({
+    id,
+    data,
+  }: {
+    id: string;
+    data: Partial<SubjectCreateParams>;
+  }) {
     try {
       const url = this.parseURL({ path: `subjects/${id}` });
 

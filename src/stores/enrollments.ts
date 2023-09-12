@@ -115,7 +115,13 @@ export const useEnrollments = defineStore('enrollments', {
         this.loadingEnrollments = false;
       }
     },
-    async fetchEnrollment({ id, params }: { id: string, params: GetEnrollmentParams }) {
+    async fetchEnrollment({
+      id,
+      params,
+    }: {
+      id: string;
+      params: GetEnrollmentParams;
+    }) {
       try {
         this.loadingEnrollments = true;
 
@@ -139,7 +145,13 @@ export const useEnrollments = defineStore('enrollments', {
         this.loadingEnrollments = false;
       }
     },
-    async updateEnrollment({ id, data }: { id: string, data: EnrollmentUpdateParams }) {
+    async updateEnrollment({
+      id,
+      data,
+    }: {
+      id: string;
+      data: EnrollmentUpdateParams;
+    }) {
       try {
         this.loadingEnrollments = true;
 

@@ -45,7 +45,7 @@ async function fetchSubject() {
 async function updateSubject() {
   await subjectsStore.updateSubject({
     id: subjectId.value,
-    data: subject.value
+    data: subject.value,
   });
 
   router.push({ name: 'subjects-list' });

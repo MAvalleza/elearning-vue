@@ -42,7 +42,13 @@ export default class CoursesWebservice extends Webservice {
     }
   }
 
-  async updateCourse({ id, data }: { id: string, data: Partial<CourseCreateParams> }) {
+  async updateCourse({
+    id,
+    data,
+  }: {
+    id: string;
+    data: Partial<CourseCreateParams>;
+  }) {
     try {
       const url = this.parseURL({ path: `courses/${id}` });
 

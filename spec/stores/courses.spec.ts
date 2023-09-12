@@ -11,11 +11,11 @@ vi.mock('../../src/stores/ui', () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -70,27 +70,27 @@ describe('useCourses', () => {
     expect(coursesStore.coursesCurrentPage).toBe(1);
 
     expect(result).toEqual(mappedCourses);
-  }); 
+  });
 
   it('should show a notification when there is an error', async () => {
     const mockResponse = {
       errors: ['Some error'],
     };
-    
+
     const fetchSpy = vi.spyOn(CoursesWebservice.prototype, 'getCourses');
     fetchSpy.mockResolvedValue(mockResponse);
-  
+
     await coursesStore.fetchCourses({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
       message: mockResponse.errors[0],
-    })
-  })
+    });
+  });
 
   it('should create course', async () => {
     const mockResponse = {
-      id: 'some_id'
+      id: 'some_id',
     };
     const params = { some: 'param' };
 
@@ -110,7 +110,7 @@ describe('useCourses', () => {
   it('should fetch specific course', async () => {
     const courseId = 'some_id';
     const mockResponse = {
-      id: courseId
+      id: courseId,
     };
     const params = { some: 'param' };
 
@@ -119,12 +119,12 @@ describe('useCourses', () => {
 
     await coursesStore.fetchCourse({
       id: courseId,
-      params
+      params,
     });
 
     expect(getSpy).toHaveBeenCalledWith({
       id: courseId,
-      params
+      params,
     });
 
     expect(coursesStore.currentCourse).toEqual(mockResponse);
@@ -133,7 +133,7 @@ describe('useCourses', () => {
   it('should update course', async () => {
     const courseId = 'some_id';
     const mockResponse = {
-      id: courseId
+      id: courseId,
     };
     const data = { some: 'param' };
 
@@ -142,12 +142,12 @@ describe('useCourses', () => {
 
     await coursesStore.updateCourse({
       id: courseId,
-      data
+      data,
     });
 
     expect(updateSpy).toHaveBeenCalledWith({
       id: courseId,
-      data
+      data,
     });
 
     expect(mockSnack).toHaveBeenCalledWith({
@@ -159,7 +159,7 @@ describe('useCourses', () => {
   it('should delete course', async () => {
     const courseId = 'some_id';
     const mockResponse = {
-      id: courseId
+      id: courseId,
     };
 
     const deleteSpy = vi.spyOn(CoursesWebservice.prototype, 'deleteCourse');

@@ -69,7 +69,7 @@ async function fetchCourse() {
 async function updateCourse() {
   await coursesStore.updateCourse({
     id: courseId.value,
-    data: course.value
+    data: course.value,
   });
 
   router.push({

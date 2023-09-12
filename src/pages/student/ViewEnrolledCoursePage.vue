@@ -68,7 +68,7 @@ async function updateEnrollmentProgress() {
     data: {
       moduleId: currentCourseModule.value.id,
       isCompleted: true,
-    }
+    },
   });
 
   // if there is next module, we allow to proceed to next module

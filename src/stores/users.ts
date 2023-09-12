@@ -75,14 +75,14 @@ export const useUsers = defineStore('users', {
       }
     },
 
-    async updateUser({ id, data }: { id: string, data: UserUpdateParams }) {
+    async updateUser({ id, data }: { id: string; data: UserUpdateParams }) {
       try {
         this.loadingUsers = true;
 
         // Call the webservice
         const response = await webservice.updateUser({
           id,
-          data: getUpdatedAttributes(this.currentFetchedUser, data)
+          data: getUpdatedAttributes(this.currentFetchedUser, data),
         });
 
         if (!isEmpty(response.errors)) {

@@ -6,19 +6,19 @@ import AuthWebservice from '../../src/webservices/authWebservice';
 const mockSnack = vi.fn();
 vi.mock('../../src/stores/ui', () => {
   let _cache: {
-    showSnackbar: () => void,
-    setLoading: () => void,
+    showSnackbar: () => void;
+    setLoading: () => void;
   };
   const useUI = () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
         setLoading: vi.fn(),
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -82,15 +82,19 @@ describe('useAuth', () => {
   it('should logout user', async () => {
     const data = {
       email: 'some_email',
-      password: 'some_password'
+      password: 'some_password',
     };
     const mockCurrentUser = { id: 'some_id' };
 
-    vi.spyOn(AuthWebservice.prototype, 'loginUser').mockResolvedValue(mockCurrentUser);
-    
+    vi.spyOn(AuthWebservice.prototype, 'loginUser').mockResolvedValue(
+      mockCurrentUser
+    );
+
     await authStore.loginUser(data);
-    
-    const logoutSpy = vi.spyOn(AuthWebservice.prototype, 'logoutUser').mockResolvedValue();
+
+    const logoutSpy = vi
+      .spyOn(AuthWebservice.prototype, 'logoutUser')
+      .mockResolvedValue();
     await authStore.logoutUser();
 
     expect(logoutSpy).toHaveBeenCalled();
@@ -101,7 +105,10 @@ describe('useAuth', () => {
     const data = { some: 'data' };
     const mockResponse = { some: 'response' };
 
-    const requestSpy = vi.spyOn(AuthWebservice.prototype, 'requestResetPassword');
+    const requestSpy = vi.spyOn(
+      AuthWebservice.prototype,
+      'requestResetPassword'
+    );
     requestSpy.mockResolvedValue(mockResponse);
 
     await authStore.requestResetPassword(data);
@@ -119,7 +126,7 @@ describe('useAuth', () => {
 
     await authStore.resetPassword(data, token);
 
-    expect(resetSpy).toHaveBeenCalledWith({ password: data.password}, token);
+    expect(resetSpy).toHaveBeenCalledWith({ password: data.password }, token);
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'success',
       message: 'Password reset successful.',

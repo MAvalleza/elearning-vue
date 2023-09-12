@@ -33,7 +33,7 @@ async function fetchUser() {
 async function updateUser() {
   await usersStore.updateUser({
     id: userId.value,
-    data: user.value
+    data: user.value,
   });
 }
 

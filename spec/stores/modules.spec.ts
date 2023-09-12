@@ -9,17 +9,17 @@ import omit from 'lodash-es/omit';
 const mockSnack = vi.fn();
 vi.mock('../../src/stores/ui', () => {
   let _cache: {
-    showSnackbar: () => void
+    showSnackbar: () => void;
   };
   const useUI = () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -29,8 +29,8 @@ const contentMocks = {
 };
 vi.mock('../../src/stores/contents', () => {
   let _cache: {
-    createContent: () => void,
-    fetchContents: () => void,
+    createContent: () => void;
+    fetchContents: () => void;
   };
 
   const useContents = () => {
@@ -38,13 +38,13 @@ vi.mock('../../src/stores/contents', () => {
       _cache = {
         createContent: contentMocks.create,
         fetchContents: contentMocks.fetch,
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useContents };
-})
+});
 
 describe('useModules', () => {
   let modulesStore;
@@ -95,27 +95,27 @@ describe('useModules', () => {
     expect(modulesStore.modulesCurrentPage).toBe(1);
 
     expect(result).toEqual(mappedModules);
-  }); 
+  });
 
   it('should show a notification when there is an error', async () => {
     const mockResponse = {
       errors: ['Some error'],
     };
-    
+
     const fetchSpy = vi.spyOn(ModulesWebservice.prototype, 'getModules');
     fetchSpy.mockResolvedValue(mockResponse);
-  
+
     await modulesStore.fetchModules({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
       message: mockResponse.errors[0],
-    })
-  })
+    });
+  });
 
   it('should create module', async () => {
     const mockResponse = {
-      id: 'some_id'
+      id: 'some_id',
     };
     const data = { content: 'some_content', isPublished: true };
 
@@ -129,8 +129,8 @@ describe('useModules', () => {
       moduleId: mockResponse.id,
       content: data.content,
       isPublished: data.isPublished,
-      type: 'document'
-    })
+      type: 'document',
+    });
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'success',
@@ -141,7 +141,7 @@ describe('useModules', () => {
   it('should fetch specific module', async () => {
     const moduleId = 'some_id';
     const mockResponse = {
-      id: moduleId
+      id: moduleId,
     };
     const params = { some: 'param' };
 
@@ -150,12 +150,12 @@ describe('useModules', () => {
 
     await modulesStore.fetchModule({
       id: moduleId,
-      params
+      params,
     });
 
     expect(getSpy).toHaveBeenCalledWith({
       id: moduleId,
-      params
+      params,
     });
 
     expect(contentMocks.fetch).toHaveBeenCalledWith({ module: moduleId });
@@ -166,7 +166,7 @@ describe('useModules', () => {
   it('should update module', async () => {
     const moduleId = 'some_id';
     const mockResponse = {
-      id: moduleId
+      id: moduleId,
     };
     const data = { some: 'param' };
 
@@ -175,12 +175,12 @@ describe('useModules', () => {
 
     await modulesStore.updateModule({
       id: moduleId,
-      data
+      data,
     });
 
     expect(updateSpy).toHaveBeenCalledWith({
       id: moduleId,
-      data
+      data,
     });
 
     expect(mockSnack).toHaveBeenCalledWith({
@@ -192,7 +192,7 @@ describe('useModules', () => {
   it('should delete module', async () => {
     const moduleId = 'some_id';
     const mockResponse = {
-      id: moduleId
+      id: moduleId,
     };
 
     const deleteSpy = vi.spyOn(ModulesWebservice.prototype, 'deleteModule');

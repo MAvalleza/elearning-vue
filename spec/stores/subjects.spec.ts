@@ -11,11 +11,11 @@ vi.mock('../../src/stores/ui', () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -68,27 +68,27 @@ describe('useSubjects', () => {
     expect(subjectsStore.subjects).toEqual(mappedSubjects);
     expect(subjectsStore.subjectsTotal).toBe(1);
     expect(subjectsStore.subjectsCurrentPage).toBe(1);
-  }); 
+  });
 
   it('should show a notification when there is an error', async () => {
     const mockResponse = {
       errors: ['Some error'],
     };
-    
+
     const fetchSpy = vi.spyOn(SubjectsWebservice.prototype, 'getSubjects');
     fetchSpy.mockResolvedValue(mockResponse);
-  
+
     await subjectsStore.fetchSubjects({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
       message: mockResponse.errors[0],
-    })
-  })
+    });
+  });
 
   it('should create subject', async () => {
     const mockResponse = {
-      id: 'some_id'
+      id: 'some_id',
     };
     const params = { some: 'param' };
 
@@ -108,7 +108,7 @@ describe('useSubjects', () => {
   it('should fetch specific subject', async () => {
     const subjectId = 'some_id';
     const mockResponse = {
-      id: subjectId
+      id: subjectId,
     };
     const params = { some: 'param' };
 
@@ -117,12 +117,12 @@ describe('useSubjects', () => {
 
     await subjectsStore.fetchSubject({
       id: subjectId,
-      params
+      params,
     });
 
     expect(getSpy).toHaveBeenCalledWith({
       id: subjectId,
-      params
+      params,
     });
 
     expect(subjectsStore.currentSubject).toEqual(mockResponse);
@@ -131,7 +131,7 @@ describe('useSubjects', () => {
   it('should update subject', async () => {
     const subjectId = 'some_id';
     const mockResponse = {
-      id: subjectId
+      id: subjectId,
     };
     const data = { some: 'param' };
 
@@ -140,7 +140,7 @@ describe('useSubjects', () => {
 
     await subjectsStore.updateSubject({
       id: subjectId,
-      data
+      data,
     });
 
     expect(updateSpy).toHaveBeenCalledWith({
@@ -157,7 +157,7 @@ describe('useSubjects', () => {
   it('should delete subject', async () => {
     const subjectId = 'some_id';
     const mockResponse = {
-      id: subjectId
+      id: subjectId,
     };
 
     const deleteSpy = vi.spyOn(SubjectsWebservice.prototype, 'deleteSubject');
@@ -173,5 +173,5 @@ describe('useSubjects', () => {
     });
   });
 
-  testTableActions({ useStore: useSubjects })
+  testTableActions({ useStore: useSubjects });
 });

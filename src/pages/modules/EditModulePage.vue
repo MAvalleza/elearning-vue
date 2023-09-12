@@ -73,7 +73,7 @@ const modContent = ref({ content: {} });
 
 async function fetchModule() {
   await modulesStore.fetchModule({
-    id: moduleId.value
+    id: moduleId.value,
   });
 
   mod.value = { ...currentModule.value };
@@ -83,7 +83,7 @@ async function fetchModule() {
 async function updateModule() {
   await modulesStore.updateModule({
     id: moduleId.value,
-    data: mod.value
+    data: mod.value,
   });
 }
 
@@ -107,7 +107,7 @@ async function updateModuleContent() {
       data: {
         content: modContent.value.content,
         isPublished: mod.value.isPublished,
-      }
+      },
     });
   }
 }

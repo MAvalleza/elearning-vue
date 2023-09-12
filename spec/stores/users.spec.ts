@@ -6,17 +6,17 @@ import testTableActions from './shared/table-actions';
 
 vi.mock('../../src/stores/ui', () => {
   let _cache: {
-    showSnackbar: () => void
+    showSnackbar: () => void;
   };
   const useUI = () => {
     if (!_cache) {
       _cache = {
         showSnackbar: mockSnack,
-      }
+      };
     }
 
     return _cache;
-  }
+  };
   return { useUI };
 });
 
@@ -57,28 +57,28 @@ describe('useUsers', () => {
     expect(usersStore.usersCurrentPage).toBe(1);
 
     expect(result).toEqual(mockUsers);
-  }); 
+  });
 
   it('should show a notification when there is an error', async () => {
     const mockResponse = {
       errors: ['Some error'],
     };
-    
+
     const fetchSpy = vi.spyOn(UsersWebservice.prototype, 'getUsers');
     fetchSpy.mockResolvedValue(mockResponse);
-  
+
     await usersStore.fetchUsers({});
 
     expect(mockSnack).toHaveBeenCalledWith({
       color: 'error',
       message: mockResponse.errors[0],
-    })
+    });
   });
 
   it('should fetch specific user', async () => {
     const userId = 'some_id';
     const mockResponse = {
-      id: userId
+      id: userId,
     };
 
     const getSpy = vi.spyOn(UsersWebservice.prototype, 'getUser');
@@ -94,7 +94,7 @@ describe('useUsers', () => {
   it('should update user', async () => {
     const userId = 'some_id';
     const mockResponse = {
-      id: userId
+      id: userId,
     };
     const data = { some: 'param' };
 
@@ -103,12 +103,12 @@ describe('useUsers', () => {
 
     await usersStore.updateUser({
       id: userId,
-      data
+      data,
     });
 
     expect(updateSpy).toHaveBeenCalledWith({
       id: userId,
-      data
+      data,
     });
 
     expect(mockSnack).toHaveBeenCalledWith({
@@ -120,7 +120,7 @@ describe('useUsers', () => {
   it('should delete user', async () => {
     const userId = 'some_id';
     const mockResponse = {
-      id: userId
+      id: userId,
     };
 
     const deleteSpy = vi.spyOn(UsersWebservice.prototype, 'deleteUser');
