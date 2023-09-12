@@ -62,9 +62,12 @@ async function fetchEnrollment() {
 async function updateEnrollmentProgress() {
   loading.value = true;
 
-  await enrollmentsStore.updateEnrollment(enrollmentId.value, {
-    moduleId: currentCourseModule.value.id,
-    isCompleted: true,
+  await enrollmentsStore.updateEnrollment({
+    id: enrollmentId.value,
+    data: {
+      moduleId: currentCourseModule.value.id,
+      isCompleted: true,
+    }
   });
 
   // if there is next module, we allow to proceed to next module

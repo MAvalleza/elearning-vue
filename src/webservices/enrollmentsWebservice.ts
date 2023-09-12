@@ -84,7 +84,7 @@ export default class EnrollmentsWebservice extends Webservice {
     }
   }
 
-  async updateEnrollment(id: string, data: EnrollmentUpdateParams) {
+  async updateEnrollment({ id, data }: { id: string, data: EnrollmentUpdateParams }) {
     try {
       const url = this.parseURL({ path: `enrollments/${id}` });
 

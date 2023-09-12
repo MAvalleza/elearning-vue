@@ -139,11 +139,11 @@ export const useEnrollments = defineStore('enrollments', {
         this.loadingEnrollments = false;
       }
     },
-    async updateEnrollment(id: string, params: EnrollmentUpdateParams) {
+    async updateEnrollment({ id, data }: { id: string, data: EnrollmentUpdateParams }) {
       try {
         this.loadingEnrollments = true;
 
-        const response = await webservice.updateEnrollment(id, params);
+        const response = await webservice.updateEnrollment({ id, data });
 
         if (!isEmpty(response.errors)) {
           throw Error(response.errors[0]);
