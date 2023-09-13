@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref, computed } from 'vue';
 import { Delta, QuillEditor } from '@vueup/vue-quill';
-import BlotFormatter from 'quill-blot-formatter';
+import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const props = defineProps({
