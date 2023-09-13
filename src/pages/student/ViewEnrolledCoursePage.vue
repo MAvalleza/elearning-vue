@@ -169,7 +169,7 @@ v-container.pa-12
   v-card(elevation="5" rounded="large").pa-10
     course-module-content(
       v-if="moduleContent?.content && !loading"
-      :key="currentCourseModule.id"
+      :key="moduleContent.content"
       :content="moduleContent.content"
     )
 
