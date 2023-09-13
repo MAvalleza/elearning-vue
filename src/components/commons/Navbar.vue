@@ -79,14 +79,14 @@ v-navigation-drawer(
         @click.stop="drawer = !drawer"
       )
   v-list(density="compact").drawer-list.pt-3
-    v-list-subheader MANAGEMENT
+    v-list-subheader.drawer-list-subheader MANAGEMENT
     v-list-item(
       v-for="(item, key) in navItems"
       :key="key"
       :title="item.title"
       :to="{ name: item.route }"
       active-class="active-nav"
-    )
+    ).drawer-list-item
       template(#prepend)
         v-icon(:icon="item.icon" size="small")
 v-app-bar(color="#f0f0f0" theme="light")
@@ -136,24 +136,22 @@ v-app-bar(color="#f0f0f0" theme="light")
   letter-spacing: 0.15px;
 }
 
-.drawer-list {
-  .v-list-subheader {
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 24px;
-    /* 171.429% */
-    letter-spacing: 0.1px;
-  }
+.drawer-list-subheader {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  /* 171.429% */
+  letter-spacing: 0.1px;
+}
 
-  .v-list-item :deep(.v-list-item-title) {
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    /* 142.857% */
-    letter-spacing: 0.25px;
-  }
+.drawer-list-item :deep(.v-list-item-title) {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  /* 142.857% */
+  letter-spacing: 0.25px;
 }
 
 .active-nav {

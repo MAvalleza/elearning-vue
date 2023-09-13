@@ -19,16 +19,10 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: () =>
-    ({
-      isPublished: false,
-    } as Module),
+  modelValue: () => (<Module>{ isPublished: false }),
   content: () => ({ content: null }),
-  /**
-   * This will hide the course field.
-   *
-   * Usually `true` when component is consumed in course/subject form
-   **/
+  // This will hide the course field.
+  // Usually `true` when component is consumed in course/subject form
   hideCourseField: false,
   // Makes form fields disabled
   disabled: false,

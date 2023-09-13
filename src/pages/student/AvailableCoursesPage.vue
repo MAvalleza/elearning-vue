@@ -164,27 +164,25 @@ generic-container
 </template>
 
 <style scoped>
-.page-header-text {
-  .header-title {
-    color: var(--gray-2, #4f4f4f);
-    font-feature-settings: 'clig' off, 'liga' off;
+.header-title {
+  color: var(--gray-2, #4f4f4f);
+  font-feature-settings: 'clig' off, 'liga' off;
 
-    font-family: Montserrat;
-    font-size: 34px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 36px;
-    /* 105.882% */
-  }
+  font-family: Montserrat;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px;
+  /* 105.882% */
+}
 
-  .header-description {
-    color: var(--gray-2, #4f4f4f);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px;
-    /* 150% */
-    letter-spacing: 0.5px;
-  }
+.header-description {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  /* 150% */
+  letter-spacing: 0.5px;
 }
 </style>
