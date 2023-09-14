@@ -18,7 +18,9 @@ Note that whatever data you created will be lost once you refresh the app since 
 
 To persist data, we can save it into localStorage by configuring it in our env file. (See installation section)
 
-The initial start of the app might run slow since MirageJS is seeding mock data
+The initial start of the app might run slow since MirageJS is seeding mock data.
+
+These mock implementations can possibly be removed once an actual backend has been implemented for this.
 
 ## Installation
 
