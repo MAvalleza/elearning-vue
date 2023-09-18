@@ -8,6 +8,9 @@ Front-end training project for viewing subjects and courses.
 
 \*MirageJS code is not in typescript since it is not yet fully supported.
 
+## Demo
+https://mvalleza-elearning-vue.vercel.app/
+
 ### Mock Implementation
 
 Due to absence of a backend, the endpoints have been mocked using [MirageJS](https://miragejs.com/docs/getting-started/introduction/)
