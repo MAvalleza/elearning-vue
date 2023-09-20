@@ -11,7 +11,8 @@
     "format": "prettier . --write",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "tsc": "vue-tsc --noEmit"
+    "tsc": "vue-tsc --noEmit",
+    "start": "vite --host"
   },
   "dependencies": {
     "@vueup/vue-quill": "^1.2.0",
